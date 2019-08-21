@@ -39,9 +39,9 @@ gulp.task('default', function () {
 var js_es6_dir = 'es6'; // 书写的文件
 var js_es5_dir = 'es5'; // 编译成浏览器兼容前的临时区
 
-var path_l1 =  js_es6_dir+ '/*';
-var path_l2 =  js_es6_dir+ '/*/*';
-var path_l3 =  js_es6_dir+ '/*/*/*';
+var path_l1 = js_es6_dir + '/*';
+var path_l2 = js_es6_dir + '/*/*';
+var path_l3 = js_es6_dir + '/*/*/*';
 
 gulp.task('compile_js_l1', function () {
     gulp.src(path_l1)
@@ -72,5 +72,5 @@ gulp.task('watch', function () {
 
 // ----------------------------------------------------
 gulp.task('start', function () {
-    sequence( 'compile_js_l1', 'compile_js_l2', 'compile_js_l3','watch');
+    sequence('compile_js_l1', 'compile_js_l2', 'compile_js_l3', 'watch');
 });
