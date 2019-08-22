@@ -1,29 +1,16 @@
 // 能够优化前端工作流程
 var gulp = require('gulp');
-// 执行shell脚本
-var shell = require('shelljs');
-// 预编译模块的方案【前端模块，都得预编译】
-var browserify = require('browserify');
-// 文件处理
-var fs = require('fs');
 // 用于循序执行任务
 var sequence = require('run-sequence');
 // 监听文件变化
 var watchify = require('watchify');
-// 合并文件
-var concat = require('gulp-concat');
-// 浏览器同步热更新
-var browserSync = require('browser-sync').create();
 
 
 // ----------------------------------------------------
 // JS
 // ----------------------------------------------------
 var babel = require("gulp-babel"); // es6转es5
-var uglify = require('gulp-uglify'); // 压缩js
 var jshint = require('gulp-jshint'); // 校验js的工具
-var source = require('vinyl-source-stream');
-var buffer = require('vinyl-buffer');
 // ----------------------------------------------------
 
 // 这个 task 负责调用其他 task

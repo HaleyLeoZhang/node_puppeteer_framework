@@ -4,27 +4,20 @@
     "description": "HaleyLeoZhang's blog",
     "main": "gulpfile.js",
     "dependencies": {
-        "babel-core": "^6.26.0",
-        "node-bugjs": "^2.0.1",
-        "bower": "^1.8.2",
-        "browser-sync": "^2.23.6",
-        "browserify": "^15.2.0",
+        "babel": "^7.0.0-0",
+        "babel-core": "^6.26.3",
         "gulp": "^3.9.1",
-        "gulp-autoprefixer": "^4.1.0",
-        "gulp-clean-css": "^3.9.2",
-        "gulp-concat": "^2.6.1",
         "gulp-jshint": "^2.1.0",
-        "gulp-livereload": "^3.8.1",
         "jshint": "^2.9.5",
+        "mysql2": "^1.6.5",
+        "node-bugjs": "^2.0.1",
+        "puppeteer": "^1.19.0",
         "run-sequence": "^2.2.1",
-        "shelljs": "^0.8.0",
-        "vinyl-buffer": "^1.0.1",
-        "vinyl-source-stream": "^2.0.0",
-        "vue": "^2.5.13",
-        "watchify": "^3.9.0",
-        "puppeteer": "^1.19.0"
+        "watchify": "^3.9.0"
     },
     "devDependencies": {
+        "@babel/core": "^7.5.5",
+        "@babel/preset-env": "^7.5.5",
         "babel-preset-es2015": "^6.24.1",
         "gulp-babel": "^7.0.0"
     },
@@ -33,15 +26,15 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/HaleyLeoZhang/blog_v3.git"
+        "url": "git+https://gitee.com/haleyleozhang/puppeteer_get_163_comments.git"
     },
     "keywords": [
         "hlzblog"
     ],
-    "author": "yuntianhhe",
+    "author": "HaleyLeoZhang",
     "license": "ISC",
     "bugs": {
-        "url": "https://github.com/HaleyLeoZhang/blog_v3/issues"
+        "url": "https://gitee.com/haleyleozhang/puppeteer_get_163_comments/issues"
     },
-    "homepage": "https://github.com/HaleyLeoZhang/blog_v3#readme"
+    "homepage": "https://gitee.com/haleyleozhang/puppeteer_get_163_comments#readme"
 }
