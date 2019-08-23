@@ -45,14 +45,28 @@ let SCREENSHOT = {
  * 日志配置
  */
 const LOG = {
-    console: true,
-    debug: true,
-    bright: true,
-    date: true,
+  console: true,
+  debug: true,
+  bright: true,
+  absolute: false,
+  date: true,
+  store: false
+  // this.console = val(options.console, true)
+  // this.store = val(options.store, false)
+  // this.categorie = options.categorie || this.categorie
+  // this.categorieColor = options.categorieColor || 'blue'
+  // this.debug = val(options.debug, process.env.NODE_ENV !== 'production')
+  // this.absolute = val(options.absolute, false)
+  // this.bright = val(options.bright, false)
+  // this.date = val(options.date, false)
+  // this.dateColor = options.dateColor || 'cyan'
+  // this.filenameColor = options.filenameColor || 'gray'
+  // this.callIndex = options.callIndex || 2
 }
 
 export {
     APP_PATH,
     BROWSER,
-    SCREENSHOT
+    SCREENSHOT,
+    LOG
 };
