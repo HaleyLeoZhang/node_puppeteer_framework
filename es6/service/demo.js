@@ -1,4 +1,3 @@
-// const puppeteer = require('puppeteer');
 import puppeteer from 'puppeteer'
 import General from '../../tools/General'
 import { APP_PATH,BROWSER, SCREENSHOT } from '../../conf'

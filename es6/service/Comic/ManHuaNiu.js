@@ -3,17 +3,18 @@ import { APP_PATH, BROWSER } from '../../conf'
 import Log from '../../tools/Log'
 
 import { delay } from './Base'
+const HOST = 'https://m.manhuaniu.com'; // 漫画牛
 
 
-const COMIC_ID_JMR = 5830; // 海贼王 https://m.manhuaniu.com/manhua/5830/
-const HOST = 'https://m.manhuaniu.com';
+const COMIC_ID_LIST = {
+    "jie_mo_ren": 5830, // 戒魔人
+};
 
-class JieMoRen {
-
+class ManHuaNiu {
     /**
      * 获取主线查看地址
      */
-    static async get_images_pages() {
+    static async get_images_pages(comic_id) {
         let comic_id = COMIC_ID_JMR
         const browser = await puppeteer.launch(BROWSER);
         const page = await browser.newPage();
@@ -81,4 +82,6 @@ class JieMoRen {
         // await browser.close();
     }
 }
-export default JieMoRen
+export default ManHuaNiu
+
+export { COMIC_ID_LIST }
