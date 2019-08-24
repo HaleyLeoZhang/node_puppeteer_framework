@@ -5,7 +5,7 @@
 // GITHUB: https://github.com/HaleyLeoZhang
 // ----------------------------------------------------------------------
 export default class BaseService {
-    delay_ms(ms) {
+    static delay_ms(ms) {
         new Promise(resolve => setTimeout(() => resolve(), ms));
     }
 }

@@ -1,7 +1,9 @@
-import ManHuaNiu, { COMIC_ID_LIST } from '../../services/Comic/ManHuaNiu'
-import Page from '../../models/Comic/Page'
-// import Image frm '../../models/Comic/Image' // TODO
+import Base from './Base'
+import ManHuaNiu from '../../services/Comic/ManHuaNiu'
 import Log from '../../tools/Log'
+// 模型列表
+import Page from '../../models/Comic/Page'
+import Image from '../../models/Comic/Image'
 
 class ManHuaNiuProcess {
     static backPageData(comic_id) {
@@ -12,7 +14,7 @@ class ManHuaNiuProcess {
         const where = {
             'channel': channel,
             'comic_id': comic_id,
-            'ORDER':{"id":"desc"},
+            'ORDER': { "id": "desc" },
             'LIMIT': 1,
         }
         const datas = await Page.select(where)
@@ -23,14 +25,18 @@ class ManHuaNiuProcess {
         }
         return last_sequence
     }
+    static backImageData(link) {
+        const promise = ManHuaNiu.get_images(link)
+        return promise;
+    }
 }
 
-export default class ManHuaNiuLogic {
+export default class ManHuaNiuLogic extends Base {
     /**
      * 自动拉取页面，自动判断是否需要更新
      */
     static async getPages(channel, comic_id) {
-        const last_sequence = await ManHuaNiuProcess.getNeedData(comic_id)
+        const last_sequence = await ManHuaNiuProcess.getNeedData(channel, comic_id)
         const data = await ManHuaNiuProcess.backPageData(comic_id)
             .then((info) => {
                 let data = []
@@ -68,6 +74,36 @@ export default class ManHuaNiuLogic {
             .then(insert_info => {
                 Log.log('章节列表拉取成功----' + JSON.stringify(insert_info))
             })
+        return true
+    }
+    /**
+     * 自动拉取图片
+     */
+    static async getImageList(channel, one_page) {
+        let { id, link } = one_page
+        await this.saveImageSrcDoing(id)
+        // Log.log('one_page')
+        // Log.log(one_page)
+        const imgs = await ManHuaNiuProcess.backImageData(link)
+        // Log.log('imgs')
+        // Log.log(imgs)
+        if(0 == imgs.length) {
+            Log.log('暂无新的图片')
+            return false
+        }
+        await this.deleImageData(id)
+        const datas = this.filterImageList(imgs, id)
+        // Log.log('datas')
+        // Log.log(datas)
+        if(0 == datas.length) {
+            Log.log('暂无需要拉取的数据')
+            return false
+        }
+        await Image.insert(datas)
+            .then(insert_info => {
+                Log.log('章节 '+ id +' 对应图片拉取成功----' + JSON.stringify(insert_info))
+            })
+        await this.saveImageSrcSuccess(id)
         return true
     }
 }

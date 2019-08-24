@@ -7,15 +7,37 @@
 import ManHuaNiuLogic from '../logics/ComicCurl/ManHuaNiuLogic'
 import Log from '../tools/Log'
 
+const CHANNEL_MHN = 2; // 漫画牛
+
 class ComicCurl{
     /**
      * 渠道 - 漫画牛
-     * - 指定单个comic_id进行爬取工作
+     * - 章节爬取
      */
     static async mnh_pages(){
-        let channel = 2
-        let comic_id = 5830
-        await ManHuaNiuLogic.getPages(channel, comic_id)
+        const comics = await ManHuaNiuLogic.getComicList(CHANNEL_MHN)
+        for(let i in comics){
+            let one_comic = comics[i]
+            await ManHuaNiuLogic.getPages(CHANNEL_MHN, one_comic.comic_id)
+        }
     }
+    /**
+     * 渠道 - 漫画牛
+     * - 图片地址爬取
+     */
+    static async mnh_images(){
+        const pages = await ManHuaNiuLogic.getPageList(CHANNEL_MHN)
+        for(let i in pages){
+            let one_page = pages[i]
+            await ManHuaNiuLogic.getImageList(CHANNEL_MHN, one_page)
+        }
+    }
+    /**
+     * 渠道 - 漫画牛
+     * - 清空处理中的状态
+     */
+     static async mnh_clear(){
+        // - TODO
+     }
 }
 export default ComicCurl
