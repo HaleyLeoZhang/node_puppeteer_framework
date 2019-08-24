@@ -16,16 +16,17 @@ class ManHuaNiu extends Base {
         const browser = await puppeteer.launch(BROWSER);
         const page = await browser.newPage();
         await page.goto(`${HOST}/manhua/${comic_id}/`);
+        // Log.log('start');
 
         const info = await page.evaluate((comic_id, HOST) => {
-            var doms = $("#chapter-list-1 li");
-            var len = doms.length;
-            var hrefs = [];
-            var titles = [];
-            var one_href = '';
-            var one_title = '';
+            let doms = $("#chapter-list-1 li");
+            let len = doms.length;
+            let hrefs = [];
+            let titles = [];
+            let one_href = '';
+            let one_title = '';
 
-            for(var i = 0; i < len; i++) {
+            for(let i = 0; i < len; i++) {
                 one_href = doms.eq(i).find("a").attr("href")
                 one_title = doms.eq(i).find("a").text().trim()
                 hrefs.push(one_href);
@@ -38,7 +39,7 @@ class ManHuaNiu extends Base {
             };
         }, comic_id, HOST);
         browser.close();
-        Log.log(info);
+        // Log.log(info);
         return info;
     }
 
@@ -70,7 +71,7 @@ class ManHuaNiu extends Base {
                 })
                 this.delay_ms(100)
             }
-            // Log.log('imgs:  '+ JSON.stringify(imgs))
+            Log.log('imgs:  '+ JSON.stringify(imgs))
             return imgs
         } catch(err) {
             Log.error(err);

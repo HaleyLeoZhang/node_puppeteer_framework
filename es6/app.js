@@ -10,6 +10,6 @@ import ComicCurl from './cli/ComicCurl'
 
 const app = new Register()
 app.bootstrap()
-    // 注册模块
+    // 注册模块，调用的模块方法，都得是 async
     .use('comic', ComicCurl) // 调用示例 node ./app.js  comic start_mhn
     .run()

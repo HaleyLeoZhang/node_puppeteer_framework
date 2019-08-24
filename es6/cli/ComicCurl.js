@@ -4,7 +4,7 @@
 // Link  : http://www.hlzblog.top/
 // GITHUB: https://github.com/HaleyLeoZhang
 // ----------------------------------------------------------------------
-import ManHuaNiuLogic from '../logics/ComicCurl/ManHuaNiu'
+import ManHuaNiuLogic from '../logics/ComicCurl/ManHuaNiuLogic'
 import Log from '../tools/Log'
 
 class ComicCurl{
@@ -12,8 +12,8 @@ class ComicCurl{
      * 渠道 - 漫画牛
      * - 指定单个comic_id进行爬取工作
      */
-    static mnh_pages(){
-        ManHuaNiuLogic.getPages()
+    static async mnh_pages(){
+        await ManHuaNiuLogic.getPages()
     }
 }
 export default ComicCurl

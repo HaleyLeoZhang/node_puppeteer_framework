@@ -34,8 +34,8 @@ class Handler {
         POOL.getConnection(function (err, conn) {
             conn.promise()
                 .execute(sql, datas)
-                .then(([ResultSetHeader]) => {
-                    callback(ResultSetHeader)
+                .then((obj) => {
+                    callback(obj)
                 })
                 .catch(function (err) {
                     console.warn("数据库异常！");
@@ -173,7 +173,7 @@ class Handler {
         }
 
         sql += order_by + sql_limit
-        return {"sql_where": sql, datas}
+        return { "sql_where": sql, datas }
     }
     static do_select(table, where) {
         let sql = `Select * From \`${table}\` `
@@ -239,22 +239,22 @@ class BaseModel {
      */
     static async insert(_data) {
         let table = this.get_table()
-        let first_insert_id = 0;
         let { sql, datas } = Handler.do_insert(table, _data);
         // Log.log(sql)
         // Log.log(datas)
-
-        await new Promise((resolve) => {
+        const results = await new Promise((resolve) => {
             Handler.execute(
                 sql,
                 datas,
-                (results) => {
-                    first_insert_id = results.insertId;
-                    resolve(true)
+                ([ResultSetHeader]) => {
+                    resolve(ResultSetHeader)
                 },
                 this.get_pool());
-        });
-        return first_insert_id;
+        })
+        return {
+            "rows": results.affectedRows,
+            "first_insert_id": results.insertId,
+        }
     }
 
     /**
@@ -283,21 +283,21 @@ class BaseModel {
     static async select(_where) {
         let table = this.get_table()
         let { sql, datas } = Handler.do_select(table, _where);
-        Log.log(sql)
-        Log.log(datas)
+        // Log.log(sql)
+        // Log.log(datas)
         let output = [];
 
-        await new Promise((resolve) => {
+        const res = await new Promise((resolve) => {
             Handler.execute(
                 sql,
                 datas,
-                (results) => {
-                    output = results
-                    resolve(true)
+                ([datas]) => {
+                    // Log.log(datas)
+                    resolve(datas)
                 },
                 this.get_pool());
         });
-        return output;
+        return res;
     }
 
     /**

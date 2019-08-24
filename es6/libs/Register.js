@@ -37,9 +37,15 @@ export default class Register {
     run() {
         const program = this.get_action()
         Log.log('--------START--------')
-        Log.log('正在调用---模块 ' + this.load_module + '---方法---' + this.load_action )
-        program();
-        Log.log('---------END---------')
-        process.exit()
+        Log.log('正在调用---模块 ' + this.load_module + '---方法---' + this.load_action)
+        program().then(() => {
+            Log.log('---------END---------')
+            process.exit()
+        }).catch(exception => {
+            Log.warn('出现异常：Exception ')
+            Log.error(exception)
+            process.exit()
+        })
+
     }
 }
