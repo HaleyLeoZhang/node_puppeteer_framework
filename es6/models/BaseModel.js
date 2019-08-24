@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------
-// mysql2 封装 ORM
+// mysql2 封装 MYSQL-ORM
 // ----------------------------------------------------------------------
 // Link  : http://www.hlzblog.top/
 // GITHUB: https://github.com/HaleyLeoZhang
@@ -8,9 +8,9 @@ import mysql from 'mysql2';
 import General from '../tools/General'
 import Log from '../tools/Log'
 // -----------------------------------------------------------------------
-// 后续处理成，绑定参数形式
+// 暂不实现：1.主从模式 2.chunk
 // -----------------------------------------------------------------------
-// 表结构 1.表结构全部都得有默认值，NOT NULL 2.必须包含四个字段 
+// 表结构要求 1.表结构全部都得有默认值，NOT NULL 2.必须包含四个字段 
 // 注： 以下字段不允许作为业务字段
 // - id 自增无符号整型
 // - created_at 创建时间 tampstamp
@@ -104,10 +104,10 @@ class Handler {
             datas_new: datas
         }
     }
-    static do_select(table, where) {
-        let sql = `Select * From \`${table}\``
+    static handle_where(where, datas) {
+        let sql = '';
         let where_arr = []
-        let datas = []
+        datas = undefined === datas ? [] : datas
         Object.assign(where, { 'is_deleted': IS_DELETED_NO })
 
         let order_by = '';
@@ -165,13 +165,39 @@ class Handler {
                     datas.push(value)
                 }
             }
-
         }
         if(where_arr.length > 0) {
             sql += ` Where ` + where_arr.join(" AND ")
         }
 
         sql += order_by + sql_limit
+        return {"sql_where": sql, datas}
+    }
+    static do_select(table, where) {
+        let sql = `Select * From \`${table}\` `
+
+        let { sql_where, datas } = this.handle_where(where)
+        sql += sql_where
+
+        return { sql, datas }
+    }
+    static do_update(table, update, where) {
+        let sql = `Update \`${table}\` Set `
+        let _datas = [];
+        if(0 == update.length) {
+            throw new Error("请输入更新条件")
+        }
+        let set_arr = []
+
+        for(let field in update) {
+            let value = update[field]
+            set_arr.push(`\`${field}\` = ?`)
+            _datas.push(value)
+        }
+
+        let { sql_where, datas } = this.handle_where(where, _datas)
+        sql += set_arr.join(",") + sql_where
+
         return { sql, datas }
     }
 }
@@ -291,6 +317,27 @@ class BaseModel {
                 this.get_pool());
         });
         return output;
+    }
+
+    static async update(_update, _where) {
+        let table = this.get_table()
+        let { sql, datas } = Handler.do_update(table, _update, _where);
+        // Log.log(sql)
+        // Log.log(datas)
+        let rows = 0;
+
+        await new Promise((resolve) => {
+            Handler.execute(
+                sql,
+                datas,
+                (results) => {
+                    rows = results.affectedRows
+                    // Log.log(results)
+                    resolve(true)
+                },
+                this.get_pool());
+        });
+        return rows;
     }
 }
 export default BaseModel

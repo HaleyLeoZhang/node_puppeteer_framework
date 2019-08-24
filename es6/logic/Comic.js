@@ -105,7 +105,7 @@ class Comic {
         let where = {
             "channel[<=]": 5,
             // "page_id[>]": 2,
-            "sequence[!=]": [1, 2, 3],
+            "sequence[!=]": [0],
             // "page_id[!=]": 1,
             "ORDER": {
                 "channel": "ASC",
@@ -118,9 +118,20 @@ class Comic {
                 Log.log(res)
             })
     }
+    static update_JieMoRen() {
+        let update = {
+            "progress" : 1
+        }
+        let where = {
+            "id": 1
+        }
+        Page.update(update,where)
+            .then((res) => {
+                Log.log(res)
+            })
+    }
 }
 
-Comic.select_JieMoRen()
-
+Comic.update_JieMoRen()
 // Comic.get_images_pages_JieMoRen()
 // Comic.get_images_JieMoRen()
