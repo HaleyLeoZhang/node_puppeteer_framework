@@ -15,15 +15,12 @@ class Comic {
             .then((info) => {
                 console.log('获取成功---条数：' + info.hrefs.length);
                 let data = []
-                let date = General.format_time('Y-m-d h:i:s')
                 for(let i = 0, len = info.hrefs.length; i < len; i++) {
                     data.push({
                         'channel': CHANNEL_TENCENT,
                         'comic_id': info.comic_id,
                         'name': info.hrefs[i],
                         'link': info.titles[i],
-                        'created_at': date,
-                        'updated_at': date,
                     })
                 }
                 Promise.all([
@@ -51,15 +48,12 @@ class Comic {
             .then((info) => {
                 console.log('获取成功---条数：' + info.hrefs.length);
                 let data = []
-                let date = General.format_time('Y-m-d h:i:s')
                 for(let i = 0, len = info.hrefs.length; i < len; i++) {
                     data.push({
                         'channel': CHANNEL_MHN,
                         'comic_id': info.comic_id,
                         'name': info.hrefs[i],
                         'link': info.titles[i],
-                        'created_at': date,
-                        'updated_at': date,
                     })
                 }
                 Promise.all([
@@ -83,14 +77,11 @@ class Comic {
                 Log.log(imgs);
                 Log.log('获取成功-- - 条数： ' + imgs.length);
                 let data = []
-                let date = General.format_time('Y-m-d h:i:s')
                 for(let i = 0, len = imgs.length; i < len; i++) {
                     data.push({
                         'page_id': page_id,
                         'sequence': imgs[i].sequence,
                         'src': imgs[i].src,
-                        'created_at': date,
-                        'updated_at': date,
                     })
                 }
                 Log.log(data);
@@ -105,4 +96,7 @@ class Comic {
     }
 }
 
-Comic.get_images_JieMoRen()
+Comic.get_images_pages_OnePiece()
+
+// Comic.get_images_pages_JieMoRen()
+// Comic.get_images_JieMoRen()
