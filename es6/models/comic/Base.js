@@ -1,10 +1,16 @@
-import { DSN_COMIC } from '../../conf/db/mysql'
-import BaseModel from '../BaseModel'
+// ----------------------------------------------------------------------
+// Comic 库 数据表 模型基类
+// ----------------------------------------------------------------------
+// Link  : http://www.hlzblog.top/
+// GITHUB: https://github.com/HaleyLeoZhang
+// ----------------------------------------------------------------------
 
+import { DSN_COMIC } from '../../conf/db/mysql'
+import BaseModel from '../../libs/Base/BaseModel'
 
 class Base extends BaseModel {
     static get_pool(){
-        return this.set_pool(DSN_COMIC)
+        return this.set_pool(DSN_COMIC) // 注入数据库配置
     }
 }
 

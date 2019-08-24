@@ -1,14 +1,16 @@
 // ----------------------------------------------------------------------
-// mysql2 封装 MYSQL-ORM
+// 基于 mysql2 封装 ORM ，具体使用方法，请看函数前注释
+// ----------------------------------------------------------------------
+// mysql2 文档地址 https://www.npmjs.com/package/mysql2
 // ----------------------------------------------------------------------
 // Link  : http://www.hlzblog.top/
 // GITHUB: https://github.com/HaleyLeoZhang
 // ----------------------------------------------------------------------
 import mysql from 'mysql2';
-import General from '../tools/General'
-import Log from '../tools/Log'
+import General from '../../tools/General'
+import Log from '../../tools/Log'
 // -----------------------------------------------------------------------
-// 暂不实现：1.主从模式 2.chunk
+// 暂不实现：1.主从模式 2.chunk 3.事务处理
 // -----------------------------------------------------------------------
 // 表结构要求 1.表结构全部都得有默认值，NOT NULL 2.必须包含四个字段 
 // 注： 以下字段不允许作为业务字段
@@ -318,7 +320,9 @@ class BaseModel {
         });
         return output;
     }
-
+    /**
+     * _update 与_where 类似，请类比 this.select 方法
+     */
     static async update(_update, _where) {
         let table = this.get_table()
         let { sql, datas } = Handler.do_update(table, _update, _where);

@@ -1,21 +1,18 @@
 import puppeteer from 'puppeteer'
-import { APP_PATH, BROWSER } from '../../conf'
+import { BROWSER } from '../../conf'
 import Log from '../../tools/Log'
+import Base from './Base'
 
-import { delay } from './Base'
 const HOST = 'https://m.manhuaniu.com'; // 漫画牛
-
-
 const COMIC_ID_LIST = {
     "jie_mo_ren": 5830, // 戒魔人
 };
 
-class ManHuaNiu {
+class ManHuaNiu extends Base {
     /**
      * 获取主线查看地址
      */
     static async get_images_pages(comic_id) {
-        let comic_id = COMIC_ID_JMR
         const browser = await puppeteer.launch(BROWSER);
         const page = await browser.newPage();
         await page.goto(`${HOST}/manhua/${comic_id}/`);
@@ -55,12 +52,12 @@ class ManHuaNiu {
                 var _total = $("#k_total").text()
                 return _total
             });
-            Log.log('总页数:' + total);
+            // Log.log('总页数:' + total);
 
             let imgs = [];
             let link_len = link.length - 5;
             let _raw_link = link.substr(0, link_len)
-            for(let i = 1,_link=""; i <= total; i++) {
+            for(let i = 1, _link = ""; i <= total; i++) {
                 _link = `${_raw_link}-${i}.html`
                 page.goto(_link)
                 let img = await page.evaluate(() => {
@@ -71,17 +68,16 @@ class ManHuaNiu {
                     src: img,
                     sequence: i
                 })
-                delay(100)
+                this.delay_ms(100)
             }
-            Log.log('imgs:  '+ JSON.stringify(imgs))
+            // Log.log('imgs:  '+ JSON.stringify(imgs))
             return imgs
         } catch(err) {
             Log.error(err);
         }
-
-        // await browser.close();
+        await browser.close();
     }
 }
-export default ManHuaNiu
 
-export { COMIC_ID_LIST }
+export default ManHuaNiu
+export {COMIC_ID_LIST }

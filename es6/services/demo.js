@@ -1,7 +1,7 @@
 import puppeteer from 'puppeteer'
-import General from '../../tools/General'
-import { APP_PATH,BROWSER, SCREENSHOT } from '../../conf'
-import Log from '../../tools/Log'
+import General from '../tools/General'
+import { APP_PATH,BROWSER, SCREENSHOT } from '../conf'
+import Log from '../tools/Log'
 
 class getHaleyLeoZhangWeb {
     static async get_web() {
@@ -16,8 +16,10 @@ class getHaleyLeoZhangWeb {
         browser.close();
     }
 }
-getHaleyLeoZhangWeb.get_web()
-    .catch(exception => {
-        Log.log('出现异常：Exception ')
-        Log.log(exception)
-    });
+// getHaleyLeoZhangWeb.get_web()
+//     .catch(exception => {
+//         Log.log('出现异常：Exception ')
+//         Log.log(exception)
+//     });
+
+export default getHaleyLeoZhangWeb
