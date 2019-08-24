@@ -3,6 +3,9 @@
 // -----------------------------------------------------------------------
 export default class BaseModel {
     static do_insert(table, data) {
+        // 处理插入单条情况
+        false === data instanceof Array ? data = [data] : null;
+
         const len = data.length
         if(0 == len) {
             throw new Error('插入数据不能为空');

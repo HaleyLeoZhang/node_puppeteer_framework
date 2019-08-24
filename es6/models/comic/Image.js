@@ -1,9 +1,9 @@
 import Base from './Base'
 import Log from '../../tools/Log'
 
-const TABLE_NAME = 'pages';
+const TABLE_NAME = 'images';
 
-class Page extends Base {
+class Image extends Base {
     static async insert(_data) {
         let last_insert_id = 0;
         let {sql, datas} = this.do_insert(TABLE_NAME, _data);
@@ -18,4 +18,4 @@ class Page extends Base {
         return last_insert_id;
     }
 }
-export default Page;
+export default Image;

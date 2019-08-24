@@ -28,15 +28,14 @@ class Base extends BaseModel {
         POOL.getConnection(function (err, conn) {
             conn.promise()
                 .execute(sql, datas)
-                .then(([ResultSetHeader])=>{
+                .then(([ResultSetHeader]) => {
                     callback(ResultSetHeader)
                 })
-                .catch(function(err){
+                .catch(function (err) {
                     console.warn("数据库异常！");
                     console.error(err);
                     POOL.releaseConnection(conn);
                 })
-                .then( () => conn.end());
             POOL.releaseConnection(conn);
         })
     }
