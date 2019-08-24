@@ -4,15 +4,14 @@ import Page from '../../models/Comic/Page'
 import Log from '../../tools/Log'
 
 class ManHuaNiuProcess {
-    static backPageData() {
-        const comic_id = COMIC_ID_LIST.jie_mo_ren
+    static backPageData(comic_id) {
         const promise = ManHuaNiu.get_images_pages(comic_id)
         return promise;
     }
-    static async getNeedData() {
+    static async getNeedData(channel, comic_id) {
         const where = {
-            'channel': ManHuaNiu.get_channel('ManHuaNiu'),
-            'comic_id': COMIC_ID_LIST.jie_mo_ren,
+            'channel': channel,
+            'comic_id': comic_id,
             'ORDER':{"id":"desc"},
             'LIMIT': 1,
         }
@@ -27,16 +26,19 @@ class ManHuaNiuProcess {
 }
 
 export default class ManHuaNiuLogic {
-    static async getPages() {
-        const last_sequence = await ManHuaNiuProcess.getNeedData()
-        const data = await ManHuaNiuProcess.backPageData()
+    /**
+     * 自动拉取页面，自动判断是否需要更新
+     */
+    static async getPages(channel, comic_id) {
+        const last_sequence = await ManHuaNiuProcess.getNeedData(comic_id)
+        const data = await ManHuaNiuProcess.backPageData(comic_id)
             .then((info) => {
                 let data = []
                 let sequence = 0
                 let _switch = false
                 for(let i = 0, len = info.hrefs.length; i < len; i++) {
                     let one_data = {
-                        'channel': ManHuaNiu.get_channel('ManHuaNiu'),
+                        'channel': channel,
                         'comic_id': info.comic_id,
                         'name': info.titles[i],
                         'link': info.hrefs[i],

@@ -13,7 +13,9 @@ class ComicCurl{
      * - 指定单个comic_id进行爬取工作
      */
     static async mnh_pages(){
-        await ManHuaNiuLogic.getPages()
+        let channel = 2
+        let comic_id = 5830
+        await ManHuaNiuLogic.getPages(channel, comic_id)
     }
 }
 export default ComicCurl
