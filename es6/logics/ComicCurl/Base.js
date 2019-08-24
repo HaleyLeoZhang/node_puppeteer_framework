@@ -90,7 +90,7 @@ export default class Base {
             datas.push({
                 sequence,
                 page_id,
-                "src": imgs,
+                "src": img,
                 
             })
         }
