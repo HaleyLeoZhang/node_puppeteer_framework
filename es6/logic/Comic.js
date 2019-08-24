@@ -48,10 +48,17 @@ class Comic {
             .then((info) => {
                 console.log('获取成功---条数：' + info.hrefs.length);
                 let data = []
-                for(let i = 0, len = info.hrefs.length; i < len; i++) {
+
+                for(let i = 0, len = info.hrefs.length, sequence = 0; i < len; i++) {
+                    let _sequence = 0
+                    if(info.titles[i].match(/^第/)) {
+                        sequence++
+                        _sequence = sequence
+                    }
                     data.push({
                         'channel': CHANNEL_MHN,
                         'comic_id': info.comic_id,
+                        'sequence': _sequence,
                         'name': info.hrefs[i],
                         'link': info.titles[i],
                     })
@@ -94,9 +101,26 @@ class Comic {
                 });
             })
     }
+    static select_JieMoRen() {
+        let where = {
+            "channel[<=]": 5,
+            // "page_id[>]": 2,
+            "sequence[!=]": [1, 2, 3],
+            // "page_id[!=]": 1,
+            "ORDER": {
+                "channel": "ASC",
+                "sequence": "ASC",
+            },
+            "LIMIT": 1
+        }
+        Page.select(where)
+            .then((res) => {
+                Log.log(res)
+            })
+    }
 }
 
-Comic.get_images_pages_OnePiece()
+Comic.select_JieMoRen()
 
 // Comic.get_images_pages_JieMoRen()
 // Comic.get_images_JieMoRen()
