@@ -1,9 +1,12 @@
 import Base from './Base'
 import ManHuaNiu from '../../services/Comic/ManHuaNiu'
 import Log from '../../tools/Log'
+import ArrayTool from '../../tools/ArrayTool'
 // 模型列表
 import Page from '../../models/Comic/Page'
 import Image from '../../models/Comic/Image'
+// 缓存
+import PageCache from '../../caches/PageCache'
 
 class ManHuaNiuProcess {
     static backPageData(comic_id) {
@@ -106,4 +109,17 @@ export default class ManHuaNiuLogic extends Base {
         await this.saveImageSrcSuccess(id)
         return true
     }
+    /**
+     * 清空进行中的任务
+     */
+     static async clearProcess(channel, pages){
+        let page_ids = ArrayTool.column(pages, 'id')
+        // Log.log('page_ids')
+        // Log.log(page_ids)
+        // for(let i in page_ids){
+        //     let page_id = page_ids[i]
+        //     await PageCache.set_data(channel +'_' + page_id, 1)
+        // }
+        await this.saveImageSrcWait(page_ids)
+     }
 }

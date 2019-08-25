@@ -7,7 +7,7 @@
 
 const DSN_COMIC = {
     host: '192.168.56.110',
-    port: 6379
+    port: 6379,
     password: 'zhangli',
     db: 0,
 }

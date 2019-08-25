@@ -32,7 +32,7 @@ const BROWSER = {
 let SCREENSHOT = {
     path: APP_PATH + 'storage/imgs/' + General.uuid() + '.png',
     type: 'png',
-    quality: 100, 只对jpg有效
+    quality: 100, // 只对jpg有效
     fullPage: true,
     // 指定区域截图，clip和fullPage两者只能设置一个
     // clip: {

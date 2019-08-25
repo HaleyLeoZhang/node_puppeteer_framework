@@ -31,6 +31,14 @@ class BaseProcess {
         }
         return Page.select(where)
     }
+    /**/
+    static getPageDoingList(channel){
+        const where = {
+            'channel': channel,
+            'progress': PROGRESS_DOING,
+        }
+        return Page.select(where)
+    }
     static deleImageData(page_id){
         const update = {
             "is_deleted": IS_DELETED_YES
@@ -39,6 +47,16 @@ class BaseProcess {
             page_id
         } 
         const promise = Image.update(update, where)
+        return promise
+    }
+    static saveImageSrcWait(id){
+        const update = {
+            "progress": PROGRESS_DOING
+        }
+        const where = {
+            id
+        } 
+        const promise = Page.update(update, where)
         return promise
     }
     static saveImageSrcDoing(id){
@@ -79,6 +97,12 @@ export default class Base {
         return BaseProcess.getPageList(channel)
     }
     /**
+     * 
+     */
+    static getPageDoingList(channel){
+        return BaseProcess.getPageDoingList(channel)
+    } 
+    /**
      * 整理图片为表中格式
      */
     static filterImageList(imgs, page_id) {
@@ -101,6 +125,12 @@ export default class Base {
      */
     static async deleImageData(page_id) {
         return BaseProcess.deleImageData(page_id)
+    }
+    /**
+     * 获取图片数据成功
+     */
+    static async saveImageSrcWait(page_id) {
+        return BaseProcess.saveImageSrcWait(page_id)
     }
     /**
      * 获取图片数据成功

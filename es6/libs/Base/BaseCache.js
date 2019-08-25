@@ -8,6 +8,7 @@
 // ----------------------------------------------------------------------
 import redis from 'redis'
 import { DSN_COMIC } from '../../conf/db/redis'
+import Log from '../../tools/Log'
 
 const CACHE_PREFIX = 'puppeteer'
 
@@ -20,17 +21,14 @@ class Helper {
 }
 
 export default class BaseCache {
-    static get_redis() {
-        client = redis.createClient(DSN_COMIC);
-
-        // if you'd like to select database 3, instead of 0 (default), call
-        // client.select(3, function() { /* ... */ });
-
-        client.on("error", function (err) {
-            throw err
-        });
-
-        // client.set("string key", "string val", redis.print);
+    static async get_redis() {
+        const client = redis.createClient(DSN_COMIC);
+        await new Promise((resolve) => {
+            client.on('connect', () => {
+                resolve(true)
+            });
+        })
+        // client.set("string_key", "string_val", redis.print);
         // client.hset("hash key", "hashtest 1", "some value", redis.print);
         // client.hset(["hash key", "hashtest 2", "some other value"], redis.print);
         // client.hkeys("hash key", function (err, replies) {
@@ -56,7 +54,7 @@ export default class BaseCache {
     }
     // 缓存数据
     static async set_data(key, data) {
-        const redis_client = this.get_redis()
+        const redis_client = await this.get_redis()
 
         const ttl = this.get_ttl()
         const name = this.get_name()
@@ -72,17 +70,17 @@ export default class BaseCache {
             data_str = JSON.stringify(data)
             break;
         }
-        await redis_client.setex(real_key, data_str, redis.print);
+        const res = redis_client.set(real_key, data_str, 'EX', ttl)
+        return res
     }
-    // 获取数据
     static async get_data(key) {
-        const redis_client = this.get_redis()
+        const redis_client = await this.get_redis()
 
         const name = this.get_name()
         const data_type = this.get_type()
         const real_key = Helper.get_real_key(name, key)
 
-        const data_str = await redis_client.get(real_key)
+        const data_str = redis_client.get(real_key)
 
         let data = null
         switch(data_type) {
@@ -95,5 +93,18 @@ export default class BaseCache {
         }
         return data
     }
+    static async delete_data(key) {
+        const redis_client = await this.get_redis()
+
+        const ttl = -1
+        const name = this.get_name()
+        const data_type = this.get_type()
+        const real_key = Helper.get_real_key(name, key)
+
+        // Log.log(name, key, real_key)
+        const res = redis_client.expire(real_key, ttl);
+        return res
+    }
+    // 获取数据
 
 }

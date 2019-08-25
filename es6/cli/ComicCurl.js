@@ -37,7 +37,8 @@ class ComicCurl{
      * - 清空处理中的状态
      */
      static async mnh_clear(){
-        // - TODO
+        const pages = await ManHuaNiuLogic.getPageDoingList(CHANNEL_MHN)
+        await ManHuaNiuLogic.clearProcess(CHANNEL_MHN, pages)
      }
 }
 export default ComicCurl
