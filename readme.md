@@ -13,7 +13,9 @@ gulp start
 
 > 配置
 
-请到目录 `es6/conf/db/mysql.js` 配置 `mysql`  
+将 `es6/conf.sample` 复制到 `es6/conf`  
+
+请到目录 `es6/conf/db/mysql.js` 配置 `mysql`、`redis`、浏览器应用地址
 本次表结构请看目录 `sql/`
 
 
