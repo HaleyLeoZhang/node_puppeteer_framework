@@ -207,10 +207,11 @@ class Handler {
 class BaseModel {
     static set_pool(DSN) {
         const POOL = mysql.createPool({
-            host: DSN.db_host,
-            user: DSN.db_username,
-            password: DSN.db_password,
-            database: DSN.db_name,
+            host: DSN.host,
+            port: DSN.port,
+            user: DSN.user,
+            password: DSN.password,
+            database: DSN.database,
             waitForConnections: true,
             connectionLimit: 100,
             queueLimit: 0
