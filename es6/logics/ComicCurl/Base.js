@@ -8,7 +8,7 @@ const PROGRESS_WAIT = 0
 const PROGRESS_DOING = 1
 const PROGRESS_DONE = 2
 
-const PER_CURL_PAGES = 100
+const PER_CURL_PAGES = 50
 
 const IS_DELETED_YES = 1
 
