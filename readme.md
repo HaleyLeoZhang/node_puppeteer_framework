@@ -3,7 +3,7 @@
 > 安装依赖
 
 ~~~bash
-# 安装依赖包
+# 安装依赖包，安装过程中，如果提示 chromium 安装失败，可以不用管。最后配置文件指向你的 chrome.exe 路径即可
 npm install
 # 安装 gulp 
 npm install -g gulp
