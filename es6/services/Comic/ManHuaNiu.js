@@ -71,7 +71,7 @@ class ManHuaNiu extends Base {
                     return _img
                 });
                 imgs.push(img)
-                this.delay_ms(100)
+                await this.delay_ms(100)
             }
             // Log.log('imgs:  ' + JSON.stringify(imgs))
         } catch(err) {
