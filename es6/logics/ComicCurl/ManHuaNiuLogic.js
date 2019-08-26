@@ -92,7 +92,7 @@ export default class ManHuaNiuLogic extends Base {
      * 自动拉取图片
      */
     static async getImageList(channel, one_page) {
-        let { id, link } = one_page
+        let { id, link, comic_id, sequence } = one_page
         await this.saveImageSrcDoing(id)
         // Log.log('one_page')
         // Log.log(one_page)
@@ -113,7 +113,11 @@ export default class ManHuaNiuLogic extends Base {
         }
         await Image.insert(datas)
             .then(insert_info => {
-                Log.log('章节 '+ id +' 对应图片拉取成功----' + JSON.stringify(insert_info))
+                Log.log(
+                    'comic_id', comic_id, 
+                    'page', id, 
+                    '章节 '+ sequence +' 对应图片拉取成功',
+                    JSON.stringify(insert_info))
             })
         await this.saveImageSrcSuccess(id)
         return true
