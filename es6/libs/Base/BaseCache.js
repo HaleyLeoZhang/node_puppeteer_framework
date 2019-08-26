@@ -60,7 +60,8 @@ export default class BaseCache {
         throw new Error("请重写 get_type 方法，返回数据类型： string、object")
     }
     // 缓存数据
-    static async set_data(key, data) {
+    static async set_data(key, data, is_lock) {
+        is_lock = undefined === is_lock ? false : true
         const redis_client = await this.get_redis()
 
         const ttl = this.get_ttl()
@@ -77,7 +78,11 @@ export default class BaseCache {
             data_str = JSON.stringify(data)
             break;
         }
-        const res = redis_client.set(real_key, data_str, 'EX', ttl)
+        if(is_lock) {
+            const res = redis_client.set(real_key, data_str, 'EX', ttl, 'NX')
+        } else {
+            const res = redis_client.set(real_key, data_str, 'EX', ttl)
+        }
         return res
     }
     static async get_data(key) {
