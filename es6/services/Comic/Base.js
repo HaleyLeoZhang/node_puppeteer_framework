@@ -4,7 +4,7 @@ import Image from '../../models/Comic/Image'
 
 
 const CHANNEL_ID_LIST = {
-    'ManHuaNiu': 2 // Âþ»­Å£
+    'ManHuaNiu': 2 // Ã‚Ã¾Â»Â­Ã…Â£
 }
 
 class Base extends BaseService {

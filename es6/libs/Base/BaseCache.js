@@ -22,12 +22,18 @@ class Helper {
 
 export default class BaseCache {
     static async get_redis() {
-        const client = redis.createClient(DSN_COMIC);
-        await new Promise((resolve) => {
-            client.on('connect', () => {
-                resolve(true)
-            });
-        })
+        // 单例获取
+        if(!this.instance) {
+            const client = redis.createClient(DSN_COMIC);
+            await new Promise((resolve) => {
+                client.on('connect', () => {
+                    resolve(true)
+                });
+            })
+            this.instance = client;
+        }
+        return this.instance;
+
         // client.set("string_key", "string_val", redis.print);
         // client.hset("hash key", "hashtest 1", "some value", redis.print);
         // client.hset(["hash key", "hashtest 2", "some other value"], redis.print);
@@ -38,7 +44,6 @@ export default class BaseCache {
         //     });
         //     client.quit();
         // });
-        return client
     }
     // 缓存名称
     static get_name() {

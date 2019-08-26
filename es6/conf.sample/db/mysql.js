@@ -8,8 +8,8 @@
 const DSN_COMIC = {
     host: '192.168.56.110',
     port: 3306,
-    user: 'yth_blog',
-    password: 'http://hlzblog.top',
+    user: '用户名',
+    password: '密码',
     database: 'comics',
 }
 
