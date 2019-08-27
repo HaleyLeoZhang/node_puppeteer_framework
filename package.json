@@ -6,7 +6,6 @@
     "dependencies": {
         "babel": "^6.23.0",
         "babel-core": "^6.26.3",
-        "chromium": "^2.1.1",
         "gulp": "^3.9.1",
         "gulp-jshint": "^2.1.0",
         "jshint": "^2.9.5",

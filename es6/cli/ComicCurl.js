@@ -14,7 +14,7 @@ class ComicCurl{
      * 渠道 - 漫画牛
      * - 章节爬取
      */
-    static async mnh_pages(){
+    static async mhn_pages(){
         const comics = await ManHuaNiuLogic.getComicList(CHANNEL_MHN)
         for(let i in comics){
             let one_comic = comics[i]
@@ -25,7 +25,7 @@ class ComicCurl{
      * 渠道 - 漫画牛
      * - 图片地址爬取
      */
-    static async mnh_images(){
+    static async mhn_images(){
         const pages = await ManHuaNiuLogic.getPageList(CHANNEL_MHN)
         for(let i in pages){
             let one_page = pages[i]
@@ -36,7 +36,7 @@ class ComicCurl{
      * 渠道 - 漫画牛
      * - 清空处理中的状态
      */
-     static async mnh_clear(){
+     static async mhn_clear(){
         const pages = await ManHuaNiuLogic.getPageDoingList(CHANNEL_MHN)
         await ManHuaNiuLogic.clearProcess(CHANNEL_MHN, pages)
      }
