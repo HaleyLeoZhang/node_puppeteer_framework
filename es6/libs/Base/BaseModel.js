@@ -31,16 +31,16 @@ class Handler {
         const callback = args[2]
         const POOL = args[3]
 
-        POOL.getConnection(function (err, conn) {
+        POOL.getConnection((err, conn) => {
             conn.promise()
                 .execute(sql, datas)
                 .then((obj) => {
                     callback(obj)
                 })
-                .catch(function (err) {
-                    console.warn("数据库异常！");
-                    console.error(err);
+                .catch((err) => {
                     POOL.releaseConnection(conn);
+                    Log.warn("数据库异常!");
+                    throw err
                 })
             POOL.releaseConnection(conn);
         })

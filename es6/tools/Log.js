@@ -6,11 +6,10 @@ import fs from 'fs'
 import { APP_PATH, LOG } from '../conf'
 import General from './General'
 import Bugjs from 'node-bugjs' // Doc:  https://www.npmjs.com/package/node-bugjs
-// const Log = Bugjs(LOG)
 const Log = new Bugjs(LOG)
 
 // 记录到日志
-Log.storeHandler = function (log) {
+Log.storeHandler = (log) => {
     let logs = []
     for(let key in log) {
         if(key !== 'logs') {
