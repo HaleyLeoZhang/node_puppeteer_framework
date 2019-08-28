@@ -706,33 +706,43 @@ blockquote {
 <body marginwidth="0" marginheight="0">
 <div id="container"><h2 id="-">起步</h2>
 <blockquote>
-<p>安装依赖</p>
-</blockquote>
-<pre><code class="hljsbash"><span class="hljs-comment"># 安装依赖包，安装过程中，如果提示 chromium 安装失败，可以不用管。最后配置文件指向你的 chrome.exe 路径即可</span>
-<span class="hljs-built_in">npm</span> install --ignore-scripts
-<span class="hljs-comment"># 安装 gulp </span>
-<span class="hljs-built_in">npm</span> install -g gulp
-<span class="hljs-comment"># 生成兼容es5语法的node文件</span>
-gulp start
-</code></pre>
-<blockquote>
 <p>配置</p>
 </blockquote>
-<p>将 <code>es6/conf.sample</code> 复制到 <code>es6/conf</code>  </p>
-<p>请到目录 <code>es6/conf/db/mysql.js</code> 配置 <code>mysql</code>、<code>redis</code>、浏览器(chromium或者chrome)应用地址
-本次表结构请看目录 <code>sql/</code></p>
-<h2 id="-chrome">下载 chrome</h2>
+<p>进入项目根目录<br>复制初始配置文件  </p>
+<pre><code class="hljsbash"><span class="hljs-title">cp</span> -r es6/conf.sample es6/conf
+</code></pre>
+<p>本次表结构请看目录 <code>sql/</code> 建表<br>请根据到目录 <code>es6/conf/db/mysql.js</code> 配置 <code>mysql</code>、<code>redis</code>、浏览器(chromium或者chrome)应用地址</p>
+<h2 id="-">安装</h2>
+<blockquote>
+<p>下载 Chrome </p>
+</blockquote>
+<h5 id="linux-">linux 环境</h5>
 <p><a href="https://www.cnblogs.com/hbsygfz/p/8409517.html">linux 版本文档</a>  </p>
 <pre><code class="hljsbash">wget https:<span class="hljs-comment">//repo.fdzh.org/chrome/google-chrome.list -P /etc/apt/sources.list.d/</span>
 wget -q -O - https:<span class="hljs-comment">//dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -</span>
 apt-<span class="hljs-keyword">get</span> update
 apt-<span class="hljs-keyword">get</span> install google-chrome-stable
 </code></pre>
+<h5 id="windows-">windows 环境</h5>
+<p>下载 <a href="https://www.google.cn/intl/zh-CN/chrome/">Chrome</a> 浏览器<code>60以上版本</code><br>配置 <code>es6/conf/index.js</code> 中 BROWSER.executablePath 值为 <code>chrome.exe</code> 的路径  </p>
+<blockquote>
+<p>配套服务</p>
+</blockquote>
+<p><code>Mysql</code> 5.5 及以上环境<br><code>Redis</code> 3.2 及以上环境<br><code>Node</code> 10.0 及以上环境</p>
+<blockquote>
+<p>安装依赖</p>
+</blockquote>
+<pre><code class="hljsbash"><span class="hljs-comment"># 安装依赖包，安装过程中，如果提示 chromium 安装失败，可以不用管。最后配置文件指向你的 chrome.exe 路径即可</span>
+<span class="hljs-built_in">npm</span> install --ignore-scripts
+<span class="hljs-comment"># 安装 gulp </span>
+<span class="hljs-built_in">npm</span> install -g gulp
+<span class="hljs-comment"># 生成兼容 es5 语法的 node 文件</span>
+gulp start
+</code></pre>
 <h3 id="-">目录介绍</h3>
-<p><code>es6</code> 源代码路径
-<code>es5</code> node 可直接运行路径</p>
+<p><code>es6</code> 源代码路径<br><code>es5</code> node 可直接运行路径  </p>
 <h3 id="-">运行</h3>
-<p>请使用普通用户权限运行,否则chrome无法调起</p>
+<p>请使用普通用户权限运行,否则chrome无法调起  </p>
 <pre><code class="hljsbash"><span class="hljs-comment"># 切换到普通用户(示例:用户名 hlz)</span>
 <span class="hljs-title">su</span> hlz
 <span class="hljs-comment"># 运行应用,示例运行 </span>
