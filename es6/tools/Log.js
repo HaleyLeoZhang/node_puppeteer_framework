@@ -11,8 +11,8 @@ const Log = new Bugjs(LOG)
 
 // 记录到日志
 Log.storeHandler = function (log) {
-    var logs = []
-    for(var key in log) {
+    let logs = []
+    for(let key in log) {
         if(key !== 'logs') {
             logs.push(log[key])
         }

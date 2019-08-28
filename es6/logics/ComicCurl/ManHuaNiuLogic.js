@@ -57,11 +57,11 @@ export default class ManHuaNiuLogic extends Base {
                     if(null != matches) {
                         let current_sequence = parseInt(matches[1])
                         // 从第一话开始爬
-                        if(0 == sequence && 1 != current_sequence){
-                            continue 
+                        if(0 == sequence && 1 != current_sequence) {
+                            continue
                         }
                         // 允许误差 1 话
-                        if( current_sequence > sequence && current_sequence <= sequence + 1){
+                        if(current_sequence > sequence && current_sequence <= sequence + 1) {
                             sequence = matches[1]
                             Object.assign(one_data, { sequence })
                         }
@@ -113,11 +113,7 @@ export default class ManHuaNiuLogic extends Base {
         }
         await Image.insert(datas)
             .then(insert_info => {
-                Log.log(
-                    'comic_id', comic_id, 
-                    'page', id, 
-                    '章节 '+ sequence +' 对应图片拉取成功',
-                    JSON.stringify(insert_info))
+                Log.log(`comic_id ${comic_id} page ${id} 章节 ${sequence} 对应图片拉取成功 ${JSON.stringify(insert_info)}`)
             })
         await this.saveImageSrcSuccess(id)
         return true
@@ -125,7 +121,7 @@ export default class ManHuaNiuLogic extends Base {
     /**
      * 清空进行中的任务
      */
-     static async clearProcess(channel, pages){
+    static async clearProcess(channel, pages) {
         let page_ids = ArrayTool.column(pages, 'id')
         // Log.log('page_ids')
         // Log.log(page_ids)
@@ -134,5 +130,5 @@ export default class ManHuaNiuLogic extends Base {
         //     await PageCache.set_data(channel +'_' + page_id, 1)
         // }
         await this.saveImageSrcWait(page_ids)
-     }
+    }
 }

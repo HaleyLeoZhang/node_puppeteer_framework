@@ -1,25 +1,24 @@
 ## 起步
 
-> 安装依赖
-
-~~~bash
-# 安装依赖包，安装过程中，如果提示 chromium 安装失败，可以不用管。最后配置文件指向你的 chrome.exe 路径即可
-npm install --ignore-scripts
-# 安装 gulp 
-npm install -g gulp
-# 生成兼容es5语法的node文件
-gulp start
-~~~
-
 > 配置
 
-将 `es6/conf.sample` 复制到 `es6/conf`  
+进入项目根目录  
+复制初始配置文件  
 
-请到目录 `es6/conf/db/mysql.js` 配置 `mysql`、`redis`、浏览器(chromium或者chrome)应用地址
-本次表结构请看目录 `sql/`
+~~~bash
+cp -r es6/conf.sample es6/conf
+~~~
+
+本次表结构请看目录 `sql/` 建表  
+请根据到目录 `es6/conf/db/mysql.js` 配置 `mysql`、`redis`、浏览器(chromium或者chrome)应用地址
 
 
-## 下载 chrome 
+## 安装
+
+> 下载 Chrome 
+
+##### linux 环境
+
 [linux 版本文档](https://www.cnblogs.com/hbsygfz/p/8409517.html)  
 
 ~~~bash
@@ -29,14 +28,38 @@ apt-get update
 apt-get install google-chrome-stable
 ~~~
 
+##### windows 环境
+
+下载 [Chrome](https://www.google.cn/intl/zh-CN/chrome/) 浏览器`60以上版本`  
+配置 `es6/conf/index.js` 中 BROWSER.executablePath 值为 `chrome.exe` 的路径  
+
+
+
+> 配套服务
+
+`Mysql` 5.5 及以上环境  
+`Redis` 3.2 及以上环境  
+`Node` 10.0 及以上环境
+
+> 安装依赖
+
+~~~bash
+# 安装依赖包，安装过程中，如果提示 chromium 安装失败，可以不用管。最后配置文件指向你的 chrome.exe 路径即可
+npm install --ignore-scripts
+# 安装 gulp 
+npm install -g gulp
+# 生成兼容 es5 语法的 node 文件
+gulp start
+~~~
+
 
 ### 目录介绍
 
-`es6` 源代码路径
-`es5` node 可直接运行路径
+`es6` 源代码路径  
+`es5` node 可直接运行路径  
 
 ### 运行
-请使用普通用户权限运行,否则chrome无法调起
+请使用普通用户权限运行,否则chrome无法调起  
 
 ~~~bash
 # 切换到普通用户(示例:用户名 hlz)
@@ -45,9 +68,66 @@ su hlz
 node es5/app.js comic mhn_pages
 ~~~
 
+#### 定时任务
+内容依次为
+
+- A: 每日凌晨3点,获取最新章节内容
+- B: 每日凌晨4点,开始获取最新图片地址信息
+
+~~~bash
+0 3 * * * /usr/sbin/node /data/common/puppeteer_get_163_comments/es5/app.js comic mhn_pages >> /dev/null 2>&1
+0 4 * * * /usr/sbin/node /data/common/puppeteer_get_163_comments/es5/app.js comic mhn_images >> /dev/null 2>&1
+~~~
+
+如果执行定时任务 B 有中断 你可以通过如下命令 恢复未完成的下载
+
+~~~bash
+/usr/sbin/node /data/common/puppeteer_get_163_comments/es5/app.js comic mhn_clear
+~~~
+
 ### 示例
 [示例地址](https://www.jianshu.com/p/aa2159356fbd)  
 
 ### 多进程爬取
+说之前,我得先给你看看我的硬件配置,然后你再考虑要不要多进程处理  
+
+~~~bash
+Intel(R) Core(TM) i5-8250U CPU @ 1.60GHz
+~~~
+
+~~~bash
+processor       : 7
+vendor_id       : GenuineIntel
+cpu family      : 6
+model           : 142
+model name      : Intel(R) Core(TM) i5-8250U CPU @ 1.60GHz
+stepping        : 10
+cpu MHz         : 1799.999
+cache size      : 6144 KB
+physical id     : 0
+siblings        : 8
+core id         : 7
+cpu cores       : 8
+apicid          : 7
+initial apicid  : 7
+fpu             : yes
+fpu_exception   : yes
+cpuid level     : 22
+wp              : yes
+flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx rdtscp lm constant_tsc rep_good nopl xtopology nonstop_tsc pni pclmulqdq ssse3 cx16 sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx rdrand hypervisor lahf_lm abm 3dnowprefetch rdseed clflushopt
+bugs            :
+bogomips        : 3599.99
+clflush size    : 64
+cache_alignment : 64
+address sizes   : 39 bits physical, 48 bits virtual
+power management:
+~~~
+
+
+
+资源实际消耗  
+![图0001](readme_intro/imgs/resource_occupancy_rate.png)  
+
+[优化方案](https://blog.it2048.cn/article-puppeteer-speed-up/)  
 
 - TODO
