@@ -36,3 +36,9 @@ CREATE TABLE `pages` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=542 DEFAULT CHARSET=utf8mb4 COMMENT='漫画章节列表';
+
+
+
+INSERT INTO `comics`(`id`, `channel`, `comic_id`, `name`, `pic`, `intro`, `is_deleted`, `updated_at`, `created_at`) VALUES (1, 2, 5830, '戒魔人', '', '大一新生周小安偶然戴上一枚来历不明的商代戒指，从他口中吐出了一个恐怖的血魔人。一个人类历史上的惊天秘...', 0, '2019-08-27 14:20:02', '2019-08-27 14:20:25');
+INSERT INTO `comics`(`id`, `channel`, `comic_id`, `name`, `pic`, `intro`, `is_deleted`, `updated_at`, `created_at`) VALUES (2, 2, 10660, '一人之下', '', '随着爷爷尸体被盗，神秘少女冯宝宝的造访，少年张楚岚的平静校园生活被彻底颠覆。急于解开爷爷和自身秘密的...', 0, '2019-08-27 14:20:24', '2019-08-27 14:20:28');
+INSERT INTO `comics`(`id`, `channel`, `comic_id`, `name`, `pic`, `intro`, `is_deleted`, `updated_at`, `created_at`) VALUES (3, 2, 6416, '最强农民工', '', '一个小小的维修工李青，原本过着普普通通的打工生活，却莫名的被牵扯到大家族的斗争中，而他本人的背后却有...', 0, '2019-08-27 14:21:18', '2019-08-27 14:21:20');
