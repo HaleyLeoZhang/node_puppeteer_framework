@@ -9,8 +9,8 @@ import { DSN_COMIC } from '../../conf/db/mysql'
 import BaseModel from '../../libs/Base/BaseModel'
 
 class Base extends BaseModel {
-    static get_pool(){
-        return this.set_pool(DSN_COMIC) // 注入数据库配置
+    static get_dsn(){
+        return DSN_COMIC // 注入数据库配置
     }
 }
 

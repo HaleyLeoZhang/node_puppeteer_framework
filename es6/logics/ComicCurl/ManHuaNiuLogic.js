@@ -93,6 +93,12 @@ export default class ManHuaNiuLogic extends Base {
      */
     static async getImageList(channel, one_page) {
         let { id, link, comic_id, sequence } = one_page
+        const lock_success = await PageCache.set_data(id, 1, true)
+        // Log.log(`lock_success ${lock_success}`)
+        if(!lock_success){
+            Log.log(`comic_id ${comic_id} page ${id} 章节 ${sequence} 已锁定`)
+            return false
+        }
         await this.saveImageSrcDoing(id)
         // Log.log('one_page')
         // Log.log(one_page)
@@ -129,6 +135,6 @@ export default class ManHuaNiuLogic extends Base {
         //     let page_id = page_ids[i]
         //     await PageCache.set_data(channel +'_' + page_id, 1)
         // }
-        await this.saveImageSrcWait(page_ids)
+        await this.saveImageSrcWait(page_ids) // 对应的锁,请手动删除 redis中 对应的key
     }
 }

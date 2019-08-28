@@ -23,6 +23,9 @@ import Log from '../../tools/Log'
 const CURRENT_TIME = General.format_time('Y-m-d h:i:s')
 const IS_DELETED_NO = 0
 
+const DB_ACTION_WRITE = 'write'
+const DB_ACTION_READ = 'read'
+
 class Handler {
     // 数据库操作，同 query 操作
     static execute(...args) {
@@ -202,26 +205,40 @@ class Handler {
 
         return { sql, datas }
     }
-}
-
-class BaseModel {
-    static set_pool(DSN) {
+    static get_pool_by_action(DSN, action){
         // 单例获取
         if(!this.instance) {
+            this.instance = {};
+        }
+        // 依据数据库名,唯一获取一个当前的库
+        let db_confs = DSN[action]
+        let db_unique_name = action + '_' + db_confs[0].database
+        if(undefined === this.instance[db_unique_name]) {
+            let db_size = db_confs.length
+            let rand_index = General.mt_rand(0, db_size -1 )
+            let one_dsn = db_confs[rand_index]
             const POOL = mysql.createPool({
-                host: DSN.host,
-                port: DSN.port,
-                user: DSN.user,
-                password: DSN.password,
-                database: DSN.database,
+                host: one_dsn.host,
+                port: one_dsn.port,
+                user: one_dsn.user,
+                password: one_dsn.password,
+                database: one_dsn.database,
                 waitForConnections: true,
                 connectionLimit: 100,
                 queueLimit: 0
             });
-            this.instance = POOL;
+            this.instance[db_unique_name] = POOL
+            // Log.log(`db_unique_name ${db_unique_name} rand_index ${rand_index} one_dsn ${JSON.stringify(one_dsn)}`)
         }
-        return this.instance;
+        return this.instance[db_unique_name];
     }
+}
+
+class BaseModel {
+    static get_dsn(DSN) {
+        throw new Error("请实现该 Model 的 get_dsn 返回")
+    }
+    
     // ------------------------------------------------------------
     //      自封装 ORM
     // ------------------------------------------------------------
@@ -254,7 +271,7 @@ class BaseModel {
                 ([ResultSetHeader]) => {
                     resolve(ResultSetHeader)
                 },
-                this.get_pool());
+                Handler.get_pool_by_action(this.get_dsn(), DB_ACTION_WRITE));
         })
         return {
             "rows": results.affectedRows,
@@ -300,7 +317,7 @@ class BaseModel {
                     // Log.log(datas)
                     resolve(datas)
                 },
-                this.get_pool());
+                Handler.get_pool_by_action(this.get_dsn(), DB_ACTION_READ));
         });
         return res;
     }
@@ -321,7 +338,7 @@ class BaseModel {
                     output = results
                     resolve(true)
                 },
-                this.get_pool());
+                Handler.get_pool_by_action(this.get_dsn(), DB_ACTION_WRITE));
         });
         return output;
     }
@@ -344,7 +361,7 @@ class BaseModel {
                     // Log.log(results)
                     resolve(true)
                 },
-                this.get_pool());
+                Handler.get_pool_by_action(this.get_dsn(), DB_ACTION_WRITE));
         });
         return rows;
     }

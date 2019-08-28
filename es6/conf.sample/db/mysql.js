@@ -6,11 +6,22 @@
 // ----------------------------------------------------------------------
 
 const DSN_COMIC = {
-    host: '192.168.56.110',
-    port: 3306,
-    user: '用户名',
-    password: '密码',
-    database: 'comics',
+    // 读库 ---　只有使用 ORM 的 select 操作会触发该库
+    read: [{
+        host: '127.0.0.1',
+        port: 3306,
+        user: 'root',
+        password: '',
+        database: 'comics',
+    }],
+    // 写库
+    write: [{
+        host: '127.0.0.1',
+        port: 3306,
+        user: 'root',
+        password: '',
+        database: 'comics',
+    }]
 }
 
 

@@ -20,6 +20,25 @@ class Helper {
         const real_key = [CACHE_PREFIX, name, key].join(':')
         return real_key
     }
+    static set_data_sync(redis_client, real_key, data_str, is_EX, ttl, type) {
+
+        return new Promise((resolve) => {
+            const _callback = (err, res) => {
+                if('OK' == res) {
+                    resolve(true)
+                } else {
+                    resolve(false)
+                }
+            }
+            if(!is_EX) {
+                redis_client.set(real_key, data_str, _callback)
+            } else if(!type) {
+                redis_client.set(real_key, data_str, 'EX', ttl, _callback)
+            } else {
+                redis_client.set(real_key, data_str, 'EX', ttl, type, _callback)
+            }
+        })
+    }
 }
 
 export default class BaseCache {
@@ -78,10 +97,12 @@ export default class BaseCache {
             data_str = JSON.stringify(data)
             break;
         }
+
+        let res = false
         if(is_lock) {
-            const res = redis_client.set(real_key, data_str, 'EX', ttl, 'NX')
+            res = await Helper.set_data_sync(redis_client, real_key, data_str, 'EX', ttl, 'NX')
         } else {
-            const res = redis_client.set(real_key, data_str, 'EX', ttl)
+            res = await Helper.set_data_sync(redis_client, real_key, data_str, 'EX', ttl)
         }
         return res
     }

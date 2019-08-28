@@ -52,4 +52,13 @@ export default class General {
         str = str.replace("s", s);
         return str;
     }
+    /**
+     * 获取随机整数数
+     * @param int min 随机数的最小值
+     * @param int max 随机数的最大值
+     * @return int
+     */
+    static mt_rand(min, max) {
+        return parseInt(Math.random() * (max - min + 1) + min, 10);
+    }
 }
