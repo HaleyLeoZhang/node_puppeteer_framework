@@ -28,6 +28,8 @@ apt-get update
 apt-get install google-chrome-stable
 ~~~
 
+这样安装后,该环境就不需要动配置文件了  
+
 ##### windows 环境
 
 下载 [Chrome](https://www.google.cn/intl/zh-CN/chrome/) 浏览器`60以上版本`  
