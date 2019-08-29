@@ -74,21 +74,21 @@ node es5/app.js comic mhn_pages
 内容依次为
 
 - A: 每日凌晨3点,获取最新章节内容
-- B: 每日凌晨4点,开始获取最新图片地址信息
+- B: 每30分钟,获取最新图片地址信息
 
 ~~~bash
-0 3 * * * /usr/sbin/node /data/common/puppeteer_get_163_comments/es5/app.js comic mhn_pages >> /dev/null 2>&1
-0 4 * * * /usr/sbin/node /data/common/puppeteer_get_163_comments/es5/app.js comic mhn_images >> /dev/null 2>&1
+0 3 * * * /usr/sbin/node /data/common/node_puppeteer_example/es5/app.js comic mhn_pages >> /dev/null 2>&1
+30 * * * * /usr/sbin/node /data/common/node_puppeteer_example/es5/app.js comic mhn_images >> /dev/null 2>&1
 ~~~
 
 如果执行定时任务 B 有中断 你可以通过如下命令 恢复未完成的下载
 
 ~~~bash
-/usr/sbin/node /data/common/puppeteer_get_163_comments/es5/app.js comic mhn_clear
+/usr/sbin/node /data/common/node_puppeteer_example/es5/app.js comic mhn_clear
 ~~~
 
-### 示例
-[示例地址](https://www.jianshu.com/p/aa2159356fbd)  
+##### 操纵浏览器
+[涉及函数使用说明](https://www.jianshu.com/p/aa2159356fbd)  
 
 ### 多进程爬取
 说之前,我得先给你看看我的硬件配置,然后你再考虑要不要多进程处理  
@@ -132,4 +132,8 @@ power management:
 
 [优化方案](https://blog.it2048.cn/article-puppeteer-speed-up/)  
 
-- TODO
+###### 直接跑两个进程,试试
+
+~~~bash
+/usr/sbin/node /data/common/node_puppeteer_example/es5/app.js comic mhn_images  >> /dev/null 2>&1
+~~~

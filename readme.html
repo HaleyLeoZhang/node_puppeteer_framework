@@ -753,16 +753,16 @@ node es5/app.js comic mhn_pages
 <p>内容依次为</p>
 <ul>
 <li>A: 每日凌晨3点,获取最新章节内容</li>
-<li>B: 每日凌晨4点,开始获取最新图片地址信息</li>
+<li>B: 每30分钟,获取最新图片地址信息</li>
 </ul>
-<pre><code class="hljsbash"><span class="hljs-number">0</span> <span class="hljs-number">3</span> * * * <span class="hljs-regexp">/usr/sbin</span><span class="hljs-regexp">/node /data</span><span class="hljs-regexp">/common/puppeteer</span>_get_163_comments/es5/app.js comic mhn_pages <span class="hljs-prompt">&gt;&gt; </span>/dev/null <span class="hljs-number">2</span>&gt;&amp;<span class="hljs-number">1</span>
-<span class="hljs-number">0</span> <span class="hljs-number">4</span> * * * <span class="hljs-regexp">/usr/sbin</span><span class="hljs-regexp">/node /data</span><span class="hljs-regexp">/common/puppeteer</span>_get_163_comments/es5/app.js comic mhn_images <span class="hljs-prompt">&gt;&gt; </span>/dev/null <span class="hljs-number">2</span>&gt;&amp;<span class="hljs-number">1</span>
+<pre><code class="hljsbash"><span class="hljs-number">0</span> <span class="hljs-number">3</span> * * * <span class="hljs-regexp">/usr/sbin</span><span class="hljs-regexp">/node /data</span><span class="hljs-regexp">/common/node</span>_puppeteer_example/es5/app.js comic mhn_pages <span class="hljs-prompt">&gt;&gt; </span>/dev/null <span class="hljs-number">2</span>&gt;&amp;<span class="hljs-number">1</span>
+<span class="hljs-number">30</span> * * * * <span class="hljs-regexp">/usr/sbin</span><span class="hljs-regexp">/node /data</span><span class="hljs-regexp">/common/node</span>_puppeteer_example/es5/app.js comic mhn_images <span class="hljs-prompt">&gt;&gt; </span>/dev/null <span class="hljs-number">2</span>&gt;&amp;<span class="hljs-number">1</span>
 </code></pre>
 <p>如果执行定时任务 B 有中断 你可以通过如下命令 恢复未完成的下载</p>
-<pre><code class="hljsbash">/usr/sbin/node /data/common/puppeteer_get_163_comments/es5/app.js comic mhn_clear
+<pre><code class="hljsbash">/usr/sbin/node /data/common/node_puppeteer_example/es5/app.js comic mhn_clear
 </code></pre>
-<h3 id="-">示例</h3>
-<p><a href="https://www.jianshu.com/p/aa2159356fbd">示例地址</a>  </p>
+<h5 id="-">操纵浏览器</h5>
+<p><a href="https://www.jianshu.com/p/aa2159356fbd">涉及函数使用说明</a>  </p>
 <h3 id="-">多进程爬取</h3>
 <p>说之前,我得先给你看看我的硬件配置,然后你再考虑要不要多进程处理  </p>
 <pre><code class="hljsbash"><span class="hljs-function">Intel</span>(R) <span class="hljs-function">Core</span>(TM) i5-8250U CPU <span class="hljs-at_rule">@<span class="hljs-preprocessor"> 1.60GHz</span></span>
@@ -795,8 +795,8 @@ address sizes   : <span class="hljs-number">39</span> bits physical, <span class
 </code></pre>
 <p>资源实际消耗<br><img src="readme_intro/imgs/resource_occupancy_rate.png" alt="图0001">  </p>
 <p><a href="https://blog.it2048.cn/article-puppeteer-speed-up/">优化方案</a>  </p>
-<ul>
-<li>TODO</li>
-</ul>
+<h6 id="-">直接跑两个进程,试试</h6>
+<pre><code class="hljsbash">/usr/sbin/node /data/common/node_puppeteer_example/es5/app.js comic mhn_images  &gt;&gt; <span class="hljs-regexp">/dev/</span><span class="hljs-literal">null</span> <span class="hljs-number">2</span>&gt;&amp;<span class="hljs-number">1</span>
+</code></pre>
 </div>
 </body></html>
