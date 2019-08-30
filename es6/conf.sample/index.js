@@ -14,8 +14,9 @@ import General from '../tools/General'
  * 无头浏览器配置
  */
 const BROWSER = {
-    // 若是手动下载的chromium需要指定chromium地址, 默认引用地址为 /项目目录/node_modules/puppeteer/.local-chromium/
-    executablePath: "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe",
+    // Chrmoe 应用路径
+    // executablePath: "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe", // windows 下
+    executablePath: "google-chrome", // linux 下
     // 设置超时时间
     timeout: 15000,
     // 如果是访问https页面 此属性会忽略https错误
