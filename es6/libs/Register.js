@@ -17,8 +17,8 @@ export default class Register {
         return this
     }
     // 注册
-    use(___alias, ___moudule) {
-        this.resgist_list[___alias] = ___moudule
+    use(___alias, ___module) {
+        this.resgist_list[___alias] = ___module
         return this;
     }
     // 检测模块
