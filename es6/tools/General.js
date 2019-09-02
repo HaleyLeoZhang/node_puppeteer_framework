@@ -31,7 +31,7 @@ export default class General {
         timestamp = parseInt(timestamp) * 1000;
         let date = timestamp === 0 ? 　new Date() : new Date(timestamp);
         const add_zero = (num) => {
-            if(num < 9) {
+            if(num <= 9) {
                 return "0" + num;
             } else {
                 return "" + num + "";
