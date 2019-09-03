@@ -1,6 +1,9 @@
 // -----------------------------------------------
 // 日志类
 // -----------------------------------------------
+// Link  : http://www.hlzblog.top/
+// GITHUB: https://github.com/HaleyLeoZhang
+// -----------------------------------------------
 
 import fs from 'fs'
 import { APP_PATH, LOG } from '../conf'

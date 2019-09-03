@@ -1,6 +1,9 @@
 // -----------------------------------------------
 //     数组操作类
 // -----------------------------------------------
+// Link  : http://www.hlzblog.top/
+// GITHUB: https://github.com/HaleyLeoZhang
+// -----------------------------------------------
 
 export default class ArrayTool {
     static column(arr, key) {
