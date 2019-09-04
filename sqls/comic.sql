@@ -6,8 +6,8 @@ CREATE TABLE `comics` (
   `pic` varchar(255) NOT NULL COMMENT '漫画封面',
   `intro` varchar(1000) NOT NULL COMMENT '漫画简介',
   `is_deleted` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '枚举值：0=>正常，1删除',
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='漫画列表';
 
@@ -18,26 +18,24 @@ CREATE TABLE `images` (
   `src` varchar(255) NOT NULL COMMENT '关联： 图片地址',
   `progress` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '枚举值：0=>待下载，1=>下载中，2下载成功',
   `is_deleted` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '枚举值：0=>正常，1删除',
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='漫画章节对应图片列表';
 
 CREATE TABLE `pages` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `channel` tinyint(4) unsigned NOT NULL DEFAULT '0' COMMENT '枚举值：0.未知 1.腾讯漫画 2.漫画牛',
-  `comic_id` int(11) unsigned NOT NULL,
+  `comic_id` int(11) unsigned NOT NULL COMMENT '关联comics.comic_id',
   `sequence` int(11) unsigned NOT NULL,
   `name` varchar(255) NOT NULL,
   `link` varchar(255) NOT NULL,
   `progress` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '枚举值：0=>未爬取，1=>处理中，2处理结束',
   `is_deleted` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '枚举值：0=>正常，1删除',
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=542 DEFAULT CHARSET=utf8mb4 COMMENT='漫画章节列表';
-
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='漫画章节列表';
 
 INSERT INTO `comics`(`id`, `channel`, `comic_id`, `name`, `pic`, `intro`, `is_deleted`, `updated_at`, `created_at`) VALUES (1, 2, 5830, '戒魔人', '', '大一新生周小安偶然戴上一枚来历不明的商代戒指，从他口中吐出了一个恐怖的血魔人。一个人类历史上的惊天秘...', 0, '2019-08-27 14:20:02', '2019-08-27 14:20:25');
 INSERT INTO `comics`(`id`, `channel`, `comic_id`, `name`, `pic`, `intro`, `is_deleted`, `updated_at`, `created_at`) VALUES (2, 2, 10660, '一人之下', '', '随着爷爷尸体被盗，神秘少女冯宝宝的造访，少年张楚岚的平静校园生活被彻底颠覆。急于解开爷爷和自身秘密的...', 0, '2019-08-27 14:20:24', '2019-08-27 14:20:28');
