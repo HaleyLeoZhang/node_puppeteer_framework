@@ -14,9 +14,6 @@
             id = '';
         var i = 0,
             len = list.length;
-        console.log('len');
-        console.log('list');
-        console.log('render_html');
         for(; i < len; i++) {
             item = list[i];
 
