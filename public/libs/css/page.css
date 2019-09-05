@@ -21,3 +21,6 @@ span#comic_title {
     color: #33a0d6;
     margin-left: 0.5em;
 }
+.last_read{
+    color: #e6c7c3;
+}

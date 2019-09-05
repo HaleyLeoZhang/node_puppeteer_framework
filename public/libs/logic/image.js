@@ -5,7 +5,7 @@
         this.target_append = '#image_list'
         this.real_index = 5 // 从第几张开始,可以懒加载图片
 
-        this.next_page_id = 0
+        this.detail = null
     }
     window.App_Image = new Image();
 
@@ -27,9 +27,10 @@
         return template
     };
 
-    Image.prototype.set_info = function (info) {
-        document.title = info.comic.title
-        $("#chapter_name").html(info.page.name)
+    Image.prototype.set_info = function () {
+        var _this = this
+        document.title = _this.detail.comic.name
+        $('#chapter_name').html(_this.detail.page.name)
         // $("#comic_title").html(`《${title}》`)
     };
 
@@ -59,22 +60,22 @@
         var param = {
             id: ComicCommon.query_param('id'),
         }
-        ComicCommon.get_info(ComicCommon.api.page_detail, param, function (info) {
-            _this.set_info(info);
+        ComicCommon.get_info(ComicCommon.api.page_detail, param, function (detail) {
+            _this.detail = detail
 
-            _this.next_page_id = info.next_page.id
+            _this.set_info();
 
-            // 记录用户上次阅读到哪里
+            // 记录用户本次阅读到哪里
             ComicCommon.cache_set_engine('local')
 
             var cache_name = ''
             var cache_info = []
-            var cache_data = info.page
+            var cache_data = detail.page
             var cache_ttl = 3600 * 24 * 30 // 缓存 30 天
 
             cache_info.push('history_read')
-            cache_info.push(info.channel)
-            cache_info.push(info.comic_id)
+            cache_info.push(detail.channel)
+            cache_info.push(detail.comic_id)
             cache_name = cache_info.join('_')
             cache_data = ComicCommon.cache_data_set(cache_name, cache_data, cache_ttl)
 
@@ -82,13 +83,52 @@
     };
 
     /**
-     * 代理
+     * 返回章节列表
      */
+    Image.prototype.action_back_page_list = function () {
+        var _this = this
+        $('#show').on('click', function () {
+            var data = {
+                channel: _this.detail.comic.channel,
+                comic_id: _this.detail.comic.comic_id,
+                title: _this.detail.comic.name,
+            }
+            var query_string = ComicCommon.json_to_query(data)
+            window.location.href = './page_list.html?' + query_string
+        })
+
+    };
+
+    /**
+     * 进入一页
+     */
+    Image.prototype.action_go_to_next = function () {
+        var _this = this
+        $('#trigger_next').on('click', function () {
+            var data = {
+                id: _this.detail.next_page.id,
+            }
+            var query_string = ComicCommon.json_to_query(data)
+            location.href = './?' + query_string
+            console.log()
+        })
+
+    };
+
+
+    Image.prototype.check_detail = function () {
+        if(!this.detail){
+            layer.msg('客官请稍等哦~')
+        }
+    }
+
     Image.prototype.run_app = function () {
         var _this = this;
 
         _this.get_list()
         _this.get_page_detail()
+        _this.action_back_page_list()
+        _this.action_go_to_next()
 
     };
     App_Image.run_app()
