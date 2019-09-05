@@ -55,11 +55,8 @@
             $(_this.target_append).append(processed_html)
         })
     };
-    /**
-     * 代理
-     */
     Comic.prototype.action_go_to_page = function() {
-        $("#book_list").delegate(".go_to_module", "click", function(){
+        $(this.target_append).delegate(".go_to_module", "click", function(){
             var it = this;
             var data = {
                 channel: $(it).data("channel"),

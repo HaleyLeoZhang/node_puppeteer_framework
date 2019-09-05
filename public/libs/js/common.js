@@ -13,12 +13,15 @@
             comic_list: 'http://puppeteer.hlzblog.top/api/comic/comic_list', // 漫画列表
             page_list: 'http://puppeteer.hlzblog.top/api/comic/page_list', // 漫画章节列表
             image_list: 'http://puppeteer.hlzblog.top/api/comic/image_list', // 漫画章节对应图片列表
+            page_detail: 'http://puppeteer.hlzblog.top/api/comic/page_detail', // 漫画章节详情
         };
 
         this.load_switch = 'on'; // 加载层
         this.page_load_index = 0; // 加载层索引号
 
         this.page_lock = false; // 下拉加载,锁
+
+        this.storage_engine = 'session'; // local || session
     }
     window.ComicCommon = new Comic_Common();
 
@@ -26,7 +29,7 @@
      * 封装下拉加载 Ajax
      * @param string api 接口地址
      * @param json param http入参
-     * @param callable callback 获取ajax后的回调,会被注入回调列表数据 
+     * @param callable callback 获取ajax后的回调,会被注入回调list数据 
      */
     Comic_Common.prototype.get_list = function (api, param, callback) {
         var _this = this;
@@ -59,6 +62,29 @@
     };
 
     /**
+     * 封装单条数据
+     * @param string api 接口地址
+     * @param json param http入参
+     * @param callable callback 获取ajax后的回调,会被注入回调data数据 
+     */
+    Comic_Common.prototype.get_info = function (api, param, callback) {
+        var _this = this;
+        $.ajax({
+            'url': api,
+            'type': 'get',
+            'data': param,
+            'success': function (res) {
+                if(200 == res.code) {
+                    callback(res.data)
+                } else {
+                    layer.alert(res.message)
+                }
+            },
+        });
+    };
+
+
+    /**
      * 加载层
      */
     Comic_Common.prototype.loading_layer = function (action) {
@@ -87,8 +113,9 @@
             effect: 'fadeIn',
             threshold: 200,
             failurelimit: 10,
-            placeholder: '../img/common_loading.gif',
-            data_attribute: 'original', // data-original属性
+            // placeholder: './libs/img/common_loading.gif',
+            placeholder: 'https://i.loli.net/2019/09/05/YPu62erGMa3l1IE.gif',
+            // data_attribute: 'original', // data-original属性
         });
 
     };
@@ -114,12 +141,35 @@
     // 本地缓存
 
     /**
+     * 设置存储引擎对象
+     */
+    Comic_Common.prototype.cache_set_engine = function (storage_engine) {
+        this.storage_engine = storage_engine
+    };
+
+    /**
+     * 返回存储引擎对象
+     * @return localStorage || sessionStorage
+     */
+    Comic_Common.prototype.cache_get_engine = function () {
+        switch(this.storage_engine) {
+        case 'local':
+            return window.localStorage
+        case 'session':
+            return window.sessionStorage
+        default:
+            throw new Error('存储引擎输入错误')
+        }
+    };
+
+    /**
      * 本地数据缓存-注意 2.5M 存储上限
      * @return bool
      */
-    Comic_Common.prototype.data_cache_set = function (cache_name, cache_data, ttl) {
+    Comic_Common.prototype.cache_data_set = function (cache_name, cache_data, ttl) {
+        var engine = this.cache_get_engine()
         try {
-            if(window.localStorage) {
+            if(engine) {
                 // Set
                 var time = parseInt(
                     (new Date().getTime()) / 1000
@@ -129,15 +179,15 @@
                     cache_data,
                     expire_at
                 }
-                localStorage.setItem(cache_name, JSON.stringify(new_data));
+                engine.setItem(cache_name, JSON.stringify(new_data));
                 return true;
             } else {
-                throw new Error("不支持 localStorage")
+                throw new Error("不支持当前存储方案")
             }
         } catch(e) {
             if(e.name === 'QuotaExceededError') {
                 console.warn('缓存存储失败信息:', '超出本地存储限额,即将清空本地所有此种缓存');
-                localStorage.clear();
+                engine.clear();
             } else {
                 console.warn('缓存存储失败信息:', e.message)
             }
@@ -148,11 +198,12 @@
      * 本地数据缓存-注意 2.5M 存储上限
      * @return Object
      */
-    Comic_Common.prototype.data_cache_get = function (cache_name) {
+    Comic_Common.prototype.cache_data_get = function (cache_name) {
+        var engine = this.cache_get_engine()
         try {
-            if(window.localStorage) {
+            if(engine) {
 
-                var old_data = localStorage.getItem(cache_name);
+                var old_data = engine.getItem(cache_name);
                 if(!old_data) {
                     throw new Error("缓存失效")
                 }
@@ -162,12 +213,12 @@
                     (new Date().getTime()) / 1000
                 );
                 if(current_time > old_data.expire_at) {
-                    localStorage.removeItem(cache_name);
+                    engine.removeItem(cache_name);
                     throw new Error("缓存过期")
                 }
-                return old_data
+                return old_data.cache_data
             } else {
-                throw new Error("不支持 localStorage")
+                throw new Error("不支持当前存储方案")
             }
         } catch(e) {
             console.warn('错误信息:', e.message)

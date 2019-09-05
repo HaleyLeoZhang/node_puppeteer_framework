@@ -20,6 +20,7 @@ CREATE TABLE `images` (
   `is_deleted` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '枚举值：0=>正常，1删除',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  KEY `idx-page_id` (`page_id`),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='漫画章节对应图片列表';
 
@@ -34,6 +35,7 @@ CREATE TABLE `pages` (
   `is_deleted` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '枚举值：0=>正常，1删除',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  KEY `idx-channel-comic_id` (`channel`,`comic_id`),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='漫画章节列表';
 

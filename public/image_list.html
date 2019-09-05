@@ -1,0 +1,37 @@
+<html>
+
+    <head>
+        <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="./libs/css/image.css">
+        <title>漫画图片列表</title>
+    </head>
+
+    <body>
+        <h5 id="just_look"></h5>
+        <div class="clear"></div>
+        <div id="skip">
+            <input type="button" id="show" value="返回章节列表">
+        </div>
+        <div class="clear"></div>
+        <div id="container">
+            <div id="chapter_name"></div>
+            <div class="clear"></div>
+            <div id="image_list">
+                <!-- <img class="lazy" src="http://mhpic.zymkcdn.com/comic/L/龙族Ⅱ/01话/1.jpg-mht.middle"> -->
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+        <button class="next">下一页</button> <span id="top">    顶部  </span>
+        <!-- JS Lib -->
+        <script src="https://cdn.staticfile.org/jquery/2.1.4/jquery.min.js" title="插件基础服务"></script>
+        <script src="https://cdn.staticfile.org/jquery_lazyload/1.9.7/jquery.lazyload.min.js"></script>
+        <script src="https://cdn.staticfile.org/layer/2.3/layer.js"></script>
+        <!-- Init -->
+        <script src="./libs/js/common.js"></script>
+        <!-- Bussiness -->
+        <script src="./libs/logic/image.js"></script>
+    </body>
+
+</html>
