@@ -137,3 +137,9 @@ power management:
 ~~~bash
 /usr/sbin/node /data/common/node_puppeteer_example/es5/app.js comic mhn_images  >> /dev/null 2>&1
 ~~~
+
+
+### 查看漫画
+
+打开 `public/index.html` 即可开始体验
+
