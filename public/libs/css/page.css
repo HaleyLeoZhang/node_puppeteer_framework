@@ -1,0 +1,23 @@
+body{
+    background: #d0d5f7;
+}
+.btn-1 {
+    color: #333;
+    background-color: #fff;
+    min-width: 170px;
+    line-height: 26px;
+    padding: 15px 40px;
+    border-radius: 30px;
+    margin: 30px 0;
+
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid transparent;
+    white-space: nowrap;
+}
+span#comic_title {
+    color: #33a0d6;
+    margin-left: 0.5em;
+}

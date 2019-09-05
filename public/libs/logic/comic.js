@@ -24,7 +24,7 @@
 
             id = id_info.join("_")
             template += `
-                <a href="#" id="${id}" class="go_to_module">
+                <a href="#" id="${id}" class="go_to_module" data-title="${item.name}" data-comic_id ="${item.comic_id}" data-channel ="${item.channel}">
                     <li class="scene">
                         <div class="movie" onclick="return true">
                             <div class="poster" style="background-image: url(${item.pic});"></div>
@@ -59,12 +59,26 @@
      * 代理
      */
     Comic.prototype.action_go_to_page = function() {
-        $("#book_list").delegate("")
+        $("#book_list").delegate(".go_to_module", "click", function(){
+            var it = this;
+            var data = {
+                channel: $(it).data("channel"),
+                comic_id: $(it).data("comic_id"),
+                title: $(it).data("title"),
+            }
+            var query_string = ComicCommon.json_to_query(data)
+            window.open('./page_list.html?' + query_string)
+        })
     };
     Comic.prototype.run_app = function () {
         var _this = this;
 
         _this.get_list()
+        _this.action_go_to_page()
+
+        ComicCommon.reach_page_bottom(function(){
+            _this.get_list()
+        })//
 
     };
     App_Comic.run_app()

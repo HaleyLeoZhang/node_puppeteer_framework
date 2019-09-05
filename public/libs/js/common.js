@@ -17,17 +17,24 @@
 
         this.load_switch = 'on'; // 加载层
         this.page_load_index = 0; // 加载层索引号
+
+        this.page_lock = false; // 下拉加载,锁
     }
     window.ComicCommon = new Comic_Common();
 
     /**
-     * 封装 Ajax
+     * 封装下拉加载 Ajax
      * @param string api 接口地址
      * @param json param http入参
      * @param callable callback 获取ajax后的回调,会被注入回调列表数据 
      */
     Comic_Common.prototype.get_list = function (api, param, callback) {
         var _this = this;
+
+        if(_this.page_lock) {
+            return
+        }
+        _this.page_lock = true
 
         _this.loading_layer('open')
 
@@ -42,9 +49,11 @@
                     layer.alert(res.message)
                 }
                 _this.loading_layer('close')
+                _this.page_lock = false
             },
             'error': function () {
                 _this.loading_layer('close')
+                _this.page_lock = false
             }
         });
     };
@@ -82,6 +91,24 @@
             data_attribute: 'original', // data-original属性
         });
 
+    };
+
+    /**
+     * 到页底触发回调
+     * @param callable callback 回调功能
+     */
+    Comic_Common.prototype.reach_page_bottom = function (callback) {
+        var _this = this;
+        $(window).scroll(function () {
+            var tolerant = 5; // 容差值
+            var scroll = parseInt(document.documentElement.scrollTop || document.body.scrollTop);
+            // - 计算当前页面高度
+            var tag_position = document.body.scrollHeight;
+            var now = scroll + document.documentElement.clientHeight + tolerant;
+            if(now >= tag_position) {
+                callback()
+            }
+        });
     };
 
     // 本地缓存
@@ -148,5 +175,25 @@
         }
     };
 
+    // 工具
+
+    Comic_Common.prototype.json_to_query = function (json) {
+        return Object.keys(json).map(function (key) {
+            // body...
+            return encodeURIComponent(key) + "=" + encodeURIComponent(json[key]);
+        }).join("&");
+    }
+
+    /**
+     * 获取 get 参数
+     */
+    Comic_Common.prototype.query_param = function (param_name) {
+        var reg = new RegExp('(^|&)' + param_name + '=([^&]*)(&|$)', 'i');
+        var r = window.location.search.substr(1).match(reg);
+        if(r != null) {
+            return decodeURIComponent(r[2]);
+        }
+        return '';
+    }
 
 })(jQuery, window);
