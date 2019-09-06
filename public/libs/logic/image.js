@@ -100,13 +100,17 @@
     };
 
     /**
-     * 进入一页
+     * 进入下一页
      */
     Image.prototype.action_go_to_next = function () {
         var _this = this
         $('#trigger_next').on('click', function () {
             var data = {
                 id: _this.detail.next_page.id,
+            }
+            if(!data.id){
+                layer.msg('已经是最后一页了哟')
+                return
             }
             var query_string = ComicCommon.json_to_query(data)
             location.href = ComicCommon.comic_html.image + '?' + query_string

@@ -75,7 +75,7 @@
 
         ComicCommon.reach_page_bottom(function () {
             _this.get_list()
-        }) //
+        })
 
     };
     App_Comic.run_app()

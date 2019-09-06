@@ -82,7 +82,7 @@
         cache_info.push(param.channel)
         cache_info.push(param.comic_id)
         cache_name = cache_info.join('_')
-        console.log(cache_name)
+        // console.log(cache_name)
         cache_data = ComicCommon.cache_data_get(cache_name)
 
         var callback = function (list) {

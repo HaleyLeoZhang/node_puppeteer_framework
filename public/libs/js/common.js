@@ -228,7 +228,6 @@
             }
         } catch(e) {
             console.warn('错误信息:', e.message)
-            console.error(e)
             return null
         }
     };

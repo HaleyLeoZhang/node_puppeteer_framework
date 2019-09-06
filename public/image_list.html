@@ -8,22 +8,25 @@
     </head>
 
     <body>
-        <h5 id="just_look"></h5>
-        <div class="clear"></div>
-        <div id="skip">
-            <input type="button" id="show" value="返回章节列表">
-        </div>
-        <div class="clear"></div>
-        <div id="container">
-            <div id="chapter_name"></div>
+        <header>
+            <h5 id="just_look"></h5>
             <div class="clear"></div>
-            <div id="image_list">
-                <!-- <img class="lazy" src="http://mhpic.zymkcdn.com/comic/L/龙族Ⅱ/01话/1.jpg-mht.middle"> -->
+        </header>
+        <div >
+            <div id="skip">
+                <input type="button" id="show" value="返回章节列表">
+                <div class="clear"></div>
             </div>
-            <div class="clear"></div>
+            <div id="container">
+                <div id="chapter_name"></div><div class="clear"></div>
+                <div id="image_list"></div>
+            </div>
+            <div>
+                <button class="next" id="trigger_next">下一页</button> 
+                <span id="top">    顶部  </span>
+            </div>
+
         </div>
-        <div class="clear"></div>
-        <button class="next" id="trigger_next">下一页</button> <span id="top">    顶部  </span>
         <!-- JS Lib -->
         <script src="https://cdn.staticfile.org/jquery/2.1.4/jquery.min.js" title="插件基础服务"></script>
         <script src="https://cdn.staticfile.org/jquery_lazyload/1.9.7/jquery.lazyload.min.js"></script>
