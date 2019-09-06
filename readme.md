@@ -15,6 +15,8 @@
 
 [点此体验](http://comic.pre.hlzblog.top/)  
 
+#### 给我留言
+[点此进入](http://www.hlzblog.top/board)  
 
 ## 起步
 
@@ -84,6 +86,8 @@ gulp start
 ~~~bash
 # 切换到普通用户(示例:用户名 hlz)
 su hlz
+# 给予可执行权限
+chmod 755 es5/app.js
 # 运行应用,示例运行 
 node es5/app.js comic mhn_pages
 ~~~

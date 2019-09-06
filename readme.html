@@ -711,6 +711,8 @@ blockquote {
 <p><a href="./readme_intro/imgs/readme_intro/imgs/preview_chapter.png">章节列表页</a><br><code>图 0002</code>  </p>
 <p><a href="./readme_intro/imgs/readme_intro/imgs/preview_detail.png">章节漫画页</a><br><code>图 0003</code>  </p>
 <p><a href="http://comic.pre.hlzblog.top/">点此体验</a>  </p>
+<h4 id="-">给我留言</h4>
+<p><a href="http://www.hlzblog.top/board">点此进入</a>  </p>
 <h2 id="-">起步</h2>
 <blockquote>
 <p>配置</p>
@@ -752,7 +754,9 @@ gulp start
 <h3 id="-">运行</h3>
 <p>请使用普通用户权限运行,否则chrome无法调起  </p>
 <pre><code class="hljsbash"><span class="hljs-comment"># 切换到普通用户(示例:用户名 hlz)</span>
-<span class="hljs-title">su</span> hlz
+su hlz
+<span class="hljs-comment"># 给予可执行权限</span>
+<span class="hljs-keyword">chmod</span> <span class="hljs-number">755</span> es5/app.js
 <span class="hljs-comment"># 运行应用,示例运行 </span>
 node es5/app.js comic mhn_pages
 </code></pre>
