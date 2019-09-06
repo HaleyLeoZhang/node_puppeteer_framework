@@ -66,6 +66,14 @@ body {
   border:none;
   background:rgb(220,250,200)
 }
+
+#chapter_name{
+  color: #fff;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  text-align: center;
+}
+
 @media screen and (min-width:960px) {
   #top {
   width:30px;
@@ -84,10 +92,4 @@ body {
   background:rgb(220,250,200);
   margin-top:20px;
   margin-bottom:20px
-}
-
-#chapter_name{
-  color: #fff;
-  padding-top: 1em;
-  text-align: center;
 }

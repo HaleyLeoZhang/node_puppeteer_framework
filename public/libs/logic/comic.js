@@ -52,11 +52,11 @@
         ComicCommon.get_list(ComicCommon.api.comic_list, param, function (list) {
             var processed_html = _this.render_html(list)
             _this.page++
-            $(_this.target_append).append(processed_html)
+                $(_this.target_append).append(processed_html)
         })
     };
-    Comic.prototype.action_go_to_page = function() {
-        $(this.target_append).delegate(".go_to_module", "click", function(){
+    Comic.prototype.action_go_to_page = function () {
+        $(this.target_append).delegate(".go_to_module", "click", function () {
             var it = this;
             var data = {
                 channel: $(it).data("channel"),
@@ -64,7 +64,7 @@
                 title: $(it).data("title"),
             }
             var query_string = ComicCommon.json_to_query(data)
-            window.open('./page_list.html?' + query_string)
+            location.href = ComicCommon.comic_html.page + '?' + query_string
         })
     };
     Comic.prototype.run_app = function () {
@@ -73,9 +73,9 @@
         _this.get_list()
         _this.action_go_to_page()
 
-        ComicCommon.reach_page_bottom(function(){
+        ComicCommon.reach_page_bottom(function () {
             _this.get_list()
-        })//
+        }) //
 
     };
     App_Comic.run_app()

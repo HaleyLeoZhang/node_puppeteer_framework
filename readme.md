@@ -1,7 +1,20 @@
-##### 法律声明
+#### 法律声明
 此代码仅供学习  
 所爬取内容禁止商用  
 最终解释权归作者 [云天河](https://github.com/haleyleozhang) 所有  
+
+#### 效果预览
+[首页](./readme_intro/imgs/preview_index.png)  
+`图 0001`  
+
+[章节列表页](./readme_intro/imgs/readme_intro/imgs/preview_chapter.png)  
+`图 0002`  
+
+[章节漫画页](./readme_intro/imgs/readme_intro/imgs/preview_detail.png)  
+`图 0003`  
+
+[点此体验](http://comic.pre.hlzblog.top/)  
+
 
 ## 起步
 
@@ -143,6 +156,11 @@ power management:
 /usr/sbin/node /data/common/node_puppeteer_example/es5/app.js comic mhn_images  >> /dev/null 2>&1
 ~~~
 
+### API
+本次接口使用`golang`实现  
+
+##### 对应项目地址
+[github.com/HaleyLeoZhang/node_puppeteer_example_go](https://github.com/HaleyLeoZhang/node_puppeteer_example_go)  
 
 ### 查看漫画
 

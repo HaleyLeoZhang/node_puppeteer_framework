@@ -15,6 +15,12 @@
             image_list: 'http://puppeteer.hlzblog.top/api/comic/image_list', // 漫画章节对应图片列表
             page_detail: 'http://puppeteer.hlzblog.top/api/comic/page_detail', // 漫画章节详情
         };
+        // 页面列表
+        this.comic_html = {
+            comic: "./index.html",
+            image: "./image_list.html",
+            page: "./page_list.html",
+        }
 
         this.load_switch = 'on'; // 加载层
         this.page_load_index = 0; // 加载层索引号
@@ -222,6 +228,7 @@
             }
         } catch(e) {
             console.warn('错误信息:', e.message)
+            console.error(e)
             return null
         }
     };

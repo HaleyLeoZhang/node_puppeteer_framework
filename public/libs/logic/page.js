@@ -46,7 +46,7 @@
         cache_info.push(ComicCommon.query_param('comic_id'))
         cache_name = cache_info.join('_')
 
-        ComicCommon.cache_data_get('local')
+        ComicCommon.cache_set_engine('local')
         cache_data = ComicCommon.cache_data_get(cache_name)
 
         if(cache_data){
@@ -58,7 +58,7 @@
     Page.prototype.set_title = function () {
         var title = ComicCommon.query_param('title')
         document.title = title
-        $("#comic_title").html(`《${title}》`)
+        $("#comic_title").html(`${title}`)
     };
 
     /**
@@ -73,6 +73,7 @@
             comic_id: ComicCommon.query_param('comic_id'),
         }
 
+        ComicCommon.cache_set_engine('session')
         var cache_name = ''
         var cache_info = []
         var cache_data = null
@@ -94,6 +95,7 @@
         } else {
             ComicCommon.get_list(ComicCommon.api.page_list, param, function (list) {
                 callback(list)
+                ComicCommon.cache_set_engine('session')
                 ComicCommon.cache_data_set(cache_name, list, cache_ttl)
             })
         }
@@ -106,7 +108,12 @@
                 id: $(it).data("page_id"),
             }
             var query_string = ComicCommon.json_to_query(data)
-            location.href = './image_list.html?' + query_string
+            location.href = ComicCommon.comic_html.image + '?' + query_string
+        })
+    };
+    Page.prototype.action_go_to_comic_list = function(){
+        $(".back_list").on("click",function(){
+            location.href = ComicCommon.comic_html.comic
         })
     };
     Page.prototype.run_app = function () {
@@ -115,6 +122,7 @@
         _this.set_title()
         _this.get_list()
         _this.action_to_see_images()
+        _this.action_go_to_comic_list()
 
     };
     App_Page.run_app()

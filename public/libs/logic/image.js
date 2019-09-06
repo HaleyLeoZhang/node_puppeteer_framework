@@ -29,7 +29,7 @@
 
     Image.prototype.set_info = function () {
         var _this = this
-        document.title = _this.detail.comic.name
+        document.title = ' 第 ' +  _this.detail.page.sequence + ' 话'  + ' | ' + _this.detail.comic.name
         $('#chapter_name').html(_this.detail.page.name)
         // $("#comic_title").html(`《${title}》`)
     };
@@ -58,7 +58,7 @@
         var _this = this;
 
         var param = {
-            id: ComicCommon.query_param('id'),
+            page_id: ComicCommon.query_param('id'),
         }
         ComicCommon.get_info(ComicCommon.api.page_detail, param, function (detail) {
             _this.detail = detail
@@ -74,8 +74,8 @@
             var cache_ttl = 3600 * 24 * 30 // 缓存 30 天
 
             cache_info.push('history_read')
-            cache_info.push(detail.channel)
-            cache_info.push(detail.comic_id)
+            cache_info.push(detail.comic.channel)
+            cache_info.push(detail.comic.comic_id)
             cache_name = cache_info.join('_')
             cache_data = ComicCommon.cache_data_set(cache_name, cache_data, cache_ttl)
 
@@ -94,7 +94,7 @@
                 title: _this.detail.comic.name,
             }
             var query_string = ComicCommon.json_to_query(data)
-            window.location.href = './page_list.html?' + query_string
+            window.location.href = ComicCommon.comic_html.page + '?'  + query_string
         })
 
     };
@@ -109,17 +109,22 @@
                 id: _this.detail.next_page.id,
             }
             var query_string = ComicCommon.json_to_query(data)
-            location.href = './?' + query_string
-            console.log()
+            location.href = ComicCommon.comic_html.image + '?' + query_string
         })
-
     };
 
+    Image.prototype.action_go_to_head = function () {
+        $("#top").on("click", function(){
+            window.scrollTo(0,0)
+        })
+    }
 
     Image.prototype.check_detail = function () {
         if(!this.detail){
             layer.msg('客官请稍等哦~')
+            return false
         }
+        return true
     }
 
     Image.prototype.run_app = function () {
@@ -129,6 +134,7 @@
         _this.get_page_detail()
         _this.action_back_page_list()
         _this.action_go_to_next()
+        _this.action_go_to_head()
 
     };
     App_Image.run_app()
