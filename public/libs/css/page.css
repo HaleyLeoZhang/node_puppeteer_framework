@@ -1,6 +1,10 @@
-body{
+body {
     background: #d0d5f7;
+    margin: 0;
+    padding: 0;
+    height: 100%;
 }
+
 .btn-1 {
     color: #333;
     background-color: #fff;
@@ -17,18 +21,22 @@ body{
     border: 1px solid transparent;
     white-space: nowrap;
 }
+
 span#comic_title {
     color: #33a0d6;
     font-size: 36px;
 }
-.last_read{
+
+.last_read {
     background: #f3b1ac;
 }
+
 .back_list {
     font-size: 50%;
     padding-left: 1em;
     color: #bd9393;
 }
-.no_source{
+
+.no_source {
     color: silver;
 }
