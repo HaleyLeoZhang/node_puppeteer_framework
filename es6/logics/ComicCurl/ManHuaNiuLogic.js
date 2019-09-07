@@ -113,14 +113,16 @@ export default class ManHuaNiuLogic extends Base {
         const datas = this.filterImageList(imgs, id)
         // Log.log('datas')
         // Log.log(datas)
+        let _return = false
         if(0 == datas.length) {
             Log.log('暂无需要拉取的数据')
-            return false
-        }
-        await Image.insert(datas)
-            .then(insert_info => {
-                Log.log(`comic_id ${comic_id} page ${id} 章节 ${sequence} 对应图片拉取成功 ${JSON.stringify(insert_info)}`)
-            })
+        }else{
+            _return = true
+            await Image.insert(datas)
+                .then(insert_info => {
+                    Log.log(`comic_id ${comic_id} page ${id} 章节 ${sequence} 对应图片拉取成功 ${JSON.stringify(insert_info)}`)
+                })
+            }
         await this.saveImageSrcSuccess(id)
         return true
     }

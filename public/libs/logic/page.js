@@ -1,5 +1,10 @@
 (function ($, window, undefined) {
     'use strict';
+    var PROGRESS_STATUS = {
+        "wait": 0,
+        "handing": 1,
+        "done": 2,
+    }
 
     function Page() {
         this.target_append = '#chapter_list'
@@ -14,6 +19,7 @@
 
         var last_read_id = this.get_last_read_id();
         var add_read_mark = '';
+        var add_unreadable = '';
 
 
         for(; i < len; i++) {
@@ -25,9 +31,17 @@
                 add_read_mark = ''
             }
 
+            if(PROGRESS_STATUS.done == item.progress){
+                add_unreadable = ''
+            }else{
+                add_unreadable = 'no_source'
+            }
+
             template += `
                 <div class="col-xs-6 col-sm-4  col-md-3 col-lg-3">
-                    <a href="#__" class="btn btn-1 to_see_images ${add_read_mark}" data-page_id="${item.id}">${item.name}</a>
+                    <a href="#__" data-page_id="${item.id}"
+                    class="btn btn-1 to_see_images ${add_read_mark} ${add_unreadable}" 
+                    >${item.name}</a>
                 </div>
             `
         }
@@ -102,8 +116,12 @@
 
     };
     Page.prototype.action_to_see_images = function () {
-        $(this.target_append).delegate(".to_see_images", "click", function () {
+        $(this.target_append).delegate('.to_see_images', 'click', function () {
             var it = this;
+            if($(it).hasClass('no_source')){
+                layer.msg('该章节暂不可看')
+                return
+            }
             var data = {
                 id: $(it).data("page_id"),
             }
@@ -112,7 +130,7 @@
         })
     };
     Page.prototype.action_go_to_comic_list = function(){
-        $(".back_list").on("click",function(){
+        $('.back_list').on('click',function(){
             location.href = ComicCommon.comic_html.comic
         })
     };

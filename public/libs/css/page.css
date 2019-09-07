@@ -29,3 +29,6 @@ span#comic_title {
     padding-left: 1em;
     color: #bd9393;
 }
+.no_source{
+    color: silver;
+}
