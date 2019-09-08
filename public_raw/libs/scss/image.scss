@@ -64,9 +64,13 @@ body {
     padding-bottom: 1em;
     text-align: center;
 }
+#top{
+    display: none;
+}
 
 @media screen and (min-width:960px) {
     #top {
+        display: block;
         width: 30px;
         height: 45px;
         position: fixed;
