@@ -1,0 +1,70 @@
+/**
+ * 栅格系统
+ * 同义  https://www.runoob.com/bootstrap/bootstrap-grid-system.html
+ */
+$one_in_12 : (100/ 12);
+$block_of_6: ($one_in_12 * 6) ;
+$block_of_4: ($one_in_12 * 4) ;
+$block_of_3: ($one_in_12 * 3) ;
+
+@media screen and (max-width:768px)  {
+    .col-xs-6{
+        width: #{$block_of_6  + '%'};
+    }
+    .col-xs-4{
+        width: #{$block_of_4  + '%'};
+    }
+    .col-xs-3{
+        width: #{$block_of_3  + '%'};
+    }
+}
+@media screen and (min-width:768px)  {
+    .col-sm-6{
+        width: #{$block_of_6  + '%'};
+    }
+    .col-sm-4{
+        width: #{$block_of_4  + '%'};
+    }
+    .col-sm-3{
+        width: #{$block_of_3  + '%'};
+    }
+}
+@media screen and (min-width:992px)  {
+    .col-md-6{
+        width: #{$block_of_6  + '%'};
+    }
+    .col-md-4{
+        width: #{$block_of_4  + '%'};
+    }
+    .col-md-3{
+        width: #{$block_of_3  + '%'};
+    }
+}
+@media screen and (min-width:1200px)  {
+    .col-lg-6{
+        width: #{$block_of_6  + '%'};
+    }
+    .col-lg-4{
+        width: #{$block_of_4  + '%'};
+    }
+    .col-lg-3{
+        width: #{$block_of_3  + '%'};
+    }
+}
+
+.col-xs-6,.col-xs-4,.col-xs-3,
+.col-sm-6,.col-sm-4,.col-sm-3,
+.col-md-6,.col-md-4,.col-md-3,
+.col-lg-6,.col-lg-4,.col-lg-3
+{
+    float: left;
+    min-height: 1px;
+}
+
+.container {
+    width: 90%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}

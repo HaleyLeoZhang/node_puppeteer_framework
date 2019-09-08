@@ -1,16 +1,20 @@
 {
-    "name": "puppeteer_get_163_comments",
-    "version": "3.0.0",
-    "description": "puppeteer_get_163_comments",
+    "name": "node_puppeteer_framework",
+    "version": "1.0.0",
+    "description": "node_puppeteer_framework",
     "main": "gulpfile.js",
     "dependencies": {
         "babel": "^6.23.0",
         "babel-core": "^6.26.3",
         "gulp": "^3.9.1",
+        "gulp-autoprefixer": "^4.1.0",
+        "gulp-clean-css": "^3.9.2",
         "gulp-jshint": "^2.1.0",
+        "gulp-sass": "^3.1.0",
         "jshint": "^2.9.5",
         "mysql2": "^1.6.5",
         "node-bugjs": "^2.0.1",
+        "node-sass": "^4.12.0",
         "puppeteer": "^1.19.0",
         "redis": "^2.8.0",
         "run-sequence": "^2.2.1",
@@ -27,15 +31,15 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://gitee.com/haleyleozhang/puppeteer_get_163_comments.git"
+        "url": "git+https://github.com/HaleyLeoZhang/node_puppeteer_framework.git"
     },
     "keywords": [
-        "hlzblog"
+        "HaleyLeoZhang"
     ],
     "author": "HaleyLeoZhang",
     "license": "ISC",
     "bugs": {
-        "url": "https://gitee.com/haleyleozhang/puppeteer_get_163_comments/issues"
+        "url": "https://github.com/HaleyLeoZhang/node_puppeteer_framework/issues"
     },
-    "homepage": "https://gitee.com/haleyleozhang/puppeteer_get_163_comments#readme"
+    "homepage": "https://github.com/HaleyLeoZhang/node_puppeteer_framework#readme"
 }

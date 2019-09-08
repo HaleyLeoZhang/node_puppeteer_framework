@@ -1,0 +1,87 @@
+@import 'comon.scss';
+body {
+    background-color: black;
+}
+
+.clear {
+    width: 100%;
+    height: 0;
+    clear: both;
+}
+
+#skip {
+    width: 100%;
+    height: 40px;
+    margin: 0;
+    padding: 0;
+    input[type="button"] {
+        font-weight: 700;
+        margin: 0;
+        float: left;
+        width: 100%;
+        height: 40px;
+        font-size: px2rem(17px);
+        color: rgb(84, 126, 86);
+        cursor: pointer;
+        outline: none;
+        padding: 10px 10px;
+        border: none;
+        background: rgb(220, 250, 200);
+    }
+}
+
+#container {
+    margin: 0;
+    padding: 0;
+    img {
+        width: 100%;
+        clear: both;
+    }
+    .no_pic {
+        color: #fff;
+        text-align: center;
+        height: 50px;
+        line-height: 35px;
+    }
+}
+
+.next {
+    width: 100%;
+    font-family: 微软雅黑;
+    font-weight: 700;
+    color: rgb(84, 126, 86);
+    cursor: pointer;
+    outline: none;
+    padding: 10px 10px;
+    font-size: px2rem(17px);
+    border: none;
+    background: rgb(220, 250, 200)
+}
+
+#chapter_name {
+    color: #fff;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    text-align: center;
+}
+
+@media screen and (min-width:960px) {
+    #top {
+        width: 30px;
+        height: 45px;
+        position: fixed;
+        bottom: 130px;
+        right: 20px;
+        font-family: 微软雅黑;
+        font-weight: 700;
+        color: rgb(84, 126, 86);
+        cursor: pointer;
+        outline: none;
+        padding: 10px 10px;
+        font-size: px2rem(17px);
+        border: none;
+        background: rgb(220, 250, 200);
+        margin-top: 20px;
+        margin-bottom: 20px
+    }
+}

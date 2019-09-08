@@ -1,6 +1,12 @@
 (function ($, window, undefined) {
     'use strict';
 
+    var PROGRESS_STATUS = {
+        "wait": 0,
+        "handing": 1,
+        "done": 2,
+    }
+
     function Image() {
         this.target_append = '#image_list'
         this.real_index = 5 // 从第几张开始,可以懒加载图片
@@ -29,7 +35,7 @@
 
     Image.prototype.set_info = function () {
         var _this = this
-        document.title = ' 第 ' +  _this.detail.page.sequence + ' 话'  + ' | ' + _this.detail.comic.name
+        document.title = ' 第 ' + _this.detail.page.sequence + ' 话' + ' | ' + _this.detail.comic.name
         $('#chapter_name').html(_this.detail.page.name)
         // $("#comic_title").html(`《${title}》`)
     };
@@ -94,7 +100,7 @@
                 title: _this.detail.comic.name,
             }
             var query_string = ComicCommon.json_to_query(data)
-            window.location.href = ComicCommon.comic_html.page + '?'  + query_string
+            window.location.href = ComicCommon.comic_html.page + '?' + query_string
         })
 
     };
@@ -108,7 +114,11 @@
             var data = {
                 id: _this.detail.next_page.id,
             }
-            if(!data.id){
+            if(PROGRESS_STATUS.done != _this.detail.next_page.progress) {
+                layer.msg('下一章节暂不可看')
+                return
+            }
+            if(!data.id) {
                 layer.msg('已经是最后一页了哟')
                 return
             }
@@ -118,13 +128,13 @@
     };
 
     Image.prototype.action_go_to_head = function () {
-        $("#top").on("click", function(){
-            window.scrollTo(0,0)
+        $("#top").on("click", function () {
+            window.scrollTo(0, 0)
         })
     }
 
     Image.prototype.check_detail = function () {
-        if(!this.detail){
+        if(!this.detail) {
             layer.msg('客官请稍等哦~')
             return false
         }

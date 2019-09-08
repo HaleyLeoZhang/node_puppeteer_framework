@@ -38,9 +38,10 @@
             }
 
             template += `
-                <div class="col-xs-6 col-sm-4  col-md-3 col-lg-3">
+                <div class="col-xs-6 col-sm-4  col-md-4 col-lg-3">
                     <a href="#__" data-page_id="${item.id}"
                     class="btn btn-1 to_see_images ${add_read_mark} ${add_unreadable}" 
+                    title="${item.name}" alt="${item.name}"
                     >${item.name}</a>
                 </div>
             `

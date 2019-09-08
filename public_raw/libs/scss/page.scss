@@ -1,0 +1,89 @@
+@import 'comon.scss';
+@import 'grid_system.scss';
+body {
+    background: #d0d5f7;
+}
+h1{
+    font-weight: 500
+}
+
+.btn{
+    display: inline-block;
+    padding: px2rem(6px) px2rem(12px);
+    margin-bottom: 0;
+    font-size: px2rem(14px);
+    font-weight: 400;
+    line-height: px2rem(25px);
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    touch-action: manipulation;
+    cursor: pointer;
+    user-select: none;
+    background-image: none;
+    border: px2rem(1px) solid transparent;
+    border-radius: px2rem(4px);
+}
+.btn-1 {
+    color: #333;
+    background-color: #fff;
+    line-height: px2rem(26px);
+    padding: px2rem(15px) px2rem(20px);
+    border-radius: px2rem(40px);
+    margin: 10px 0;
+
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid transparent;
+    white-space: nowrap;
+
+    font-size: px2rem(14px);
+    line-height: px2rem(20px);
+    letter-spacing: .1em;
+
+    word-wrap: break-word;
+    word-break: break-all;
+    overflow: hidden;
+
+}
+
+#comic_title {
+    color: #33a0d6;
+    font-size: 36px;
+}
+
+.last_read {
+    background: #f3b1ac;
+}
+
+.back_list {
+    font-size: 50%;
+    padding-left: 1em;
+    color: #bd9393;
+}
+
+.no_source {
+    color: silver;
+}
+
+
+
+@media screen and (max-width:768px)  {
+    .btn-1{
+        width: px2rem(120px);
+    }
+}
+@media screen and (min-width:768px)  {
+    .btn-1{
+        width: px2rem(150px);
+    }}
+@media screen and (min-width:992px)  {
+    .btn-1{
+        width: px2rem(200px);
+    }}
+@media screen and (min-width:1200px)  {
+    .btn-1{
+        width: px2rem(200px);
+    }}
