@@ -23,7 +23,8 @@
         }
 
         this.load_switch = 'on'; // 加载层
-        this.page_load_index = 0; // 加载层索引号
+        this.load_target = 'body'; // 加载层目标ID
+        // this.page_load_index = 0; // 加载层索引号
 
         this.page_lock = false; // 下拉加载,锁
 
@@ -99,10 +100,24 @@
         if('on' == this.load_switch) {
             switch(action) {
             case 'open':
-                _this.page_load_index = layer.load(0, { shade: [0.5, '#fff'] });
+                var loading_tpl =`
+                    <div class="spinner">
+                        <div class="bounce1"></div>
+                        <div class="bounce2"></div>
+                        <div class="bounce3"></div>
+                    </div>
+                `
+                var is_exists = Boolean(document.getElementsByClassName('spinner').length)
+                if(is_exists){
+                    $('.spinner').show()
+                }else{
+                    $(_this.load_target).append(loading_tpl)
+                }
+                // _this.page_load_index = layer.load(0, { shade: [0.5, '#fff'] });
                 break;
             case 'close':
-                layer.close(_this.page_load_index);
+                $('.spinner').hide()
+                // layer.close(_this.page_load_index);
                 break;
             default:
                 throw new Error("入参错误: 供选择的入参 open 、 close");

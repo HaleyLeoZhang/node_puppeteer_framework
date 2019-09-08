@@ -4,6 +4,7 @@
     function Comic() {
         this.page = 1; // 初始拉取位置
         this.target_append = '#book_list'
+        this.scroll_trigger = true
     }
     window.App_Comic = new Comic();
 
@@ -50,6 +51,11 @@
             page: _this.page,
         }
         ComicCommon.get_list(ComicCommon.api.comic_list, param, function (list) {
+            if(0 == list.length){
+                layer.msg('没有更多了')
+                _this.scroll_trigger = false
+                return
+            }
             var processed_html = _this.render_html(list)
             _this.page++
                 $(_this.target_append).append(processed_html)
@@ -74,7 +80,9 @@
         _this.action_go_to_page()
 
         ComicCommon.reach_page_bottom(function () {
-            _this.get_list()
+            if(_this.scroll_trigger){
+                _this.get_list()
+            }
         })
 
     };

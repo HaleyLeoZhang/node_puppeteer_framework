@@ -1,0 +1,38 @@
+.spinner {
+    margin: px2rem(50px) auto px2rem(50px);
+    width: px2rem(300px);
+    text-align: center;
+    $spinner_div_h: px2rem(50px);
+    div {
+        width: $spinner_div_h;
+        height: $spinner_div_h;
+        background-color: #e7d7d7;
+        border-radius: 100%;
+        display: inline-block;
+        animation: bouncedelay 1.4s infinite ease-in-out;
+        animation-fill-mode: both;
+    }
+    .bounce1 {
+        animation-delay: -0.32s;
+    }
+    .bounce2 {
+        animation-delay: -0.16s;
+    }
+    .bounce3 {
+        animation-delay: -0s;
+    }
+}
+
+
+@keyframes bouncedelay {
+    0%,
+    80%,
+    100% {
+        transform: scale(0.0);
+        -webkit-transform: scale(0.0);
+    }
+    40% {
+        transform: scale(1.0);
+        -webkit-transform: scale(1.0);
+    }
+}
