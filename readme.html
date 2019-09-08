@@ -764,11 +764,11 @@ node es5/app.js comic mhn_pages
 <p>内容依次为</p>
 <ul>
 <li>A: 每3小时,获取最新章节内容</li>
-<li>B: 每30分钟,获取最新图片地址信息</li>
+<li>B: 每20分钟,获取最新图片地址信息</li>
 <li>C: 每4小时,还原未拉取图片成功的章节</li>
 </ul>
 <pre><code class="hljsbash"><span class="hljs-number">0</span> *<span class="hljs-regexp">/3 * * * /usr</span><span class="hljs-regexp">/sbin/node</span> /data/common/node_puppeteer_example/es5/app.js comic mhn_pages <span class="hljs-prompt">&gt;&gt; </span>/dev/null <span class="hljs-number">2</span>&gt;&amp;<span class="hljs-number">1</span>
-<span class="hljs-number">30</span> * * * * <span class="hljs-regexp">/usr/sbin</span><span class="hljs-regexp">/node /data</span><span class="hljs-regexp">/common/node</span>_puppeteer_example/es5/app.js comic mhn_images <span class="hljs-prompt">&gt;&gt; </span>/dev/null <span class="hljs-number">2</span>&gt;&amp;<span class="hljs-number">1</span>
+*<span class="hljs-regexp">/20 * * * * /usr</span><span class="hljs-regexp">/sbin/node</span> /data/common/node_puppeteer_example/es5/app.js comic mhn_images <span class="hljs-prompt">&gt;&gt; </span>/dev/null <span class="hljs-number">2</span>&gt;&amp;<span class="hljs-number">1</span>
 <span class="hljs-number">35</span> *<span class="hljs-regexp">/4 * * * /usr</span><span class="hljs-regexp">/sbin/node</span> /data/common/node_puppeteer_example/es5/app.js comic mhn_clear <span class="hljs-prompt">&gt;&gt; </span>/dev/null <span class="hljs-number">2</span>&gt;&amp;<span class="hljs-number">1</span>
 </code></pre>
 <p>如果执行定时任务 B 有中断 你可以通过如下命令 恢复未完成的下载</p>

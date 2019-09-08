@@ -96,12 +96,12 @@ node es5/app.js comic mhn_pages
 内容依次为
 
 - A: 每3小时,获取最新章节内容
-- B: 每30分钟,获取最新图片地址信息
+- B: 每20分钟,获取最新图片地址信息
 - C: 每4小时,还原未拉取图片成功的章节
 
 ~~~bash
 0 */3 * * * /usr/sbin/node /data/common/node_puppeteer_example/es5/app.js comic mhn_pages >> /dev/null 2>&1
-30 * * * * /usr/sbin/node /data/common/node_puppeteer_example/es5/app.js comic mhn_images >> /dev/null 2>&1
+*/20 * * * * /usr/sbin/node /data/common/node_puppeteer_example/es5/app.js comic mhn_images >> /dev/null 2>&1
 35 */4 * * * /usr/sbin/node /data/common/node_puppeteer_example/es5/app.js comic mhn_clear >> /dev/null 2>&1
 ~~~
 
