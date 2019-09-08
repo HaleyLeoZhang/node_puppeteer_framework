@@ -114,12 +114,12 @@
             var data = {
                 id: _this.detail.next_page.id,
             }
-            if(PROGRESS_STATUS.done != _this.detail.next_page.progress) {
-                layer.msg('下一章节暂不可看')
-                return
-            }
             if(!data.id) {
                 layer.msg('已经是最后一页了哟')
+                return
+            }
+            if(PROGRESS_STATUS.done != _this.detail.next_page.progress) {
+                layer.msg('下一章节暂不可看')
                 return
             }
             var query_string = ComicCommon.json_to_query(data)

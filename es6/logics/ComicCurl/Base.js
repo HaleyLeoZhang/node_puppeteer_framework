@@ -51,10 +51,11 @@ class BaseProcess {
     }
     static saveImageSrcWait(id){
         const update = {
-            "progress": PROGRESS_DOING
+            "progress": PROGRESS_WAIT
         }
         const where = {
-            id
+            id,
+            "progress": PROGRESS_DOING
         } 
         const promise = Page.update(update, where)
         return promise
