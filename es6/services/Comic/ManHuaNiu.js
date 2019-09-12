@@ -10,10 +10,12 @@ class ManHuaNiu extends Base {
      * 获取主线查看地址
      */
     static async get_images_pages(comic_id) {
+        const _this = this;
         const browser = await puppeteer.launch(BROWSER);
         const page = await browser.newPage();
         let info = {hrefs:[], titles:[], comic_id}
         try {
+            page.setUserAgent(_this.get_fake_ua());
             await page.goto(`${HOST}/manhua/${comic_id}/`);
             // Log.log('start');
 
@@ -47,6 +49,7 @@ class ManHuaNiu extends Base {
     }
 
     static async get_images(link) {
+        const _this = this;
         const browser = await puppeteer.launch(BROWSER);
         const page = await browser.newPage();
 
@@ -54,6 +57,7 @@ class ManHuaNiu extends Base {
 
         try {
             await page.goto(link);
+            page.setUserAgent(_this.get_fake_ua());
 
             let total = await page.evaluate(() => {
                 var _total = $("#k_total").text()
@@ -66,6 +70,7 @@ class ManHuaNiu extends Base {
             for(let i = 1, _link = ""; i <= total; i++) {
                 _link = `${_raw_link}-${i}.html`
                 await page.goto(_link)
+                page.setUserAgent(_this.get_fake_ua());
                 let img = await page.evaluate(() => {
                     var _img = $(".mip-fill-content.mip-replaced-content").attr("src")
                     return _img

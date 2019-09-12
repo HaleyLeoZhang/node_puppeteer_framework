@@ -224,7 +224,7 @@ class Handler {
                 password: one_dsn.password,
                 database: one_dsn.database,
                 waitForConnections: true,
-                connectionLimit: 100,
+                connectionLimit: one_dsn.connection_limit,
                 queueLimit: 0
             });
             this.instance[db_unique_name] = POOL

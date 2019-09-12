@@ -16,6 +16,7 @@
         "node-bugjs": "^2.0.1",
         "node-sass": "^4.12.0",
         "puppeteer": "^1.19.0",
+        "random-useragent": "^0.3.1",
         "redis": "^2.8.0",
         "run-sequence": "^2.2.1",
         "watchify": "^3.9.0"
