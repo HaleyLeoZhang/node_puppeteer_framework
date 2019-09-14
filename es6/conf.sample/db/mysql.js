@@ -13,6 +13,7 @@ const DSN_COMIC = {
         user: 'root',
         password: '',
         database: 'comics',
+        connection_limit: 10, // 连接池配置:维持链接数,理论上10个应该够了
     }],
     // 写库
     write: [{
@@ -21,6 +22,7 @@ const DSN_COMIC = {
         user: 'root',
         password: '',
         database: 'comics',
+        connection_limit: 10, 
     }]
 }
 

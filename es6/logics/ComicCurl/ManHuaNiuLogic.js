@@ -9,8 +9,8 @@ import Image from '../../models/Comic/Image'
 import PageCache from '../../caches/PageCache'
 
 class ManHuaNiuProcess {
-    static backPageData(comic_id) {
-        const promise = ManHuaNiu.get_images_pages(comic_id)
+    static backPageData(one_comic) {
+        const promise = ManHuaNiu.get_images_pages(one_comic)
         return promise;
     }
     static async getNeedData(channel, comic_id) {
