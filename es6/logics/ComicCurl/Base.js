@@ -1,6 +1,6 @@
 import Log from '../../tools/Log'
 // 模型列表
-import Comic from '../../models/Comic/Comic'
+import Comic,{FIELD_IS_COMPLETE} from '../../models/Comic/Comic'
 import Page from '../../models/Comic/Page'
 import Image from '../../models/Comic/Image'
 
@@ -18,6 +18,13 @@ class BaseProcess {
             'channel': channel,
         }
         return Comic.select(where)
+    }
+    static updateComicInfo(update, id){
+        const where = {
+            id,
+        } 
+        const promise = Comic.update(update, where)
+        return promise
     }
     /**
      * 每次爬取定长
@@ -89,6 +96,13 @@ export default class Base {
      */
     static getComicList(channel) {
         return BaseProcess.getComicList(channel)
+    }
+    /**
+     * 更新该漫画详情
+     * @return Promise
+     */
+    static updateComicInfo(detail, id){
+        return BaseProcess.updateComicInfo(detail, id)
     }
     /**
      * 获取该渠道每页图片地址列表

@@ -18,7 +18,7 @@ class ComicCurl{
         const comics = await ManHuaNiuLogic.getComicList(CHANNEL_MHN)
         for(let i in comics){
             let one_comic = comics[i]
-            await ManHuaNiuLogic.getPages(CHANNEL_MHN, one_comic.comic_id)
+            await ManHuaNiuLogic.getPages(CHANNEL_MHN, one_comic)
         }
     }
     /**

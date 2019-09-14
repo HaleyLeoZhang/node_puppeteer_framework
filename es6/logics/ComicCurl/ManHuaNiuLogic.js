@@ -17,7 +17,7 @@ class ManHuaNiuProcess {
         const where = {
             'channel': channel,
             'comic_id': comic_id,
-            'ORDER': { "id": "desc" },
+            'ORDER': { "sequence": "desc" },
             'LIMIT': 1,
         }
         const datas = await Page.select(where)
@@ -38,13 +38,12 @@ export default class ManHuaNiuLogic extends Base {
     /**
      * 自动拉取页面，自动判断是否需要更新
      */
-    static async getPages(channel, comic_id) {
-        const last_sequence = await ManHuaNiuProcess.getNeedData(channel, comic_id)
-        const data = await ManHuaNiuProcess.backPageData(comic_id)
+    static async getPages(channel, one_comic) {
+        const last_sequence = await ManHuaNiuProcess.getNeedData(channel, one_comic.comic_id)
+        const data = await ManHuaNiuProcess.backPageData(one_comic)
             .then((info) => {
                 let data = []
                 let sequence = 0
-                let _switch = false
                 for(let i = 0, len = info.hrefs.length; i < len; i++) {
                     let one_data = {
                         'channel': channel,
@@ -69,23 +68,24 @@ export default class ManHuaNiuLogic extends Base {
                     }
                     // Log.log('last_id:' +last_id + ' sequence:' + one_data.sequence)
                     if(one_data.sequence > last_sequence) {
-                        _switch = true
-                    }
-
-                    if(true == _switch) {
                         data.push(one_data)
                     }
                 }
-                return data
+                return { "page_data": data, "comic_info": info.detail }
             })
-        if(0 == data.length) {
-            Log.log('暂无需要拉取的数据')
-            return false
+        if(null != data.comic_info) {
+            await this.updateComicInfo(data.comic_info, one_comic.id)
+            one_comic.name = data.comic_info.name
         }
-        await Page.insert(data)
-            .then(insert_info => {
-                Log.log('章节列表拉取成功----' + JSON.stringify(insert_info))
-            })
+        if(0 == data.page_data.length) {
+            Log.log(`《${one_comic.name}》---暂无新章节`)
+            return false
+        } else {
+            await Page.insert(data.page_data)
+                .then(insert_info => {
+                    Log.log(`《${one_comic.name}》---添加章节----` + JSON.stringify(insert_info))
+                })
+        }
         return true
     }
     /**
@@ -95,7 +95,7 @@ export default class ManHuaNiuLogic extends Base {
         let { id, link, comic_id, sequence } = one_page
         const lock_success = await PageCache.set_data(id, 1, true)
         // Log.log(`lock_success ${lock_success}`)
-        if(!lock_success){
+        if(!lock_success) {
             Log.log(`comic_id ${comic_id} page ${id} 章节 ${sequence} 已锁定`)
             return false
         }
@@ -116,13 +116,13 @@ export default class ManHuaNiuLogic extends Base {
         let _return = false
         if(0 == datas.length) {
             Log.log('暂无需要拉取的数据')
-        }else{
+        } else {
             _return = true
             await Image.insert(datas)
                 .then(insert_info => {
                     Log.log(`comic_id ${comic_id} page ${id} 章节 ${sequence} 对应图片拉取成功 ${JSON.stringify(insert_info)}`)
                 })
-            }
+        }
         await this.saveImageSrcSuccess(id)
         return true
     }
