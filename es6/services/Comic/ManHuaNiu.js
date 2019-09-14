@@ -6,7 +6,8 @@ import {
     FIELD_METHOD, FIELD_IS_COMPLETE 
 } from '../../models/Comic/Comic'
 
-const HOST = 'https://www.manhuaniu.com' // 漫画牛
+const HOST = 'https://www.manhuaniu.com' // 漫画牛，爬取章节简单一些
+const HOST_H5 = 'https://m.manhuaniu.com' // 漫画牛，爬取图片方式简单一些
 
 class ManHuaNiu extends Base {
     /**
@@ -35,7 +36,7 @@ class ManHuaNiu extends Base {
                 Object.assign(detail, { "is_complete": FIELD_IS_COMPLETE.YES })
             }
 
-            info = await page.evaluate((comic_id, type_id, HOST) => {
+            info = await page.evaluate((comic_id, type_id) => {
                 let doms = $("#chapter-list-" + type_id + " li");
                 let len = doms.length;
                 let hrefs = [];
@@ -54,7 +55,7 @@ class ManHuaNiu extends Base {
                     titles,
                     comic_id,
                 };
-            }, one_comic.comic_id, one_comic.ext_1, HOST);
+            }, one_comic.comic_id, one_comic.ext_1);
         } catch(err) {
             await browser.close();
             throw err
@@ -73,7 +74,10 @@ class ManHuaNiu extends Base {
         let imgs = [];
 
         try {
-            await page.goto(link);
+            link = HOST_H5 + link
+
+            await page.goto(link)
+            Log.log('link: ' + link);
             page.setUserAgent(_this.get_fake_ua());
 
             let total = await page.evaluate(() => {
