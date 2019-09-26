@@ -74,7 +74,9 @@ class ManHuaNiu extends Base {
         let imgs = [];
 
         try {
-            link = HOST_H5 + link
+            if(null === link.match(/^http/)){
+                link = HOST_H5 + link
+            }
 
             await page.goto(link)
             Log.log('link: ' + link);
