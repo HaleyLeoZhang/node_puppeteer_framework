@@ -32,6 +32,8 @@
     }
     window.ComicCommon = new Comic_Common();
 
+    // API数据模型
+
     /**
      * 封装下拉加载 Ajax
      * @param string api 接口地址
@@ -90,6 +92,7 @@
         });
     };
 
+    // 用户体验优化
 
     /**
      * 加载层
@@ -138,7 +141,6 @@
             placeholder: 'https://i.loli.net/2019/09/05/YPu62erGMa3l1IE.gif',
             // data_attribute: 'original', // data-original属性
         });
-
     };
 
     /**

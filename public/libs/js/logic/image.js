@@ -12,6 +12,8 @@
         this.real_index = 5 // 从第几张开始,可以懒加载图片
 
         this.detail = null
+
+        ComicCommon.load_target = '#image_list'
     }
     window.App_Image = new Image();
 
