@@ -64,6 +64,15 @@ h1{
     color: #bd9393;
 }
 
+#chapter_order{
+    font-size: 50%;
+    padding-left: 1em;
+    color: #00c3f5;
+    &:hover{
+        cursor: pointer;
+    }
+}
+
 .no_source {
     color: silver;
 }

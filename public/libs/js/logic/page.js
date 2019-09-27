@@ -8,8 +8,67 @@
 
     function Page() {
         this.target_append = '#chapter_list'
+        this.target_revert_chapter = '#chapter_order'
+
+        // 正/倒序 目前暂不考虑存储引擎不支持的情况
+        this.cache_chapter_order = 'chapter_order';
+        this.order_enum = {
+            "positive": 1, // 正序
+            "revert": -1, // 倒序
+        };
+        this.tmp_list = []; // 临时存储列表数据,方便正序倒序
     }
     window.App_Page = new Page();
+
+    Page.prototype.get_order = function(){
+        ComicCommon.cache_set_engine('local')
+        var cache_data = ComicCommon.cache_data_get(this.cache_chapter_order)
+
+        if(cache_data) {
+            return parseInt(cache_data)
+        } else {
+            return this.order_enum.positive
+        }
+    }
+
+    Page.prototype.set_order = function(order){
+        ComicCommon.cache_set_engine('local')
+
+        var cache_data = order
+        var cache_ttl = 999999
+        return ComicCommon.cache_data_set(this.cache_chapter_order, cache_data, cache_ttl)
+    }
+
+    Page.prototype.sort_list_and_render = function(){
+        var _this = this
+        var list_raw = []
+        Object.assign(list_raw, _this.tmp_list) // 对象数据,注意深拷贝数据
+        var list = []
+        if(this.order_enum.positive ==  _this.get_order()){
+            $(this.target_revert_chapter).text('正序')
+            list = list_raw
+        }else{
+            $(this.target_revert_chapter).text('倒序')
+            for (;list_raw.length > 0;) {
+                list.push(list_raw.pop())
+            }
+        }
+        var processed_html = _this.render_html(list)
+        $(_this.target_append).html('')
+        $(_this.target_append).append(processed_html)
+    }
+
+    Page.prototype.listener_btn_revert_chapter = function(){
+        var _this = this
+        $(_this.target_revert_chapter).on("click", function(){
+            if(_this.order_enum.positive == _this.get_order()){
+                _this.set_order(_this.order_enum.revert)
+            }else{
+                _this.set_order(_this.order_enum.positive)
+            }
+            _this.sort_list_and_render();
+        })
+    };
 
     Page.prototype.render_html = function (list) {
         var template = '',
@@ -105,11 +164,14 @@
             $(_this.target_append).append(processed_html)
         }
 
+        var list_for_render = []
         if(cache_data) {
-            callback(cache_data)
+            _this.tmp_list = cache_data
+            _this.sort_list_and_render()
         } else {
             ComicCommon.get_list(ComicCommon.api.page_list, param, function (list) {
-                callback(list)
+                _this.tmp_list = list
+                _this.sort_list_and_render()
                 ComicCommon.cache_set_engine('session')
                 ComicCommon.cache_data_set(cache_name, list, cache_ttl)
             })
@@ -117,6 +179,7 @@
 
     };
     Page.prototype.action_to_see_images = function () {
+        // 收 正/倒 排序功能影响,每次对应DOM会先被删除然后重新生成,所以用代理模式最好
         $(this.target_append).delegate('.to_see_images', 'click', function () {
             var it = this;
             if($(it).hasClass('no_source')){
@@ -142,6 +205,7 @@
         _this.get_list()
         _this.action_to_see_images()
         _this.action_go_to_comic_list()
+        _this.listener_btn_revert_chapter()
 
     };
     App_Page.run_app()
