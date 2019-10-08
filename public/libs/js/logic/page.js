@@ -117,7 +117,7 @@
         var cache_data = null
         cache_info.push('history_read')
         cache_info.push(ComicCommon.query_param('channel'))
-        cache_info.push(ComicCommon.query_param('comic_id'))
+        cache_info.push(ComicCommon.query_param('source_id'))
         cache_name = cache_info.join('_')
 
         ComicCommon.cache_set_engine('local')
@@ -144,7 +144,7 @@
 
         var param = {
             channel: ComicCommon.query_param('channel'),
-            comic_id: ComicCommon.query_param('comic_id'),
+            source_id: ComicCommon.query_param('source_id'),
         }
 
         ComicCommon.cache_set_engine('session')
@@ -154,7 +154,7 @@
         var cache_ttl = 300
         cache_info.push('paget_list')
         cache_info.push(param.channel)
-        cache_info.push(param.comic_id)
+        cache_info.push(param.source_id)
         cache_name = cache_info.join('_')
         // console.log(cache_name)
         cache_data = ComicCommon.cache_data_get(cache_name)

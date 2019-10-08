@@ -6,14 +6,16 @@
 // ----------------------------------------------------------------------
 (function ($, window, undefined) {
     'use strict';
+    var HOST = 'http://puppeteer.hlzblog.top';
+    // var HOST = 'http://puppeteer.test.com';
 
     function Comic_Common() {
         // API列表---可跨域
         this.api = {
-            comic_list: 'http://puppeteer.hlzblog.top/api/comic/comic_list', // 漫画列表
-            page_list: 'http://puppeteer.hlzblog.top/api/comic/page_list', // 漫画章节列表
-            image_list: 'http://puppeteer.hlzblog.top/api/comic/image_list', // 漫画章节对应图片列表
-            page_detail: 'http://puppeteer.hlzblog.top/api/comic/page_detail', // 漫画章节详情
+            comic_list: HOST + '/api/comic/comic_list', // 漫画列表
+            page_list: HOST + '/api/comic/page_list', // 漫画章节列表
+            image_list: HOST + '/api/comic/image_list', // 漫画章节对应图片列表
+            page_detail: HOST + '/api/comic/page_detail', // 漫画章节详情
         };
         // 页面列表
         this.comic_html = {
@@ -103,7 +105,7 @@
         if('on' == this.load_switch) {
             switch(action) {
             case 'open':
-                var loading_tpl =`
+                var loading_tpl = `
                     <div class="spinner">
                         <div class="bounce1"></div>
                         <div class="bounce2"></div>
@@ -111,9 +113,9 @@
                     </div>
                 `
                 var is_exists = Boolean(document.getElementsByClassName('spinner').length)
-                if(is_exists){
+                if(is_exists) {
                     $('.spinner').show()
-                }else{
+                } else {
                     $(_this.load_target).append(loading_tpl)
                 }
                 // _this.page_load_index = layer.load(0, { shade: [0.5, '#fff'] });

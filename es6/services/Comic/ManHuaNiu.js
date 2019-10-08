@@ -17,11 +17,11 @@ class ManHuaNiu extends Base {
         const _this = this;
         const browser = await puppeteer.launch(BROWSER);
         const page = await browser.newPage();
-        let info = { hrefs: [], titles: [], comic_id: one_comic.comic_id }
+        let info = { hrefs: [], titles: [], source_id: one_comic.source_id }
         let detail = null
         try {
             page.setUserAgent(_this.get_fake_ua());
-            await page.goto(`${HOST}/manhua/${one_comic.comic_id}/`);
+            await page.goto(`${HOST}/manhua/${one_comic.source_id}/`);
             // Log.log('start');
             if(
                 FIELD_METHOD.AUTO == one_comic.method &&
@@ -36,13 +36,13 @@ class ManHuaNiu extends Base {
                 Object.assign(detail, { "is_complete": FIELD_IS_COMPLETE.YES })
             }
 
-            info = await page.evaluate((comic_id, type_id) => {
-                let doms = $("#chapter-list-" + type_id + " li");
-                let len = doms.length;
-                let hrefs = [];
-                let titles = [];
-                let one_href = '';
-                let one_title = '';
+            info = await page.evaluate((source_id, type_id) => {
+                var doms = $("#chapter-list-" + type_id + " li");
+                var len = doms.length;
+                var hrefs = [];
+                var titles = [];
+                var one_href = '';
+                var one_title = '';
 
                 for(let i = 0; i < len; i++) {
                     one_href = doms.eq(i).find("a").attr("href")
@@ -53,9 +53,11 @@ class ManHuaNiu extends Base {
                 return {
                     hrefs,
                     titles,
-                    comic_id,
+                    source_id,
                 };
-            }, one_comic.comic_id, one_comic.ext_1);
+            }, one_comic.source_id, one_comic.ext_1);
+            Log.log('info---', info);
+
         } catch(err) {
             await browser.close();
             throw err

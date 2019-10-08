@@ -83,7 +83,7 @@
 
             cache_info.push('history_read')
             cache_info.push(detail.comic.channel)
-            cache_info.push(detail.comic.comic_id)
+            cache_info.push(detail.comic.source_id)
             cache_name = cache_info.join('_')
             cache_data = ComicCommon.cache_data_set(cache_name, cache_data, cache_ttl)
 
@@ -98,7 +98,7 @@
         $('#show').on('click', function () {
             var data = {
                 channel: _this.detail.comic.channel,
-                comic_id: _this.detail.comic.comic_id,
+                source_id: _this.detail.comic.source_id,
                 title: _this.detail.comic.name,
             }
             var query_string = ComicCommon.json_to_query(data)

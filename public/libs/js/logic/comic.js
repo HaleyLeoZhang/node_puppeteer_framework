@@ -25,7 +25,7 @@
 
             id = id_info.join("_")
             template += `
-                <a href="#" id="${id}" class="go_to_module" data-title="${item.name}" data-comic_id ="${item.comic_id}" data-channel ="${item.channel}">
+                <a href="#" id="${id}" class="go_to_module" data-title="${item.name}" data-source_id ="${item.source_id}" data-channel ="${item.channel}">
                     <li class="scene">
                         <div class="movie" onclick="return true">
                             <div class="poster" style="background-image: url(${item.pic});"></div>
@@ -66,7 +66,7 @@
             var it = this;
             var data = {
                 channel: $(it).data("channel"),
-                comic_id: $(it).data("comic_id"),
+                source_id: $(it).data("source_id"),
                 title: $(it).data("title"),
             }
             var query_string = ComicCommon.json_to_query(data)

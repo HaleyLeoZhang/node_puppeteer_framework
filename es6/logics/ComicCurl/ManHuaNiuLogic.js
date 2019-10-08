@@ -13,10 +13,10 @@ class ManHuaNiuProcess {
         const promise = ManHuaNiu.get_images_pages(one_comic)
         return promise;
     }
-    static async getNeedData(channel, comic_id) {
+    static async getNeedData(channel, source_id) {
         const where = {
             'channel': channel,
-            'comic_id': comic_id,
+            'source_id': source_id,
             'ORDER': { "sequence": "desc" },
             'LIMIT': 1,
         }
@@ -39,7 +39,7 @@ export default class ManHuaNiuLogic extends Base {
      * 自动拉取页面，自动判断是否需要更新
      */
     static async getPages(channel, one_comic) {
-        const last_sequence = await ManHuaNiuProcess.getNeedData(channel, one_comic.comic_id)
+        const last_sequence = await ManHuaNiuProcess.getNeedData(channel, one_comic.source_id)
         const data = await ManHuaNiuProcess.backPageData(one_comic)
             .then((info) => {
                 let data = []
@@ -47,7 +47,7 @@ export default class ManHuaNiuLogic extends Base {
                 for(let i = 0, len = info.hrefs.length; i < len; i++) {
                     let one_data = {
                         'channel': channel,
-                        'comic_id': info.comic_id,
+                        'source_id': info.source_id,
                         'name': info.titles[i],
                         'link': info.hrefs[i],
                         'sequence': 0,
@@ -92,11 +92,11 @@ export default class ManHuaNiuLogic extends Base {
      * 自动拉取图片
      */
     static async getImageList(channel, one_page) {
-        let { id, link, comic_id, sequence } = one_page
+        let { id, link, source_id, sequence } = one_page
         const lock_success = await PageCache.set_data(id, 1, true)
         // Log.log(`lock_success ${lock_success}`)
         if(!lock_success) {
-            Log.log(`comic_id ${comic_id} page ${id} 章节 ${sequence} 已锁定`)
+            Log.log(`source_id ${source_id} page ${id} 章节 ${sequence} 已锁定`)
             return false
         }
         await this.saveImageSrcDoing(id)
@@ -120,7 +120,7 @@ export default class ManHuaNiuLogic extends Base {
             _return = true
             await Image.insert(datas)
                 .then(insert_info => {
-                    Log.log(`comic_id ${comic_id} page ${id} 章节 ${sequence} 对应图片拉取成功 ${JSON.stringify(insert_info)}`)
+                    Log.log(`source_id ${source_id} page ${id} 章节 ${sequence} 对应图片拉取成功 ${JSON.stringify(insert_info)}`)
                 })
         }
         await this.saveImageSrcSuccess(id)
