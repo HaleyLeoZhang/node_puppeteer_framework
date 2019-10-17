@@ -91,8 +91,11 @@ class Handler {
     }
     static handle_where_in(arr, is_not_in, datas) {
         let len = arr.length
-        if(0 == len) {
-            return null
+        if(0 === len) {
+            return {
+                sql_in: null,
+                datas_new: []
+            }
         }
         let sql = '';
         let _bind_param = []
