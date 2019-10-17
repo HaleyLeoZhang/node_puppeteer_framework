@@ -92,10 +92,7 @@ class Handler {
     static handle_where_in(arr, is_not_in, datas) {
         let len = arr.length
         if(0 === len) {
-            return {
-                sql_in: null,
-                datas_new: []
-            }
+            throw new Error("Where in 入参不能为空数组")
         }
         let sql = '';
         let _bind_param = []

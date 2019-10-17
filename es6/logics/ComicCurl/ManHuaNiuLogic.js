@@ -137,6 +137,8 @@ export default class ManHuaNiuLogic extends Base {
         //     let page_id = page_ids[i]
         //     await PageCache.set_data(channel +'_' + page_id, 1)
         // }
-        await this.saveImageSrcWait(page_ids) // 对应的锁,请手动删除 redis中 对应的key
+        if(page_ids.length > 0){
+            await this.saveImageSrcWait(page_ids) // 对应的锁,请手动删除 redis中 对应的key
+        }
     }
 }
