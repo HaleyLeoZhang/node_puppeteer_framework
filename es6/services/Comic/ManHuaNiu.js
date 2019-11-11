@@ -9,6 +9,9 @@ import {
 const HOST = 'https://www.manhuaniu.com' // 漫画牛，爬取章节简单一些
 const HOST_H5 = 'https://m.manhuaniu.com' // 漫画牛，爬取图片方式简单一些
 
+const EDGE_IMAGE_LEN = 20 // 超过图片数量,则减缓翻页速度
+const EDGE_DELAY_TIME = 500 // 推迟翻页时间.单位,毫秒
+
 class ManHuaNiu extends Base {
     /**
      * 获取主线查看地址
@@ -88,7 +91,7 @@ class ManHuaNiu extends Base {
                 var _total = $("#k_total").text()
                 return _total
             });
-            // Log.log('总页数:' + total);
+            Log.log('总页数:' + total);
 
             let link_len = link.length - 5;
             let _raw_link = link.substr(0, link_len)
@@ -101,7 +104,10 @@ class ManHuaNiu extends Base {
                     return _img
                 });
                 imgs.push(img)
-                // await this.delay_ms(100)
+                if(total > EDGE_IMAGE_LEN){
+                    await this.delay_ms(EDGE_DELAY_TIME)
+                }
+                Log.log('img   ' + img);
             }
             // Log.log('imgs:  ' + JSON.stringify(imgs))
         } catch(err) {
