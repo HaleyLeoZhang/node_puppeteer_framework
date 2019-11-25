@@ -116,13 +116,20 @@
             var data = {
                 id: _this.detail.next_page.id,
             }
+            var confirm_info = '';
             if(!data.id) {
-                layer.msg('已经是最后一页了哟')
-                return
+                confirm_info = '已经是最后一页了哟';
             }
             if(PROGRESS_STATUS.done != _this.detail.next_page.progress) {
-                layer.msg('下一章节暂不可看')
-                return
+                confirm_info = '下一章节暂不可看';
+            }
+            if('' != confirm_info){
+                layer.confirm(confirm_info, {
+                    btn: ['返回目录', '留在这里']
+                }, function(){
+                    $("#show").click();
+                });
+                return;
             }
             var query_string = ComicCommon.json_to_query(data)
             location.href = ComicCommon.comic_html.image + '?' + query_string
