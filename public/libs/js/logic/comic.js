@@ -27,6 +27,7 @@
             template += `
                 <a href="#" id="${id}" class="go_to_module" data-title="${item.name}" data-source_id ="${item.source_id}" data-channel ="${item.channel}">
                     <li class="scene">
+                        <div class="icon_comic_update"></div>
                         <div class="movie" onclick="return true">
                             <div class="poster" style="background-image: url(${item.pic});"></div>
                             <div class="info">

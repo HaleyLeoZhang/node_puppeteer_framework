@@ -1,0 +1,32 @@
+/* show book icon */
+$basic: (
+    cursor: pointer,
+    width: 55px,
+    background-image: url(../img/book_icon.png), 
+    background-repeat: no-repeat,
+    display: inline-block
+);
+
+$icon_list:(
+    icon_comic_update,
+    icon_comic_new,
+    icon_comic_hot,
+    icon_comic_done,
+    icon_comic_wait,
+    icon_comic_done_large
+);
+
+.icon_comic_update{
+    @each $k, $v in $basic {
+        #{$k} : $v;
+    }
+    height: 45px;
+    background-position: 0 0;
+}
+.icon_comic_new{
+    @each $k, $v in $basic {
+        #{$k} : $v;
+    }
+    height: 45px;
+    background-position: 0 -47px;
+}
