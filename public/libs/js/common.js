@@ -6,8 +6,8 @@
 // ----------------------------------------------------------------------
 (function ($, window, undefined) {
     'use strict';
-    // var HOST = 'http://puppeteer.hlzblog.top';
-    var HOST = 'http://puppeteer.test.com';
+    var HOST = 'http://puppeteer.hlzblog.top';
+    // var HOST = 'http://puppeteer.test.com';
 
     function Comic_Common() {
         // API列表---可跨域
