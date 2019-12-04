@@ -1,7 +1,6 @@
 /* show book icon */
 $basic: (
     cursor: pointer,
-    width: 55px,
     background-image: url(../img/book_icon.png), 
     background-repeat: no-repeat,
     display: inline-block,
@@ -9,19 +8,11 @@ $basic: (
     z-index: 999999,
 );
 
-$icon_list:(
-    icon_comic_update,
-    icon_comic_new,
-    icon_comic_hot,
-    icon_comic_done,
-    icon_comic_wait,
-    icon_comic_done_large
-);
-
 .icon_comic_update{
     @each $k, $v in $basic {
         #{$k} : $v;
     }
+    width: 45px;
     height: 45px;
     background-position: 0 0;
 }
@@ -29,6 +20,7 @@ $icon_list:(
     @each $k, $v in $basic {
         #{$k} : $v;
     }
+    width: 45px;
     height: 45px;
     background-position: 0 -48px;
 }
@@ -36,13 +28,7 @@ $icon_list:(
     @each $k, $v in $basic {
         #{$k} : $v;
     }
-    height: 45px;
-    background-position: 0 -95px;
-}
-.icon_comic_done{
-    @each $k, $v in $basic {
-        #{$k} : $v;
-    }
+    width: 45px;
     height: 45px;
     background-position: 0 -95px;
 }
@@ -50,14 +36,31 @@ $icon_list:(
     @each $k, $v in $basic {
         #{$k} : $v;
     }
+    width: 45px;
     height: 45px;
-    background-position: 0 -95px;
+    background-position: 0 -144px;
+}
+.icon_comic_done{
+    @each $k, $v in $basic {
+        #{$k} : $v;
+    }
+    height: 45px;
+    background-position: 0 -192px;
+}
+.icon_comic_wait_large{
+    @each $k, $v in $basic {
+        #{$k} : $v;
+    }
+    width: 58px;
+    height: 58px;
+    background-position: 0 -240px;
 }
 .icon_comic_done_large{
     @each $k, $v in $basic {
         #{$k} : $v;
     }
+    width: 45px;
     height: 45px;
-    background-position: 0 -95px;
+    background-position: 0 -298px;
 }
     
