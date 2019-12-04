@@ -6,6 +6,10 @@
         "done": 2,
     }
 
+    var CACHE_MAX_SEQUENCE = 'max_chapter_sequence';
+    var CACHE_HISTORY_READ = 'history_read';
+    var CACHE_PAGE_LIST = 'paget_list';
+
     function Page() {
         this.target_append = '#chapter_list'
         this.target_revert_chapter = '#chapter_order'
@@ -20,7 +24,7 @@
     }
     window.App_Page = new Page();
 
-    Page.prototype.get_order = function(){
+    Page.prototype.get_order = function () {
         ComicCommon.cache_set_engine('local')
         var cache_data = ComicCommon.cache_data_get(this.cache_chapter_order)
 
@@ -31,7 +35,7 @@
         }
     }
 
-    Page.prototype.set_order = function(order){
+    Page.prototype.set_order = function (order) {
         ComicCommon.cache_set_engine('local')
 
         var cache_data = order
@@ -39,17 +43,17 @@
         return ComicCommon.cache_data_set(this.cache_chapter_order, cache_data, cache_ttl)
     }
 
-    Page.prototype.sort_list_and_render = function(){
+    Page.prototype.sort_list_and_render = function () {
         var _this = this
         var list_raw = []
         Object.assign(list_raw, _this.tmp_list) // 对象数据,注意深拷贝数据
         var list = []
-        if(this.order_enum.positive ==  _this.get_order()){
+        if(this.order_enum.positive == _this.get_order()) {
             $(this.target_revert_chapter).text('正序')
             list = list_raw
-        }else{
+        } else {
             $(this.target_revert_chapter).text('倒序')
-            for (;list_raw.length > 0;) {
+            for(; list_raw.length > 0;) {
                 list.push(list_raw.pop())
             }
         }
@@ -58,12 +62,12 @@
         $(_this.target_append).append(processed_html)
     }
 
-    Page.prototype.listener_btn_revert_chapter = function(){
+    Page.prototype.listener_btn_revert_chapter = function () {
         var _this = this
-        $(_this.target_revert_chapter).on("click", function(){
-            if(_this.order_enum.positive == _this.get_order()){
+        $(_this.target_revert_chapter).on("click", function () {
+            if(_this.order_enum.positive == _this.get_order()) {
                 _this.set_order(_this.order_enum.revert)
-            }else{
+            } else {
                 _this.set_order(_this.order_enum.positive)
             }
             _this.sort_list_and_render();
@@ -84,15 +88,15 @@
         for(; i < len; i++) {
             item = list[i];
 
-            if(last_read_id==item.id){
+            if(last_read_id == item.id) {
                 add_read_mark = 'last_read'
-            }else{
+            } else {
                 add_read_mark = ''
             }
 
-            if(PROGRESS_STATUS.done == item.progress){
+            if(PROGRESS_STATUS.done == item.progress) {
                 add_unreadable = ''
-            }else{
+            } else {
                 add_unreadable = 'no_source'
             }
 
@@ -108,14 +112,13 @@
         return template
     };
 
-    Page.prototype.get_last_read_id = function(){
+    Page.prototype.get_last_read_id = function () {
         // 读取记录用户上次阅读到哪里
-        ComicCommon.cache_set_engine('local')
 
         var cache_name = ''
         var cache_info = []
         var cache_data = null
-        cache_info.push('history_read')
+        cache_info.push(CACHE_HISTORY_READ)
         cache_info.push(ComicCommon.query_param('channel'))
         cache_info.push(ComicCommon.query_param('source_id'))
         cache_name = cache_info.join('_')
@@ -123,7 +126,7 @@
         ComicCommon.cache_set_engine('local')
         cache_data = ComicCommon.cache_data_get(cache_name)
 
-        if(cache_data){
+        if(cache_data) {
             return cache_data.id
         }
         return 0
@@ -152,7 +155,7 @@
         var cache_info = []
         var cache_data = null
         var cache_ttl = 300
-        cache_info.push('paget_list')
+        cache_info.push(CACHE_PAGE_LIST)
         cache_info.push(param.channel)
         cache_info.push(param.source_id)
         cache_name = cache_info.join('_')
@@ -170,6 +173,10 @@
             _this.sort_list_and_render()
         } else {
             ComicCommon.get_list(ComicCommon.api.page_list, param, function (list) {
+                if(list.length > 0) {
+                    var max_sequence = list[list.length - 1].sequence;
+                    _this.set_max_sequence(param.channel, param.source_id, max_sequence);
+                }
                 _this.tmp_list = list
                 _this.sort_list_and_render()
                 ComicCommon.cache_set_engine('session')
@@ -178,11 +185,27 @@
         }
 
     };
+
+    Page.prototype.set_max_sequence = function (channel, source_id, max_sequence) {
+        // 记录本次打开页面的最大章节序号
+        ComicCommon.cache_set_engine('local')
+
+        var cache_name = ''
+        var cache_info = []
+        var cache_data = max_sequence
+        var cache_ttl = 3600 * 24 * 30 // 缓存 30 天
+
+        cache_info.push(CACHE_MAX_SEQUENCE)
+        cache_info.push(channel)
+        cache_info.push(source_id)
+        cache_name = cache_info.join('_')
+        cache_data = ComicCommon.cache_data_set(cache_name, cache_data, cache_ttl)
+    }
     Page.prototype.action_to_see_images = function () {
         // 收 正/倒 排序功能影响,每次对应DOM会先被删除然后重新生成,所以用代理模式最好
         $(this.target_append).delegate('.to_see_images', 'click', function () {
             var it = this;
-            if($(it).hasClass('no_source')){
+            if($(it).hasClass('no_source')) {
                 layer.msg('该章节暂不可看')
                 return
             }
@@ -193,8 +216,8 @@
             location.href = ComicCommon.comic_html.image + '?' + query_string
         })
     };
-    Page.prototype.action_go_to_comic_list = function(){
-        $('.back_list').on('click',function(){
+    Page.prototype.action_go_to_comic_list = function () {
+        $('.back_list').on('click', function () {
             location.href = ComicCommon.comic_html.comic
         })
     };

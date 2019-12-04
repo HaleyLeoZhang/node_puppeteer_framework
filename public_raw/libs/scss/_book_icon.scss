@@ -4,7 +4,9 @@ $basic: (
     width: 55px,
     background-image: url(../img/book_icon.png), 
     background-repeat: no-repeat,
-    display: inline-block
+    display: inline-block,
+    position: fixed,
+    z-index: 999999,
 );
 
 $icon_list:(
@@ -28,5 +30,34 @@ $icon_list:(
         #{$k} : $v;
     }
     height: 45px;
-    background-position: 0 -47px;
+    background-position: 0 -48px;
 }
+.icon_comic_hot{
+    @each $k, $v in $basic {
+        #{$k} : $v;
+    }
+    height: 45px;
+    background-position: 0 -95px;
+}
+.icon_comic_done{
+    @each $k, $v in $basic {
+        #{$k} : $v;
+    }
+    height: 45px;
+    background-position: 0 -95px;
+}
+.icon_comic_wait{
+    @each $k, $v in $basic {
+        #{$k} : $v;
+    }
+    height: 45px;
+    background-position: 0 -95px;
+}
+.icon_comic_done_large{
+    @each $k, $v in $basic {
+        #{$k} : $v;
+    }
+    height: 45px;
+    background-position: 0 -95px;
+}
+    

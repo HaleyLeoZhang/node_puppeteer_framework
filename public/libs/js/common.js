@@ -6,8 +6,8 @@
 // ----------------------------------------------------------------------
 (function ($, window, undefined) {
     'use strict';
-    var HOST = 'http://puppeteer.hlzblog.top';
-    // var HOST = 'http://puppeteer.test.com';
+    // var HOST = 'http://puppeteer.hlzblog.top';
+    var HOST = 'http://puppeteer.test.com';
 
     function Comic_Common() {
         // API列表---可跨域
@@ -271,5 +271,40 @@
         }
         return '';
     }
+
+    /**
+     * 获取格式化后的时间
+     * - 如： format_time("Y-m-d h:i:s") 输出 2017-12-11 22:46:11
+     * @param string str 待格式化的时间
+     * @param int timestamp 指定的时间戳，不填，则显示为当前的时间
+     * @return string 
+     */
+    Comic_Common.prototype.format_time = function (str, timestamp) {
+        timestamp = timestamp === undefined ? 0 : timestamp;
+        timestamp = parseInt(timestamp) * 1000;
+        var date = timestamp === 0 ? 　new Date() : new Date(timestamp);
+
+        function add_zero(num) {
+            if(num <= 9) {
+                return "0" + num;
+            } else {
+                return "" + num + "";
+            }
+        };
+        var Y, m, d, h, i, s;
+        Y = date.getFullYear();
+        m = add_zero(date.getMonth() + 1);
+        d = add_zero(date.getDate());
+        h = add_zero(date.getHours());
+        i = add_zero(date.getMinutes());
+        s = add_zero(date.getSeconds());
+        str = str.replace("Y", Y);
+        str = str.replace("m", m);
+        str = str.replace("d", d);
+        str = str.replace("h", h);
+        str = str.replace("i", i);
+        str = str.replace("s", s);
+        return str;
+    };
 
 })(jQuery, window);

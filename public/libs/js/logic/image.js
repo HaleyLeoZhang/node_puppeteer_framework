@@ -7,6 +7,8 @@
         "done": 2,
     }
 
+    var CACHE_HISTORY_READ = 'history_read';
+
     function Image() {
         this.target_append = '#image_list'
         this.real_index = 5 // 从第几张开始,可以懒加载图片
@@ -81,7 +83,7 @@
             var cache_data = detail.page
             var cache_ttl = 3600 * 24 * 30 // 缓存 30 天
 
-            cache_info.push('history_read')
+            cache_info.push(CACHE_HISTORY_READ)
             cache_info.push(detail.comic.channel)
             cache_info.push(detail.comic.source_id)
             cache_name = cache_info.join('_')
@@ -123,10 +125,10 @@
             if(PROGRESS_STATUS.done != _this.detail.next_page.progress) {
                 confirm_info = '下一章节暂不可看';
             }
-            if('' != confirm_info){
+            if('' != confirm_info) {
                 layer.confirm(confirm_info, {
                     btn: ['返回目录', '留在这里']
-                }, function(){
+                }, function () {
                     $("#show").click();
                 });
                 return;
