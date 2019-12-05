@@ -57,9 +57,13 @@
                 list.push(list_raw.pop())
             }
         }
-        var processed_html = _this.render_html(list)
-        $(_this.target_append).html('')
-        $(_this.target_append).append(processed_html)
+        if(0 == list.length) {
+            $(_this.target_append).html('<h5>资源不存在</h5>')
+        } else {
+            var processed_html = _this.render_html(list)
+            $(_this.target_append).html('')
+            $(_this.target_append).append(processed_html)
+        }
     }
 
     Page.prototype.listener_btn_revert_chapter = function () {

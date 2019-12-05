@@ -67,6 +67,13 @@ body {
 #top{
     display: none;
 }
+#image_list{
+    h5{
+        text-align: center;
+        font-size: 26px;
+        color: #fff;
+    }
+}
 
 @media screen and (min-width:960px) {
     #top {

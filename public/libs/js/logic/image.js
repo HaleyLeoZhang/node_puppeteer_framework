@@ -55,7 +55,11 @@
         }
         ComicCommon.get_list(ComicCommon.api.image_list, param, function (list) {
             var processed_html = _this.render_html(list)
-            $(_this.target_append).append(processed_html)
+            if(0 == list.length){
+                $(_this.target_append).html('<h5>资源不存在</h5>')
+            }else{
+                $(_this.target_append).append(processed_html)
+            }
 
             ComicCommon.image_lazy_load()
         })
@@ -152,9 +156,24 @@
         return true
     }
 
+    Image.prototype.one_page = function () {
+        var _this = this
+        _this.compute_one_page();
+        $("body").on("resize", function(){
+            _this.compute_one_page();
+        });
+    }
+    Image.prototype.compute_one_page = function () {
+        var btn_back_height = document.getElementById("skip").scrollHeight;
+        var btn_next_height = document.getElementById("trigger_next").scrollHeight;
+        var one_page_height = document.body.clientHeight;
+        var content_min_height = one_page_height - btn_back_height - btn_next_height;
+        document.getElementById("container").style["min-height"] = content_min_height;
+    }
     Image.prototype.run_app = function () {
         var _this = this;
 
+        _this.one_page()
         _this.get_list()
         _this.get_page_detail()
         _this.action_back_page_list()

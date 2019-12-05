@@ -3,11 +3,12 @@
 body {
     background: #d0d5f7;
 }
-h1{
+
+h1 {
     font-weight: 500
 }
 
-.btn{
+.btn {
     display: inline-block;
     padding: px2rem(6px) px2rem(12px);
     margin-bottom: 0;
@@ -24,6 +25,7 @@ h1{
     border: px2rem(1px) solid transparent;
     border-radius: px2rem(4px);
 }
+
 .btn-1 {
     color: #333;
     background-color: #fff;
@@ -46,12 +48,19 @@ h1{
     word-wrap: break-word;
     word-break: break-all;
     overflow: hidden;
-
 }
 
 #comic_title {
     color: #33a0d6;
     font-size: 36px;
+}
+
+#chapter_list {
+    h5 {
+        color: #636273;
+        font-size: 20px;
+        text-align: center;
+    }
 }
 
 .last_read {
@@ -64,11 +73,11 @@ h1{
     color: #bd9393;
 }
 
-#chapter_order{
+#chapter_order {
     font-size: 50%;
     padding-left: 1em;
     color: #00c3f5;
-    &:hover{
+    &:hover {
         cursor: pointer;
     }
 }
@@ -79,20 +88,26 @@ h1{
 
 
 
-@media screen and (max-width:768px)  {
-    .btn-1{
+@media screen and (max-width:768px) {
+    .btn-1 {
         width: px2rem(120px);
     }
 }
-@media screen and (min-width:768px)  {
-    .btn-1{
+
+@media screen and (min-width:768px) {
+    .btn-1 {
         width: px2rem(150px);
-    }}
-@media screen and (min-width:992px)  {
-    .btn-1{
+    }
+}
+
+@media screen and (min-width:992px) {
+    .btn-1 {
         width: px2rem(200px);
-    }}
-@media screen and (min-width:1200px)  {
-    .btn-1{
+    }
+}
+
+@media screen and (min-width:1200px) {
+    .btn-1 {
         width: px2rem(200px);
-    }}
+    }
+}
