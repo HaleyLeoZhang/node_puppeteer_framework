@@ -109,9 +109,6 @@
         var last_read_id = this.get_last_read_sequence(item.channel, item.source_id)
 
         if(max_chapter_sequence > 0) {
-            console.log('max_chapter_sequence', max_chapter_sequence);
-            console.log('last_read_id', last_read_id);
-            console.log('max_sequence', item.max_sequence);
             if(last_read_id > 0 && item.max_sequence > max_chapter_sequence) {
                 icon = 'icon_comic_update';
             }
