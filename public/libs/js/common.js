@@ -230,7 +230,8 @@
 
                 var old_data = engine.getItem(cache_name);
                 if(!old_data) {
-                    // throw new Error("缓存失效")
+                    // throw new Error("缓存失效") 
+                    return null
                 }
                 old_data = JSON.parse(old_data);
 
