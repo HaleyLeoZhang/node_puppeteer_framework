@@ -19,8 +19,6 @@
     }
     window.App_Comic = new Comic();
 
-    console.log(ComicCommon.format_time("Y-m-d h:i:s"));
-
     Comic.prototype.render_html = function (list) {
         var _this = this
         var template = '',
