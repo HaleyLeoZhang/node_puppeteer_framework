@@ -158,9 +158,14 @@
             // - 计算当前页面高度
             var tag_position = document.body.scrollHeight;
             var now = scroll + document.documentElement.clientHeight + SCROLL_TOLERANT;
+            var has_call = '0'
             if(now >= tag_position) {
+                console.log('ok');
+                var has_call = '1'
                 callback()
             }
+            layer.msg(`'tag_position', ${tag_position}, 'now', ${now}, 'has_call', ${has_call}`)
+            // console.log('tag_position', tag_position, 'now', now, 'has_call', has_call);
         });
     };
 
