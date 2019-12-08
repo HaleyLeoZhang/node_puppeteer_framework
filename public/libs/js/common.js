@@ -9,6 +9,8 @@
     var HOST = 'http://puppeteer.hlzblog.top';
     // var HOST = 'http://puppeteer.test.com';
 
+    var SCROLL_TOLERANT = 50 // 容差值
+
     function Comic_Common() {
         // API列表---可跨域
         this.api = {
@@ -152,11 +154,10 @@
     Comic_Common.prototype.reach_page_bottom = function (callback) {
         var _this = this;
         $(window).scroll(function () {
-            var tolerant = 5; // 容差值
             var scroll = parseInt(document.documentElement.scrollTop || document.body.scrollTop);
             // - 计算当前页面高度
             var tag_position = document.body.scrollHeight;
-            var now = scroll + document.documentElement.clientHeight + tolerant;
+            var now = scroll + document.documentElement.clientHeight + SCROLL_TOLERANT;
             if(now >= tag_position) {
                 callback()
             }
