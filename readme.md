@@ -165,6 +165,11 @@ power management:
 ### API
 本次接口使用`golang`实现  
 
+### 后台
+开源地址：[https://gitee.com/haleyleozhang/yth_cms](https://gitee.com/haleyleozhang/yth_cms)  
+- 通过cURL方式，实现了渠道`One漫画`的资源爬取  
+- 实现了漫画管理
+
 ##### 对应项目地址
 [github.com/HaleyLeoZhang/node_puppeteer_example_go](https://github.com/HaleyLeoZhang/node_puppeteer_example_go)  
 
