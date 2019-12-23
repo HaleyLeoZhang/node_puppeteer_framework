@@ -56,12 +56,11 @@ apt-get install google-chrome-stable
 配置 `es6/conf/index.js` 中 BROWSER.executablePath 值为 `chrome.exe` 的路径  
 
 
-
 > 配套服务
 
 `Mysql` 5.5 及以上环境  
 `Redis` 3.2 及以上环境  
-`Node` 10.0 及以上环境
+`Node` 10.0 及以上环境  
 
 > 安装依赖
 
@@ -165,15 +164,18 @@ power management:
 ### API
 本次接口使用`golang`实现  
 
-### 后台
-开源地址：[https://gitee.com/haleyleozhang/yth_cms](https://gitee.com/haleyleozhang/yth_cms)  
-- 通过cURL方式，实现了渠道`One漫画`的资源爬取  
-- 实现了漫画管理
-
 ##### 对应项目地址
 [github.com/HaleyLeoZhang/node_puppeteer_example_go](https://github.com/HaleyLeoZhang/node_puppeteer_example_go)  
 
+### 后台
+本次后台使用`php`实现  
+开源地址：[https://gitee.com/haleyleozhang/yth_cms](https://gitee.com/haleyleozhang/yth_cms)  
+
+- 通过cURL方式，实现了渠道`One漫画`的资源爬取  
+- 实现了漫画资源相关管理
+
+
 ### 查看漫画
 
-打开 `public/index.html` 即可开始体验
+打开 `public/index.html` 即可开始体验  
 
