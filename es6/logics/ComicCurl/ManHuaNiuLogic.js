@@ -50,23 +50,8 @@ export default class ManHuaNiuLogic extends Base {
                         'source_id': info.source_id,
                         'name': info.titles[i],
                         'link': info.hrefs[i],
-                        'sequence': 0,
+                        'sequence': (i+1),
                     }
-                    let matches = one_data.name.match(/(\d+)/)
-                    if(null != matches) {
-                        let current_sequence = parseInt(matches[1])
-                        // 从第一话开始爬
-                        if(0 == sequence && 1 != current_sequence) {
-                            continue
-                        }
-                        // 允许误差 1 话
-                        if(current_sequence > sequence && current_sequence <= sequence + 1) {
-                            sequence = matches[1]
-                            Object.assign(one_data, { sequence })
-                        }
-                        // Log.log('current_sequence', current_sequence, 'sequence', sequence)
-                    }
-                    // Log.log('last_id:' +last_id + ' sequence:' + one_data.sequence)
                     if(one_data.sequence > last_sequence) {
                         data.push(one_data)
                     }
