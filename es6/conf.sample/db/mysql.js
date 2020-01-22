@@ -12,8 +12,8 @@ const DSN_COMIC = {
         port: 3306,
         user: 'root',
         password: '',
-        database: 'comics',
-        connection_limit: 10, // 连接池配置:维持链接数,理论上10个应该够了
+        database: 'curl_avatar',
+        connection_limit: 5, // 连接池配置:维持链接数,理论上10个应该够了
     }],
     // 写库
     write: [{
@@ -21,8 +21,8 @@ const DSN_COMIC = {
         port: 3306,
         user: 'root',
         password: '',
-        database: 'comics',
-        connection_limit: 10, 
+        database: 'curl_avatar',
+        connection_limit: 5, 
     }]
 }
 
