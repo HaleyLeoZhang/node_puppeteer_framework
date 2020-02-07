@@ -1,31 +1,64 @@
+<!DOCTYPE html>
 <html>
 
     <head>
-        <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
-        <meta charset="utf-8">
-        <link rel="stylesheet" href="./libs/css/image.css">
         <title>漫画图片列表</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1">
+        <meta http-equiv="Cache-Control" content="no-siteapp">
+        <meta name="renderer" content="webkit">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="screen-orientation" content="portrait">
+        <meta name="x5-orientation" content="portrait">
+        <meta name="full-screen" content="yes">
+        <meta name="x5-fullscreen" content="true">
+        <meta name="x5-page-mode" content="app">
+        <meta name="browsermode" content="application">
+        <meta name="msapplication-tap-highlight" content="no">
+        <meta name="copyright" content="云天河Blog">
+        <meta name="keywords" content="漫画爬虫,漫画书架">
+        <meta name="description" content="做产品、外包请加 QQ 1290336562">
+        <meta name="author" content="github.com/HaleyLeoZhang">
+        <!-- CDN -->
+        <link href="http://cdn.staticfile.org/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+        <link href="http://cdn.staticfile.org/font-awesome/4.6.3/fonts/fontawesome-webfont.svg" rel="image/svg+xml">
+        <link rel="shortcut icon" href="./favicon.ico">
+        <!-- Style -->
+        <link rel="stylesheet" href="./libs/css/image.css">
     </head>
 
     <body>
-        <header>
-            <h5 id="just_look"></h5>
-            <div class="clear"></div>
-        </header>
+        <div class="g_header">
+            <button type="button" class="btn back_last_page"><i class="fa fa-arrow-circle-left"></i></button>
+            <button type="button" class="btn back_btn">返回章节目录</button>
+            <div class="clr"></div>
+        </div>
         <div class="container">
-            <div id="skip">
-                <input type="button" id="show" value="返回章节列表">
-                <div class="clear"></div>
-            </div>
-            <div id="container">
-                <div id="chapter_name"></div><div class="clear"></div>
+            <div class="g_img_list">
+                <div id="chapter_name"></div>
+                <div class="clr"></div>
                 <div id="image_list"></div>
             </div>
-            <div>
-                <button class="next" id="trigger_next">下一页</button> 
-                <span id="top">    顶部  </span>
+        </div>
+        <div>
+            <button class="next" id="trigger_next">下一页</button>
+            <span id="top" title="返回到页面顶部">
+                <div>返回</div>
+                <div>顶部</div>
+            </span>
+        </div>
+        <div class="g_footer">
+            <div class="g_container">
+                <p>
+                    Copyright&nbsp;&copy; 2019-<span id="date_ch">Now</span>&nbsp;HaleyLeoZhang All Rights Reserved
+                </p>
+                <p>
+                    版权&nbsp;&copy; 2019-<span id="date_en">至今</span>&nbsp; HaleyLeoZhang 版权所有
+                </p>
+                <p>
+                    <a style="color:#437373;" target="_blank" rel="nofollow" href="http://beian.miit.gov.cn/">鲁ICP备16014994号</a>
+                </p>
             </div>
-
         </div>
         <!-- JS Lib -->
         <script src="https://cdn.staticfile.org/jquery/2.1.4/jquery.min.js" title="插件基础服务"></script>
@@ -37,7 +70,7 @@
         <!-- Bussiness -->
         <script src="./libs/js/logic/image.js?v=20191125_1608"></script>
         <script>
-            Raven.config('http://8892d6b01ddc45df929a55aaa5e19bd7@sentry.ops.hlzblog.top/13').install()
+        Raven.config('http://8892d6b01ddc45df929a55aaa5e19bd7@sentry.ops.hlzblog.top/13').install()
         </script>
     </body>
 

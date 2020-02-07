@@ -1,13 +1,25 @@
 <!DOCTYPE html>
-<html lang="en" class="no-js">
+<html>
 
     <head>
-        <meta charset="UTF-8" />
+        <title>漫画章节列表 | 云天河Blog</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1">
+        <meta http-equiv="Cache-Control" content="no-siteapp">
+        <meta name="renderer" content="webkit">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>书架-详情 | 云天河Blog</title>
-        <meta name="description" content="云天河Blog爬虫项目之漫画章节列表" />
-        <meta name="keywords" content="云天河,云天河博客,云天河Blog,hlzblog,hlz" />
+        <meta name="screen-orientation" content="portrait">
+        <meta name="x5-orientation" content="portrait">
+        <meta name="full-screen" content="yes">
+        <meta name="x5-fullscreen" content="true">
+        <meta name="x5-page-mode" content="app">
+        <meta name="browsermode" content="application">
+        <meta name="msapplication-tap-highlight" content="no">
+        <meta name="copyright" content="云天河Blog">
+        <meta name="keywords" content="漫画爬虫,漫画书架">
+        <meta name="description" content="做产品、外包请加 QQ 1290336562">
+        <meta name="author" content="github.com/HaleyLeoZhang">
+        <link rel="shortcut icon" href="./favicon.ico">
         <!-- Style -->
         <link rel="stylesheet" href="./libs/css/page.css">
     </head>
@@ -16,10 +28,12 @@
         <div class="container">
             <header>
                 <h1>
-                    <span id="comic_title"></span>
-                    <span class="back_list">返回书架</span>
-                    <span id="chapter_order">正序</span>
+                    <span id="comic_title" title="漫画名称" alt="漫画名称">加载中...</span>
                 </h1>
+                <div>
+                    <span class="back_list" title="返回书架">返回书架</span>
+                    <span id="chapter_order" title="改变章节展示顺序">...</span>
+                </div>
             </header>
             <div class="wrapper">
                 <div class="row" id="chapter_list">
@@ -27,10 +41,24 @@
                         <a class="btn btn-1" href="#" >Learn More</a>
                     </div> -->
                 </div>
+                <div class="clr"></div>
             </div>
             <!-- /wrapper -->
         </div>
         <!-- /container -->
+        <div class="g_footer">
+            <div class="g_container">
+                <p>
+                    Copyright&nbsp;&copy; 2019-<span id="date_ch">Now</span>&nbsp;HaleyLeoZhang All Rights Reserved
+                </p>
+                <p>
+                    版权&nbsp;&copy; 2019-<span id="date_en">至今</span>&nbsp; HaleyLeoZhang 版权所有
+                </p>
+                <p>
+                    <a style="color:#437373;" target="_blank" rel="nofollow" href="http://beian.miit.gov.cn/">鲁ICP备16014994号</a>
+                </p>
+            </div>
+        </div>
         <!-- JS Lib -->
         <script src="https://cdn.staticfile.org/jquery/2.1.4/jquery.min.js" title="插件基础服务"></script>
         <script src="https://cdn.staticfile.org/jquery_lazyload/1.9.7/jquery.lazyload.min.js"></script>
@@ -42,7 +70,7 @@
         <!-- Bussiness -->
         <script src="./libs/js/logic/page.js"></script>
         <script>
-            Raven.config('http://8892d6b01ddc45df929a55aaa5e19bd7@sentry.ops.hlzblog.top/13').install()
+        Raven.config('http://8892d6b01ddc45df929a55aaa5e19bd7@sentry.ops.hlzblog.top/13').install()
         </script>
     </body>
 

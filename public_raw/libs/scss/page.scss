@@ -4,8 +4,13 @@ body {
     background: #d0d5f7;
 }
 
-h1 {
-    font-weight: 500
+body > .container > header {
+    text-align: center;
+    margin-bottom: 1em;
+    h1 {
+        font-weight: 500;
+        font-size: 1em;
+    }
 }
 
 .btn {
@@ -30,7 +35,7 @@ h1 {
     color: #333;
     background-color: #fff;
     line-height: px2rem(26px);
-    padding: px2rem(15px) px2rem(20px);
+    padding: 1em 1.2em;
     border-radius: px2rem(40px);
     margin: 10px 0;
 
@@ -45,9 +50,11 @@ h1 {
     line-height: px2rem(20px);
     letter-spacing: .1em;
 
-    word-wrap: break-word;
-    word-break: break-all;
+    width: 70%;
+
     overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 #comic_title {
@@ -68,15 +75,16 @@ h1 {
 }
 
 .back_list {
-    font-size: 50%;
     padding-left: 1em;
     color: #bd9393;
+    &:hover {
+        cursor: pointer;
+    }
 }
 
 #chapter_order {
-    font-size: 50%;
-    padding-left: 1em;
-    color: #00c3f5;
+    margin-left: 1em;
+    color: #8c8f90;
     &:hover {
         cursor: pointer;
     }
@@ -86,28 +94,6 @@ h1 {
     color: silver;
 }
 
-
-
-@media screen and (max-width:768px) {
-    .btn-1 {
-        width: px2rem(120px);
-    }
-}
-
-@media screen and (min-width:768px) {
-    .btn-1 {
-        width: px2rem(150px);
-    }
-}
-
-@media screen and (min-width:992px) {
-    .btn-1 {
-        width: px2rem(200px);
-    }
-}
-
-@media screen and (min-width:1200px) {
-    .btn-1 {
-        width: px2rem(200px);
-    }
+.item{
+    text-align: center;
 }

@@ -7,6 +7,9 @@
         "done": 2,
     }
 
+    var DETAIL_LOAD_SUCCESS = true;
+    var DETAIL_LOAD_WAIT = false;
+
     var CACHE_HISTORY_READ = 'history_read';
 
     function Image() {
@@ -114,6 +117,29 @@
     };
 
     /**
+     * 页眉相关按钮
+     */
+    Image.prototype.action_about_header = function () {
+        var _this = this
+        // 返回上一页
+        $('.back_last_page').on('click', function () {
+            history.go(-1);
+        })
+        // 返回章节列表
+        $('.back_btn').on('click', function () {
+            if(DETAIL_LOAD_SUCCESS ==_this.check_detail()){
+                var param = ComicCommon.json_to_query({
+                    "channel": _this.detail.comic.channel,
+                    "source_id": _this.detail.comic.source_id,
+                    "title": _this.detail.comic.name,
+                });
+                location.href = ComicCommon.comic_html.page + '?' + param;
+            }
+        })
+    };
+
+
+    /**
      * 进入下一页
      */
     Image.prototype.action_go_to_next = function () {
@@ -151,35 +177,20 @@
     Image.prototype.check_detail = function () {
         if(!this.detail) {
             layer.msg('客官请稍等哦~')
-            return false
+            return DETAIL_LOAD_WAIT
         }
-        return true
+        return DETAIL_LOAD_SUCCESS
     }
 
-    Image.prototype.one_page = function () {
-        var _this = this
-        _this.compute_one_page();
-        $("body").on("resize", function(){
-            _this.compute_one_page();
-        });
-    }
-    Image.prototype.compute_one_page = function () {
-        var btn_back_height = document.getElementById("skip").scrollHeight;
-        var btn_next_height = document.getElementById("trigger_next").scrollHeight;
-        var one_page_height = document.body.clientHeight;
-        var content_min_height = one_page_height - btn_back_height - btn_next_height;
-        document.getElementById("container").style["min-height"] = content_min_height;
-    }
     Image.prototype.run_app = function () {
         var _this = this;
 
-        _this.one_page()
+        _this.action_about_header();
         _this.get_list()
         _this.get_page_detail()
         _this.action_back_page_list()
         _this.action_go_to_next()
         _this.action_go_to_head()
-
     };
     App_Image.run_app()
 })(jQuery, window);

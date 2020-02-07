@@ -1,27 +1,88 @@
 $base-font-size: 16px;
-html,body{
+html,
+body {
     margin: 0;
     padding: 0;
     height: 100%;
     color: #333;
     font-size: $base-font-size;
-    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
-a{
+
+a {
     text-decoration: none;
 }
+
+.g_footer {
+    background: #1a222a;
+    padding: 1em .5em 1em .5em;
+    text-align: center;
+    p {
+        color: #999393;
+        font-size: .8em;
+        line-height: 1.7em;
+        margin: 0 auto;
+    }
+}
+
+.container {
+    min-height: 100%;
+}
+
+.g_header {
+    border-radius: 3px; // background: #929ba1;
+    .btn {
+        color: #fff;
+        cursor: pointer;
+        padding: 12px 0px 12px 0;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        border: none;
+    }
+    .back_last_page {
+        background: #929ba1; // border-color: #929ba1;
+        width: 25%;
+        height: 3em;
+        float: left;
+        font-size: 1em;
+    }
+    .back_btn {
+        width: 75%;
+        height: 3em;
+        float: right;
+        font-size: 1em;
+        background: #808e91;
+        font-family: 微软雅黑;
+        font-weight: 700;
+    }
+}
+
+.clr {
+    width: 100%;
+    clear: both;
+}
+
+
+
+
 
 /**
  * 计算像素
  */
+
 @function px2rem($px) {
-  @return ($px / $base-font-size) * 1rem;
+    @return ($px / $base-font-size) * 1rem;
 }
+
+
+
 
 
 /**
  * 滚动条
  */
+
 ::-webkit-scrollbar {
     width: px2rem(10px);
     height: px2rem(10px);

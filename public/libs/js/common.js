@@ -309,4 +309,16 @@
         return str;
     };
 
+    // 设置页足
+    Comic_Common.prototype.set_footer_date = function () {
+        var _this = this
+        if(undefined !== document.getElementById("date_ch")) {
+            var year = _this.format_time('Y');
+            $("#date_ch").html(year);
+            $("#date_en").html(year);
+        }
+    };
+
+    ComicCommon.set_footer_date();
+
 })(jQuery, window);

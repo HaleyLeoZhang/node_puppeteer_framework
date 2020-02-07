@@ -1,57 +1,82 @@
 ﻿<!DOCTYPE html>
-<html lang="en" class="no-js">
-	<head>
-		<meta charset="UTF-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
-		<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-		<title>书架 | 云天河Blog</title>
-		<meta name="description" content="`云天河Blog`收集的漫画书与技术书籍" />
-		<meta name="keywords" content="云天河,云天河博客,云天河Blog,hlzblog,hlz" />
-		<!-- Style -->
+<html>
+
+    <head>
+        <title>漫画首页 | 云天河Blog</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1">
+        <meta http-equiv="Cache-Control" content="no-siteapp">
+        <meta name="renderer" content="webkit">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="screen-orientation" content="portrait">
+        <meta name="x5-orientation" content="portrait">
+        <meta name="full-screen" content="yes">
+        <meta name="x5-fullscreen" content="true">
+        <meta name="x5-page-mode" content="app">
+        <meta name="browsermode" content="application">
+        <meta name="msapplication-tap-highlight" content="no">
+        <meta name="copyright" content="云天河Blog">
+        <meta name="keywords" content="漫画爬虫,漫画书架">
+        <meta name="description" content="做产品、外包请加 QQ 1290336562">
+        <meta name="author" content="github.com/HaleyLeoZhang">
+        <link rel="shortcut icon" href="./favicon.ico">
+        <!-- Style -->
         <link rel="stylesheet" href="./libs/css/comic.css">
-	</head>
-	<body>
-		<div class="container">
-			<header>
-				<h1>书架 <span>云天河Blog 爬取的漫画书</span></h1>  
-			</header>
-			<div class="wrapper">
-				<ul class="stage clearfix" id="book_list">
-				<!-- 漫画类 -->
+    </head>
 
-					<!-- 龙族Ⅰ  [完结]-->
-					<!-- <a href="dragon1">
-					  <li class="scene">
-						<div class="movie" onclick="return true">
-							<div class="poster" 
-							style="background-image: url(http://img.cdn.hlzblog.top/17-7-8/43706670.jpg);"></div>
-							<div class="info">
-								<p>
-									《龙族Ⅰ》讲述了：他寄人篱下，他考试吊车尾，他暗恋的班花被兄弟抢先告白，没人在乎过他的想法。废柴、衰仔，这就是路明非。可是，谁说衰仔就不能拉风？谁说废柴就考不上大学？谁说平凡就不能有梦想？
-								</p>
-							</div>
-						</div>
-					  </li>
-					</a> -->
-					
-
-				</ul>
-			</div><!-- /wrapper -->
-		</div><!-- /container -->
-
-
-	<!-- JS Lib -->
-	<script src="https://cdn.staticfile.org/jquery/2.1.4/jquery.min.js" title="插件基础服务"></script>
-	<script src="https://cdn.staticfile.org/jquery_lazyload/1.9.7/jquery.lazyload.min.js"></script>
-	<script src="https://cdn.staticfile.org/layer/2.3/layer.js"></script>
-    <script src="https://cdn.ravenjs.com/3.19.1/raven.min.js" crossorigin="anonymous"></script>
-	<!-- Init -->
-	<script src="./libs/book/js/modernizr.custom.js"></script>
-	<script src="./libs/js/common.js"></script>
-    <script>
+    <body>
+        <div class="container">
+            <header>
+                <h1>书架 <span>云天河Blog 爬取的漫画书</span></h1>
+            </header>
+            <div class="wrapper">
+                <ul class="stage clearfix" id="book_list">
+                    <!-- 漫画类 -->
+                    <!-- 龙族Ⅰ  [完结]-->
+                    <!-- <a href="dragon1">
+                      <li class="scene">
+                        <div class="movie" onclick="return true">
+                            <div class="poster" 
+                            style="background-image: url(http://img.cdn.hlzblog.top/17-7-8/43706670.jpg);"></div>
+                            <div class="info">
+                                <p>
+                                    《龙族Ⅰ》讲述了：他寄人篱下，他考试吊车尾，他暗恋的班花被兄弟抢先告白，没人在乎过他的想法。废柴、衰仔，这就是路明非。可是，谁说衰仔就不能拉风？谁说废柴就考不上大学？谁说平凡就不能有梦想？
+                                </p>
+                            </div>
+                        </div>
+                      </li>
+                    </a> -->
+                </ul>
+            </div>
+            <!-- /wrapper -->
+        </div>
+        <!-- /container -->
+        <div class="g_footer">
+            <div class="g_container">
+                <p>
+                    Copyright&nbsp;&copy; 2019-<span id="date_ch">Now</span>&nbsp;HaleyLeoZhang All Rights Reserved
+                </p>
+                <p>
+                    版权&nbsp;&copy; 2019-<span id="date_en">至今</span>&nbsp; HaleyLeoZhang 版权所有
+                </p>
+                <p>
+                    <a style="color:#437373;" target="_blank" rel="nofollow" href="http://beian.miit.gov.cn/">鲁ICP备16014994号</a>
+                </p>
+            </div>
+        </div>
+        <!-- JS Lib -->
+        <script src="https://cdn.staticfile.org/jquery/2.1.4/jquery.min.js" title="插件基础服务"></script>
+        <script src="https://cdn.staticfile.org/jquery_lazyload/1.9.7/jquery.lazyload.min.js"></script>
+        <script src="https://cdn.staticfile.org/layer/2.3/layer.js"></script>
+        <script src="https://cdn.ravenjs.com/3.19.1/raven.min.js" crossorigin="anonymous"></script>
+        <!-- Init -->
+        <script src="./libs/book/js/modernizr.custom.js"></script>
+        <script src="./libs/js/common.js"></script>
+        <script>
         Raven.config('http://8892d6b01ddc45df929a55aaa5e19bd7@sentry.ops.hlzblog.top/13').install()
-    </script>
-	<!-- Bussiness -->
-	<script src="./libs/js/logic/comic.js"></script>
-	</body>
+        </script>
+        <!-- Bussiness -->
+        <script src="./libs/js/logic/comic.js"></script>
+    </body>
+
 </html>

@@ -49,10 +49,10 @@
         Object.assign(list_raw, _this.tmp_list) // 对象数据,注意深拷贝数据
         var list = []
         if(this.order_enum.positive == _this.get_order()) {
-            $(this.target_revert_chapter).text('正序')
+            $(this.target_revert_chapter).text('正序排列')
             list = list_raw
         } else {
-            $(this.target_revert_chapter).text('倒序')
+            $(this.target_revert_chapter).text('倒序排列')
             for(; list_raw.length > 0;) {
                 list.push(list_raw.pop())
             }
@@ -106,10 +106,12 @@
 
             template += `
                 <div class="col-xs-6 col-sm-4  col-md-4 col-lg-3">
-                    <a href="#__" data-page_id="${item.id}"
-                    class="btn btn-1 to_see_images ${add_read_mark} ${add_unreadable}" 
-                    title="${item.name}" alt="${item.name}"
-                    >${item.name}</a>
+                    <div class="item">
+                        <a href="#__" data-page_id="${item.id}"
+                        class="btn btn-1 to_see_images ${add_read_mark} ${add_unreadable}" 
+                        title="${item.name}" alt="${item.name}"
+                        >${item.name}</a>
+                    </div>
                 </div>
             `
         }
