@@ -128,12 +128,12 @@
         // 返回章节列表
         $('.back_btn').on('click', function () {
             if(DETAIL_LOAD_SUCCESS ==_this.check_detail()){
-                var param = ComicCommon.json_to_query({
+                var query_string = ComicCommon.json_to_query({
                     "channel": _this.detail.comic.channel,
                     "source_id": _this.detail.comic.source_id,
                     "title": _this.detail.comic.name,
                 });
-                location.href = ComicCommon.comic_html.page + '?' + param;
+                location.href = ComicCommon.comic_html.page + '?' + query_string;
             }
         })
     };
@@ -159,7 +159,7 @@
                 layer.confirm(confirm_info, {
                     btn: ['返回目录', '留在这里']
                 }, function () {
-                    $("#show").click();
+                    $(".back_btn").click();
                 });
                 return;
             }
