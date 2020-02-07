@@ -53,8 +53,8 @@
             list = list_raw
         } else {
             $(this.target_revert_chapter).text('倒序排列')
-            for(; list_raw.length > 0;) {
-                list.push(list_raw.pop())
+            for(var i=list_raw.length -1 ; i >= 0; i--) {
+                list.push(list_raw[i])
             }
         }
         if(0 == list.length) {
