@@ -8,6 +8,9 @@ $block_of_4: ($one_in_12 * 4) ;
 $block_of_3: ($one_in_12 * 3) ;
 
 @media screen and (max-width:768px)  {
+    .col-xs-12{
+        width: 100%;
+    }
     .col-xs-6{
         width: #{$block_of_6  + '%'};
     }

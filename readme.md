@@ -4,14 +4,14 @@
 最终解释权归作者 [云天河](https://github.com/haleyleozhang) 所有  
 
 #### 效果预览
-![首页](./readme_intro/imgs/preview_index.png)  
-`图 0001`  
+![首页](./readme_intro/imgs/preview_index_20200208_1410.png)  
+`图 001`  
 
-![章节列表页](./readme_intro/imgs/preview_chapter.png)  
-`图 0002`  
+![章节列表页](./readme_intro/imgs/preview_chapter_20200208_1252.png)  
+`图 002`  
 
-![章节漫画页](./readme_intro/imgs/preview_detail.png)  
-`图 0003`  
+![章节漫画页](./readme_intro/imgs/preview_detail_20200208_1250.png)  
+`图 003`  
 
 [点此体验](http://comic.pre.hlzblog.top/)  
 

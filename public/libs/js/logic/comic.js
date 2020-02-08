@@ -16,6 +16,8 @@
         this.page = 1; // 初始拉取位置
         this.target_append = '#book_list'
         this.scroll_trigger = true
+        
+        ComicCommon.load_target = '#book_list'
     }
     window.App_Comic = new Comic();
 
@@ -44,10 +46,11 @@
             icon = _this.get_icon_by_tag(item, icon);
 
             template += `
-                <a href="#" id="${id}" class="go_to_module" data-title="${item.name}" data-source_id ="${item.source_id}" data-channel ="${item.channel}">
-                    <li class="scene">
+                <div id="${id}" class="go_to_module col-xs-12 col-sm-6  col-md-4 col-lg-3" title="查看详情" alt="查看详情"
+                    data-title="${item.name}" data-source_id ="${item.source_id}" data-channel="${item.channel}">
+                    <div class="scene">
                         <div class="${icon}"></div>
-                        <div class="movie" onclick="return true">
+                        <div class="movie">
                             <div class="poster" style="background-image: url(${item.pic});"></div>
                             <div class="info">
                                 <p>
@@ -55,8 +58,8 @@
                                 </p>
                             </div>
                         </div>
-                    </li>
-                </a>
+                    </div>
+                </div>
             `
         }
         return template

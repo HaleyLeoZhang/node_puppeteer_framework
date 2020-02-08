@@ -14,7 +14,9 @@ a {
 }
 
 .g_footer {
-    background: #1a222a;
+    // background: #1a222a;
+    // 背景图备份位置 /public/libs/img/footer_bg
+    background: url(http://img.cdn.hlzblog.top/17-6-16/28882506.jpg);
     padding: 1em .5em 1em .5em;
     text-align: center;
     p {
@@ -22,6 +24,18 @@ a {
         font-size: .8em;
         line-height: 1.7em;
         margin: 0 auto;
+    }
+    .feedback{
+        color: #e8e8e8;
+        a{
+            color: #d8bfe1;
+            cursor: pointer;
+            text-decoration: none;
+            transition: color .2s linear;
+            &:hover{
+                color: #5cacee;
+            }
+        }
     }
 }
 

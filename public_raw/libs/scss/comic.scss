@@ -1,9 +1,76 @@
 @import '_comon.scss';
-@import '../../../public/libs/book/css/normalize.css';
-@import '../../../public/libs/book/css/demo.css';
-@import '../../../public/libs/book/css/component.css';
 @import '_book_icon.scss';
+@import '_grid_system.scss';
 
-header h1{
-    color: white;
+body {
+    background: #8c8982;
+    font-family: 'Lato', Arial, sans-serif;
+    color: #fff;
+}
+
+.container {
+    header {
+        text-align: center;
+        padding: 1em;
+        h1 {
+            font-size: 2.625em;
+            line-height: 1.3;
+            margin: 0;
+            font-weight: 300;
+        }
+        div {
+            display: block;
+            font-size: 1.4em;
+            opacity: .7;
+            padding: 0 0 .6em .1em;
+        }
+    }
+    .wrapper {
+        margin: 0 auto;
+    }
+}
+
+/* 3D */
+.scene {
+    width: 260px;
+    height: 400px;
+    perspective: 1000px;
+    cursor: pointer;
+    margin: 30px auto 30px auto;
+    .movie {
+        width: 260px;
+        height: 400px;
+        transform-style: preserve-3d;
+        transform: translateZ(-130px);
+        transition: transform 350ms;
+        &:hover {
+            transform: rotateY(-78deg) translateZ(20px);
+        }
+        .poster {
+            transform: translateZ(130px);
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+        .info {
+            transform: rotateY(90deg) translateZ(130px);
+            border: 1px solid #b8b5b5;
+            font-size: 0.75em;
+            p {
+                padding: 1.2em 1.4em;
+                margin: 2px 0 0;
+                font-family: "Microsoft Yahei", Arial, Helvetica, sans-serif;
+                font-weight: 400;
+                font-size: 14px;
+                color: #928e8e;
+            }
+        }
+        .poster,
+        .info {
+            position: absolute;
+            width: 260px;
+            height: 400px;
+            background-color: #fff;
+            backface-visibility: hidden;
+        }
+    }
 }

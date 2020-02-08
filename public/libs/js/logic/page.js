@@ -21,6 +21,8 @@
             "revert": -1, // 倒序
         };
         this.tmp_list = []; // 临时存储列表数据,方便正序倒序
+
+        ComicCommon.load_target = '#chapter_list'
     }
     window.App_Page = new Page();
 
@@ -140,7 +142,7 @@
 
     Page.prototype.set_title = function () {
         var title = ComicCommon.query_param('title')
-        document.title = title
+        document.title = title + ' | 章节列表'
         $("#comic_title").html(`${title}`)
     };
 
