@@ -25,6 +25,7 @@
         this.detail = null
 
         ComicCommon.load_target = '#image_list'
+        ComicCommon.scroll_tolerant = 300 // 修改下拉加载的容差
     }
     window.App_Image = new Image();
 
@@ -69,7 +70,6 @@
      */
     Image.prototype.get_list = function () {
         var _this = this;
-        ComicCommon.scroll_tolerant = 300 // 修改容差
 
         var param = {
             page_id: ComicCommon.query_param('id'),
