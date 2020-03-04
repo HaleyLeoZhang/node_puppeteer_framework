@@ -14,7 +14,7 @@
 
     function Image() {
         this.target_append = '#image_list'
-        this.real_index = 5 // 从第几张开始,可以懒加载图片
+        this.real_index = 2 // 从第几张开始,可以懒加载图片
 
         this.detail = null
 
