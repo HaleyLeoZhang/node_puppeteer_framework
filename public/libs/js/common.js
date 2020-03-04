@@ -9,9 +9,9 @@
     var HOST = 'http://puppeteer.hlzblog.top';
     // var HOST = 'http://puppeteer.test.com';
 
-    var SCROLL_TOLERANT = 50 // 容差值
-
     function Comic_Common() {
+        this.scroll_tolerant = 50 // 容差值
+        this.loading_img = "https://i.loli.net/2019/09/05/YPu62erGMa3l1IE.gif"
         // API列表---可跨域
         this.api = {
             comic_list: HOST + '/api/comic/comic_list', // 漫画列表
@@ -133,21 +133,6 @@
     };
 
     /**
-     * lazy load
-     */
-    Comic_Common.prototype.image_lazy_load = function () {
-        // Achieve lazy load
-        $('.lazy_pic').lazyload({
-            effect: 'fadeIn',
-            threshold: 200,
-            failurelimit: 10,
-            // placeholder: './libs/img/common_loading.gif',
-            placeholder: 'https://i.loli.net/2019/09/05/YPu62erGMa3l1IE.gif',
-            // data_attribute: 'original', // data-original属性
-        });
-    };
-
-    /**
      * 到页底触发回调
      * @param callable callback 回调功能
      */
@@ -157,7 +142,7 @@
             var scroll = parseInt(document.documentElement.scrollTop || document.body.scrollTop);
             // - 计算当前页面高度
             var tag_position = document.body.scrollHeight;
-            var now = scroll + document.documentElement.clientHeight + SCROLL_TOLERANT;
+            var now = scroll + document.documentElement.clientHeight + _this.scroll_tolerant;
             if(now >= tag_position) {
                 callback()
             }
