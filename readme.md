@@ -1,22 +1,26 @@
-#### 法律声明
-此代码仅供学习  
-所爬取内容禁止商用  
-最终解释权归作者 [云天河](https://github.com/haleyleozhang) 所有  
+## 简介
+这是一款行为类爬虫框架  
 
-#### 效果预览
-![首页](./readme_intro/imgs/preview_index_20200208_1410.png)  
-`图 001`  
+> 章节列表
 
-![章节列表页](./readme_intro/imgs/preview_chapter_20200208_1252.png)  
-`图 002`  
-
-![章节漫画页](./readme_intro/imgs/preview_detail_20200208_1250.png)  
-`图 003`  
-
-[点此体验](http://comic.pre.hlzblog.top/)  
-
-#### 给我留言
-[点此进入](http://www.hlzblog.top/board)  
+- [初始配置](readme_intro/article/chapter01.md)
+- [安装相关依赖](readme_intro/article/chapter02.md)
+- [项目结构说明](readme_intro/article/chapter03.md)
+- [数据I/O](readme_intro/article/chapter04.md)
+    - [Mysql查询构造器](readme_intro/article/chapter04-01.md)
+        - [配置模型](readme_intro/article/chapter04-01-00.md)
+        - [增](readme_intro/article/chapter04-01-01.md)
+        - [删](readme_intro/article/chapter04-01-02.md)
+        - [改](readme_intro/article/chapter04-01-03.md)
+        - [查](readme_intro/article/chapter04-01-04.md)
+    - [Redis缓存](readme_intro/article/chapter04-02.md)
+    - [MQ使用](readme_intro/article/chapter04-03.md)
+- [SAPI](readme_intro/article/chapter05.md)
+    - [HTTP服务](readme_intro/article/chapter05-01.md)
+    - [CLI服务](readme_intro/article/chapter05-02.md)
+- [爬虫说明](readme_intro/article/chapter06.md)
+    - [行为类爬虫说明](readme_intro/article/chapter06-01.md)
+- [代码规范](readme_intro/article/chapter07.md)
 
 ## 起步
 
@@ -69,7 +73,7 @@ apt-get install google-chrome-stable
 npm install --ignore-scripts
 # 安装 gulp 
 npm install -g gulp
-# 生成兼容 es5 语法的 node 文件
+# 生成兼容 es5 语法的 node 文件 调试过程中 如果有文件新增或者删除 需要重新执行这个命令
 gulp start
 ~~~
 

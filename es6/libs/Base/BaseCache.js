@@ -9,30 +9,29 @@
 // GITHUB: https://github.com/HaleyLeoZhang
 // ----------------------------------------------------------------------
 import redis from 'redis'
-import { DSN_COMIC } from '../../conf/db/redis'
+import { DSN_CACHE, CACHE_PREFIX } from '../../conf/db/redis'
 import Log from '../../tools/Log'
-
-const CACHE_PREFIX = 'puppeteer'
 
 
 class Helper {
     static get_real_key(name, key) {
         const real_key = [CACHE_PREFIX, name, key].join(':')
+        console.log(real_key);
         return real_key
     }
     static set_data_sync(redis_client, real_key, data_str, is_EX, ttl, type) {
 
         return new Promise((resolve) => {
             const _callback = (err, res) => {
-                if('OK' == res) {
+                if ('OK' == res) {
                     resolve(true)
                 } else {
                     resolve(false)
                 }
             }
-            if(!is_EX) {
+            if (!is_EX) {
                 redis_client.set(real_key, data_str, _callback)
-            } else if(!type) {
+            } else if (!type) {
                 redis_client.set(real_key, data_str, 'EX', ttl, _callback)
             } else {
                 redis_client.set(real_key, data_str, 'EX', ttl, type, _callback)
@@ -44,8 +43,8 @@ class Helper {
 export default class BaseCache {
     static async get_redis() {
         // 单例获取
-        if(!this.instance) {
-            const client = redis.createClient(DSN_COMIC);
+        if (!this.instance) {
+            const client = redis.createClient(DSN_CACHE);
             await new Promise((resolve) => {
                 client.on('connect', () => {
                     resolve(true)
@@ -89,17 +88,17 @@ export default class BaseCache {
         const real_key = Helper.get_real_key(name, key)
 
         let data_str = null
-        switch(data_type) {
-        case 'string':
-            data_str = data
-            break;
-        case 'object':
-            data_str = JSON.stringify(data)
-            break;
+        switch (data_type) {
+            case 'string':
+                data_str = data
+                break;
+            case 'object':
+                data_str = JSON.stringify(data)
+                break;
         }
 
         let res = false
-        if(is_lock) {
+        if (is_lock) {
             res = await Helper.set_data_sync(redis_client, real_key, data_str, 'EX', ttl, 'NX')
         } else {
             res = await Helper.set_data_sync(redis_client, real_key, data_str, 'EX', ttl)
@@ -116,13 +115,13 @@ export default class BaseCache {
         const data_str = redis_client.get(real_key)
 
         let data = null
-        switch(data_type) {
-        case 'string':
-            data = data_str
-            break;
-        case 'object':
-            data = JSON.parse(data_str)
-            break;
+        switch (data_type) {
+            case 'string':
+                data = data_str
+                break;
+            case 'object':
+                data = JSON.parse(data_str)
+                break;
         }
         return data
     }

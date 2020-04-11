@@ -7,9 +7,11 @@
 import Register from './libs/Register'
 // 待注册模块列表
 import ComicCurl from './cli/ComicCurl'
+import Test from './cli/Test'
 
 const app = new Register()
 app.bootstrap()
     // 注册模块，调用的模块方法，都得是 async
     .use('comic', ComicCurl) // 调用示例 node ./app.js  comic mhn_pages
+    .use('test', Test) // 调用示例 node ./app.js  test sql
     .run()

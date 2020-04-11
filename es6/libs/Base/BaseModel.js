@@ -12,12 +12,13 @@ import Log from '../../tools/Log'
 // -----------------------------------------------------------------------
 // 暂不实现：1.主从模式 2.chunk 3.事务处理
 // -----------------------------------------------------------------------
-// 表结构要求 1.表结构全部都得有默认值，NOT NULL 2.必须包含四个字段 
+// 表结构要求 1.表结构全部都得有默认值 2. NOT NULL 3.必须包含以下四个字段 
+// 注: 使用当前查询构造器 select 自动会忽略 被软删的数据
 // 注： 以下字段不允许作为业务字段
 // - id 自增无符号整型
-// - created_at 创建时间 tampstamp
-// - updated_at 更新时间 tampstamp 自动更新
-// - is_deleted 数据状态 枚举值：0 未删除 1 已删除
+// - created_at 创建时间 datetime
+// - updated_at 更新时间 datetime 请在数据表中设置为自动更新
+// - is_deleted 数据状态 枚举值: 0 未删除 1 已删除
 // -----------------------------------------------------------------------
 
 const CURRENT_TIME = General.format_time('Y-m-d h:i:s')
@@ -53,7 +54,7 @@ class Handler {
         false === data instanceof Array ? data = [data] : null;
 
         const len = data.length
-        if(0 == len) {
+        if (0 == len) {
             throw new Error('插入数据不能为空');
         }
         // 获取插入字段
@@ -62,7 +63,7 @@ class Handler {
 
         let fields = [];
         let fields_warp = [];
-        for(let field in sample) {
+        for (let field in sample) {
             fields.push(field);
             fields_warp.push('`' + field + '`');
         }
@@ -71,10 +72,10 @@ class Handler {
         let datas = [];
         let sql = `Insert into \`${table}\` ( ${fields_warp.join(',')} )Values`
         let warp_data = [];
-        for(let i = 0; i < len; i++) {
+        for (let i = 0; i < len; i++) {
             this.add_time_field(data[i])
             let item = [];
-            for(let index in fields) {
+            for (let index in fields) {
                 item.push('?')
                 datas.push(data[i][fields[index]])
             }
@@ -91,16 +92,16 @@ class Handler {
     }
     static handle_where_in(arr, is_not_in, datas) {
         let len = arr.length
-        if(0 === len) {
+        if (0 === len) {
             throw new Error("Where in 入参不能为空数组")
         }
         let sql = '';
         let _bind_param = []
-        for(let i in arr) {
+        for (let i in arr) {
             _bind_param.push('?')
             datas.push(arr[i])
         }
-        if(undefined !== is_not_in) {
+        if (undefined !== is_not_in) {
             sql += ' Not '
         }
         sql += 'In (' + _bind_param.join(',') + ') '
@@ -116,11 +117,11 @@ class Handler {
         Object.assign(where, { 'is_deleted': IS_DELETED_NO })
 
         let order_by = '';
-        if(where.ORDER !== undefined) {
+        if (where.ORDER !== undefined) {
             let order_arr = []
             let order = where.ORDER
             delete where.ORDER
-            for(let field in order) {
+            for (let field in order) {
                 let sequence = order[field]
                 order_arr.push(`\`${field}\` ${sequence}`)
             }
@@ -128,24 +129,24 @@ class Handler {
         }
 
         let sql_limit = '';
-        if(where.LIMIT !== undefined) {
+        if (where.LIMIT !== undefined) {
             let limit = where.LIMIT
             delete where.LIMIT
-            if("object" == typeof limit) {
+            if ("object" == typeof limit) {
                 sql_limit = ` limit ${limit[0]},${limit[1]}`
             } else {
                 sql_limit = ` limit ${limit}`
             }
         }
 
-        for(let field in where) {
+        for (let field in where) {
             let value = where[field]
             let matches = field.match(/(.*?)\[(.*?)\]/)
             // 无其他条件符号
-            if(null === matches) {
-                if("object" == typeof value) { // where in 情况 ，value 为数组
+            if (null === matches) {
+                if ("object" == typeof value) { // where in 情况 ，value 为数组
                     let { sql_in, datas_new } = Handler.handle_where_in(value, undefined, datas)
-                    if(null === sql_in) {
+                    if (null === sql_in) {
                         continue
                     }
                     where_arr.push(`\`${field}\` ${sql_in}`)
@@ -158,9 +159,9 @@ class Handler {
                 field = matches[1]
                 let delimiter = matches[2]
 
-                if("object" == typeof value) { // where not in 情况 ，value 为数组
+                if ("object" == typeof value) { // where not in 情况 ，value 为数组
                     let { sql_in, datas_new } = Handler.handle_where_in(value, 'not in', datas)
-                    if(null === sql_in) {
+                    if (null === sql_in) {
                         continue
                     }
                     where_arr.push(`\`${field}\` ${sql_in}`)
@@ -171,7 +172,7 @@ class Handler {
                 }
             }
         }
-        if(where_arr.length > 0) {
+        if (where_arr.length > 0) {
             sql += ` Where ` + where_arr.join(" AND ")
         }
 
@@ -189,12 +190,12 @@ class Handler {
     static do_update(table, update, where) {
         let sql = `Update \`${table}\` Set `
         let _datas = [];
-        if(0 == update.length) {
+        if (0 == update.length) {
             throw new Error("请输入更新条件")
         }
         let set_arr = []
 
-        for(let field in update) {
+        for (let field in update) {
             let value = update[field]
             set_arr.push(`\`${field}\` = ?`)
             _datas.push(value)
@@ -205,17 +206,17 @@ class Handler {
 
         return { sql, datas }
     }
-    static get_pool_by_action(DSN, action){
+    static get_pool_by_action(DSN, action) {
         // 单例获取
-        if(!this.instance) {
+        if (!this.instance) {
             this.instance = {};
         }
         // 依据数据库名,唯一获取一个当前的库
         let db_confs = DSN[action]
         let db_unique_name = action + '_' + db_confs[0].database
-        if(undefined === this.instance[db_unique_name]) {
+        if (undefined === this.instance[db_unique_name]) {
             let db_size = db_confs.length
-            let rand_index = General.mt_rand(0, db_size -1 )
+            let rand_index = General.mt_rand(0, db_size - 1)
             let one_dsn = db_confs[rand_index]
             const POOL = mysql.createPool({
                 host: one_dsn.host,
@@ -238,7 +239,7 @@ class BaseModel {
     static get_dsn(DSN) {
         throw new Error("请实现该 Model 的 get_dsn 返回")
     }
-    
+
     // ------------------------------------------------------------
     //      自封装 查询方法
     // ------------------------------------------------------------
@@ -335,7 +336,7 @@ class BaseModel {
                 sql,
                 datas,
                 (results) => {
-                    output = results
+                    output = results[0]
                     resolve(true)
                 },
                 Handler.get_pool_by_action(this.get_dsn(), DB_ACTION_WRITE));

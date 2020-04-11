@@ -15,8 +15,8 @@ import General from '../tools/General'
  */
 const BROWSER = {
     // Chrmoe 应用路径
-    // executablePath: "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe", // windows 下
-    executablePath: "google-chrome", // linux 下
+    executablePath: "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe", // windows 下
+    // executablePath: "google-chrome", // linux 下
     // 设置超时时间
     timeout: 15000,
     // 如果是访问https页面 此属性会忽略https错误
