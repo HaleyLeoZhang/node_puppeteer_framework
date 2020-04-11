@@ -42,7 +42,7 @@ export default class ManhuaNiuTask {
         //     "body":{}, // 其他参数
         // };
         const mq = new RabbitMQ();
-        mq.set_exchange("/")
+        mq.set_exchange("amq.topic")
         mq.set_routing_key("comic_manhuaniu_sync")
         mq.set_queue("comic_manhuaniu_sync_queue")
         mq.pull(async (payload, channel) => {
