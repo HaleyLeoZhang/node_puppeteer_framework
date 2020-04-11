@@ -36,17 +36,22 @@ class Handler {
         const POOL = args[3]
 
         POOL.getConnection((err, conn) => {
+            if(err){
+                POOL.releaseConnection(conn);
+                Log.error("SQL Exception: ", err.message);
+            }
             conn.promise()
                 .execute(sql, datas)
                 .then((obj) => {
                     callback(obj)
                 })
                 .catch((err) => {
-                    POOL.releaseConnection(conn);
-                    Log.warn("数据库异常!");
-                    Log.warn(err.message);
+                    Log.error("SQL Exception: ", err.message);
+                    conn.close()
                 })
-            POOL.releaseConnection(conn);
+                .finally(() => { // 始终释放连接句柄
+                    POOL.releaseConnection(conn);
+                });
         })
     }
     static do_insert(table, data) {

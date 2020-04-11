@@ -40,7 +40,7 @@ class Test{
         // console.log(sql, data.affectedRows)  // update (增、删、改)操作的啥时候 影响行数 data.affectedRows
 
         // 检测sql异常时候的捕获
-        const sql = 'UPDATE comics SET is_deleted = ? WHERE xxxxx  id < ?';
+        const sql = 'UPDATE comics SET is_deleted = ? WHERE  xxx id < ?';
         const conditions = [1, 1];
         let data = await Comic.query(sql, conditions)
         console.log(sql, data.affectedRows)  // update (增、删、改)操作的啥时候 影响行数 data.affectedRows
