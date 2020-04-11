@@ -2,6 +2,7 @@
 // RabbitMQ 驱动
 // ----------------------------------------------------------------------
 // 文档地址 https://github.com/squaremo/amqp.node
+// RabbitMQ对应node文档地址 https://www.rabbitmq.com/tutorials/tutorial-three-javascript.html
 // ----------------------------------------------------------------------
 // Link  : http://www.hlzblog.top/
 // GITHUB: https://github.com/HaleyLeoZhang
@@ -62,7 +63,8 @@ export default class RabbitMQ {
         const channel = await connection.createChannel();
         console.log('66')
         // 2.1 声明交换机
-        await channel.assertExchange(this.exchange, 'fanout', DEFAULT_OPTION)
+        await channel.bindQueue(this.queue, this.exchange, this.routing_key, null);
+
         console.log('77')
 
         // 3. 声明参数
@@ -71,7 +73,7 @@ export default class RabbitMQ {
         for (let i = 0; i < 10000; i++) {
             // 4. 发送消息
             let str = `${msg} 第${i}条消息`;
-            await channel.publish('', this.routing_key, Buffer.from(str));
+            await channel.publish(this.exchange, this.routing_key, Buffer.from(str));
             console.log(str)
         }
 
