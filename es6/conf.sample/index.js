@@ -63,7 +63,7 @@ const LOG = {
     bright: true, // 是否文字颜色高亮
     absolute: false, 
     date: true, // 是否显示 UTC 时间
-    store: false, // 写入日志文件
+    store: true, // 写入日志文件
     // this.console = val(options.console, true)
     // this.store = val(options.store, false)
     // this.categorie = options.categorie || this.categorie

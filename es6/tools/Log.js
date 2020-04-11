@@ -15,7 +15,8 @@ const Log = new Bugjs(LOG)
 Log.storeHandler = (log) => {
     let logs = []
     for (let key in log) {
-        if (key !== 'logs') {
+        // if (key !== 'logs') {
+        // }
             switch (key) {
                 case 'date':
                     let date = log[key].slice(1, -1)
@@ -29,7 +30,6 @@ Log.storeHandler = (log) => {
             }
             logs.push(log[key])
 
-        }
     }
     logs.push(' ')
     const file_path = APP_PATH + '/storage/logs'
