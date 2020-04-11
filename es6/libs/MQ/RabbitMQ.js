@@ -17,6 +17,7 @@ const DEFAULT_OPTION = {durable: true, autoDelete:false};
 
 export default class RabbitMQ {
     get_conn() {
+        // amqp://user:pass@localhost:1000/vhost
         const Dial = `amqp://${DSN_AMQP.user}:${DSN_AMQP.password}@${DSN_AMQP.host}:${DSN_AMQP.port}${DSN_AMQP.vhost}`
         console.log('Dial ', Dial)
         return amqp.connect(Dial)
@@ -40,20 +41,16 @@ export default class RabbitMQ {
     // 生产者
     async push(payload) {
         // Publisher
-        console.log('11')
-        // this.get_conn().then(function(conn) {
-        //     console.log('22')
-        //     console.log(conn)
-        //     return conn.createChannel();
-        // }).then(function(ch) {
-        //     console.log('44')
-        //     ch.assertExchange(this.exchange, 'fanout', DEFAULT_OPTION)
-        //     return ch.assertQueue(this.queue, DEFAULT_OPTION).then(function(ok) {
-        //         return ch.sendToQueue(this.queue, Buffer.from('something to do'));
-        //     });
-        // }).catch(console.warn);
-        console.log('33')
-        // Publisher
+        this.get_conn().then(function(conn) {
+            console.log('22')
+            console.log(conn)
+            return conn.createChannel();
+        }).then(function(ch) {
+            console.log('44')
+            return ch.assertQueue(this.queue, DEFAULT_OPTION).then(function(ok) {
+                return ch.sendToQueue(this.queue, Buffer.from('something to do'));
+            });
+        }).catch(console.warn);
         // 1.创建链接对象
         const connection = this.get_conn()
 
@@ -62,7 +59,9 @@ export default class RabbitMQ {
         // 2. 获取通道
         const channel = await connection.createChannel();
         console.log('66')
-        // 2.1 声明交换机
+        // - 声明(初始化)队列
+        await channel.assertQueue(this.queue, DEFAULT_OPTION)
+        // - 声明(初始化)队列与交换机的路由关系
         await channel.bindQueue(this.queue, this.exchange, this.routing_key, null);
 
         console.log('77')
@@ -73,7 +72,7 @@ export default class RabbitMQ {
         for (let i = 0; i < 10000; i++) {
             // 4. 发送消息
             let str = `${msg} 第${i}条消息`;
-            await channel.publish(this.exchange, this.routing_key, Buffer.from(str));
+            await channel.publish(this.exchange, this.routing_key, Buffer.from(str)); // 发送到交换机
             console.log(str)
         }
 
