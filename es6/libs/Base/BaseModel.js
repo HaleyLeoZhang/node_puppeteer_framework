@@ -215,6 +215,7 @@ class Handler {
         let db_confs = DSN[action]
         let db_unique_name = action + '_' + db_confs[0].database
         if (undefined === this.instance[db_unique_name]) {
+            let _this = this
             let db_size = db_confs.length
             let rand_index = General.mt_rand(0, db_size - 1)
             let one_dsn = db_confs[rand_index]
@@ -227,6 +228,11 @@ class Handler {
                 waitForConnections: true,
                 connectionLimit: one_dsn.connection_limit,
                 queueLimit: 0
+            });
+            mysql.on('error', err => {
+               console.log('数据库异常');
+               console.log(err);
+               _this.instance[db_unique_name]
             });
             this.instance[db_unique_name] = POOL
             // Log.log(`db_unique_name ${db_unique_name} rand_index ${rand_index} one_dsn ${JSON.stringify(one_dsn)}`)

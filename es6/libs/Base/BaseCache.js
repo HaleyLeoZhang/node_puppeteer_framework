@@ -16,7 +16,6 @@ import Log from '../../tools/Log'
 class Helper {
     static get_real_key(name, key) {
         const real_key = [CACHE_PREFIX, name, key].join(':')
-        console.log(real_key);
         return real_key
     }
     static set_data_sync(redis_client, real_key, data_str, is_EX, ttl, type) {
@@ -112,18 +111,20 @@ export default class BaseCache {
         const data_type = this.get_type()
         const real_key = Helper.get_real_key(name, key)
 
-        const data_str = redis_client.get(real_key)
-
-        let data = null
-        switch (data_type) {
-            case 'string':
-                data = data_str
-                break;
-            case 'object':
-                data = JSON.parse(data_str)
-                break;
-        }
-        return data
+        return new Promise((resolve) => {
+            redis_client.get(real_key, (err, data_str) => {
+                let data = null
+                switch (data_type) {
+                    case 'string':
+                        data = data_str
+                        break;
+                    case 'object':
+                        data = JSON.parse(data_str)
+                        break;
+                }
+                resolve(data)
+            });
+        });
     }
     static async delete_data(key) {
         const redis_client = await this.get_redis()
