@@ -14,9 +14,21 @@ const Log = new Bugjs(LOG)
 // 记录到日志
 Log.storeHandler = (log) => {
     let logs = []
-    for(let key in log) {
-        if(key !== 'logs') {
+    for (let key in log) {
+        if (key !== 'logs') {
+            switch (key) {
+                case 'date':
+                    let date = log[key].slice(1, -1)
+                    let time = new Date(date).getTime();
+                    time = parseInt(time / 1000) // 毫秒转秒数
+                    let real_date = General.format_time('Y-m-d h:i:s', time)
+                    log[key] = `[${real_date}]`;
+                    break;
+                default:
+                    break; // 暂无
+            }
             logs.push(log[key])
+
         }
     }
     logs.push(' ')

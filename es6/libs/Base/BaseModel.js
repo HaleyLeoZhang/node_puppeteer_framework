@@ -44,7 +44,7 @@ class Handler {
                 .catch((err) => {
                     POOL.releaseConnection(conn);
                     Log.warn("数据库异常!");
-                    throw err
+                    Log.warn(err.message);
                 })
             POOL.releaseConnection(conn);
         })
@@ -228,11 +228,6 @@ class Handler {
                 waitForConnections: true,
                 connectionLimit: one_dsn.connection_limit,
                 queueLimit: 0
-            });
-            mysql.on('error', err => {
-               console.log('数据库异常');
-               console.log(err);
-               _this.instance[db_unique_name]
             });
             this.instance[db_unique_name] = POOL
             // Log.log(`db_unique_name ${db_unique_name} rand_index ${rand_index} one_dsn ${JSON.stringify(one_dsn)}`)

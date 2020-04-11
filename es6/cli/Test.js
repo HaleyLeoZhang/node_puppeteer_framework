@@ -16,6 +16,13 @@ class Test{
      * 测试 SQL
      */
     static async sql(){
+
+        // const where = {
+        //     'id[!=]': [1, 3],
+        // }
+        // let data = await Comic.select(where)
+        // console.log(data) 
+
         // const where = {
         //     'channel': 2,
         // }
@@ -33,10 +40,10 @@ class Test{
         // console.log(sql, data.affectedRows)  // update (增、删、改)操作的啥时候 影响行数 data.affectedRows
 
         // 检测sql异常时候的捕获
-        // const sql = 'UPDATE comics SET is_deleted = ? WHERE xxxxx  id < ?';
-        // const conditions = [1, 1];
-        // let data = await Comic.query(sql, conditions)
-        // console.log(sql, data.affectedRows)  // update (增、删、改)操作的啥时候 影响行数 data.affectedRows
+        const sql = 'UPDATE comics SET is_deleted = ? WHERE xxxxx  id < ?';
+        const conditions = [1, 1];
+        let data = await Comic.query(sql, conditions)
+        console.log(sql, data.affectedRows)  // update (增、删、改)操作的啥时候 影响行数 data.affectedRows
     }
     /**
      * 测试 CACHE

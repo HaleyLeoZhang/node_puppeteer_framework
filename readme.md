@@ -3,10 +3,10 @@
 
 > 章节列表
 
-- [初始配置](readme_intro/article/chapter01.md)
-- [安装相关依赖](readme_intro/article/chapter02.md)
-- [项目结构说明](readme_intro/article/chapter03.md)
-- [数据I/O](readme_intro/article/chapter04.md)
+- [TODO-初始配置](readme_intro/article/chapter01.md)
+- [TODO-安装相关依赖](readme_intro/article/chapter02.md)
+- [TODO-项目结构说明](readme_intro/article/chapter03.md)
+- [TODO-数据I/O](readme_intro/article/chapter04.md)
     - [Mysql查询构造器](readme_intro/article/chapter04-01.md)
         - [配置模型](readme_intro/article/chapter04-01-00.md)
         - [增](readme_intro/article/chapter04-01-01.md)
@@ -15,12 +15,12 @@
         - [查](readme_intro/article/chapter04-01-04.md)
     - [Redis缓存](readme_intro/article/chapter04-02.md)
     - [MQ使用](readme_intro/article/chapter04-03.md)
-- [SAPI](readme_intro/article/chapter05.md)
+- [TODO-SAPI](readme_intro/article/chapter05.md)
     - [HTTP服务](readme_intro/article/chapter05-01.md)
     - [CLI服务](readme_intro/article/chapter05-02.md)
-- [爬虫说明](readme_intro/article/chapter06.md)
+- [TODO-爬虫说明](readme_intro/article/chapter06.md)
     - [行为类爬虫说明](readme_intro/article/chapter06-01.md)
-- [代码规范](readme_intro/article/chapter07.md)
+- [TODO-代码规范](readme_intro/article/chapter07.md)
 
 ## 起步
 
