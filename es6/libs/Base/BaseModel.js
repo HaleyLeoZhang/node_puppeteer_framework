@@ -36,7 +36,7 @@ class Handler {
         const POOL = args[3]
 
         POOL.getConnection((err, conn) => {
-            if(err){
+            if (err) {
                 POOL.releaseConnection(conn);
                 Log.error("SQL Exception: ", err.message);
             }
@@ -46,9 +46,10 @@ class Handler {
                     callback(obj)
                 })
                 .catch((err) => {
-                    Log.error("SQL Exception: ", err);
-                    Log.warn("SQL: ", sql);
-                    Log.warn("SQL Values: ", datas.json("  "));
+                    const uuid = General.uuid()
+                    Log.error(uuid, "SQL Exception: ", err);
+                    Log.warn(uuid, "SQL: ", sql);
+                    Log.warn(uuid, "SQL Values: ", datas.json("  "));
                     conn.close()
                 })
                 .finally(() => { // 始终释放连接句柄

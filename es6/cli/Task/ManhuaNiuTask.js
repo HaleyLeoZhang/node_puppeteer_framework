@@ -8,9 +8,11 @@
 import BaseTask from '../../libs/Base/BaseTask'
 import ManHuaNiuLogic, {
     SCENE_CHAPTER_LIST,
-    SCENE_IMAGE_LIST
+    SCENE_IMAGE_LIST,
+    TASK_SUCCESS,
+    TASK_FAILED,
 } from '../../logics/ComicCurl/ManHuaNiuLogic'
-import RabbitMQ, { ACK_YES, ACK_NO } from '../../libs/MQ/RabbitMQ'
+import RabbitMQ, { ACK_YES } from '../../libs/MQ/RabbitMQ'
 import Log from '../../tools/Log'
 import General from '../../tools/General'
 
@@ -50,8 +52,18 @@ export default class ManhuaNiuTask extends BaseTask {
         mq.set_routing_key(AMQP_ROUTING_KEY)
         mq.set_queue(AMQP_QUEUE)
         await mq.pull(async (payload) => {
-            await ManhuaNiuTask.delay_rand_ms(100, 300)
-            return await ManhuaNiuTask.dispatch(payload)
+            try {
+                await ManhuaNiuTask.delay_rand_ms(100, 300)
+                let result = await ManhuaNiuTask.dispatch(payload)
+                if (result === TASK_FAILED) {
+                    throw new Error("TASK_FAILED");
+                }
+            } catch (err) {
+                const uuid = General.uuid()
+                Log.error(uuid, 'ManhuaNiuTask.CONSUME_ERROR: ', err)
+                Log.warn(uuid, 'ManhuaNiuTask.payload: ', payload)
+                await mq.requeue(payload);
+            }
         })
     }
 
@@ -61,23 +73,17 @@ export default class ManhuaNiuTask extends BaseTask {
      * @return bool
      */
     static async dispatch(payload) {
-        let ack_flag = ACK_NO;
-        try {
-            switch (payload.scene) {
-                case SCENE_CHAPTER_LIST:
-                    ack_flag = await ManHuaNiuLogic.getChapterList(payload);
-                    break;
-                case SCENE_IMAGE_LIST:
-                    ack_flag = await ManHuaNiuLogic.getImageList(payload);
-                    break;
-                default:
-                    Log.error('SCENE_ERROR: ', JSON.stringify(payload))
-            }
-        } catch (err) {
-            Log.error('ManhuaNiuTask.CONSUME_ERROR: ', err)
-            Log.warn('ManhuaNiuTask.payload: ', payload)
+        switch (payload.scene) {
+            case SCENE_CHAPTER_LIST:
+                await ManHuaNiuLogic.get_chapter_list(payload);
+                break;
+            case SCENE_IMAGE_LIST:
+                await ManHuaNiuLogic.get_imaeg_list(payload);
+                break;
+            default:
+                throw new Error("SCENE_ERROR");
         }
-        return ack_flag
+        return true
     }
 
     /**
@@ -90,7 +96,7 @@ export default class ManhuaNiuTask extends BaseTask {
         mq.set_queue(AMQP_QUEUE)
         // 推
         let payload = {
-            "id": 2, // 对应场景下-表ID
+            "id": 5, // 对应场景下-表ID
             "scene": SCENE_CHAPTER_LIST, // 采集动作
             "body": { // 其他参数
                 "url": "", // 页面 URL

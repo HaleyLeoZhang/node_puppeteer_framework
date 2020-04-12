@@ -18,7 +18,7 @@ import Log from '../../tools/Log'
 const Buffer = require('safe-buffer').Buffer;
 const DEFAULT_OPTION = { durable: true, autoDelete: false };
 const DEFAULT_CONSUME_OPTION = { noAck: false };
-const DEFAULT_DELAY_SECOND = 3; // 未拉取到消息时,默认挂起秒数
+const DEFAULT_DELAY_SECOND = 30; // 未拉取到消息时,默认挂起秒数
 const FLAT_NO_MESSAGE = false; // 没有消息的时候,返回值是false
 /**
  * @var bool 是否返回ACK
@@ -124,11 +124,7 @@ export default class RabbitMQ {
                             let payload = msg.content.toString()
                             callback(JSON.parse(payload))
                                 .then((ack_yes) => {
-                                    if (ACK_YES === ack_yes) {
-                                        channel.ack(msg);
-                                    } else {
-                                        channel.nack(msg);
-                                    }
+                                    channel.ack(msg);
                                     resolve()
                                 })
                         }
@@ -156,10 +152,7 @@ export default class RabbitMQ {
                 }
                 let payload = msg.content.toString()
                 await callback(JSON.parse(payload))
-                    .then((ack_result) => {
-                        if (ACK_NO === ack_result) {
-                            this.requeue(payload);
-                        }
+                    .then(() => {
                         channel.ack(msg);
                     })
             }, DEFAULT_CONSUME_OPTION)
@@ -177,7 +170,7 @@ export default class RabbitMQ {
     async requeue(payload) {
         const { conn, channel } = await this.prepare()
         // 发送消息到交换机
-        await channel.publish(this.exchange, this.routing_key, Buffer.from(payload))
+        await channel.publish(this.exchange, this.routing_key, Buffer.from(JSON.stringify(payload)))
         await channel.close();
     }
     /**
@@ -202,7 +195,7 @@ export default class RabbitMQ {
     async push_multi(payloads) {
         const { conn, channel } = await this.prepare()
         // 发送消息到交换机
-        for(let i in payloads){
+        for (let i in payloads) {
             let payload = payloads[i]
             await channel.publish(this.exchange, this.routing_key, Buffer.from(JSON.stringify(payload)))
         }
