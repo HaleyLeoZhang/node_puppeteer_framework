@@ -60,7 +60,7 @@ export default class ManhuaNiuTask {
      * @return bool
      */
     static async dispatch(payload) {
-        let ack_flag = ACK_YES;
+        let ack_flag = ACK_NO;
         try {
             switch (payload.action) {
                 case ACTION_CHAPTER_LIST:
@@ -73,7 +73,6 @@ export default class ManhuaNiuTask {
                     Log.error('ACTION_ERROR: ', JSON.stringify(payload))
             }
         } catch (err) {
-            ack_flag = ACK_NO
             Log.error('ManhuaNiuTask.CONSUME_ERROR: ', err.message)
         }
         return ack_flag
