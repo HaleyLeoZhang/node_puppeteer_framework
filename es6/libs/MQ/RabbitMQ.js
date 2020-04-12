@@ -194,5 +194,21 @@ export default class RabbitMQ {
         await channel.close();
         await conn.close();
     }
+    /**
+     * 生产者-批量
+     *
+     * @param array payloads 数组.消息内容
+     * @return void
+     */
+    async push_multi(payloads) {
+        const { conn, channel } = await this.prepare()
+        // 发送消息到交换机
+        for(let i in payloads){
+            let payload = payloads[i]
+            await channel.publish(this.exchange, this.routing_key, Buffer.from(JSON.stringify(payload)))
+        }
+        await channel.close();
+        await conn.close();
+    }
 }
 export { ACK_YES, ACK_NO }

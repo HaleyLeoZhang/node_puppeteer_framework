@@ -5,6 +5,7 @@
 // Link  : http://www.hlzblog.top/
 // GITHUB: https://github.com/HaleyLeoZhang
 // ----------------------------------------------------------------------
+import BaseTask from '../../libs/Base/BaseTask'
 import ManHuaNiuLogic from '../../logics/ComicCurl/ManHuaNiuLogic'
 import RabbitMQ, { ACK_YES, ACK_NO } from '../../libs/MQ/RabbitMQ'
 import Log from '../../tools/Log'
@@ -15,10 +16,10 @@ import General from '../../tools/General'
 // ----------------------------------------------------------------------
 
 /**
- * @var string 采集的动作类型
+ * @var string 采集的场景类型
  */
-const ACTION_CHAPTER_LIST = 'chapter_list'; // 章节列表
-const ACTION_IMAGE_LIST = 'image_list'; // 漫画图片
+const SCENE_CHAPTER_LIST = 'chapter_list'; // 章节列表
+const SCENE_IMAGE_LIST = 'image_list'; // 漫画图片
 /**
  * @var string 队列配置
  */
@@ -31,25 +32,26 @@ const DELAY_SECNOD = 30; // 无消息时,需要挂起的秒数
 //      业务逻辑
 // ----------------------------------------------------------------------
 
-export default class ManhuaNiuTask {
+export default class ManhuaNiuTask extends BaseTask{
     /**
      * 拉取漫画相关信息
      * - 漫画牛渠道用同一个队列
      */
     static async queue() {
-        // // 漫画场景约定格式
+        // 漫画场景约定格式
         // let payload = {
-        //     "id": 0, // 漫画书架ID 表 comic.id 
-        //     "url": "", // 页面 URL
-        //     "action": "", // 采集动作
-        //     "body":{}, // 其他参数
+        //     "id": 0, // 对应场景下-表ID
+        //     "scene": "", // 采集场景
+        //     "body": { // 其他参数
+        //         "url": "", // 页面 URL
+        //     },
         // };
         const mq = new RabbitMQ();
         mq.set_exchange(AMQP_EXCHANGE)
         mq.set_routing_key(AMQP_ROUTING_KEY)
         mq.set_queue(AMQP_QUEUE)
         mq.pull(async (payload) => {
-            await this.delay_ms(General.mt_rand(500, 3000)); // 随机停顿毫秒数,防止消费过快
+            await this.delay_rand(100, 300)
             return await this.dispatch(payload)
         })
     }
@@ -63,10 +65,10 @@ export default class ManhuaNiuTask {
         let ack_flag = ACK_NO;
         try {
             switch (payload.action) {
-                case ACTION_CHAPTER_LIST:
+                case SCENE_CHAPTER_LIST:
                     ack_flag = await ManHuaNiuLogic.getChapterList(payload);
                     break;
-                case ACTION_IMAGE_LIST:
+                case SCENE_IMAGE_LIST:
                     ack_flag = await ManHuaNiuLogic.getImageList(payload);
                     break;
                 default:
@@ -76,6 +78,25 @@ export default class ManhuaNiuTask {
             Log.error('ManhuaNiuTask.CONSUME_ERROR: ', err.message)
         }
         return ack_flag
+    }
+
+    /**
+     * 测试- 推送当前订阅的渠道资源
+     */
+    static async test_push_one() {
+        const mq = new RabbitMQ();
+        mq.set_exchange(AMQP_EXCHANGE)
+        mq.set_routing_key(AMQP_ROUTING_KEY)
+        mq.set_queue(AMQP_QUEUE)
+        // 推
+        let payload = {
+            "id": 2, // 对应场景下-表ID
+            "scene": SCENE_CHAPTER_LIST, // 采集动作
+            "body": { // 其他参数
+                "url": "", // 页面 URL
+            },
+        };
+        await mq.push(payload)
     }
 
     static delay_ms(ms) {
