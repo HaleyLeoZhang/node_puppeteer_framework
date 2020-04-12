@@ -1,8 +1,8 @@
 import Log from '../../tools/Log'
 // 模型列表
-import Comic,{FIELD_IS_COMPLETE} from '../../models/Comic/Comic'
-import Page from '../../models/Comic/Page'
-import Image from '../../models/Comic/Image'
+import Comic,{FIELD_IS_COMPLETE} from '../../models/CurlAvatar/Comic'
+// import ComicPage from '../../models/CurlAvatar/Comic'
+// import ComicImage from '../../models/CurlAvatar/ComicImage'
 
 const PROGRESS_WAIT = 0
 const PROGRESS_DOING = 1

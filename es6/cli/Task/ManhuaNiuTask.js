@@ -6,7 +6,10 @@
 // GITHUB: https://github.com/HaleyLeoZhang
 // ----------------------------------------------------------------------
 import BaseTask from '../../libs/Base/BaseTask'
-import ManHuaNiuLogic from '../../logics/ComicCurl/ManHuaNiuLogic'
+import ManHuaNiuLogic, {
+    SCENE_CHAPTER_LIST,
+    SCENE_IMAGE_LIST
+} from '../../logics/ComicCurl/ManHuaNiuLogic'
 import RabbitMQ, { ACK_YES, ACK_NO } from '../../libs/MQ/RabbitMQ'
 import Log from '../../tools/Log'
 import General from '../../tools/General'
@@ -16,28 +19,24 @@ import General from '../../tools/General'
 // ----------------------------------------------------------------------
 
 /**
- * @var string 采集的场景类型
- */
-const SCENE_CHAPTER_LIST = 'chapter_list'; // 章节列表
-const SCENE_IMAGE_LIST = 'image_list'; // 漫画图片
-/**
  * @var string 队列配置
  */
 const AMQP_EXCHANGE = 'amq.topic'; // 交换机
 const AMQP_ROUTING_KEY = 'comic_manhuaniu_sync'; // 路由规则
 const AMQP_QUEUE = 'comic_manhuaniu_sync_queue'; // 队列名
-const DELAY_SECNOD = 30; // 无消息时,需要挂起的秒数
+const DELAY_SECNOD = 3; // 无消息时,需要挂起的秒数
 
 // ----------------------------------------------------------------------
 //      业务逻辑
 // ----------------------------------------------------------------------
 
-export default class ManhuaNiuTask extends BaseTask{
+export default class ManhuaNiuTask extends BaseTask {
     /**
      * 拉取漫画相关信息
      * - 漫画牛渠道用同一个队列
      */
     static async queue() {
+        let _this = this
         // 漫画场景约定格式
         // let payload = {
         //     "id": 0, // 对应场景下-表ID
@@ -50,9 +49,9 @@ export default class ManhuaNiuTask extends BaseTask{
         mq.set_exchange(AMQP_EXCHANGE)
         mq.set_routing_key(AMQP_ROUTING_KEY)
         mq.set_queue(AMQP_QUEUE)
-        mq.pull(async (payload) => {
-            await this.delay_rand(100, 300)
-            return await this.dispatch(payload)
+        await mq.pull(async (payload) => {
+            await ManhuaNiuTask.delay_rand_ms(100, 300)
+            return await ManhuaNiuTask.dispatch(payload)
         })
     }
 
@@ -64,7 +63,7 @@ export default class ManhuaNiuTask extends BaseTask{
     static async dispatch(payload) {
         let ack_flag = ACK_NO;
         try {
-            switch (payload.action) {
+            switch (payload.scene) {
                 case SCENE_CHAPTER_LIST:
                     ack_flag = await ManHuaNiuLogic.getChapterList(payload);
                     break;
@@ -72,10 +71,11 @@ export default class ManhuaNiuTask extends BaseTask{
                     ack_flag = await ManHuaNiuLogic.getImageList(payload);
                     break;
                 default:
-                    Log.error('ACTION_ERROR: ', JSON.stringify(payload))
+                    Log.error('SCENE_ERROR: ', JSON.stringify(payload))
             }
         } catch (err) {
-            Log.error('ManhuaNiuTask.CONSUME_ERROR: ', err.message)
+            Log.error('ManhuaNiuTask.CONSUME_ERROR: ', err)
+            Log.warn('ManhuaNiuTask.payload: ', payload)
         }
         return ack_flag
     }
@@ -97,10 +97,6 @@ export default class ManhuaNiuTask extends BaseTask{
             },
         };
         await mq.push(payload)
-    }
-
-    static delay_ms(ms) {
-        new Promise(resolve => setTimeout(() => resolve(), ms));
     }
 
     /**
@@ -137,10 +133,11 @@ export default class ManhuaNiuTask extends BaseTask{
 
         // 推
         let payload = {
-            "id": 544, // 漫画书架ID 表 comic.id 
-            "url": "", // 页面 URL
-            "action": "", // 采集动作
-            "body": {}, // 其他参数
+            "id": 0, // 对应场景下-表ID
+            "scene": "", // 采集场景
+            "body": { // 其他参数
+                "url": "", // 页面 URL
+            },
         };
         await mq.push(payload)
     }

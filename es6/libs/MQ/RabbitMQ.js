@@ -156,12 +156,11 @@ export default class RabbitMQ {
                 }
                 let payload = msg.content.toString()
                 await callback(JSON.parse(payload))
-                    .then((ack_yes) => {
-                        if (ACK_YES === ack_yes) {
-                            channel.ack(msg);
-                        } else {
-                            channel.nack(msg);
+                    .then((ack_result) => {
+                        if (ACK_NO === ack_result) {
+                            this.requeue(payload);
                         }
+                        channel.ack(msg);
                     })
             }, DEFAULT_CONSUME_OPTION)
         })
@@ -170,15 +169,15 @@ export default class RabbitMQ {
         // console.log('关闭')
     }
     /**
-     * 在消费者内 给当前队列 入队消息
+     *  重新插入队列尾
      *
-     * @param JSON_Object payload 消息内容
+     * @param string payload 消息内容
      * @return void
      */
-    async append(payload) {
+    async requeue(payload) {
         const { conn, channel } = await this.prepare()
         // 发送消息到交换机
-        await channel.publish(this.exchange, this.routing_key, Buffer.from(JSON.stringify(payload)))
+        await channel.publish(this.exchange, this.routing_key, Buffer.from(payload))
         await channel.close();
     }
     /**

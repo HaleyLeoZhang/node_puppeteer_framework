@@ -1,8 +1,8 @@
-import Base from './Base'
+import Base from '../Base'
 
 class ComicPage extends Base {
     static get_table(){
-        return 'comics'
+        return 'comic_pages'
     }
 }
 

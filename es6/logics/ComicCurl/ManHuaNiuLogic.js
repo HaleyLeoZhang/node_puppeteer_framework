@@ -2,15 +2,29 @@ import Base from './Base'
 import ManHuaNiuService from '../../services/Comic/ManHuaNiuService'
 import Log from '../../tools/Log'
 // import ArrayTool from '../../tools/ArrayTool'
+import RabbitMQ, {
+    ACK_YES,
+    ACK_NO
+} from '../../libs/MQ/RabbitMQ'
 // 模型列表
 import ComicData from '../../models/CurlAvatar/Comic/ComicData'
-import ComicPageData from '../../models/CurlAvatar/Comic/ComicPageData'
+import ComicPageData from '../../models/CurlAvatar/ComicPage/ComicPageData'
+
+/**
+ * @var string 采集的场景类型
+ */
+const SCENE_CHAPTER_LIST = 'chapter_list'; // 章节列表
+const SCENE_IMAGE_LIST = 'image_list'; // 漫画图片
+
+/**
+ * @var string 队列配置
+ */
+const AMQP_EXCHANGE = 'amq.topic'; // 交换机
+const AMQP_ROUTING_KEY = 'comic_manhuaniu_sync'; // 路由规则
+const AMQP_QUEUE = 'comic_manhuaniu_sync_queue'; // 队列名
+
 // 缓存
 // import PageCache from '../../caches/PageCache'
-// 任务结果
-const TASK_SUCCESS = true;
-const TASK_FALSE = false;
-
 // class ManHuaNiuProcess {
 //     static backPageData(one_comic) {
 //         const promise = ManHuaNiu.get_images_pages(one_comic)
@@ -49,13 +63,13 @@ export default class ManHuaNiuLogic extends Base {
         const one_comic = await ComicData.get_comic_by_id(comic_id)
         const last_sequence = one_comic.max_sequence
 
-        const { new_page_data, comic_info } = await ManHuaNiuService.get_images_pages(one_comic)
+        const { new_page_data, comic_info } = await ManHuaNiuService.get_page_list(one_comic)
             .then((info) => {
                 let data = []
                 let sequence = 0
                 for (let i = 0, len = info.hrefs.length; i < len; i++) {
                     let one_data = {
-                        'channel': channel,
+                        'channel': one_comic.channel,
                         'source_id': info.source_id,
                         'name': info.titles[i],
                         'link': info.hrefs[i],
@@ -67,20 +81,33 @@ export default class ManHuaNiuLogic extends Base {
                 }
                 return { "new_page_data": data, "comic_info": info.detail }
             })
-
+        // 更新漫画信息
         if (null !== comic_info) {
             await ComicData.updateComicInfo(comic_info, one_comic.id)
             one_comic.name = comic_info.name
         }
+        // 更新章节信息
         if (0 == new_page_data.length) {
             Log.info(`《${one_comic.name}》---暂无新章节`)
-            return TASK_FALSE
+            return ACK_NO
         }
-        await ComicPageData.insert(new_page_data)
+        await ComicPageData.do_insert(new_page_data)
             .then(insert_info => {
                 Log.info(`《${one_comic.name}》---添加章节----` + JSON.stringify(insert_info))
+                const mq = new RabbitMQ();
+                mq.set_exchange(AMQP_EXCHANGE)
+                mq.set_routing_key(AMQP_ROUTING_KEY)
+                mq.set_queue(AMQP_QUEUE)
+                // 推
+                let payload = {
+                    "id": insert_info.first_insert_id,
+                    "scene": SCENE_IMAGE_LIST, 
+                    "body": {},
+                };
+                return mq.push(payload)
             })
-        return TASK_SUCCESS
+
+        return ACK_YES
     }
 
     // --------------------------- 老版本 ---------------------------
@@ -177,3 +204,5 @@ export default class ManHuaNiuLogic extends Base {
     //     }
     // }
 }
+
+export { SCENE_CHAPTER_LIST, SCENE_IMAGE_LIST }

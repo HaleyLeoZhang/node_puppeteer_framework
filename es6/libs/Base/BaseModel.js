@@ -46,7 +46,9 @@ class Handler {
                     callback(obj)
                 })
                 .catch((err) => {
-                    Log.error("SQL Exception: ", err.message);
+                    Log.error("SQL Exception: ", err);
+                    Log.warn("SQL: ", sql);
+                    Log.warn("SQL Values: ", datas.json("  "));
                     conn.close()
                 })
                 .finally(() => { // 始终释放连接句柄
@@ -246,6 +248,12 @@ class BaseModel {
         throw new Error("请实现该 Model 的 get_dsn 返回")
     }
 
+    static get_table() {
+        throw new Error("请重写 get_table 方法，返回 {数据表中名字}")
+    }
+    static get_dsn() {
+        throw new Error("请在数据库模型基类重写 get_dsn 方法，返回数据库DSN配置")
+    }
     // ------------------------------------------------------------
     //      自封装 查询方法
     // ------------------------------------------------------------

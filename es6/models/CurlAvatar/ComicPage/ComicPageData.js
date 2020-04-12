@@ -14,6 +14,6 @@ export default class ComicPageData {
      * @return Promise
      */
     static async do_insert(list) {
-        return ComicPage.insert(data.new_page_data)
+        return ComicPage.insert(list)
     }
 }
