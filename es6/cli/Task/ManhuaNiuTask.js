@@ -77,7 +77,7 @@ export default class ManhuaNiuTask extends BaseTask {
             case SCENE_CHAPTER_LIST:
                 await ManHuaNiuLogic.get_chapter_list(payload);
                 break;
-            case SCENE_IMAGE_LIST:
+            case SCENE_IMAGE_LIST: // 注: 若全站爬取,这个 image 队列数据量会增加很多,需要单独把队列拿出来
                 await ManHuaNiuLogic.get_imaeg_list(payload);
                 break;
             default:

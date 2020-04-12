@@ -74,6 +74,8 @@ export default class ManHuaNiuService extends Base {
 
     /**
      * 获取图片列表信息
+     * @param string link 待爬取的站内链接
+     * @return array
      */
     static async get_image_list(link) {
         const _this = this;
@@ -87,15 +89,16 @@ export default class ManHuaNiuService extends Base {
                 link = HOST_H5 + link
             }
 
+            let log_prefix = 'ManHuaNiuService.get_image_list.link ' + link;
+            Log.info(log_prefix, 'doing');
             await page.goto(link)
-            Log.log('link: ' + link);
             page.setUserAgent(_this.get_fake_ua());
 
             let total = await page.evaluate(() => {
                 var _total = $("#k_total").text()
                 return _total
             });
-            Log.log('总页数:' + total);
+            Log.info(log_prefix, 'total', total);
 
             let link_len = link.length - 5;
             let _raw_link = link.substr(0, link_len)
@@ -111,9 +114,8 @@ export default class ManHuaNiuService extends Base {
                 if (total > EDGE_IMAGE_LEN) {
                     await this.delay_ms(EDGE_DELAY_TIME)
                 }
-                Log.log('img   ' + img);
             }
-            // Log.log('imgs:  ' + JSON.stringify(imgs))
+            Log.info(log_prefix, 'done');
         } catch (err) {
             await browser.close();
             throw err

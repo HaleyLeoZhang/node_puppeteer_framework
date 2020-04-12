@@ -14,7 +14,7 @@ import  {
 export default class ComicPageData {
     /**
      * 批量插入数据
-     * @param int channel 渠道ID
+     * @param array list 整理好对应表中格式的图片列表
      * @return Promise
      */
     static async do_insert(list) {
@@ -57,5 +57,26 @@ export default class ComicPageData {
             return []
         }
         return datas
+    }
+    static async get_by_id(id) {
+        const where = {
+            'id': id,
+            'ORDER': { "id": "asc" },
+            'LIMIT': 1,
+        }
+        const datas = await ComicPage.select(where)
+        if (0 === datas.length) {
+            return null
+        }
+        return datas[0]
+    }
+    static async update_process_by_id(id, progress){
+        const update = {
+            "progress": PROGRESS_DONE
+        }
+        const where = {
+            'id': id,
+        } 
+        return ComicPage.update(update, where)
     }
 }
