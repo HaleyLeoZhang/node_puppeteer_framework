@@ -4,6 +4,7 @@
     "description": "node_puppeteer_framework",
     "main": "gulpfile.js",
     "dependencies": {
+        "amqplib": "^0.5.5",
         "babel": "^6.23.0",
         "babel-core": "^6.26.3",
         "gulp": "^3.9.1",

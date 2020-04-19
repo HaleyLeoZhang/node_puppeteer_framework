@@ -2,9 +2,10 @@ import puppeteer from 'puppeteer'
 import { BROWSER } from '../../conf'
 import Log from '../../tools/Log'
 import Base from './Base'
-import { 
-    FIELD_METHOD, FIELD_IS_COMPLETE 
-} from '../../models/Comic/Comic'
+import {
+    FIELD_METHOD,
+    FIELD_IS_COMPLETE,
+} from '../../models/CurlAvatar/Comic/Enum'
 
 const HOST = 'https://www.manhuaniu.com' // 漫画牛，爬取章节简单一些
 const HOST_H5 = 'https://m.manhuaniu.com' // 漫画牛，爬取图片方式简单一些
@@ -12,11 +13,11 @@ const HOST_H5 = 'https://m.manhuaniu.com' // 漫画牛，爬取图片方式简�
 const EDGE_IMAGE_LEN = 20 // 超过图片数量,则减缓翻页速度
 const EDGE_DELAY_TIME = 500 // 推迟翻页时间.单位,毫秒
 
-class ManHuaNiu extends Base {
+export default class ManHuaNiuService extends Base {
     /**
-     * 获取主线查看地址
+     * 获取章节列表信息
      */
-    static async get_images_pages(one_comic) {
+    static async get_page_list(one_comic) {
         const _this = this;
         const browser = await puppeteer.launch(BROWSER);
         const page = await browser.newPage();
@@ -26,7 +27,7 @@ class ManHuaNiu extends Base {
             page.setUserAgent(_this.get_fake_ua());
             await page.goto(`${HOST}/manhua/${one_comic.source_id}/`);
             // Log.log('start');
-            if(
+            if (
                 FIELD_METHOD.AUTO == one_comic.method &&
                 FIELD_IS_COMPLETE.NO == one_comic.is_complete
             ) {
@@ -47,7 +48,7 @@ class ManHuaNiu extends Base {
                 var one_href = '';
                 var one_title = '';
 
-                for(let i = 0; i < len; i++) {
+                for (let i = 0; i < len; i++) {
                     one_href = doms.eq(i).find("a").attr("href")
                     one_title = doms.eq(i).find("a").text().trim()
                     hrefs.push(one_href);
@@ -61,7 +62,7 @@ class ManHuaNiu extends Base {
             }, one_comic.source_id, one_comic.ext_1);
             Log.log('info---', info);
 
-        } catch(err) {
+        } catch (err) {
             await browser.close();
             throw err
         }
@@ -71,7 +72,12 @@ class ManHuaNiu extends Base {
         return info;
     }
 
-    static async get_images(link) {
+    /**
+     * 获取图片列表信息
+     * @param string link 待爬取的站内链接
+     * @return array
+     */
+    static async get_image_list(link) {
         const _this = this;
         const browser = await puppeteer.launch(BROWSER);
         const page = await browser.newPage();
@@ -79,23 +85,24 @@ class ManHuaNiu extends Base {
         let imgs = [];
 
         try {
-            if(null === link.match(/^http/)){
+            if (null === link.match(/^http/)) {
                 link = HOST_H5 + link
             }
 
+            let log_prefix = 'ManHuaNiuService.get_image_list.link ' + link;
+            Log.info(log_prefix, 'doing');
             await page.goto(link)
-            Log.log('link: ' + link);
             page.setUserAgent(_this.get_fake_ua());
 
             let total = await page.evaluate(() => {
                 var _total = $("#k_total").text()
                 return _total
             });
-            Log.log('总页数:' + total);
+            Log.info(log_prefix, 'total', total);
 
             let link_len = link.length - 5;
             let _raw_link = link.substr(0, link_len)
-            for(let i = 1, _link = ""; i <= total; i++) {
+            for (let i = 1, _link = ""; i <= total; i++) {
                 _link = `${_raw_link}-${i}.html`
                 await page.goto(_link)
                 page.setUserAgent(_this.get_fake_ua());
@@ -104,20 +111,16 @@ class ManHuaNiu extends Base {
                     return _img
                 });
                 imgs.push(img)
-                if(total > EDGE_IMAGE_LEN){
+                if (total > EDGE_IMAGE_LEN) {
                     await this.delay_ms(EDGE_DELAY_TIME)
                 }
-                Log.log('img   ' + img);
             }
-            // Log.log('imgs:  ' + JSON.stringify(imgs))
-        } catch(err) {
+            Log.info(log_prefix, 'done');
+        } catch (err) {
             await browser.close();
             throw err
         }
         await browser.close();
         return imgs
-
     }
 }
-
-export default ManHuaNiu

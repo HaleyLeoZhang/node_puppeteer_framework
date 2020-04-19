@@ -44,6 +44,7 @@ var js_es5_dir = 'es5'; // 编译成浏览器兼容前的临时区
 var path_l1 = js_es6_dir + '/*';
 var path_l2 = js_es6_dir + '/*/*';
 var path_l3 = js_es6_dir + '/*/*/*';
+var path_l4 = js_es6_dir + '/*/*/*/*';
 
 gulp.task('compile_js_l1', function () {
     gulp.src(path_l1)
@@ -57,6 +58,11 @@ gulp.task('compile_js_l2', function () {
 });
 gulp.task('compile_js_l3', function () {
     gulp.src(path_l3)
+        .pipe(babel())
+        .pipe(gulp.dest(js_es5_dir));
+});
+gulp.task('compile_js_l4', function () {
+    gulp.src(path_l4)
         .pipe(babel())
         .pipe(gulp.dest(js_es5_dir));
 });
@@ -87,6 +93,7 @@ gulp.task('watch', function () {
     gulp.watch(path_l1, ['compile_js_l1']);
     gulp.watch(path_l2, ['compile_js_l2']);
     gulp.watch(path_l3, ['compile_js_l3']);
+    gulp.watch(path_l4, ['compile_js_l4']);
     gulp.watch(scss_src, ['compile_scss']);
 });
 
@@ -94,7 +101,7 @@ gulp.task('watch', function () {
 // ----------------------------------------------------
 gulp.task('start', function () {
     sequence(
-        'compile_js_l1', 'compile_js_l2', 'compile_js_l3',
+        'compile_js_l1', 'compile_js_l2', 'compile_js_l3', 'compile_js_l4',
         'compile_scss', 'watch'
     );
 });

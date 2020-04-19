@@ -1,21 +1,14 @@
 // ----------------------------------------------------------------------
-// Redis 基础配置
+// 业务枚举常量
 // ----------------------------------------------------------------------
 // Link  : http://www.hlzblog.top/
 // GITHUB: https://github.com/HaleyLeoZhang
 // ----------------------------------------------------------------------
-
-const DSN_CACHE = {
-    host: '192.168.56.110',
-    port: 6379,
-    password: '',
-    db: 0,
-}
-
-// 本项目所使用的缓存前缀名
-const CACHE_PREFIX = 'puppeteer'; 
-
+const PROGRESS_WAIT = 0 // 未爬取
+const PROGRESS_DOING = 1 // 处理中
+const PROGRESS_DONE = 2 // 处理结束
 export {
-    DSN_CACHE,
-    CACHE_PREFIX,
-};
+    PROGRESS_WAIT,
+    PROGRESS_DOING,
+    PROGRESS_DONE,
+}

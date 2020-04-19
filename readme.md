@@ -1,22 +1,28 @@
-#### 法律声明
-此代码仅供学习  
-所爬取内容禁止商用  
-最终解释权归作者 [云天河](https://github.com/haleyleozhang) 所有  
+## 简介
+这是由云天河自封装的一款行为类爬虫框架  
 
-#### 效果预览
-![首页](./readme_intro/imgs/preview_index_20200208_1410.png)  
-`图 001`  
+> 章节列表
 
-![章节列表页](./readme_intro/imgs/preview_chapter_20200208_1252.png)  
-`图 002`  
+等等云天河有空了再写写
 
-![章节漫画页](./readme_intro/imgs/preview_detail_20200208_1250.png)  
-`图 003`  
-
-[点此体验](http://comic.pre.hlzblog.top/)  
-
-#### 给我留言
-[点此进入](http://www.hlzblog.top/board)  
+- [TODO-初始配置](readme_intro/article/chapter01.md)
+- [TODO-安装相关依赖](readme_intro/article/chapter02.md)
+- [TODO-项目结构说明](readme_intro/article/chapter03.md)
+- [TODO-数据I/O](readme_intro/article/chapter04.md)
+    - [Mysql查询构造器](readme_intro/article/chapter04-01.md)
+        - [配置模型](readme_intro/article/chapter04-01-00.md)
+        - [增](readme_intro/article/chapter04-01-01.md)
+        - [删](readme_intro/article/chapter04-01-02.md)
+        - [改](readme_intro/article/chapter04-01-03.md)
+        - [查](readme_intro/article/chapter04-01-04.md)
+    - [Redis缓存](readme_intro/article/chapter04-02.md)
+    - [MQ使用](readme_intro/article/chapter04-03.md)
+- [TODO-SAPI](readme_intro/article/chapter05.md)
+    - [HTTP服务](readme_intro/article/chapter05-01.md)
+    - [CLI服务](readme_intro/article/chapter05-02.md)
+- [TODO-爬虫说明](readme_intro/article/chapter06.md)
+    - [行为类爬虫说明](readme_intro/article/chapter06-01.md)
+- [TODO-代码规范](readme_intro/article/chapter07.md)
 
 ## 起步
 
@@ -69,7 +75,7 @@ apt-get install google-chrome-stable
 npm install --ignore-scripts
 # 安装 gulp 
 npm install -g gulp
-# 生成兼容 es5 语法的 node 文件
+# 生成兼容 es5 语法的 node 文件 调试过程中 如果有文件新增或者删除 需要重新执行这个命令
 gulp start
 ~~~
 
@@ -86,93 +92,52 @@ gulp start
 # 切换到普通用户(示例:用户名 hlz)
 su hlz
 # 给予可执行权限
-chmod 755 es5/app.js
-# 运行应用,示例运行 
-node es5/app.js comic mhn_pages
+chmod 755 es5/task.js
 ~~~
 
-#### 定时任务
-内容依次为
-
-- A: 每3小时,获取最新章节内容
-- B: 每20分钟,获取最新图片地址信息
-- C: 每4小时,还原未拉取图片成功的章节
+运行应用,示例运行  
+目前需要 `RabbitMQ` 支持  
+建议该任务使用`supervisor`常驻  
+启用多个进程,请根据自身情况测试后决定  
 
 ~~~bash
-0 */3 * * * /usr/sbin/node /data/common/node_puppeteer_example/es5/app.js comic mhn_pages >> /dev/null 2>&1
-*/20 * * * * /usr/sbin/node /data/common/node_puppeteer_example/es5/app.js comic mhn_images >> /dev/null 2>&1
-35 */4 * * * /usr/sbin/node /data/common/node_puppeteer_example/es5/app.js comic mhn_clear >> /dev/null 2>&1
-~~~
-
-如果执行定时任务 B 有中断 你可以通过如下命令 恢复未完成的下载
-
-~~~bash
-/usr/sbin/node /data/common/node_puppeteer_example/es5/app.js comic mhn_clear
+/usr/sbin/node /data/common/node_puppeteer_example/es5/task.js mhn queue
 ~~~
 
 ##### 操纵浏览器
 [涉及函数使用说明](https://www.jianshu.com/p/aa2159356fbd)  
 
-### 多进程爬取
-说之前,我得先给你看看我的硬件配置,然后你再考虑要不要多进程处理  
+#### 性能测试
 
-~~~bash
-Intel(R) Core(TM) i5-8250U CPU @ 1.60GHz
-~~~
+> 基础配置
 
-~~~bash
-processor       : 7
-vendor_id       : GenuineIntel
-cpu family      : 6
-model           : 142
-model name      : Intel(R) Core(TM) i5-8250U CPU @ 1.60GHz
-stepping        : 10
-cpu MHz         : 1799.999
-cache size      : 6144 KB
-physical id     : 0
-siblings        : 8
-core id         : 7
-cpu cores       : 8
-apicid          : 7
-initial apicid  : 7
-fpu             : yes
-fpu_exception   : yes
-cpuid level     : 22
-wp              : yes
-flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx rdtscp lm constant_tsc rep_good nopl xtopology nonstop_tsc pni pclmulqdq ssse3 cx16 sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx rdrand hypervisor lahf_lm abm 3dnowprefetch rdseed clflushopt
-bugs            :
-bogomips        : 3599.99
-clflush size    : 64
-cache_alignment : 64
-address sizes   : 39 bits physical, 48 bits virtual
-power management:
-~~~
+`CPU` 信息 - TODO  
+`GPU` 信息 - TODO   
 
+> 实际资源消耗
 
+TODO  
 
-资源实际消耗  
-![图0001](readme_intro/imgs/resource_occupancy_rate.png)  
-
-[优化方案](https://blog.it2048.cn/article-puppeteer-speed-up/)  
-
-###### 直接跑两个进程,试试
-
-~~~bash
-/usr/sbin/node /data/common/node_puppeteer_example/es5/app.js comic mhn_images  >> /dev/null 2>&1
-~~~
+## 依赖项目
 
 ### API
-本次接口使用`golang`实现  
+本次对外公共接口使用`golang`实现  
 
 ##### 对应项目地址
+
 [github.com/HaleyLeoZhang/node_puppeteer_example_go](https://github.com/HaleyLeoZhang/node_puppeteer_example_go)  
 
 ### 后台
+
 本次后台使用`php`实现  
 开源地址：[https://gitee.com/haleyleozhang/yth_cms](https://gitee.com/haleyleozhang/yth_cms)  
 
-- 通过cURL方式，实现了渠道`One漫画`的资源爬取  
-- 实现了漫画资源相关管理
+- 通过`cURL`方式,实现了多个渠道的资源爬取  
+- 实现了漫画资源相关管理  
+
+#### 后台与行为类爬虫的通信方式
+
+后台请求拉取 -> 发送渠道拉取信息到 MQ  -> MQ 消费  
 
 
 ### 查看漫画

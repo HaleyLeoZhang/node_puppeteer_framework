@@ -1,21 +1,15 @@
 // ----------------------------------------------------------------------
-// Redis 基础配置
+// 模型与表的关系
 // ----------------------------------------------------------------------
 // Link  : http://www.hlzblog.top/
 // GITHUB: https://github.com/HaleyLeoZhang
 // ----------------------------------------------------------------------
+import Base from '../Base'
 
-const DSN_CACHE = {
-    host: '192.168.56.110',
-    port: 6379,
-    password: '',
-    db: 0,
+class Comic extends Base {
+    static get_table(){
+        return 'comics'
+    }
 }
 
-// 本项目所使用的缓存前缀名
-const CACHE_PREFIX = 'puppeteer'; 
-
-export {
-    DSN_CACHE,
-    CACHE_PREFIX,
-};
+export default Comic;

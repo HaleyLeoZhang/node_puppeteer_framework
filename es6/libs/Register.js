@@ -41,9 +41,8 @@ export default class Register {
         program().then(() => {
             Log.log('---------END---------')
             process.exit()
-        }).catch(exception => {
-            Log.warn('出现异常：Exception ')
-            Log.error(exception)
+        }).catch(err => {
+            Log.error('Exception: ', err)
             process.exit()
         })
 
