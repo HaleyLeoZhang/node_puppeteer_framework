@@ -24,7 +24,7 @@ export default class BaseTask {
      * @return Promise
      */
     static delay_ms(ms) {
-        new Promise(resolve => setTimeout(() => resolve(), ms));
+        return new Promise(resolve => setTimeout(() => resolve(), ms));
     }
 }
             
