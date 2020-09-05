@@ -82,6 +82,14 @@ body > .container > header {
     }
 }
 
+.previous_chapter {
+    padding-left: 1em;
+    color: #7d78e5;
+    &:hover {
+        cursor: pointer;
+    }
+}
+
 #chapter_order {
     margin-left: 1em;
     color: #8c8f90;

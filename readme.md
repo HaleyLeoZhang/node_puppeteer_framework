@@ -1,9 +1,40 @@
-## 简介
+#### 项目技术栈
+
+| - | 技术 | 功能地址 | 备注 |
+| ---| ---| ---| ---|
+| 前台前端 | [Gulp](https://www.gulpjs.com.cn/) | `./gulpfile.js` | 前端自动化 |
+| 前台前端 | [ES5](https://javascript.ruanyifeng.com/) | `./public/libs/js`| 依据页面划分模块 ; `考虑性能`，前端针对不同场景也对各类数据做了缓存、持久化模块 ; `考虑轻量`，前后端分离,且不依赖第三方框架 |
+| 前台后端 | [Golang](https://golang.org/) | [点此查看](https://github.com/HaleyLeoZhang/node_puppeteer_example_go) | 考虑极致的数据吞吐性能 |
+| 后台管理 | [PHP](https://php.net/) | [点此查看](https://gitee.com/haleyleozhang/yth_cms) | 对性能要求不高,产品快速落地 |
+| 后端爬虫-行为类 | [ES6](https://es6.ruanyifeng.com/)、[RabbitMq](https://www.rabbitmq.com/)、[Puppeteer](https://github.com/puppeteer/puppeteer) | 当前项目，直接看后文即可 | 当然,作为爬虫,使用 [Kafka](https://kafka.apachecn.org/intro.html) 会是个更好的选择|
+| 后端爬虫-破解类 | [PHP](https://php.net/) | [点此查看](https://gitee.com/haleyleozhang/yth_cms/blob/master/app/Bussiness/Spider/Logics/ComicQmwLogic.php)  | 项目只是随手放到的管理后台，平常会放到`Node`中去做; 交互说明: 后台请求拉取 -> 发送渠道拉取信息到 MQ  -> MQ 消费   |
+
+
+### 项目截图
+
+![](readme_intro/imgs/preview_index_20200208_1410.png)  
+`图 01 - 漫画作品列表页`  
+
+![](readme_intro/imgs/preview_chapter_202009051959.png)  
+`图 02 - 漫画章节列表`  
+
+![](readme_intro/imgs/preview_detail_20200208_1250.png)  
+`图 03 - 漫画详情页`  
+
+![](readme_intro/imgs/admin_list_202009052007.png)  
+`图 04 - 后台漫画列表页`  
+
+![](readme_intro/imgs/admin_edit_20200902010.png)  
+`图 04 - 后台漫画修改页`  
+
+
+## 框架简介
 这是由云天河自封装的一款行为类爬虫框架  
 
 > 章节列表
 
-等等云天河有空了再写写
+等等云天河有空了再写写  
+有需要的同学,请先自行追代码 `./es6/task.js`  
 
 - [TODO-初始配置](readme_intro/article/chapter01.md)
 - [TODO-安装相关依赖](readme_intro/article/chapter02.md)
@@ -36,7 +67,7 @@ cp -r es6/conf.sample es6/conf
 ~~~
 
 本次表结构请看目录 `sqls/` 建表  
-请根据到目录 `es6/conf/db/mysql.js` 配置 `mysql`、`redis`、浏览器(chromium或者chrome)应用地址
+请根据到目录 `es6/conf/db/mysql.js` 配置 `mysql`、`redis`、浏览器(chromium或者chrome)应用地址  
 
 
 ## 安装
@@ -112,33 +143,13 @@ chmod 755 es5/task.js
 > 基础配置
 
 `CPU` 信息 - TODO  
-`GPU` 信息 - TODO   
+`GPU` 信息 - TODO  
+`硬盘` 信息 - TODO  
+`带宽` 信息 - TODO  
 
 > 实际资源消耗
 
 TODO  
-
-## 依赖项目
-
-### API
-本次对外公共接口使用`golang`实现  
-
-##### 对应项目地址
-
-[github.com/HaleyLeoZhang/node_puppeteer_example_go](https://github.com/HaleyLeoZhang/node_puppeteer_example_go)  
-
-### 后台
-
-本次后台使用`php`实现  
-开源地址：[https://gitee.com/haleyleozhang/yth_cms](https://gitee.com/haleyleozhang/yth_cms)  
-
-- 通过`cURL`方式,实现了多个渠道的资源爬取  
-- 实现了漫画资源相关管理  
-
-#### 后台与行为类爬虫的通信方式
-
-后台请求拉取 -> 发送渠道拉取信息到 MQ  -> MQ 消费  
-
 
 ### 查看漫画
 

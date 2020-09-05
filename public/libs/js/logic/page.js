@@ -112,6 +112,7 @@
                         <a href="#__" data-page_id="${item.id}"
                         class="btn btn-1 to_see_images ${add_read_mark} ${add_unreadable}" 
                         title="${item.name}" alt="${item.name}"
+                        id = "last_read_${item.id}"
                         >${item.name}</a>
                     </div>
                 </div>
@@ -229,6 +230,16 @@
             location.href = ComicCommon.comic_html.comic
         })
     };
+    Page.prototype.action_go_to_previous_chapter = function () {
+        var it = this
+        $('.previous_chapter').on('click', function () {
+            var last_read_id = it.get_last_read_id()
+            if (0 == last_read_id) {
+                layer.alert("暂时没有记录哟!")
+            }
+            location.href = `#last_read_${last_read_id}`
+        })
+    };
     Page.prototype.run_app = function () {
         var _this = this;
 
@@ -236,6 +247,7 @@
         _this.get_list()
         _this.action_to_see_images()
         _this.action_go_to_comic_list()
+        _this.action_go_to_previous_chapter()
         _this.listener_btn_revert_chapter()
 
     };

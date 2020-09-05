@@ -21,7 +21,7 @@
         <meta name="author" content="github.com/HaleyLeoZhang">
         <link rel="shortcut icon" href="./favicon.ico">
         <!-- Style -->
-        <link rel="stylesheet" href="./libs/css/page.css?v=20200208_1426">
+        <link rel="stylesheet" href="./libs/css/page.css?v=202009051818">
     </head>
 
     <body>
@@ -33,6 +33,7 @@
                 <div>
                     <span class="back_list" title="返回书架">返回书架</span>
                     <span id="chapter_order" title="改变章节展示顺序">...</span>
+                    <span class="previous_chapter" title="上次阅读">上次阅读</span>
                 </div>
             </header>
             <div class="wrapper">
@@ -66,13 +67,13 @@
         <script src="https://cdn.staticfile.org/jquery/2.1.4/jquery.min.js" title="插件基础服务"></script>
         <script src="https://cdn.staticfile.org/jquery_lazyload/1.9.7/jquery.lazyload.min.js"></script>
         <script src="https://cdn.staticfile.org/layer/2.3/layer.js"></script>
-        <script src="https://cdn.ravenjs.com/3.19.1/raven.min.js" crossorigin="anonymous"></script>
+        <!-- <script src="https://cdn.ravenjs.com/3.19.1/raven.min.js" crossorigin="anonymous" title="前端异常捕获服务" alt="服务资源没有了,暂时关闭 20200905"></script> -->
         <!-- Init -->
         <script src="./libs/js/common.js"></script>
-        <!-- Bussiness -->
-        <script src="./libs/js/logic/page.js?v=20200208_1426"></script>
+        <!-- Business -->
+        <script src="./libs/js/logic/page.js?v=202009051818"></script>
         <script>
-        Raven.config('http://8892d6b01ddc45df929a55aaa5e19bd7@sentry.ops.hlzblog.top/13').install()
+        // Raven.config('http://8892d6b01ddc45df929a55aaa5e19bd7@sentry.ops.hlzblog.top/13').install() // 服务资源没有了,暂时关闭 20200905
         </script>
     </body>
 
