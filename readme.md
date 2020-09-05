@@ -33,7 +33,7 @@
 
 > 章节列表
 
-等等云天河有空了再写写  
+云天河有空了(就是不想写...)再写写  
 有需要的同学,请先自行追代码 `./es6/task.js`  
 
 - [TODO-初始配置](readme_intro/article/chapter01.md)
