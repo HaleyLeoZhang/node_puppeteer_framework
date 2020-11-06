@@ -103,9 +103,9 @@ apt-get install google-chrome-stable
 
 ~~~bash
 # 安装依赖包，安装过程中，如果提示 chromium 安装失败，可以不用管。最后配置文件指向你的 chrome.exe 路径即可
-npm install --ignore-scripts
+npm install --ignore-scripts --no-bin-links
 # 安装 gulp 
-npm install -g gulp
+npm install gulp-cli -g
 # 生成兼容 es5 语法的 node 文件 调试过程中 如果有文件新增或者删除 需要重新执行这个命令
 gulp start
 # mac 或者 Linux 开发环境 可以使用 `sh loop_code.sh`
