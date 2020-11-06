@@ -5,7 +5,7 @@
 // GITHUB: https://github.com/HaleyLeoZhang
 // ----------------------------------------------------------------------
 
-const APP_PATH = __dirname + '/../'
+const APP_PATH = __dirname + '/../../'
 
 import General from '../tools/General'
 
@@ -30,7 +30,7 @@ const BROWSER = {
  * 截图配置
  */
 let SCREENSHOT = {
-    path: APP_PATH + '../storage/img/' + General.uuid() + '.png',
+    path: APP_PATH + 'storage/img/' + General.uuid() + '.png',
     type: 'png',
     quality: 100, // 只对jpg有效
     fullPage: true,
