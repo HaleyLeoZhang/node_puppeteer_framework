@@ -90,5 +90,6 @@ export {
     APP_PATH,
     BROWSER,
     SCREENSHOT,
-    LOG
+    LOG,
+    QINIU_CONFIG,
 };
