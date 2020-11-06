@@ -141,9 +141,9 @@ class Handler {
             let limit = where.LIMIT
             delete where.LIMIT
             if ("object" == typeof limit) {
-                sql_limit = ` limit ${limit[0]},${limit[1]}`
+                sql_limit = ` Limit ${limit[0]},${limit[1]}`
             } else {
-                sql_limit = ` limit ${limit}`
+                sql_limit = ` Limit ${limit}`
             }
         }
 

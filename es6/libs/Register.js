@@ -42,7 +42,7 @@ export default class Register {
             Log.log('---------END---------')
             process.exit()
         }).catch(err => {
-            Log.error('Exception: ', err)
+            Log.error('Exception: ', err.stack)
             process.exit()
         })
 

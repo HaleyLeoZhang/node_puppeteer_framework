@@ -63,5 +63,22 @@ export default class General {
      */
     static mt_rand(min, max) {
         return parseInt(Math.random() * (max - min + 1) + min, 10);
+    }    /**
+     * 判断一个字符串是不是json字符串
+     *
+     * @param string str 字符串
+     * @return bool
+     */
+    static is_json(str) {
+        if (typeof str == 'string') {
+            try {
+                JSON.parse(str);
+                return true;
+            } catch (e) {
+                // console.log(e);
+                return false;
+            }
+        }
+        return false
     }
 }

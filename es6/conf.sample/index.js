@@ -9,7 +9,6 @@ const APP_PATH = __dirname + '/../'
 
 import General from '../tools/General'
 
-
 /**
  * 无头浏览器配置
  */
@@ -31,7 +30,7 @@ const BROWSER = {
  * 截图配置
  */
 let SCREENSHOT = {
-    path: APP_PATH + 'storage/imgs/' + General.uuid() + '.png',
+    path: APP_PATH + '../storage/img/' + General.uuid() + '.png',
     type: 'png',
     quality: 100, // 只对jpg有效
     fullPage: true,
@@ -75,6 +74,16 @@ const LOG = {
     // this.dateColor = options.dateColor || 'cyan'
     // this.filenameColor = options.filenameColor || 'gray'
     // this.callIndex = options.callIndex || 2
+}
+
+/**
+ * 七牛云上传配置
+ */
+const QINIU_CONFIG = {
+    "access_key": "",
+    "secret_key": "",
+    "bucket_name": "",
+    "cdn_host": "",
 }
 
 export {

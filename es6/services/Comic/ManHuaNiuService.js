@@ -6,6 +6,8 @@ import {
     FIELD_METHOD,
     FIELD_IS_COMPLETE,
 } from '../../models/CurlAvatar/Comic/Enum'
+import TimeTool from "../../tools/TimeTool";
+import UserAgentTool from "../../tools/UserAgentTool";
 
 const HOST = 'https://www.manhuaniu.com' // 漫画牛，爬取章节简单一些
 const HOST_H5 = 'https://m.manhuaniu.com' // 漫画牛，爬取图片方式简单一些
@@ -92,7 +94,7 @@ export default class ManHuaNiuService extends Base {
             let log_prefix = 'ManHuaNiuService.get_image_list.link ' + link;
             Log.info(log_prefix, 'doing');
             await page.goto(link)
-            page.setUserAgent(_this.get_fake_ua());
+            page.setUserAgent(UserAgentTool.fake_one());
 
             let total = await page.evaluate(() => {
                 var _total = $("#k_total").text()
@@ -105,14 +107,14 @@ export default class ManHuaNiuService extends Base {
             for (let i = 1, _link = ""; i <= total; i++) {
                 _link = `${_raw_link}-${i}.html`
                 await page.goto(_link)
-                page.setUserAgent(_this.get_fake_ua());
+                page.setUserAgent(UserAgentTool.fake_one());
                 let img = await page.evaluate(() => {
                     var _img = $(".mip-fill-content.mip-replaced-content").attr("src")
                     return _img
                 });
                 imgs.push(img)
                 if (total > EDGE_IMAGE_LEN) {
-                    await this.delay_ms(EDGE_DELAY_TIME)
+                    await TimeTool.delay_ms(EDGE_DELAY_TIME)
                 }
             }
             Log.info(log_prefix, 'done');

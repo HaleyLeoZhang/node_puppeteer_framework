@@ -75,7 +75,7 @@ export default class RabbitMQ {
      * 获取连接
      *
      * @param string queue 队列名
-     * @return void
+     * @return promise
      */
     get_conn() {
         const Dial = `amqp://${DSN_AMQP.user}:${DSN_AMQP.password}@${DSN_AMQP.host}:${DSN_AMQP.port}${DSN_AMQP.vhost}`
@@ -92,12 +92,11 @@ export default class RabbitMQ {
             // 创建链接对象
             this.conn = await this.get_conn()
         }
-        // 获取通道
         // - 信道本身的流量很大时,这时候多个信道复用一个 Connection 就会产生性能瓶颈，进而使整体的流量被限制了
         // - 就目前来看,一个连接上,不会有太大数据量
         const channel = await this.conn.createChannel();
         // - 声明(初始化)队列
-        await channel.assertQueue(this.queue, DEFAULT_OPTION)
+            await channel.assertQueue(this.queue, DEFAULT_OPTION)
         // - 声明(初始化)队列与交换机的路由关系
         await channel.bindQueue(this.queue, this.exchange, this.routing_key, null)
         return { "conn": this.conn, channel }
@@ -124,8 +123,14 @@ export default class RabbitMQ {
                             let payload = msg.content.toString()
                             callback(JSON.parse(payload))
                                 .then((ack_yes) => {
-                                    channel.ack(msg);
+                                    if(ACK_YES === ack_yes || ack_yes === undefined){
+                                        channel.ack(msg);
+                                    }else{
+                                        console.log("Failed payload ACK_NO " + payload)
+                                    }
                                     resolve()
+                                }).catch(err => {
+                                    console.log("Failed payload Err " + payload)
                                 })
                         }
                     });

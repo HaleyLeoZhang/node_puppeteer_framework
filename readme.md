@@ -96,8 +96,8 @@ apt-get install google-chrome-stable
 > 配套服务
 
 `Mysql` 5.5 及以上环境  
-`Redis` 3.2 及以上环境  
-`Node` 10.0 及以上环境  
+`Redis` 5.0 及以上环境  
+`Node` 13.0 及以上环境  
 
 > 安装依赖
 
@@ -108,6 +108,7 @@ npm install --ignore-scripts
 npm install -g gulp
 # 生成兼容 es5 语法的 node 文件 调试过程中 如果有文件新增或者删除 需要重新执行这个命令
 gulp start
+# mac 或者 Linux 开发环境 可以使用 `sh loop_code.sh`
 ~~~
 
 

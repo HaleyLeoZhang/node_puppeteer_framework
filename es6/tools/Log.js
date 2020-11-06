@@ -17,26 +17,36 @@ Log.storeHandler = (log) => {
     for (let key in log) {
         // if (key !== 'logs') {
         // }
-            switch (key) {
-                case 'date':
-                    let date = log[key].slice(1, -1)
-                    let time = new Date(date).getTime();
-                    time = parseInt(time / 1000) // 毫秒转秒数
-                    let real_date = General.format_time('Y-m-d h:i:s', time)
-                    log[key] = `[${real_date}]`;
-                    break;
-                default:
-                    break; // 暂无
-            }
-            logs.push(log[key])
+        switch (key) {
+            case 'date':
+                let date = log[key].slice(1, -1)
+                let time = new Date(date).getTime();
+                time = parseInt(time / 1000) // 毫秒转秒数
+                let real_date = General.format_time('Y-m-d h:i:s', time)
+                log[key] = `[${real_date}]`;
+                logs.push(log[key])
+                break;
+            default:
+                break; // 暂无
+        }
 
     }
     logs.push(' ')
-    const file_path = APP_PATH + '/storage/logs'
+    const file_path = APP_PATH + '/storage/log'
     const file_name = General.format_time('Y-m-d') + '.log'
     const target_file = file_path + '/' + file_name
     fs.appendFileSync(target_file, logs.concat(log.logs).join('') + '\n')
 }
 
+// 使用上下文
+Log.ctxInfo = (ctx, content) => {
+    Log.info(ctx.get_trace_id() + "  " + content);
+}
+Log.ctxError = (ctx, content) => {
+    Log.error(ctx.get_trace_id() + "  " + content);
+}
+Log.ctxWarn = (ctx, content) => {
+    Log.warn(ctx.get_trace_id() + "  " + content);
+}
 
 export default Log
