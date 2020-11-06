@@ -10,9 +10,6 @@
 
 // 能够优化前端工作流程
 var gulp = require('gulp');
-// 用于循序执行任务
-// 监听文件变化
-
 
 // ----------------------------------------------------
 // JS
@@ -29,9 +26,9 @@ var cssmin = require('gulp-clean-css'); // 压缩css
 
 
 // 这个 task 负责调用其他 task
-gulp.task('default', function (cb) {
+gulp.task('default', function (done) {
     console.log("当前任务不存在")
-    cb()
+    done()
 });
 
 // ----------------------------------------------------
@@ -55,7 +52,7 @@ function task_compile_scss() {
     console.log("compile_scss 结束")
 }
 
-function task_watch_scss(cb) {
+function task_watch_scss(done) {
     console.log("watch_scss 开始")
     gulp.watch(scss_src, function (ok) {
         console.log("watch_scss 已观测到变化")
@@ -63,7 +60,7 @@ function task_watch_scss(cb) {
         console.log("watch_scc 已处理完变化")
         ok()
     });
-    cb()
+    done()
 }
 
 // ----------------------------------------------------
@@ -74,10 +71,14 @@ var js_es6_dir = 'es6/'; // 书写的文件
 var js_es5_dir = 'es5/'; // 编译成浏览器兼容前的临时区
 
 var path_all = js_es6_dir + "**/*.js"
-var path_l1 = js_es6_dir + '*.js';
-var path_l2 = js_es6_dir + '*/*.js';
-var path_l3 = js_es6_dir + '*/*/*.js';
-var path_l4 = js_es6_dir + '*/*/*/*.js';
+
+let watch_dir_list = [
+    '*.js',
+    '*/*.js',
+    '*/*/*.js',
+    '*/*/*/*.js'
+];
+
 
 //  ==== 监听对应目录所有文件的变化，如果变化， 则执行任务  ====
 
@@ -91,65 +92,32 @@ function task_compile_js() {
 }
 
 // - 为了加快监听变化，并行监听各个层级js文件变化 1~4层目录
-function task_watch_js_l1(cb) {
-    console.log("watch_js 监听中 path_l1")
-    gulp.watch(path_l1, function (ok) {
-        console.log("task_watch_js_l1 已观测到变化")
-        gulp.src(path_l1)
-            .pipe(babel())
-            .pipe(gulp.dest(js_es5_dir))
-        console.log("task_watch_js_l1 已处理完变化")
-        ok()
-    });
-    cb()
+function task_watch_js_list(done) {
+    for (let i in watch_dir_list) {
+        let watch_path = js_es6_dir + watch_dir_list[i]
+        console.log("watch_js 监听中 path  " + watch_path)
+        gulp.watch(watch_path, function (ok) {
+            console.log(watch_path + " 已观测到变化")
+            gulp.src(watch_path)
+                .pipe(babel())
+                .pipe(gulp.dest(js_es5_dir))
+            console.log(watch_path + " 已处理完变化")
+            ok()
+        })
+
+        // gulp.watch(watch_path, function (ok) {
+        //     console.log(watch_path + " 已观测到变化")
+        //     gulp.src(watch_path)
+        //         .pipe(babel())
+        //         .pipe(gulp.dest(js_es5_dir))
+        //     console.log(watch_path + " 已处理完变化")
+        //     ok()
+        // });
+    }
+    done()
 }
 
-function task_watch_js_l2(cb) {
-    console.log("watch_js 监听中 path_l2")
-    gulp.watch(path_l2, function (ok) {
-        console.log("task_watch_js_l2 已观测到变化")
-        gulp.src(path_l2)
-            .pipe(babel())
-            .pipe(gulp.dest(js_es5_dir))
-        console.log("task_watch_js_l2 已处理完变化")
-        ok()
-    });
-    cb()
-}
-
-function task_watch_js_l3(cb) {
-    console.log("watch_js 监听中 path_l3")
-    gulp.watch(path_l3, function (ok) {
-        console.log("task_watch_js_l3 已观测到变化")
-        gulp.src(path_l3)
-            .pipe(babel())
-            .pipe(gulp.dest(js_es5_dir))
-        console.log("task_watch_js_l3 已处理完变化")
-        ok()
-    });
-    cb()
-}
-
-function task_watch_js_l4(cb) {
-    console.log("watch_js 监听中 path_l4")
-    gulp.watch(path_l4, function (ok) {
-        console.log("task_watch_js_l4 已观测到变化")
-        gulp.src(path_l4)
-            .pipe(babel())
-            .pipe(gulp.dest(js_es5_dir))
-        console.log("task_watch_js_l4 已处理完变化")
-        ok()
-    });
-    cb()
-}
-
-// ----------------------------------------------------
-
-gulp.task('start', gulp.series(function (ok) {
-        console.log("start")
-        task_compile_js()
-        task_compile_scss()
-        ok() // 通知结束
-    }, gulp.parallel(
-    task_watch_js_l1, task_watch_js_l2, task_watch_js_l3, task_watch_js_l4, task_watch_scss))
-);
+gulp.task('start', gulp.parallel(function () {
+    task_compile_js()
+    task_compile_scss()
+}, task_watch_js_list, task_watch_scss));
