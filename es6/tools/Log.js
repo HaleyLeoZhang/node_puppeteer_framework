@@ -16,8 +16,6 @@ const Log = new Bugjs(LOG)
 Log.storeHandler = (log) => {
     let logs = []
     for (let key in log) {
-        // if (key !== 'logs') {
-        // }
         switch (key) {
             case 'date':
                 let real_date = General.format_time('Y-m-d h:i:s')
