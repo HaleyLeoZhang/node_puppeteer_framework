@@ -19,30 +19,30 @@ export default class ManHuaNiuService extends Base {
     /**
      * 获取章节列表信息
      */
-    static async get_page_list(one_comic) {
+    static async get_page_list(ctx, one_comic) {
         const _this = this;
         const browser = await puppeteer.launch(BROWSER);
         const page = await browser.newPage();
         let info = { hrefs: [], titles: [], source_id: one_comic.source_id }
         let detail = null
         try {
-            page.setUserAgent(_this.get_fake_ua());
+            await page.setUserAgent(_this.get_fake_ua());
             await page.goto(`${HOST}/manhua/${one_comic.source_id}/`);
-            // Log.log('start');
             if (
                 FIELD_METHOD.AUTO === one_comic.method &&
                 FIELD_IS_COMPLETE.NO === one_comic.is_complete
             ) {
                 detail = await page.evaluate(() => {
                     var name = $(".book-title h1 span").eq(0).text();
-                    var intro = $("#intro-cut p").eq(0).text().trim();
+                    var intro = $("#intro-cut p").eq(0).text();
                     var pic = $(".pic").attr("src");
                     return { name, intro, pic }
                 });
+                Log.ctxInfo(ctx, "detail  " + JSON.stringify(detail))
                 Object.assign(detail, { "is_complete": FIELD_IS_COMPLETE.YES })
             }
 
-            info = await page.evaluate((source_id, type_id) => {
+            let spider_info = await page.evaluate((source_id, type_id) => {
                 var doms = $("#chapter-list-" + type_id + " li");
                 var len = doms.length;
                 var hrefs = [];
@@ -62,6 +62,9 @@ export default class ManHuaNiuService extends Base {
                     source_id,
                 };
             }, one_comic.source_id, one_comic.ext_1);
+            info.hrefs = spider_info.hrefs
+            info.titles = spider_info.titles
+            info.source_id = spider_info.source_id
             Log.log('info---', info);
 
         } catch (err) {
@@ -94,7 +97,7 @@ export default class ManHuaNiuService extends Base {
             let log_prefix = 'ManHuaNiuService.get_image_list.link ' + link;
             Log.info(log_prefix, 'doing');
             await page.goto(link)
-            page.setUserAgent(UserAgentTool.fake_one());
+            await page.setUserAgent(UserAgentTool.fake_one());
 
             let total = await page.evaluate(() => {
                 var _total = $("#k_total").text()
@@ -107,7 +110,7 @@ export default class ManHuaNiuService extends Base {
             for (let i = 1, _link = ""; i <= total; i++) {
                 _link = `${_raw_link}-${i}.html`
                 await page.goto(_link)
-                page.setUserAgent(UserAgentTool.fake_one());
+                await page.setUserAgent(UserAgentTool.fake_one());
                 let img = await page.evaluate(() => {
                     var _img = $(".mip-fill-content.mip-replaced-content").attr("src")
                     return _img

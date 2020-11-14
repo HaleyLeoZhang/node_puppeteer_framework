@@ -9,8 +9,9 @@ import ComicImageData from '../../models/CurlAvatar/ComicImage/ComicImageData'
 import { PROGRESS_DONE } from '../../models/CurlAvatar/ComicPage/Enum'
 import CONST_BUSINESS from "../../constant/business";
 import CONST_AMQP from "../../constant/amqp";
-import {FIELD_METHOD} from "../../models/CurlAvatar/Comic/Enum";
+import {FIELD_IS_COMPLETE, FIELD_METHOD} from "../../models/CurlAvatar/Comic/Enum";
 import CONST_DATABASE from "../../constant/database";
+import Comic from "../../models/CurlAvatar/Comic";
 
 export default class ManHuaNiuLogic extends Base {
 
@@ -29,7 +30,7 @@ export default class ManHuaNiuLogic extends Base {
             return
         }
         const last_sequence = one_comic.max_sequence
-        const { new_page_data, comic_info } = await ManHuaNiuService.get_page_list(one_comic)
+        const { new_page_data, comic_info } = await ManHuaNiuService.get_page_list(ctx, one_comic)
             .then((info) => {
                 let data = []
                 for (let i = 0, len = info.hrefs.length; i < len; i++) {
@@ -50,16 +51,22 @@ export default class ManHuaNiuLogic extends Base {
             })
         // 更新漫画信息
         if (null === comic_info) {
-            Log.ctxError(ctx, 'ManHuaNiuLogic.comic_info is null')
-        }else if (one_comic.method === FIELD_METHOD.AUTO){
-            await ComicData.update_comic_by_id(comic_info, one_comic.id)
+            Log.ctxInfo(ctx,`comic_id.${comic_id}---暂不需要更新`)
+        }else{
+            let update_comic_info = {
+                "name": comic_info.name,
+                "pic": comic_info.pic,
+                "intro": comic_info.intro,
+                "is_complete": FIELD_IS_COMPLETE.YES,
+            }
+            await ComicData.update_comic_by_id(update_comic_info, one_comic.id)
         }
         // 更新章节信息
         if (0 === new_page_data.length) {
             Log.ctxError(ctx,`《${one_comic.name}》---暂无新章节`)
             await ComicPageData.get_list_which_progress_not_done(one_comic.channel, one_comic.source_id)
                 .then(page_list => {
-                    return ManHuaNiuLogic.push_image_task(page_list)
+                    return ManHuaNiuLogic.push_image_task(ctx, page_list)
                 })
             return CONST_BUSINESS.TASK_SUCCESS
         }
@@ -68,8 +75,8 @@ export default class ManHuaNiuLogic extends Base {
             .then((insert_info) => {
                 Log.ctxError(ctx,`《${one_comic.name}》---添加章节----`, JSON.stringify(insert_info))
                 return ComicPageData.get_list_gt_max_sequence(one_comic.channel, one_comic.source_id, last_sequence)
-                    .then((page_list) => {
-                        ManHuaNiuLogic.push_image_task(page_list)
+                    .then(page_list => {
+                        return ManHuaNiuLogic.push_image_task(ctx, page_list)
                     })
             })
 
@@ -77,6 +84,10 @@ export default class ManHuaNiuLogic extends Base {
     }
     // private
     static async push_image_task(ctx, page_list) {
+        if(!page_list){
+            Log.ctxInfo(ctx,"暂时没有需要抓取章节对应图片的任务")
+            return
+        }
         let payloads = []
         for (let i = 0, len = page_list.length; i < len; i++) {
             let one_page = page_list[i]
