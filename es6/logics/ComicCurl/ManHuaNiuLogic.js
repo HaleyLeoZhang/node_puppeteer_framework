@@ -12,6 +12,7 @@ import CONST_AMQP from "../../constant/amqp";
 import {FIELD_IS_COMPLETE, FIELD_METHOD} from "../../models/CurlAvatar/Comic/Enum";
 import CONST_DATABASE from "../../constant/database";
 import Comic from "../../models/CurlAvatar/Comic";
+import RabbitMQ from "../../libs/MQ/RabbitMQ";
 
 export default class ManHuaNiuLogic extends Base {
 
@@ -56,7 +57,7 @@ export default class ManHuaNiuLogic extends Base {
             let update_comic_info = {
                 "name": comic_info.name,
                 "pic": comic_info.pic,
-                "intro": comic_info.intro,
+                "intro": comic_info.intro.trim(),
                 "is_complete": FIELD_IS_COMPLETE.YES,
             }
             await ComicData.update_comic_by_id(update_comic_info, one_comic.id)
@@ -99,7 +100,8 @@ export default class ManHuaNiuLogic extends Base {
             };
             payloads.push(payload)
         }
-        if (0 === payloads.length) {
+        let len_payloads = payloads.length
+        if (0 === len_payloads) {
             return
         }
         const mq = new RabbitMQ();
@@ -107,6 +109,7 @@ export default class ManHuaNiuLogic extends Base {
         mq.set_routing_key(CONST_AMQP.AMQP_ROUTING_KEY_MANHUANIU)
         mq.set_queue(CONST_AMQP.AMQP_QUEUE_MANHUANIU)
         mq.push_multi(payloads)
+        Log.ctxInfo(ctx,`已推送 ${len_payloads} 个章节图片抓取任务`)
     }
 
     /**
