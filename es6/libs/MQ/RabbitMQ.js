@@ -133,6 +133,7 @@ export default class RabbitMQ {
                                         channel.ack(msg);
                                     } else {
                                         console.log("Failed payload ACK_NO " + payload)
+                                        channel.reject(msg)
                                     }
                                     resolve()
                                 }).catch(err => {

@@ -27,6 +27,13 @@ const FIELD_EXT_1 = { // ext_1 字段：值对应 数据类型
     "LIAN_ZAI": 3, // 连载
 }
 
+
+const FIELD_CHANNEL = { // ext_1 字段：值对应 数据类型
+    "ZHANG_JIE": 1, // 章节
+    "FAN_WAI": 2, // 番外
+    "LIAN_ZAI": 3, // 连载
+}
+
 export {
     FIELD_METHOD,
     FIELD_IS_ONLINE, 

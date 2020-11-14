@@ -48,6 +48,7 @@ export default class ManhuaNiuTask extends BaseTask {
         await mq.pull(async (payload) => {
             let ctx = ContextTool.initial() // 每次拉取都是一个新的上下文
             try {
+                Log.ctxInfo(ctx, 'ManhuaNiuTask.start')
                 await TimeTool.delay_rand_ms(100, 300)
                 let result = await ManhuaNiuTask.dispatch(ctx, payload)
                 if (result === CONST_BUSINESS.TASK_FAILED) {
@@ -75,7 +76,7 @@ export default class ManhuaNiuTask extends BaseTask {
                 await ManHuaNiuLogic.get_chapter_list(ctx, payload);
                 break;
             case CONST_BUSINESS.SCENE_IMAGE_LIST: // 注: 若全站爬取,这个 image 队列数据量会增加很多,需要单独把队列拿出来
-                await ManHuaNiuLogic.get_imaeg_list(payload);
+                await ManHuaNiuLogic.get_imaeg_list(ctx, payload);
                 break;
             default:
                 throw new Error("SCENE_ERROR");

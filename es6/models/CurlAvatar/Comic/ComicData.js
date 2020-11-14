@@ -4,19 +4,10 @@
 // Link  : http://www.hlzblog.top/
 // GITHUB: https://github.com/HaleyLeoZhang
 // ----------------------------------------------------------------------
+
 import Comic from './'
-import  {
-    FIELD_METHOD,
-    FIELD_IS_ONLINE, 
-    FIELD_IS_COMPLETE,
-    FIELD_EXT_1,
-} from './Enum'
 
 export default class ComicData {
-    static backPageData(one_comic) {
-        const promise = ManHuaNiu.get_images_pages(one_comic)
-        return promise;
-    }
     /**
      * 获取指定渠道漫画信息
      * @param int channel 渠道ID
@@ -39,7 +30,7 @@ export default class ComicData {
      * 更新该漫画详情
      * @return Promise
      */
-    static updateComicInfo(update, id){
+    static update_comic_by_id(update, id){
         const where = {
             'id': id,
         } 

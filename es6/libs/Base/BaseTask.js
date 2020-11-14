@@ -5,7 +5,5 @@
 // GITHUB: https://github.com/HaleyLeoZhang
 // ----------------------------------------------------------------------
 
-export default class BaseTask {
-    // TODO
-}
+export default class BaseTask {}
             
