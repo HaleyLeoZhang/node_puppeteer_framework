@@ -11,6 +11,8 @@ import ComicData from '../../models/CurlAvatar/Comic/ComicData'
 import ComicPageData from '../../models/CurlAvatar/ComicPage/ComicPageData'
 import ComicImageData from '../../models/CurlAvatar/ComicImage/ComicImageData'
 import { PROGRESS_DONE } from '../../models/CurlAvatar/ComicPage/Enum'
+import CONST_BUSINESS from "../../constant/business";
+import CONST_AMQP from "../../constant/amqp";
 
 /**
  * @var string 采集的场景类型
@@ -24,12 +26,6 @@ const SCENE_IMAGE_LIST = 'image_list'; // 漫画图片
 const AMQP_EXCHANGE = 'amq.topic'; // 交换机
 const AMQP_ROUTING_KEY = 'comic_manhuaniu_sync'; // 路由规则
 const AMQP_QUEUE = 'comic_manhuaniu_sync_queue'; // 队列名
-
-/**
- * @var string 采集的场景类型
- */
-const TASK_SUCCESS = true; // 任务成功
-const TASK_FAILED = false; // 任务失败
 
 export default class ManHuaNiuLogic extends Base {
 
@@ -63,7 +59,7 @@ export default class ManHuaNiuLogic extends Base {
         // 更新漫画信息
         if (null !== comic_info) {
             await ComicData.updateComicInfo(comic_info, one_comic.id)
-            return TASK_FAILED
+            return CONST_BUSINESS.TASK_FAILED
         }
         // 更新章节信息
         if (0 == new_page_data.length) {
@@ -72,7 +68,7 @@ export default class ManHuaNiuLogic extends Base {
                 .then((page_list) => {
                     ManHuaNiuLogic.push_image_task(page_list)
                 })
-            return TASK_SUCCESS
+            return CONST_BUSINESS.TASK_SUCCESS
         }
 
         await ComicPageData.do_insert(new_page_data)
@@ -84,7 +80,7 @@ export default class ManHuaNiuLogic extends Base {
                     })
             })
 
-        return TASK_SUCCESS
+        return CONST_BUSINESS.TASK_SUCCESS
     }
     // private
     static async push_image_task(page_list) {
@@ -103,9 +99,9 @@ export default class ManHuaNiuLogic extends Base {
             return
         }
         const mq = new RabbitMQ();
-        mq.set_exchange(AMQP_EXCHANGE)
-        mq.set_routing_key(AMQP_ROUTING_KEY)
-        mq.set_queue(AMQP_QUEUE)
+        mq.set_exchange(CONST_AMQP.AMQP_EXCHANGE_TOPIC)
+        mq.set_routing_key(CONST_AMQP.AMQP_ROUTING_KEY_MANHUANIU)
+        mq.set_queue(CONST_AMQP.AMQP_QUEUE_MANHUANIU)
         mq.push_multi(payloads)
     }
 
@@ -117,9 +113,9 @@ export default class ManHuaNiuLogic extends Base {
         const one_page = await ComicPageData.get_by_id(page_id)
         let { link, channel, source_id, sequence } = one_page
         const imgs = await ManHuaNiuService.get_image_list(link)
-        if (0 == imgs.length) {
+        if (0 === imgs.length) {
             Log.info(`ManhuaNiuImage.page_id.${page_id}---No new image`)
-            return TASK_SUCCESS
+            return CONST_BUSINESS.TASK_SUCCESS
         }
         const image_list = this.filter_image_list(imgs, page_id)
         await ComicImageData.do_insert(image_list)
@@ -127,13 +123,11 @@ export default class ManHuaNiuLogic extends Base {
                 Log.info(`ManhuaNiuImage.source_id.${source_id}.sequence.${sequence}`, insert_info)
                 return ComicPageData.update_process_by_id(page_id, PROGRESS_DONE)
             })
-        return TASK_SUCCESS
+        return CONST_BUSINESS.TASK_SUCCESS
     }
 }
 
 export {
     SCENE_CHAPTER_LIST,
     SCENE_IMAGE_LIST,
-    TASK_SUCCESS,
-    TASK_FAILED,
 }

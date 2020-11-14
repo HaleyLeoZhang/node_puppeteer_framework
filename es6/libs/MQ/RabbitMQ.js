@@ -12,12 +12,11 @@
 // ----------------------------------------------------------------------
 
 import amqp from 'amqplib'
-import { DSN_AMQP } from '../../conf/mq/amqp'
-import Log from '../../tools/Log'
+import {DSN_AMQP} from '../../conf/mq/amqp'
 
 const Buffer = require('safe-buffer').Buffer;
-const DEFAULT_OPTION = { durable: true, autoDelete: false };
-const DEFAULT_CONSUME_OPTION = { noAck: false };
+const DEFAULT_OPTION = {durable: true, autoDelete: false};
+const DEFAULT_CONSUME_OPTION = {noAck: false};
 const DEFAULT_DELAY_SECOND = 30; // 未拉取到消息时,默认挂起秒数
 const FLAT_NO_MESSAGE = false; // 没有消息的时候,返回值是false
 /**
@@ -36,6 +35,7 @@ export default class RabbitMQ {
     set_exchange(exchange) {
         this.exchange = exchange
     }
+
     /**
      * 设置路由名
      *
@@ -45,6 +45,7 @@ export default class RabbitMQ {
     set_routing_key(routing_key) {
         this.routing_key = routing_key
     }
+
     /**
      * 设置队列名
      *
@@ -54,6 +55,7 @@ export default class RabbitMQ {
     set_queue(queue) {
         this.queue = queue
     }
+
     /**
      * 设置挂起秒数
      *
@@ -63,14 +65,16 @@ export default class RabbitMQ {
     set_delay_second(delay_second) {
         this.delay_second = delay_second
     }
+
     /**
      * 获取挂起秒数
      *
-     * @return void
+     * @return int
      */
     get_delay_second() {
         return this.delay_second || DEFAULT_DELAY_SECOND
     }
+
     /**
      * 获取连接
      *
@@ -81,6 +85,7 @@ export default class RabbitMQ {
         const Dial = `amqp://${DSN_AMQP.user}:${DSN_AMQP.password}@${DSN_AMQP.host}:${DSN_AMQP.port}${DSN_AMQP.vhost}`
         return amqp.connect(Dial)
     }
+
     /**
      * 单例获取连接信息,但每次新建通道
      *
@@ -96,11 +101,12 @@ export default class RabbitMQ {
         // - 就目前来看,一个连接上,不会有太大数据量
         const channel = await this.conn.createChannel();
         // - 声明(初始化)队列
-            await channel.assertQueue(this.queue, DEFAULT_OPTION)
+        await channel.assertQueue(this.queue, DEFAULT_OPTION)
         // - 声明(初始化)队列与交换机的路由关系
         await channel.bindQueue(this.queue, this.exchange, this.routing_key, null)
-        return { "conn": this.conn, channel }
+        return {"conn": this.conn, channel}
     }
+
     /**
      * 消费者一条条消费
      *
@@ -108,9 +114,9 @@ export default class RabbitMQ {
      * @return void
      */
     async pull(callback) {
-        const { conn, channel } = await this.prepare()
+        const {conn, channel} = await this.prepare()
 
-        for (;;) {
+        for (; ;) {
             await new Promise(resolve => {
                 channel.get(this.queue, DEFAULT_CONSUME_OPTION)
                     .then(msg => {
@@ -123,61 +129,26 @@ export default class RabbitMQ {
                             let payload = msg.content.toString()
                             callback(JSON.parse(payload))
                                 .then((ack_yes) => {
-                                    if(ACK_YES === ack_yes || ack_yes === undefined){
+                                    if (ACK_YES === ack_yes || ack_yes === undefined) {
                                         channel.ack(msg);
-                                    }else{
+                                    } else {
                                         console.log("Failed payload ACK_NO " + payload)
                                     }
                                     resolve()
                                 }).catch(err => {
-                                    console.log("Failed payload Err " + payload)
-                                })
+                                console.log("Failed payload Err " + payload)
+                            })
                         }
                     });
 
+            }).catch(err => {
+                channel.close();
+                conn.close();
+                console.error("Pull Err: ", err)
             });
         }
-        await channel.close();
-        await conn.close();
     }
-    /**
-     * 消费者批量拉所有消息下来,并发消费
-     * - 适用于生产与消费速度差不多的场景
-     * - 注: 当前场景-暂不使用
-     *
-     * @param callable callback 消费者回调函数
-     * @return void
-     */
-    async pull_batch(callback) {
-        const { conn, channel } = await this.prepare()
-        await new Promise((resolve) => { // 挂起消费
-            channel.consume(this.queue, async (msg) => {
-                if (FLAT_NO_MESSAGE === msg) {
-                    resolve(true)
-                }
-                let payload = msg.content.toString()
-                await callback(JSON.parse(payload))
-                    .then(() => {
-                        channel.ack(msg);
-                    })
-            }, DEFAULT_CONSUME_OPTION)
-        })
-        await channel.close();
-        await conn.close();
-        // console.log('关闭')
-    }
-    /**
-     *  重新插入队列尾
-     *
-     * @param string payload 消息内容
-     * @return void
-     */
-    async requeue(payload) {
-        const { conn, channel } = await this.prepare()
-        // 发送消息到交换机
-        await channel.publish(this.exchange, this.routing_key, Buffer.from(JSON.stringify(payload)))
-        await channel.close();
-    }
+
     /**
      * 生产者
      *
@@ -185,12 +156,13 @@ export default class RabbitMQ {
      * @return void
      */
     async push(payload) {
-        const { conn, channel } = await this.prepare()
+        const {conn, channel} = await this.prepare()
         // 发送消息到交换机
         await channel.publish(this.exchange, this.routing_key, Buffer.from(JSON.stringify(payload)))
         await channel.close();
         await conn.close();
     }
+
     /**
      * 生产者-批量
      *
@@ -198,7 +170,7 @@ export default class RabbitMQ {
      * @return void
      */
     async push_multi(payloads) {
-        const { conn, channel } = await this.prepare()
+        const {conn, channel} = await this.prepare()
         // 发送消息到交换机
         for (let i in payloads) {
             let payload = payloads[i]
@@ -208,4 +180,4 @@ export default class RabbitMQ {
         await conn.close();
     }
 }
-export { ACK_YES, ACK_NO }
+export {ACK_YES, ACK_NO}

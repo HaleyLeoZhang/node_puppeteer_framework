@@ -8,7 +8,8 @@
 import fs from 'fs'
 import { APP_PATH, LOG } from '../conf'
 import General from './General'
-import Bugjs from 'node-bugjs' // Doc:  https://www.npmjs.com/package/node-bugjs
+import Bugjs from 'node-bugjs'
+import TimeTool from "./TimeTool"; // Doc:  https://www.npmjs.com/package/node-bugjs
 const Log = new Bugjs(LOG)
 
 // 记录到日志
@@ -19,10 +20,7 @@ Log.storeHandler = (log) => {
         // }
         switch (key) {
             case 'date':
-                let date = log[key].slice(1, -1)
-                let time = new Date(date).getTime();
-                time = parseInt(time / 1000) // 毫秒转秒数
-                let real_date = General.format_time('Y-m-d h:i:s', time)
+                let real_date = General.format_time('Y-m-d h:i:s')
                 log[key] = `[${real_date}]`;
                 logs.push(log[key])
                 break;

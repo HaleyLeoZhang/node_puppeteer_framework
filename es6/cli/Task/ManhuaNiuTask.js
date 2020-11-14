@@ -9,35 +9,32 @@ import BaseTask from '../../libs/Base/BaseTask'
 import ManHuaNiuLogic, {
     SCENE_CHAPTER_LIST,
     SCENE_IMAGE_LIST,
-    TASK_SUCCESS,
-    TASK_FAILED,
 } from '../../logics/ComicCurl/ManHuaNiuLogic'
 import RabbitMQ, { ACK_YES } from '../../libs/MQ/RabbitMQ'
 import Log from '../../tools/Log'
 import General from '../../tools/General'
-
-// ----------------------------------------------------------------------
-//      业务枚举
-// ----------------------------------------------------------------------
-
-/**
- * @var string 队列配置
- */
-const AMQP_EXCHANGE = 'amq.topic'; // 交换机
-const AMQP_ROUTING_KEY = 'comic_manhuaniu_sync'; // 路由规则
-const AMQP_QUEUE = 'comic_manhuaniu_sync_queue'; // 队列名
-const DELAY_SECNOD = 3; // 无消息时,需要挂起的秒数
+import TimeTool from "../../tools/TimeTool";
+import ContextTool from "../../tools/ContextTool";
+import {ACK_NO} from "../../../es5/libs/MQ/RabbitMQ";
+import CONST_BUSINESS from "../../constant/business";
+import CONST_AMQP from "../../constant/amqp";
 
 // ----------------------------------------------------------------------
 //      业务逻辑
 // ----------------------------------------------------------------------
 
 export default class ManhuaNiuTask extends BaseTask {
+
+    // ----------------------------------------------------------------------
+    // 调用示例
+    // node ./es5/task.js mhn consumer
+    // ----------------------------------------------------------------------
+
     /**
-     * 拉取漫画相关信息
-     * - 漫画牛渠道用同一个队列
+     * 消费队列信息
+     * - 目前拉取的消息量不多，章节、列表信息可以都用同一个
      */
-    static async queue() {
+    static async consumer() {
         let _this = this
         // 漫画场景约定格式
         // let payload = {
@@ -48,42 +45,46 @@ export default class ManhuaNiuTask extends BaseTask {
         //     },
         // };
         const mq = new RabbitMQ();
-        mq.set_exchange(AMQP_EXCHANGE)
-        mq.set_routing_key(AMQP_ROUTING_KEY)
-        mq.set_queue(AMQP_QUEUE)
+        mq.set_exchange(CONST_AMQP.AMQP_EXCHANGE_TOPIC)
+        mq.set_routing_key(CONST_AMQP.AMQP_ROUTING_KEY_MANHUANIU)
+        mq.set_queue(CONST_AMQP.AMQP_QUEUE_MANHUANIU)
+        mq.set_delay_second(3)
         await mq.pull(async (payload) => {
+            let ctx = ContextTool.initial() // 每次拉取都是一个新的上下文
             try {
-                await ManhuaNiuTask.delay_rand_ms(100, 300)
-                let result = await ManhuaNiuTask.dispatch(payload)
-                if (result === TASK_FAILED) {
+                await TimeTool.delay_rand_ms(100, 300)
+                let result = await ManhuaNiuTask.dispatch(ctx, payload)
+                if (result === CONST_BUSINESS.TASK_FAILED) {
                     throw new Error("TASK_FAILED");
                 }
+                Log.ctxInfo(ctx, 'ManhuaNiuTask.success  ' + JSON.stringify(payload))
+                return ACK_YES
             } catch (err) {
-                const uuid = General.uuid()
-                Log.error(uuid, 'ManhuaNiuTask.CONSUME_ERROR: ', err)
-                Log.warn(uuid, 'ManhuaNiuTask.payload: ', payload)
-                await mq.requeue(payload);
+                Log.ctxInfo(ctx, 'ManhuaNiuTask.payload  ' + JSON.stringify(payload))
+                Log.ctxError(ctx, 'ManhuaNiuTask.CONSUMER_ERROR  ' + err.stack)
             }
+            return ACK_NO
         })
     }
 
     /**
      * 任务分发
+     * @param ContextTool ctx 上下文信息
      * @param JSON_Object payload 约定入参
      * @return bool
      */
-    static async dispatch(payload) {
+    static async dispatch(ctx, payload) {
         switch (payload.scene) {
-            case SCENE_CHAPTER_LIST:
+            case CONST_BUSINESS.SCENE_CHAPTER_LIST:
                 await ManHuaNiuLogic.get_chapter_list(payload);
                 break;
-            case SCENE_IMAGE_LIST: // 注: 若全站爬取,这个 image 队列数据量会增加很多,需要单独把队列拿出来
+            case CONST_BUSINESS.SCENE_IMAGE_LIST: // 注: 若全站爬取,这个 image 队列数据量会增加很多,需要单独把队列拿出来
                 await ManHuaNiuLogic.get_imaeg_list(payload);
                 break;
             default:
                 throw new Error("SCENE_ERROR");
         }
-        return true
+        return CONST_BUSINESS.TASK_SUCCESS
     }
 
     /**
@@ -91,13 +92,14 @@ export default class ManhuaNiuTask extends BaseTask {
      */
     static async test_push_one() {
         const mq = new RabbitMQ();
-        mq.set_exchange(AMQP_EXCHANGE)
-        mq.set_routing_key(AMQP_ROUTING_KEY)
-        mq.set_queue(AMQP_QUEUE)
+        mq.set_exchange(CONST_AMQP.AMQP_EXCHANGE_TOPIC)
+        mq.set_routing_key(CONST_AMQP.AMQP_ROUTING_KEY_MANHUANIU)
+        mq.set_queue(CONST_AMQP.AMQP_QUEUE_MANHUANIU)
+
         // 推
         let payload = {
             "id": 5, // 对应场景下-表ID
-            "scene": SCENE_CHAPTER_LIST, // 采集动作
+            "scene": CONST_BUSINESS.SCENE_CHAPTER_LIST, // 采集动作
             "body": { // 其他参数
                 "url": "", // 页面 URL
             },
@@ -105,46 +107,4 @@ export default class ManhuaNiuTask extends BaseTask {
         await mq.push(payload)
     }
 
-    /**
-     * 拉
-     */
-    static async test_pull() {
-        const mq = new RabbitMQ();
-        mq.set_exchange(AMQP_EXCHANGE)
-        mq.set_routing_key(AMQP_ROUTING_KEY)
-        mq.set_queue(AMQP_QUEUE)
-        mq.set_delay_second(DELAY_SECNOD)
-        // 拉
-        await mq.pull(async (payload) => {
-            console.log('payload', payload)
-            // let payload_1 = {
-            //     "id": 4444, // 漫画书架ID 表 comic.id 
-            //     "url": "", // 页面 URL
-            //     "action": "", // 采集动作
-            //     "body": {}, // 其他参数
-            // };
-            // console.log('do')
-            return ACK_YES;
-        })
-    }
-
-    /**
-     * 推
-     */
-    static async test_push() {
-        const mq = new RabbitMQ();
-        mq.set_exchange(AMQP_EXCHANGE)
-        mq.set_routing_key(AMQP_ROUTING_KEY)
-        mq.set_queue(AMQP_QUEUE)
-
-        // 推
-        let payload = {
-            "id": 0, // 对应场景下-表ID
-            "scene": "", // 采集场景
-            "body": { // 其他参数
-                "url": "", // 页面 URL
-            },
-        };
-        await mq.push(payload)
-    }
 }
