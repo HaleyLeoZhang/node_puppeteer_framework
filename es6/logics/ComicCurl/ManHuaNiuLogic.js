@@ -32,9 +32,13 @@ export default class ManHuaNiuLogic extends Base {
     /**
      * 自动拉取页面，自动判断是否需要更新
      */
-    static async get_chapter_list(payload) {
+    static async get_chapter_list(ctx, payload) {
         let comic_id = payload.id
         const one_comic = await ComicData.get_comic_by_id(comic_id)
+        if (!one_comic) {
+            Log.ctxWarn(ctx, 'ID不存在')
+            return
+        }
         const last_sequence = one_comic.max_sequence
 
         const { new_page_data, comic_info } = await ManHuaNiuService.get_page_list(one_comic)

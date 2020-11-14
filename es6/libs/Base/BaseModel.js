@@ -354,10 +354,31 @@ class BaseModel {
                     output = results[0]
                     resolve(true)
                 },
-                Handler.get_pool_by_action(this.get_dsn(), DB_ACTION_WRITE));
+                Handler.get_pool_by_action(this.get_dsn(), DB_ACTION_READ));
         });
         return output;
     }
+
+    /**
+     * 适用于，复杂插入、删除、更新操作
+     * 示例入参
+     * let sql = `Select * From `pages` Where `is_deleted` = ? Order By `id` DESC limit 5`
+     * let data = [0]
+     * @return void
+     */
+    static async execute(sql, datas) {
+        await new Promise((resolve) => {
+            Handler.execute(
+                sql,
+                datas,
+                (results) => {
+                    resolve(true)
+                },
+                Handler.get_pool_by_action(this.get_dsn(), DB_ACTION_WRITE));
+        });
+        return
+    }
+
     /**
      * _update 与_where 类似，请类比 this.select 方法
      */
