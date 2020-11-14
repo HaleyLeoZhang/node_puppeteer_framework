@@ -22,7 +22,7 @@ export default class QiNiu {
         this.app_id = QINIU_CONFIG.access_key;
         this.app_secret = QINIU_CONFIG.secret_key;
         if (this.app_id === "" || this.app_secret === "") {
-            throw new Error("初始化七牛上传失败，请完成 es6/conf/index.js 中 QINIU_CONFIG 配置")
+            throw new Error("初始化七牛上传失败，请完成 es6/conf/business.js 中 QINIU_CONFIG 配置")
         }
         this.bucket = QINIU_CONFIG.bucket;
         this.cdn_host = QINIU_CONFIG.cdn_host; // 示例 http://shihuo.hupucdn.com

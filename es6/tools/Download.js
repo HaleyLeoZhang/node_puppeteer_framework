@@ -1,13 +1,9 @@
 import * as  fs from 'fs';
 import UserAgentTool from "./UserAgentTool";
-import General from "./General";
-import {FIELD_CHANNEL} from "../models/ZhihuAvatar/TrdSpiderPic/Enum";
 import Log from "./Log";
 
 const HttpProxyAgent = require('http-proxy-agent');
 const fetch = require('node-fetch'); // 文档 https://www.npmjs.com/package/node-fetch
-
-// const request = require("request");
 
 export default class Download {
     static do_request(ctx, url, save_path) {
@@ -18,7 +14,7 @@ export default class Download {
                 "User-Agent": UserAgentTool.fake_one(),
                 "Content-Type": "application/octet-stream",
             },
-            "agent": HttpProxyAgent("http://proxy.sh-inner.com:3795"),
+            // "agent": HttpProxyAgent("http代理地址 TODO"),
             "referrerPolicy": "strict-origin-when-cross-origin",
             "body": null,
             "mode": "cors"

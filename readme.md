@@ -90,7 +90,7 @@ apt-get install google-chrome-stable
 ##### windows 环境
 
 下载 [Chrome](https://www.google.cn/intl/zh-CN/chrome/) 浏览器`60以上版本`  
-配置 `es6/conf/index.js` 中 BROWSER.executablePath 值为 `chrome.exe` 的路径  
+配置 `es6/conf/business.js` 中 BROWSER.executablePath 值为 `chrome.exe` 的路径  
 
 
 > 配套服务

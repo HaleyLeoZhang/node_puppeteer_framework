@@ -7,5 +7,20 @@
 import * as ua from 'random-useragent';
 
 export default class BaseService {
-    // TODO
+    /**
+     * 随机获取一个浏览器环境信息
+     * @return string
+     */
+    static get_fake_ua() {
+        return ua.getRandom();
+    }
+    /**
+     * 延迟指定毫秒数
+     *
+     * @param int ms 毫秒数 
+     * @return Promise void
+     */
+    static delay_ms(ms) {
+        return new Promise(resolve => setTimeout(() => resolve(), ms));
+    }
 }

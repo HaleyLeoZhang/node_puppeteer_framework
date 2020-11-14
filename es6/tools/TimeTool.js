@@ -33,7 +33,7 @@ export default class TimeTool {
      * @param int ms 计划延迟的毫秒数
      * @return int
      */
-    static timestampSecond() {
+    static timestamp() {
         let time = (new Date()).getTime();
         return parseInt(time / 1000) // 毫秒转秒数
     }
