@@ -1,11 +1,7 @@
 import Base from './Base'
 import ManHuaNiuService from '../../services/Comic/ManHuaNiuService'
 import Log from '../../tools/Log'
-// import ArrayTool from '../../tools/ArrayTool'
-import RabbitMQ, {
-    ACK_YES,
-    ACK_NO
-} from '../../libs/MQ/RabbitMQ'
+
 // 模型列表
 import ComicData from '../../models/CurlAvatar/Comic/ComicData'
 import ComicPageData from '../../models/CurlAvatar/ComicPage/ComicPageData'
@@ -13,19 +9,6 @@ import ComicImageData from '../../models/CurlAvatar/ComicImage/ComicImageData'
 import { PROGRESS_DONE } from '../../models/CurlAvatar/ComicPage/Enum'
 import CONST_BUSINESS from "../../constant/business";
 import CONST_AMQP from "../../constant/amqp";
-
-/**
- * @var string 采集的场景类型
- */
-const SCENE_CHAPTER_LIST = 'chapter_list'; // 章节列表
-const SCENE_IMAGE_LIST = 'image_list'; // 漫画图片
-
-/**
- * @var string 队列配置
- */
-const AMQP_EXCHANGE = 'amq.topic'; // 交换机
-const AMQP_ROUTING_KEY = 'comic_manhuaniu_sync'; // 路由规则
-const AMQP_QUEUE = 'comic_manhuaniu_sync_queue'; // 队列名
 
 export default class ManHuaNiuLogic extends Base {
 
@@ -39,8 +22,8 @@ export default class ManHuaNiuLogic extends Base {
             Log.ctxWarn(ctx, 'ID不存在')
             return
         }
+        console.log(one_comic)
         const last_sequence = one_comic.max_sequence
-
         const { new_page_data, comic_info } = await ManHuaNiuService.get_page_list(one_comic)
             .then((info) => {
                 let data = []
@@ -53,6 +36,7 @@ export default class ManHuaNiuLogic extends Base {
                         'link': info.hrefs[i],
                         'sequence': (i + 1),
                     }
+                    // 增量爬取
                     if (one_data.sequence > last_sequence) {
                         data.push(one_data)
                     }
@@ -66,7 +50,7 @@ export default class ManHuaNiuLogic extends Base {
             return CONST_BUSINESS.TASK_FAILED
         }
         // 更新章节信息
-        if (0 == new_page_data.length) {
+        if (0 === new_page_data.length) {
             Log.info(`《${one_comic.name}》---暂无新章节`)
             await ComicPageData.get_list_which_progress_not_done(one_comic.channel, one_comic.source_id)
                 .then((page_list) => {
@@ -94,7 +78,7 @@ export default class ManHuaNiuLogic extends Base {
             // 推
             let payload = {
                 "id": one_page.id,
-                "scene": SCENE_IMAGE_LIST,
+                "scene": CONST_BUSINESS.SCENE_IMAGE_LIST,
                 "body": {},
             };
             payloads.push(payload)
@@ -129,9 +113,4 @@ export default class ManHuaNiuLogic extends Base {
             })
         return CONST_BUSINESS.TASK_SUCCESS
     }
-}
-
-export {
-    SCENE_CHAPTER_LIST,
-    SCENE_IMAGE_LIST,
 }

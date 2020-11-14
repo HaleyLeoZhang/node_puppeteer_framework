@@ -4,6 +4,7 @@
 // Link  : http://www.hlzblog.top/
 // GITHUB: https://github.com/HaleyLeoZhang
 // -----------------------------------------------
+
 export default class General {
     /**
      * 获取UUID 
@@ -68,6 +69,11 @@ export default class General {
      *
      * @param string str 字符串
      * @return bool
+     */
+    /**
+     * 判断是否为json字符串
+     * @param string str 字符串
+     * @return boolean
      */
     static is_json(str) {
         if (typeof str == 'string') {

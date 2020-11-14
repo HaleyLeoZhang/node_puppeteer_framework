@@ -6,18 +6,14 @@
 // GITHUB: https://github.com/HaleyLeoZhang
 // ----------------------------------------------------------------------
 import BaseTask from '../../libs/Base/BaseTask'
-import ManHuaNiuLogic, {
-    SCENE_CHAPTER_LIST,
-    SCENE_IMAGE_LIST,
-} from '../../logics/ComicCurl/ManHuaNiuLogic'
-import RabbitMQ, { ACK_YES } from '../../libs/MQ/RabbitMQ'
+import RabbitMQ, {ACK_YES} from '../../libs/MQ/RabbitMQ'
 import Log from '../../tools/Log'
-import General from '../../tools/General'
 import TimeTool from "../../tools/TimeTool";
 import ContextTool from "../../tools/ContextTool";
 import {ACK_NO} from "../../../es5/libs/MQ/RabbitMQ";
 import CONST_BUSINESS from "../../constant/business";
 import CONST_AMQP from "../../constant/amqp";
+import ManHuaNiuLogic from "../../logics/ComicCurl/ManHuaNiuLogic";
 
 // ----------------------------------------------------------------------
 //      业务逻辑
@@ -76,7 +72,7 @@ export default class ManhuaNiuTask extends BaseTask {
     static async dispatch(ctx, payload) {
         switch (payload.scene) {
             case CONST_BUSINESS.SCENE_CHAPTER_LIST:
-                await ManHuaNiuLogic.get_chapter_list(ctx,payload);
+                await ManHuaNiuLogic.get_chapter_list(ctx, payload);
                 break;
             case CONST_BUSINESS.SCENE_IMAGE_LIST: // 注: 若全站爬取,这个 image 队列数据量会增加很多,需要单独把队列拿出来
                 await ManHuaNiuLogic.get_imaeg_list(payload);
@@ -85,26 +81,6 @@ export default class ManhuaNiuTask extends BaseTask {
                 throw new Error("SCENE_ERROR");
         }
         return CONST_BUSINESS.TASK_SUCCESS
-    }
-
-    /**
-     * 测试- 推送当前订阅的渠道资源
-     */
-    static async test_push_one() {
-        const mq = new RabbitMQ();
-        mq.set_exchange(CONST_AMQP.AMQP_EXCHANGE_TOPIC)
-        mq.set_routing_key(CONST_AMQP.AMQP_ROUTING_KEY_MANHUANIU)
-        mq.set_queue(CONST_AMQP.AMQP_QUEUE_MANHUANIU)
-
-        // 推
-        let payload = {
-            "id": 5, // 对应场景下-表ID
-            "scene": CONST_BUSINESS.SCENE_CHAPTER_LIST, // 采集动作
-            "body": { // 其他参数
-                "url": "", // 页面 URL
-            },
-        };
-        await mq.push(payload)
     }
 
 }

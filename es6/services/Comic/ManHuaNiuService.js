@@ -30,8 +30,8 @@ export default class ManHuaNiuService extends Base {
             await page.goto(`${HOST}/manhua/${one_comic.source_id}/`);
             // Log.log('start');
             if (
-                FIELD_METHOD.AUTO == one_comic.method &&
-                FIELD_IS_COMPLETE.NO == one_comic.is_complete
+                FIELD_METHOD.AUTO === one_comic.method &&
+                FIELD_IS_COMPLETE.NO === one_comic.is_complete
             ) {
                 detail = await page.evaluate(() => {
                     var name = $(".book-title h1 span").eq(0).text();
