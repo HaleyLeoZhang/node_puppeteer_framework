@@ -17,14 +17,6 @@ var gulp = require('gulp');
 var babel = require("gulp-babel"); // es6转es5
 // ----------------------------------------------------
 
-// ----------------------------------------------------
-// SCSS
-// ----------------------------------------------------
-var sass = require('gulp-sass'); // 实现编译
-var autoprefixer = require('gulp-autoprefixer'); // 补全浏览器兼容的css
-var cssmin = require('gulp-clean-css'); // 压缩css
-
-
 // 这个 task 负责调用其他 task
 gulp.task('default', function (done) {
     console.log("当前任务不存在")
@@ -35,6 +27,13 @@ gulp.task('default', function (done) {
 //      SCSS
 // ----------------------------------------------------
 
+var sass = require('gulp-sass'); // 实现编译 https://www.npmjs.com/package/gulp-sass
+sass.compiler = require('node-sass');
+
+var autoprefixer = require('gulp-autoprefixer'); // 补全浏览器兼容的css
+var cssmin = require('gulp-clean-css'); // 压缩css
+
+
 var scss_src = 'public_raw/libs/scss/*.scss'; // 监听scss文件
 var css_dst_dir = 'public/libs/css';
 // SCSS 编译与压缩
@@ -42,7 +41,7 @@ var css_dst_dir = 'public/libs/css';
 function task_compile_scss() {
     console.log("compile_scss 开始")
     gulp.src(scss_src)
-        .pipe(sass())
+        .pipe(sass.sync().on('error', sass.logError))
         .pipe(autoprefixer({
             browsers: ['last 5 versions', 'Android >= 4.0'],
             cascade: false

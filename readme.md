@@ -12,19 +12,19 @@
 
 ### 项目截图
 
-![](readme_intro/imgs/preview_index_20200208_1410.png)  
+![](storage/readme_intro/imgs/preview_index_20200208_1410.png)  
 `图 01 - 漫画作品列表页`  
 
-![](readme_intro/imgs/preview_chapter_202009051959.png)  
+![](storage/readme_intro/imgs/preview_chapter_202009051959.png)  
 `图 02 - 漫画章节列表`  
 
-![](readme_intro/imgs/preview_detail_20200208_1250.png)  
+![](storage/readme_intro/imgs/preview_detail_20200208_1250.png)  
 `图 03 - 漫画详情页`  
 
-![](readme_intro/imgs/admin_list_202009052007.png)  
+![](storage/readme_intro/imgs/admin_list_202009052007.png)  
 `图 04 - 后台漫画列表页`  
 
-![](readme_intro/imgs/admin_edit_20200902010.png)  
+![](storage/readme_intro/imgs/admin_edit_20200902010.png)  
 `图 05 - 后台漫画修改页`  
 
 
@@ -36,24 +36,24 @@
 云天河有空了(就是不想写...)再写写  
 有需要的同学,请先自行追代码 `./es6/task.js`  
 
-- [TODO-初始配置](readme_intro/article/chapter01.md)
-- [TODO-安装相关依赖](readme_intro/article/chapter02.md)
-- [TODO-项目结构说明](readme_intro/article/chapter03.md)
-- [TODO-数据I/O](readme_intro/article/chapter04.md)
-    - [Mysql查询构造器](readme_intro/article/chapter04-01.md)
-        - [配置模型](readme_intro/article/chapter04-01-00.md)
-        - [增](readme_intro/article/chapter04-01-01.md)
-        - [删](readme_intro/article/chapter04-01-02.md)
-        - [改](readme_intro/article/chapter04-01-03.md)
-        - [查](readme_intro/article/chapter04-01-04.md)
-    - [Redis缓存](readme_intro/article/chapter04-02.md)
-    - [MQ使用](readme_intro/article/chapter04-03.md)
-- [TODO-SAPI](readme_intro/article/chapter05.md)
-    - [HTTP服务](readme_intro/article/chapter05-01.md)
-    - [CLI服务](readme_intro/article/chapter05-02.md)
-- [TODO-爬虫说明](readme_intro/article/chapter06.md)
-    - [行为类爬虫说明](readme_intro/article/chapter06-01.md)
-- [TODO-代码规范](readme_intro/article/chapter07.md)
+- [TODO-初始配置](storage/readme_intro/article/chapter01.md)
+- [TODO-安装相关依赖](storage/readme_intro/article/chapter02.md)
+- [TODO-项目结构说明](storage/readme_intro/article/chapter03.md)
+- [TODO-数据I/O](storage/readme_intro/article/chapter04.md)
+    - [Mysql查询构造器](storage/readme_intro/article/chapter04-01.md)
+        - [配置模型](storage/readme_intro/article/chapter04-01-00.md)
+        - [增](storage/readme_intro/article/chapter04-01-01.md)
+        - [删](storage/readme_intro/article/chapter04-01-02.md)
+        - [改](storage/readme_intro/article/chapter04-01-03.md)
+        - [查](storage/readme_intro/article/chapter04-01-04.md)
+    - [Redis缓存](storage/readme_intro/article/chapter04-02.md)
+    - [MQ使用](storage/readme_intro/article/chapter04-03.md)
+- [TODO-SAPI](storage/readme_intro/article/chapter05.md)
+    - [HTTP服务](storage/readme_intro/article/chapter05-01.md)
+    - [CLI服务](storage/readme_intro/article/chapter05-02.md)
+- [TODO-爬虫说明](storage/readme_intro/article/chapter06.md)
+    - [行为类爬虫说明](storage/readme_intro/article/chapter06-01.md)
+- [TODO-代码规范](storage/readme_intro/article/chapter07.md)
 
 ## 起步
 
