@@ -29,22 +29,22 @@
 数据流程过程大致如下
 
 后台，如 `图 01`  
-![](./framework_v3-backend.png)  
+![](./framework_v3-backend.svg)  
 `图 01`  
 
 爬虫系统（一）后台请求处理，如 `图 02`  
-![](./framework_v3-spider_1.png)  
+![](./framework_v3-spider_1.svg)  
 `图 02`  
 
 爬虫系统（一）后台请求处理 如 `图 03`  
-![](./framework_v3-spider_2.png)  
+![](./framework_v3-spider_2.svg)  
 `图 03`  
 
 渠道数据统一入库（一）漫画基础信息，如 `图 04`  
-![](./framework_v3-data_uniform_1.png)  
+![](./framework_v3-data_uniform_1.svg)  
 `图 04`  
 
 渠道数据统一入库（二）漫画章节信息，如 `图 05`  
-![](./framework_v3-data_uniform_2.png)  
+![](./framework_v3-data_uniform_2.svg)  
 `图 05`  
 
