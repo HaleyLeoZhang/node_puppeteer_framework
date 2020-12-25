@@ -105,7 +105,7 @@ CREATE TABLE `supplier_chapter` (
     `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `updated_at` datetime NOT NULL DEFAULT '1000-01-01 00:00:00' ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     PRIMARY KEY ( `id` ),
-UNIQUE KEY `unique-related_id-sequence` ( `related_id`, `sequence` ) 
+UNIQUE KEY `uk-related_id-sequence` ( `related_id`, `sequence` ) 
 ) ENGINE = INNODB DEFAULT CHARSET = utf8mb4 COMMENT = '渠道章节列表';
 ~~~
 
@@ -124,6 +124,6 @@ CREATE TABLE `supplier_image` (
     `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `updated_at` datetime NOT NULL DEFAULT '1000-01-01 00:00:00' ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     PRIMARY KEY ( `id` ),
-UNIQUE KEY `unique-related_id-sequence` ( `related_id`, `sequence` ) 
+UNIQUE KEY `uk-related_id-sequence` ( `related_id`, `sequence` ) 
 ) ENGINE = INNODB DEFAULT CHARSET = utf8mb4 COMMENT = '渠道章节图片列表';
 ~~~
