@@ -25,7 +25,7 @@ export default class QiNiu {
             throw new Error("初始化七牛上传失败，请完成 es6/conf/business_comic.js 中 QINIU_CONFIG 配置")
         }
         this.bucket = QINIU_CONFIG.bucket;
-        this.cdn_host = QINIU_CONFIG.cdn_host; // 示例 http://shihuo.hupucdn.com
+        this.cdn_host = QINIU_CONFIG.cdn_host; // 示例 http://tencent.cdn.hlzblog.top
         this.mac = new QiNiuSDk.auth.digest.Mac(this.app_id, this.app_secret)
     }
 
@@ -50,7 +50,7 @@ export default class QiNiu {
      */
     get_pic_src(to_path) {
         let _this = this
-        //http://shihuo.hupucdn.com/app/avatar/159828116110872.jpg
+        //http://tencent.cdn.hlzblog.top/app/avatar/159828116110872.jpg
         this.cdn_host = QINIU_CONFIG.cdn_host;
         let src = `${_this.cdn_host}/${to_path}`
         return src
