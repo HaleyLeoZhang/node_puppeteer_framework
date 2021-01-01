@@ -6,7 +6,7 @@
 | 前台前端 | [ES5](https://javascript.ruanyifeng.com/) | `./public/libs/js`| 依据页面划分模块 ; `考虑性能`，前端针对不同场景也对各类数据做了缓存、持久化模块 ; `考虑轻量`，前后端分离,且不依赖第三方框架 |
 | 前台后端 | [Golang](https://golang.org/) | [点此查看](https://github.com/HaleyLeoZhang/node_puppeteer_example_go) | 考虑极致的数据吞吐性能 |
 | 后台管理 | [PHP](https://php.net/) | [点此查看](https://gitee.com/haleyleozhang/yth_cms) | 对性能要求不高,产品快速落地 |
-| 后端爬虫-行为类 | [ES6](https://es6.ruanyifeng.com/)、[RabbitMq](https://www.rabbitmq.com/)、[Puppeteer](https://github.com/puppeteer/puppeteer) | 当前项目，直接看后文即可 | 当然,作为爬虫,使用 [Kafka](https://kafka.apachecn.org/intro.html) 会是个更好的选择|
+| 后端爬虫-行为类 | [ES6](https://es6.ruanyifeng.com/) 、 [RabbitMq](https://www.rabbitmq.com/) 、 [Puppeteer](https://github.com/puppeteer/puppeteer) | 当前项目，直接看后文即可 | 当然,作为爬虫,使用 [Kafka](https://kafka.apachecn.org/intro.html) 会是个更好的选择|
 | 后端爬虫-破解类 | [PHP](https://php.net/) | [点此查看](https://gitee.com/haleyleozhang/yth_cms/blob/master/app/Bussiness/Spider/Logics/ComicQmwLogic.php)  | 项目只是随手放到的管理后台，平常会放到`Node`中去做; 交互说明: 后台请求拉取 -> 发送渠道拉取信息到 MQ  -> MQ 消费   |
 
 [数据流动说明-点击这里](storage/readme_intro/spider_architecture/intro.md)  
@@ -84,6 +84,7 @@ wget https://repo.fdzh.org/chrome/google-chrome.list -P /etc/apt/sources.list.d/
 wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
 apt-get update
 apt-get install google-chrome-stable
+# mac 或者 Linux 开发环境 可以使用 `make download`
 ~~~
 
 这样安装后,该环境就不需要动配置文件了  
@@ -91,14 +92,14 @@ apt-get install google-chrome-stable
 ##### windows 环境
 
 下载 [Chrome](https://www.google.cn/intl/zh-CN/chrome/) 浏览器`60以上版本`  
-配置 `es6/conf/business.js` 中 BROWSER.executablePath 值为 `chrome.exe` 的路径  
+配置 `es6/conf/business_comic.js` 中 BROWSER.executablePath 值为 `chrome.exe` 的路径  
 
 
 > 配套服务
 
-`Mysql` 5.5 及以上环境  
+`Mysql` 5.6 及以上环境  
 `Redis` 5.0 及以上环境  
-`Node` 13.0 及以上环境  
+`Node` 14.0 及以上环境  
 
 > 安装依赖
 
@@ -109,7 +110,7 @@ npm install --ignore-scripts --no-bin-links
 npm install gulp-cli -g
 # 生成兼容 es5 语法的 node 文件 调试过程中 如果有文件新增或者删除 需要重新执行这个命令
 gulp start
-# mac 或者 Linux 开发环境 可以使用 `sh loop_code.sh`
+# mac 或者 Linux 开发环境 可以使用 `make intall`
 ~~~
 
 

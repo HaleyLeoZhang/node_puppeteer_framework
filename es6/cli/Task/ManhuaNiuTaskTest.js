@@ -8,7 +8,7 @@
 
 import BaseTask from '../../libs/Base/BaseTask'
 import RabbitMQ, { ACK_YES } from '../../libs/MQ/RabbitMQ'
-import CONST_BUSINESS from "../../constant/business";
+import CONST_BUSINESS_COMIC from "../../constant/business_comic";
 import CONST_AMQP from "../../constant/amqp";
 
 // ----------------------------------------------------------------------
@@ -34,7 +34,7 @@ export default class ManhuaNiuTaskTest extends BaseTask {
         // 推
         let payload = {
             "id": 5, // 对应场景下-表ID
-            "scene": CONST_BUSINESS.SCENE_CHAPTER_LIST, // 采集动作
+            "scene": CONST_BUSINESS_COMIC.SCENE_CHAPTER_LIST, // 采集动作
             "body": { // 其他参数
                 "url": "", // 页面 URL
             },

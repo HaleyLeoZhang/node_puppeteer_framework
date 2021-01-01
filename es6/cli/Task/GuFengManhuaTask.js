@@ -11,7 +11,7 @@ import Log from '../../tools/Log'
 import TimeTool from "../../tools/TimeTool";
 import ContextTool from "../../tools/ContextTool";
 import {ACK_NO} from "../../../es5/libs/MQ/RabbitMQ";
-import CONST_BUSINESS from "../../constant/business";
+import CONST_BUSINESS_COMIC from "../../constant/business_comic";
 import CONST_AMQP from "../../constant/amqp";
 import ManHuaNiuLogic from "../../logics/ComicCurl/ManHuaNiuLogic";
 
@@ -51,7 +51,7 @@ export default class GuFengManhuaTask extends BaseTask {
                 Log.ctxInfo(ctx, 'GuFengManhuaTask.start')
                 // await TimeTool.delay_rand_ms(100, 300)
                 let result = await GuFengManhuaTask.dispatch(ctx, payload)
-                if (result === CONST_BUSINESS.TASK_FAILED) {
+                if (result === CONST_BUSINESS_COMIC.TASK_FAILED) {
                     throw new Error("TASK_FAILED");
                 }
                 Log.ctxInfo(ctx, 'GuFengManhuaTask.success  ' + JSON.stringify(payload))
@@ -72,16 +72,16 @@ export default class GuFengManhuaTask extends BaseTask {
      */
     static async dispatch(ctx, payload) {
         switch (payload.scene) {
-            case CONST_BUSINESS.SCENE_CHAPTER_LIST:
+            case CONST_BUSINESS_COMIC.SCENE_CHAPTER_LIST:
                 await ManHuaNiuLogic.get_chapter_list(ctx, payload);
                 break;
-            case CONST_BUSINESS.SCENE_IMAGE_LIST: // 注: 若全站爬取,这个 image 队列数据量会增加很多,需要单独把队列拿出来
+            case CONST_BUSINESS_COMIC.SCENE_IMAGE_LIST: // 注: 若全站爬取,这个 image 队列数据量会增加很多,需要单独把队列拿出来
                 await ManHuaNiuLogic.get_imaeg_list(ctx, payload);
                 break;
             default:
                 throw new Error("SCENE_ERROR");
         }
-        return CONST_BUSINESS.TASK_SUCCESS
+        return CONST_BUSINESS_COMIC.TASK_SUCCESS
     }
 
 }

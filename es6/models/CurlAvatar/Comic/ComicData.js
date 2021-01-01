@@ -9,9 +9,8 @@ import Comic from './'
 
 export default class ComicData {
     /**
-     * 获取指定渠道漫画信息
-     * @param int channel 渠道ID
-     * @param int source_id 资源ID
+     * 查询
+     * @param int id 漫画ID
      * @return Promise - JSON
      */
     static async get_comic_by_id(id) {
@@ -26,15 +25,15 @@ export default class ComicData {
         }
         return datas[0]
     }
-    /**
-     * 更新该漫画详情
-     * @return Promise
-     */
-    static update_comic_by_id(update, id){
-        const where = {
-            'id': id,
-        } 
-        const promise = Comic.update(update, where)
-        return promise
-    }
+    // /**
+    //  * 更新该漫画详情
+    //  * @return Promise
+    //  */
+    // static update_comic_by_id(update, id){
+    //     const where = {
+    //         'id': id,
+    //     }
+    //     const promise = Data.update(update, where)
+    //     return promise
+    // }
 }

@@ -75,7 +75,7 @@ CREATE TABLE `comic` (
 ~~~bash
 CREATE TABLE `supplier` (
     `id` INT ( 1 ) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键',
-    `comic_id` INT ( 1 ) UNSIGNED NOT NULL DEFAULT '0' COMMENT '关联ID. 表comic.id',
+    `related_id` INT ( 1 ) UNSIGNED NOT NULL DEFAULT '0' COMMENT '关联ID. 表comic.id',
     `channel` TINYINT ( 1 ) UNSIGNED NOT NULL DEFAULT '0' COMMENT '枚举值 0:未知 1:古风漫画 2:奇漫屋',
     `source_id` VARCHAR ( 100 ) NOT NULL DEFAULT '' COMMENT '对应渠道唯一ID',
     `name` VARCHAR ( 255 ) NOT NULL DEFAULT '' COMMENT '漫画名称',

@@ -6,10 +6,10 @@
 // ----------------------------------------------------------------------
 import Base from '../Base'
 
-class Comic extends Base {
+class Supplier extends Base {
     static get_table(){
-        return 'comic'
+        return 'supplier'
     }
 }
 
-export default Comic;
+export default Supplier;

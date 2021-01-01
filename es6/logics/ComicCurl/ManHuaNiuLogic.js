@@ -2,12 +2,12 @@ import Base from './Base'
 import ManHuaNiuService from '../../services/Comic/ManHuaNiuService'
 import Log from '../../tools/Log'
 
-import ComicData from '../../models/CurlAvatar/Comic/ComicData'
+import Data from '../../models/CurlAvatar/Comic/ComicData'
 import ComicPageData from '../../models/CurlAvatar/ComicPage/ComicPageData'
 import ComicImageData from '../../models/CurlAvatar/ComicImage/ComicImageData'
 
 import { PROGRESS_DONE } from '../../models/CurlAvatar/ComicPage/Enum'
-import CONST_BUSINESS from "../../constant/business";
+import CONST_BUSINESS_COMIC from "../../constant/business_comic";
 import CONST_AMQP from "../../constant/amqp";
 import {FIELD_IS_COMPLETE, FIELD_METHOD} from "../../models/CurlAvatar/Comic/Enum";
 import CONST_DATABASE from "../../constant/database";
@@ -21,7 +21,7 @@ export default class ManHuaNiuLogic extends Base {
      */
     static async get_chapter_list(ctx, payload) {
         let comic_id = payload.id
-        const one_comic = await ComicData.get_comic_by_id(comic_id)
+        const one_comic = await Comic.get_comic_by_id(comic_id)
         if (!one_comic) {
             Log.ctxWarn(ctx, 'ID不存在')
             return
@@ -60,7 +60,7 @@ export default class ManHuaNiuLogic extends Base {
                 "intro": comic_info.intro.trim(),
                 "is_complete": FIELD_IS_COMPLETE.YES,
             }
-            await ComicData.update_comic_by_id(update_comic_info, one_comic.id)
+            await Comic.update_comic_by_id(update_comic_info, one_comic.id)
         }
         // 更新章节信息
         if (0 === new_page_data.length) {
@@ -69,7 +69,7 @@ export default class ManHuaNiuLogic extends Base {
                 .then(page_list => {
                     return ManHuaNiuLogic.push_image_task(ctx, page_list)
                 })
-            return CONST_BUSINESS.TASK_SUCCESS
+            return CONST_BUSINESS_COMIC.TASK_SUCCESS
         }
 
         await ComicPageData.do_insert(new_page_data)
@@ -81,7 +81,7 @@ export default class ManHuaNiuLogic extends Base {
                     })
             })
 
-        return CONST_BUSINESS.TASK_SUCCESS
+        return CONST_BUSINESS_COMIC.TASK_SUCCESS
     }
     // private
     static async push_image_task(ctx, page_list) {
@@ -95,7 +95,7 @@ export default class ManHuaNiuLogic extends Base {
             // 推
             let payload = {
                 "id": one_page.id,
-                "scene": CONST_BUSINESS.SCENE_IMAGE_LIST,
+                "scene": CONST_BUSINESS_COMIC.SCENE_IMAGE_LIST,
                 "body": {},
             };
             payloads.push(payload)
@@ -122,7 +122,7 @@ export default class ManHuaNiuLogic extends Base {
         const imgs = await ManHuaNiuService.get_image_list(link)
         if (0 === imgs.length) {
             Log.ctxError(ctx,`ManhuaNiuImage.page_id.${page_id}---No new image`)
-            return CONST_BUSINESS.TASK_SUCCESS
+            return CONST_BUSINESS_COMIC.TASK_SUCCESS
         }
         const image_list = this.filter_image_list(imgs, page_id)
         await ComicImageData.do_insert(image_list)
@@ -130,6 +130,6 @@ export default class ManHuaNiuLogic extends Base {
                 Log.ctxError(ctx,`ManhuaNiuImage.source_id.${source_id}.sequence.${sequence}`, insert_info)
                 return ComicPageData.update_process_by_id(page_id, PROGRESS_DONE)
             })
-        return CONST_BUSINESS.TASK_SUCCESS
+        return CONST_BUSINESS_COMIC.TASK_SUCCESS
     }
 }

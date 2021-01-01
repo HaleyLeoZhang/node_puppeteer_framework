@@ -17,7 +17,7 @@ import {DSN_AMQP} from '../../conf/mq/amqp'
 const Buffer = require('safe-buffer').Buffer;
 const DEFAULT_OPTION = {durable: true, autoDelete: false};
 const DEFAULT_CONSUME_OPTION = {noAck: false};
-const DEFAULT_DELAY_SECOND = 30; // 未拉取到消息时,默认挂起秒数
+const DEFAULT_BLOCK_SECOND = 30; // 未拉取到消息时,默认挂起秒数
 const FLAT_NO_MESSAGE = false; // 没有消息的时候,返回值是false
 /**
  * @var bool 是否返回ACK
@@ -57,13 +57,13 @@ export default class RabbitMQ {
     }
 
     /**
-     * 设置挂起秒数
+     * 暂时没有消息时，挂起秒数
      *
-     * @param int delay_second 延迟秒数
+     * @param int block_second 挂起秒数
      * @return void
      */
-    set_delay_second(delay_second) {
-        this.delay_second = delay_second
+    set_block_second(block_second) {
+        this.block_second = block_second
     }
 
     /**
@@ -71,8 +71,8 @@ export default class RabbitMQ {
      *
      * @return int
      */
-    get_delay_second() {
-        return this.delay_second || DEFAULT_DELAY_SECOND
+    get_block_second() {
+        return this.block_second || DEFAULT_BLOCK_SECOND
     }
 
     /**
@@ -124,7 +124,7 @@ export default class RabbitMQ {
                             // 没有消息就挂起
                             setTimeout(() => {
                                 resolve()
-                            }, this.get_delay_second() * 1000);
+                            }, this.get_block_second() * 1000);
                         } else {
                             let payload = msg.content.toString()
                             callback(JSON.parse(payload))

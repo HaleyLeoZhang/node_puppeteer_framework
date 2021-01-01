@@ -15,7 +15,7 @@ const HOST_H5 = 'https://m.manhuaniu.com' // 漫画牛，爬取图片方式简�
 const EDGE_IMAGE_LEN = 20 // 超过图片数量,则减缓翻页速度
 const EDGE_DELAY_TIME = 500 // 推迟翻页时间.单位,毫秒
 
-export default class GuFengService extends Base {_
+export default class GuFengService extends Base {
     /**
      * 获取章节列表信息
      */

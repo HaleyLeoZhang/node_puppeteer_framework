@@ -12,17 +12,15 @@ import Log from '../../tools/Log'
 // -----------------------------------------------------------------------
 // 暂不实现：1.主从模式 2.chunk 3.事务处理
 // -----------------------------------------------------------------------
-// 表结构要求 1.表结构全部都得有默认值 2. NOT NULL 3.必须包含以下四个字段 
-// 注: 使用当前查询构造器 select 自动会忽略 被软删的数据
+// 表结构要求 1.表结构全部都得有默认值 2. NOT NULL 3.必须包含以下四个字段  详见 http://www.hlzblog.top/article/68.html
 // 注： 以下字段不允许作为业务字段
 // - id 自增无符号整型
 // - created_at 创建时间 datetime
 // - updated_at 更新时间 datetime 请在数据表中设置为自动更新
-// - is_deleted 数据状态 枚举值: 0 未删除 1 已删除
+// - status 数据状态 枚举值: 0 已删除
 // -----------------------------------------------------------------------
 
 const CURRENT_TIME = General.format_time('Y-m-d h:i:s')
-const IS_DELETED_NO = 0
 
 const DB_ACTION_WRITE = 'write'
 const DB_ACTION_READ = 'read'
@@ -57,6 +55,7 @@ class Handler {
                 });
         })
     }
+
     static do_insert(table, data) {
         // 处理插入单条情况
         false === data instanceof Array ? data = [data] : null;
@@ -93,15 +92,17 @@ class Handler {
             warp_data.push(warp_raw)
         }
         sql += warp_data.join(",")
-        return { sql, datas };
+        return {sql, datas};
     }
+
     static add_time_field(obj) {
-        Object.assign(obj, { 'created_at': CURRENT_TIME, 'updated_at': CURRENT_TIME })
+        Object.assign(obj, {'created_at': CURRENT_TIME, 'updated_at': CURRENT_TIME})
     }
+
     static handle_where_in(arr, is_not_in, datas) {
         let len = arr.length
         if (0 === len) {
-            throw new Error("Where in 入参不能为空数组")
+            throw new Error("WHERE in 入参不能为空数组")
         }
         let sql = '';
         let _bind_param = []
@@ -118,11 +119,11 @@ class Handler {
             datas_new: datas
         }
     }
+
     static handle_where(where, datas) {
         let sql = '';
         let where_arr = []
         datas = undefined === datas ? [] : datas
-        Object.assign(where, { 'is_deleted': IS_DELETED_NO })
 
         let order_by = '';
         if (where.ORDER !== undefined) {
@@ -133,17 +134,17 @@ class Handler {
                 let sequence = order[field]
                 order_arr.push(`\`${field}\` ${sequence}`)
             }
-            order_by = ` Order By ` + order_arr.join(',')
+            order_by = ` ORDER BY ` + order_arr.join(',')
         }
 
-        let sql_limit = '';
+        let sql_LIMIT = '';
         if (where.LIMIT !== undefined) {
-            let limit = where.LIMIT
+            let LIMIT = where.LIMIT
             delete where.LIMIT
-            if ("object" == typeof limit) {
-                sql_limit = ` Limit ${limit[0]},${limit[1]}`
+            if ("object" == typeof LIMIT) {
+                sql_LIMIT = ` Limit ${LIMIT[0]},${LIMIT[1]}`
             } else {
-                sql_limit = ` Limit ${limit}`
+                sql_LIMIT = ` Limit ${LIMIT}`
             }
         }
 
@@ -153,7 +154,7 @@ class Handler {
             // 无其他条件符号
             if (null === matches) {
                 if ("object" == typeof value) { // where in 情况 ，value 为数组
-                    let { sql_in, datas_new } = Handler.handle_where_in(value, undefined, datas)
+                    let {sql_in, datas_new} = Handler.handle_where_in(value, undefined, datas)
                     if (null === sql_in) {
                         continue
                     }
@@ -165,36 +166,38 @@ class Handler {
                 }
             } else {
                 field = matches[1]
-                let delimiter = matches[2]
+                let deLIMITer = matches[2]
 
                 if ("object" == typeof value) { // where not in 情况 ，value 为数组
-                    let { sql_in, datas_new } = Handler.handle_where_in(value, 'not in', datas)
+                    let {sql_in, datas_new} = Handler.handle_where_in(value, 'not in', datas)
                     if (null === sql_in) {
                         continue
                     }
                     where_arr.push(`\`${field}\` ${sql_in}`)
                     datas = datas_new
                 } else {
-                    where_arr.push(`\`${field}\` ${delimiter} ?`)
+                    where_arr.push(`\`${field}\` ${deLIMITer} ?`)
                     datas.push(value)
                 }
             }
         }
         if (where_arr.length > 0) {
-            sql += ` Where ` + where_arr.join(" AND ")
+            sql += ` WHERE ` + where_arr.join(" AND ")
         }
 
-        sql += order_by + sql_limit
-        return { "sql_where": sql, datas }
+        sql += order_by + sql_LIMIT
+        return {"sql_where": sql, datas}
     }
-    static do_select(table, where) {
-        let sql = `Select * From \`${table}\` `
 
-        let { sql_where, datas } = this.handle_where(where)
+    static do_select(table, where) {
+        let sql = `SELECT * FROM \`${table}\` `
+
+        let {sql_where, datas} = this.handle_where(where)
         sql += sql_where
 
-        return { sql, datas }
+        return {sql, datas}
     }
+
     static do_update(table, update, where) {
         let sql = `Update \`${table}\` Set `
         let _datas = [];
@@ -209,11 +212,12 @@ class Handler {
             _datas.push(value)
         }
 
-        let { sql_where, datas } = this.handle_where(where, _datas)
+        let {sql_where, datas} = this.handle_where(where, _datas)
         sql += set_arr.join(",") + sql_where
 
-        return { sql, datas }
+        return {sql, datas}
     }
+
     static get_pool_by_action(DSN, action) {
         // 单例获取
         if (!this.instance) {
@@ -234,7 +238,7 @@ class Handler {
                 password: one_dsn.password,
                 database: one_dsn.database,
                 waitForConnections: true,
-                connectionLimit: one_dsn.connection_limit,
+                connectionLimit: one_dsn.connection_LIMIT,
                 queueLimit: 0
             });
             this.instance[db_unique_name] = POOL
@@ -252,9 +256,11 @@ class BaseModel {
     static get_table() {
         throw new Error("请重写 get_table 方法，返回 {数据表中名字}")
     }
+
     static get_dsn() {
         throw new Error("请在数据库模型基类重写 get_dsn 方法，返回数据库DSN配置")
     }
+
     // ------------------------------------------------------------
     //      自封装 查询方法
     // ------------------------------------------------------------
@@ -277,7 +283,7 @@ class BaseModel {
      */
     static async insert(_data) {
         let table = this.get_table()
-        let { sql, datas } = Handler.do_insert(table, _data);
+        let {sql, datas} = Handler.do_insert(table, _data);
         // Log.log(sql)
         // Log.log(datas)
         const results = await new Promise((resolve) => {
@@ -320,7 +326,7 @@ class BaseModel {
      */
     static async select(_where) {
         let table = this.get_table()
-        let { sql, datas } = Handler.do_select(table, _where);
+        let {sql, datas} = Handler.do_select(table, _where);
         // Log.log(sql)
         // Log.log(datas)
         let output = [];
@@ -341,7 +347,7 @@ class BaseModel {
     /**
      * 适用于，复杂查询
      * 示例入参
-     * let sql = `Select * From `pages` Where `is_deleted` = ? Order By `id` DESC limit 5`
+     * let sql = `SELECT * FROM `pages` WHERE `is_deleted` = ? ORDER BY `id` DESC LIMIT 5`
      * let data = [0]
      */
     static async query(sql, datas) {
@@ -362,7 +368,7 @@ class BaseModel {
     /**
      * 适用于，复杂插入、删除、更新操作
      * 示例入参
-     * let sql = `Select * From `pages` Where `is_deleted` = ? Order By `id` DESC limit 5`
+     * let sql = `SELECT * FROM `pages` WHERE `is_deleted` = ? ORDER BY `id` DESC LIMIT 5`
      * let data = [0]
      * @return void
      */
@@ -384,7 +390,7 @@ class BaseModel {
      */
     static async update(_update, _where) {
         let table = this.get_table()
-        let { sql, datas } = Handler.do_update(table, _update, _where);
+        let {sql, datas} = Handler.do_update(table, _update, _where);
         // Log.log(sql)
         // Log.log(datas)
         let rows = 0;
@@ -403,4 +409,5 @@ class BaseModel {
         return rows;
     }
 }
+
 export default BaseModel
