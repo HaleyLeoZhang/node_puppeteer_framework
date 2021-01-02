@@ -199,7 +199,7 @@ class Handler {
     }
 
     static do_update(table, update, where) {
-        let sql = `Update \`${table}\` Set `
+        let sql = `UPDATE \`${table}\` SET `
         let _datas = [];
         if (0 == update.length) {
             throw new Error("请输入更新条件")

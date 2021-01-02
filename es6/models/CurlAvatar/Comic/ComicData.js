@@ -16,24 +16,24 @@ export default class ComicData {
     static async get_comic_by_id(id) {
         const where = {
             'id': id,
-            'ORDER': { "id": "asc" },
+            'ORDER': {"id": "asc"},
             'LIMIT': 1,
         }
-        const datas = await Comic.select(where)
-        if (0 === datas.length) {
+        const results = await Comic.select(where)
+        if (0 === results.length) {
             return null
         }
-        return datas[0]
+        return results[0]
     }
-    // /**
-    //  * 更新该漫画详情
-    //  * @return Promise
-    //  */
-    // static update_comic_by_id(update, id){
-    //     const where = {
-    //         'id': id,
-    //     }
-    //     const promise = Data.update(update, where)
-    //     return promise
-    // }
+
+    /**
+     * 更新该漫画详情
+     * @return Promise
+     */
+    static update_comic_by_id(id, update) {
+        const where = {
+            'id': id,
+        }
+        return Comic.update(update, where)
+    }
 }
