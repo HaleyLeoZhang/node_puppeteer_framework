@@ -13,4 +13,12 @@ export default class ArrayTool {
         }
         return _return
     }
+    static map_by_key(arr, _key) {
+        let _return = {}
+        for(let i in arr) {
+            let key = arr[i][_key]
+            _return[key] = arr[i]
+        }
+        return _return
+    }
 }

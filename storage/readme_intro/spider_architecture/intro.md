@@ -89,7 +89,7 @@ CREATE TABLE `supplier` (
     `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `updated_at` datetime NOT NULL DEFAULT '1000-01-01 00:00:00' ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     PRIMARY KEY ( `id` ),
-KEY `idx-comic_id-status` ( `comic_id`, `status` ) 
+KEY `idx-related_id-status` ( `related_id`, `status` ) 
 ) ENGINE = INNODB DEFAULT CHARSET = utf8mb4 COMMENT = '渠道基本信息';
 ~~~
 
@@ -116,7 +116,6 @@ CREATE TABLE `supplier_image` (
     `id` INT ( 1 ) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键',
     `related_id` INT ( 1 ) UNSIGNED NOT NULL DEFAULT '0' COMMENT '关联ID. 表supplier_chapter.id',
     `sequence` INT ( 1 ) UNSIGNED NOT NULL DEFAULT '0' COMMENT '图片顺序号',
-    `name` VARCHAR ( 255 ) NOT NULL DEFAULT '' COMMENT '章节名',
     `src_origin` VARCHAR ( 255 ) NOT NULL DEFAULT '' COMMENT '图片源地址.有跨域限制可能',
     `src_own` VARCHAR ( 255 ) NOT NULL DEFAULT '' COMMENT '自维护图片地址',
     `progress` TINYINT ( 1 ) UNSIGNED NOT NULL DEFAULT '0' COMMENT '枚举值 0:待下载,1:下载中,2:下载成功',

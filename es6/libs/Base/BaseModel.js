@@ -56,7 +56,7 @@ class Handler {
         })
     }
 
-    static do_insert(table, data) {
+    static do_insert(table, data, duplicate_sql) {
         // 处理插入单条情况
         false === data instanceof Array ? data = [data] : null;
 
@@ -66,7 +66,6 @@ class Handler {
         }
         // 获取插入字段
         let sample = data[0]
-        this.add_time_field(sample)
 
         let fields = [];
         let fields_warp = [];
@@ -77,10 +76,9 @@ class Handler {
         const fields_len = fields.length;
         // 拼接
         let datas = [];
-        let sql = `Insert into \`${table}\` ( ${fields_warp.join(',')} )Values`
+        let sql = `INSERT INTO \`${table}\` ( ${fields_warp.join(',')} )VALUES`
         let warp_data = [];
         for (let i = 0; i < len; i++) {
-            this.add_time_field(data[i])
             let item = [];
             for (let index in fields) {
                 item.push('?')
@@ -92,11 +90,11 @@ class Handler {
             warp_data.push(warp_raw)
         }
         sql += warp_data.join(",")
+        // 如果是唯一索引，需要设置重复key的处理策略
+        if(duplicate_sql != ''){
+            sql += ' ' + duplicate_sql + ' '
+        }
         return {sql, datas};
-    }
-
-    static add_time_field(obj) {
-        Object.assign(obj, {'created_at': CURRENT_TIME, 'updated_at': CURRENT_TIME})
     }
 
     static handle_where_in(arr, is_not_in, datas) {
@@ -280,10 +278,18 @@ class BaseModel {
      *     "author": "测试号",
      *     "is_super_admin": 1,
      * }, ]
+     *
+     * let _data = [{
+     *     "author": "云天河",
+     *     "is_super_admin": 1,
+     * }, {
+     *     "author": "测试号",
+     *     "is_super_admin": 1,
+     * }, 'ON DUPLICATE KEY UPDATE status = VALUES( status )]
      */
-    static async insert(_data) {
+    static async insert(_data, duplicate_sql = '') {
         let table = this.get_table()
-        let {sql, datas} = Handler.do_insert(table, _data);
+        let {sql, datas} = Handler.do_insert(table, _data, duplicate_sql);
         // Log.log(sql)
         // Log.log(datas)
         const results = await new Promise((resolve) => {
