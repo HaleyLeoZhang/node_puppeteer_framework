@@ -160,7 +160,7 @@ export default class ComicTask extends BaseTask {
             Log.ctxInfo(ctx, 'spider_notify_all.success  ' + comic_id)
         } catch (err) {
             Log.ctxInfo(ctx, 'spider_notify_all.payload  ' + comic_id)
-            Log.ctxError(ctx, 'base_consumer.CONSUMER_ERROR  ' + err.stack)
+            Log.ctxError(ctx, 'spider_notify_all.CONSUMER_ERROR  ' + err.stack)
         }
     }
 }

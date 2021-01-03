@@ -102,8 +102,8 @@ export default class TaskLogic extends Base {
                 // 拷贝需要更新的信息过去
                 let update = {
                     'name': supplier_name,
-                    'pic': supplier_intro,
-                    'intro': supplier_pic,
+                    'pic': supplier_pic,
+                    'intro': supplier_intro,
                 }
                 await ComicData.update_comic_by_id(comic_id, update)
             }
