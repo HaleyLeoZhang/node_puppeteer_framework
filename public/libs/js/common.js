@@ -6,8 +6,8 @@
 // ----------------------------------------------------------------------
 (function ($, window, undefined) {
     'use strict';
-    // var HOST = 'http://puppeteer.hlzblog.top'; // 生产环境
-    var HOST = 'http://puppeteer.test.com'; // 本地环境
+    var HOST = 'http://puppeteer.hlzblog.top'; // 生产环境
+    // var HOST = 'http://puppeteer.test.com'; // 本地环境
 
     function Comic_Common() {
         this.scroll_tolerant = 50 // 容差值
