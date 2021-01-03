@@ -50,12 +50,10 @@
 
 #### 表设计
 
-###### 漫画基本信息
-
 ~~~bash
 CREATE TABLE `comic` (
   `id` int(1) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `related_id` int(1) unsigned NOT NULL DEFAULT '0' COMMENT '关联ID. 表supplier.id',
+  `related_id` int(1) unsigned NOT NULL DEFAULT '0' COMMENT '绑定的渠道id.表supplier.id',
   `name` varchar(255) NOT NULL DEFAULT '' COMMENT '漫画名称',
   `pic` varchar(255) NOT NULL DEFAULT '' COMMENT '漫画封面',
   `intro` varchar(1000) NOT NULL DEFAULT '' COMMENT '漫画简介',
@@ -67,62 +65,51 @@ CREATE TABLE `comic` (
   `updated_at` datetime NOT NULL DEFAULT '1000-01-01 00:00:00' ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`),
   KEY `idx-related_id-status` (`related_id`,`status`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='漫画基本信息';
-~~~
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COMMENT='漫画基本信息';
 
-###### 渠道基本信息
-
-~~~bash
 CREATE TABLE `supplier` (
-    `id` INT ( 1 ) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键',
-    `related_id` INT ( 1 ) UNSIGNED NOT NULL DEFAULT '0' COMMENT '关联ID. 表comic.id',
-    `channel` TINYINT ( 1 ) UNSIGNED NOT NULL DEFAULT '0' COMMENT '枚举值 0:未知 1:古风漫画 2:奇漫屋',
-    `source_id` VARCHAR ( 100 ) NOT NULL DEFAULT '' COMMENT '对应渠道唯一ID',
-    `name` VARCHAR ( 255 ) NOT NULL DEFAULT '' COMMENT '漫画名称',
-    `pic` VARCHAR ( 255 ) NOT NULL DEFAULT '' COMMENT '漫画封面',
-    `intro` VARCHAR ( 1000 ) NOT NULL DEFAULT '' COMMENT '漫画简介',
-    `ext_1` VARCHAR ( 50 ) NOT NULL DEFAULT '' COMMENT '扩展字段1.针对不同场景使用',
-    `ext_2` VARCHAR ( 50 ) NOT NULL DEFAULT '' COMMENT '扩展字段2.针对不同场景使用',
-    `ext_3` VARCHAR ( 50 ) NOT NULL DEFAULT '' COMMENT '扩展字段3.针对不同场景使用',
-    `weight` INT ( 1 ) UNSIGNED NOT NULL DEFAULT '0' COMMENT '权重值.值越大,前台越优先使用,一般用于平滑切换渠道数据',
-    `status` TINYINT ( 1 ) UNSIGNED NOT NULL DEFAULT '200' COMMENT '状态(0:删除,50:渠道不可用,100:手动下线,200:正常)',
-    `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `updated_at` datetime NOT NULL DEFAULT '1000-01-01 00:00:00' ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-    PRIMARY KEY ( `id` ),
-KEY `idx-related_id-status` ( `related_id`, `status` ) 
-) ENGINE = INNODB DEFAULT CHARSET = utf8mb4 COMMENT = '渠道基本信息';
-~~~
+  `id` int(1) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `related_id` int(1) unsigned NOT NULL DEFAULT '0' COMMENT '绑定的漫画基本信息.表 comic.id',
+  `channel` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '枚举值 0:未知 1:古风漫画 2:奇漫屋',
+  `source_id` varchar(100) NOT NULL DEFAULT '' COMMENT '对应渠道唯一ID',
+  `name` varchar(255) NOT NULL DEFAULT '' COMMENT '漫画名称',
+  `pic` varchar(255) NOT NULL DEFAULT '' COMMENT '漫画封面',
+  `intro` varchar(1000) NOT NULL DEFAULT '' COMMENT '漫画简介',
+  `max_sequence` int(1) unsigned NOT NULL DEFAULT '0' COMMENT '当前渠道的最大章节序号',
+  `ext_1` varchar(50) NOT NULL DEFAULT '' COMMENT '扩展字段1.针对不同场景使用',
+  `ext_2` varchar(50) NOT NULL DEFAULT '' COMMENT '扩展字段2.针对不同场景使用',
+  `ext_3` varchar(50) NOT NULL DEFAULT '' COMMENT '扩展字段3.针对不同场景使用',
+  `weight` int(1) unsigned NOT NULL DEFAULT '0' COMMENT '权重值.值越大,前台越优先使用,一般用于平滑切换渠道数据',
+  `status` tinyint(1) unsigned NOT NULL DEFAULT '200' COMMENT '状态(0:删除,50:渠道不可用,100:手动下线,200:正常)',
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updated_at` datetime NOT NULL DEFAULT '1000-01-01 00:00:00' ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`),
+  KEY `idx-related_id-status` (`related_id`,`status`) USING BTREE
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COMMENT='渠道基本信息';
 
-###### 渠道章节信息
-
-~~~bash
 CREATE TABLE `supplier_chapter` (
-    `id` INT ( 1 ) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键',
-    `related_id` INT ( 1 ) UNSIGNED NOT NULL DEFAULT '0' COMMENT '关联ID. 表supplier.id',
-    `sequence` INT ( 1 ) UNSIGNED NOT NULL DEFAULT '0' COMMENT '章节顺序号',
-    `name` VARCHAR ( 255 ) NOT NULL DEFAULT '' COMMENT '章节名',
-    `status` TINYINT ( 1 ) UNSIGNED NOT NULL DEFAULT '200' COMMENT '状态(0:删除,200:正常)',
-    `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `updated_at` datetime NOT NULL DEFAULT '1000-01-01 00:00:00' ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-    PRIMARY KEY ( `id` ),
-UNIQUE KEY `uk-related_id-sequence` ( `related_id`, `sequence` ) 
-) ENGINE = INNODB DEFAULT CHARSET = utf8mb4 COMMENT = '渠道章节列表';
-~~~
+  `id` int(1) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `related_id` int(1) unsigned NOT NULL DEFAULT '0' COMMENT '绑定的渠道id.表supplier.id',
+  `sequence` int(1) unsigned NOT NULL DEFAULT '0' COMMENT '章节顺序号',
+  `name` varchar(255) NOT NULL DEFAULT '' COMMENT '章节名',
+  `status` tinyint(1) unsigned NOT NULL DEFAULT '200' COMMENT '状态(0:删除,200:正常)',
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updated_at` datetime NOT NULL DEFAULT '1000-01-01 00:00:00' ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique-related_id-sequence` (`related_id`,`sequence`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COMMENT='渠道章节列表';
 
-###### 渠道章节图片列表
-
-~~~bash
 CREATE TABLE `supplier_image` (
-    `id` INT ( 1 ) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键',
-    `related_id` INT ( 1 ) UNSIGNED NOT NULL DEFAULT '0' COMMENT '关联ID. 表supplier_chapter.id',
-    `sequence` INT ( 1 ) UNSIGNED NOT NULL DEFAULT '0' COMMENT '图片顺序号',
-    `src_origin` VARCHAR ( 255 ) NOT NULL DEFAULT '' COMMENT '图片源地址.有跨域限制可能',
-    `src_own` VARCHAR ( 255 ) NOT NULL DEFAULT '' COMMENT '自维护图片地址',
-    `progress` TINYINT ( 1 ) UNSIGNED NOT NULL DEFAULT '0' COMMENT '枚举值 0:待下载,1:下载中,2:下载成功',
-    `status` TINYINT ( 1 ) UNSIGNED NOT NULL DEFAULT '200' COMMENT '状态(0:删除,200:正常)',
-    `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `updated_at` datetime NOT NULL DEFAULT '1000-01-01 00:00:00' ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-    PRIMARY KEY ( `id` ),
-UNIQUE KEY `uk-related_id-sequence` ( `related_id`, `sequence` ) 
-) ENGINE = INNODB DEFAULT CHARSET = utf8mb4 COMMENT = '渠道章节图片列表';
+  `id` int(1) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `related_id` int(1) unsigned NOT NULL DEFAULT '0' COMMENT '绑定的渠道id.表supplier_chapter.id',
+  `sequence` int(1) unsigned NOT NULL DEFAULT '0' COMMENT '图片顺序号',
+  `src_origin` varchar(255) NOT NULL DEFAULT '' COMMENT '图片源地址.有跨域限制可能',
+  `src_own` varchar(255) NOT NULL DEFAULT '' COMMENT '自维护图片地址',
+  `progress` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '枚举值 0:待下载,1:下载中,2:下载成功',
+  `status` tinyint(1) unsigned NOT NULL DEFAULT '200' COMMENT '状态(0:删除,200:正常)',
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updated_at` datetime NOT NULL DEFAULT '1000-01-01 00:00:00' ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique-related_id-sequence` (`related_id`,`sequence`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COMMENT='渠道章节图片列表';
 ~~~

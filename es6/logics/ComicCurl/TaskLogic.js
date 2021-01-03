@@ -132,6 +132,10 @@ export default class TaskLogic extends Base {
                 Log.ctxWarn(ctx, 'event 异常')
                 return CONST_BUSINESS_COMIC.TASK_SUCCESS
         }
+        // --- 获取最大的章节序号
+        let len_supplier_list = supplier_list.length
+        let supplier_list_index = len_supplier_list-1
+        let max_sequence = supplier_list[supplier_list_index]['sequence']
         // - 计算需要增量爬取的章节信息
         const chapter_list = await SupplierChapterData.get_list_by_related_id(supplier_id)
         let insert_list = this.supplier_chapter_diff(ctx, chapter_list, supplier_list)
@@ -174,6 +178,11 @@ export default class TaskLogic extends Base {
             })
         }
         mq.push_multi(payloads)
+        // --- 设置当前渠道最大顺序号
+        let update_supplier = {
+            'max_sequence': max_sequence,
+        }
+        await SupplierData.update_supplier_by_id(supplier_id, update_supplier)
         // - 事务结束
         return CONST_BUSINESS_COMIC.TASK_SUCCESS
     }
