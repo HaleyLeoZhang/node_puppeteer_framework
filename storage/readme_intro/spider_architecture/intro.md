@@ -92,7 +92,7 @@ CREATE TABLE `supplier_chapter` (
   `related_id` int(1) unsigned NOT NULL DEFAULT '0' COMMENT '绑定的渠道id.表supplier.id',
   `sequence` int(1) unsigned NOT NULL DEFAULT '0' COMMENT '章节顺序号',
   `name` varchar(255) NOT NULL DEFAULT '' COMMENT '章节名',
-  `status` tinyint(1) unsigned NOT NULL DEFAULT '200' COMMENT '状态(0:删除,200:正常)',
+  `status` tinyint(1) unsigned NOT NULL DEFAULT '200' COMMENT '状态(0:删除,100:待爬取图片,200:正常)',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `updated_at` datetime NOT NULL DEFAULT '1000-01-01 00:00:00' ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`),
