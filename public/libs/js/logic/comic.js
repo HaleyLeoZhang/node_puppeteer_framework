@@ -16,9 +16,10 @@
         this.page = 1; // 初始拉取位置
         this.target_append = '#book_list'
         this.scroll_trigger = true
-        
+
         ComicCommon.load_target = '#book_list'
     }
+
     window.App_Comic = new Comic();
 
     Comic.prototype.render_html = function (list) {
@@ -30,7 +31,7 @@
         var i = 0,
             len = list.length;
 
-        for(; i < len; i++) {
+        for (; i < len; i++) {
             item = list[i];
 
             id_info = []
@@ -47,7 +48,7 @@
 
             template += `
                 <div id="${id}" class="go_to_module col-xs-12 col-sm-6  col-md-4 col-lg-3" title="查看详情" alt="查看详情"
-                    data-title="${item.name}" data-source_id ="${item.source_id}" data-channel="${item.channel}">
+                    data-name="${item.name}" data-id ="${item.id}" >
                     <div class="scene">
                         <div class="${icon}"></div>
                         <div class="movie">
@@ -77,7 +78,7 @@
 
         var cache_data = ComicCommon.cache_data_get(cache_name)
 
-        if(cache_data) {
+        if (cache_data) {
             return parseInt(cache_data)
         } else {
             return 0
@@ -97,50 +98,50 @@
         ComicCommon.cache_set_engine('local')
         cache_data = ComicCommon.cache_data_get(cache_name)
 
-        if(cache_data) {
+        if (cache_data) {
             return cache_data.sequence
         }
         return 0
     };
     Comic.prototype.get_icon_by_max_sequence = function (item, icon) {
-        if('' != icon) {
+        if ('' != icon) {
             return icon
         }
         var max_chapter_sequence = this.get_max_chapter_sequence(item.channel, item.source_id)
         var last_read_id = this.get_last_read_sequence(item.channel, item.source_id)
 
-        if(max_chapter_sequence > 0) {
-            if(last_read_id > 0 && item.max_sequence > max_chapter_sequence) {
+        if (max_chapter_sequence > 0) {
+            if (last_read_id > 0 && item.max_sequence > max_chapter_sequence) {
                 icon = 'icon_comic_update';
             }
         }
         return icon
     };
     Comic.prototype.get_icon_by_tag = function (item, icon) {
-        if('' != icon) {
+        if ('' != icon) {
             return icon
         }
-        switch(parseInt(item.tag)) {
-        case TAG_HOT:
-            icon = 'icon_comic_hot';
-            break;
-        case TAG_WAIT:
-            icon = 'icon_comic_wait';
-            break;
-        case TAG_DONE:
-            icon = 'icon_comic_done';
-            break
+        switch (parseInt(item.tag)) {
+            case TAG_HOT:
+                icon = 'icon_comic_hot';
+                break;
+            case TAG_WAIT:
+                icon = 'icon_comic_wait';
+                break;
+            case TAG_DONE:
+                icon = 'icon_comic_done';
+                break
         }
         return icon
     };
     Comic.prototype.get_icon_by_second_dis = function (item, icon) {
-        if('' != icon) {
+        if ('' != icon) {
             return icon
         }
         var tampstamp_now = ComicCommon.format_time("Y-m-d h:i:s")
         var dis_second = this.get_time_distance_second(item.created_at, tampstamp_now);
         // 指定天数内创建的
-        if(dis_second < EXPIRE_DAY_NEW_BOOK * ONE_DAY_SECOND) {
+        if (dis_second < EXPIRE_DAY_NEW_BOOK * ONE_DAY_SECOND) {
             icon = 'icon_comic_new';
         }
         return icon
@@ -162,26 +163,25 @@
             page: _this.page,
         }
         ComicCommon.get_list(ComicCommon.api.comic_list, param, function (list) {
-            if(0 == list.length) {
+            if (0 == list.length) {
                 layer.msg('没有更多了')
                 _this.scroll_trigger = false
                 return
             }
             var processed_html = _this.render_html(list)
             _this.page++
-                $(_this.target_append).append(processed_html)
+            $(_this.target_append).append(processed_html)
         })
     };
     Comic.prototype.action_go_to_page = function () {
         $(this.target_append).delegate(".go_to_module", "click", function () {
             var it = this;
             var data = {
-                channel: $(it).data("channel"),
-                source_id: $(it).data("source_id"),
-                title: $(it).data("title"),
+                id: $(it).data("id"),
+                name: $(it).data("name"),
             }
             var query_string = ComicCommon.json_to_query(data)
-            location.href = ComicCommon.comic_html.page + '?' + query_string
+            location.href = ComicCommon.comic_html.chapter + '?' + query_string
         })
     };
     Comic.prototype.run_app = function () {
@@ -191,7 +191,7 @@
         _this.action_go_to_page()
 
         ComicCommon.reach_page_bottom(function () {
-            if(_this.scroll_trigger) {
+            if (_this.scroll_trigger) {
                 _this.get_list()
             }
         })

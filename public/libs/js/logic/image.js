@@ -27,20 +27,25 @@
         ComicCommon.load_target = '#image_list'
         ComicCommon.scroll_tolerant = 300 // 修改下拉加载的容差
     }
+
     window.App_Image = new Image();
 
     Image.prototype.render_html = function (item) {
-        console.log(item)
+        // console.log('Image.prototype.render_html',item)
+        var pic = item.src_origin
+        if (item.src_own != '') {
+            pic = item.src_own
+        }
         return `
-            <img src="${item.src}"
-                data-original="${item.src}" title="第 ${item.sequence} 张图" alt="第 ${item.sequence} 张图加载失败"
+            <img src="${pic}"
+                data-original="${pic}" title="第 ${item.sequence} 张图" alt="第 ${item.sequence} 张图加载失败"
                 onerror="App_Image.img_cdn_refresh(this)" data-attemp_times="0" />`
     };
 
     Image.prototype.set_info = function () {
         var _this = this
-        document.title = ' 第 ' + _this.detail.page.sequence + ' 话' + ' | ' + _this.detail.comic.name
-        $('#chapter_name').html(_this.detail.page.name)
+        document.title = ' 第 ' + _this.detail.chapter.sequence + ' 话' + ' | ' + _this.detail.comic.name
+        $('#chapter_name').html(_this.detail.chapter.name)
         // $("#comic_title").html(`《${title}》`)
     };
 
@@ -51,15 +56,15 @@
     Image.prototype.img_cdn_refresh = function (_this) {
         _this.src = LOADING_RENAME_PIC
         var attemp_times = parseInt(_this.getAttribute("data-attemp_times"))
-        attemp_times ++
-        if(attemp_times > LIMIT_ATTEMP_TIMES){
+        attemp_times++
+        if (attemp_times > LIMIT_ATTEMP_TIMES) {
             _this.src = ComicCommon.loading_img
-            console.log("重试次数已达上限.当前次数 ",attemp_times )
+            console.log("重试次数已达上限.当前次数 ", attemp_times)
             return
         }
-        console.log("当前次数 ", attemp_times )
+        console.log("当前次数 ", attemp_times)
         setTimeout(function () {
-            console.log("重试中...", _this.getAttribute("data-original") )
+            console.log("重试中...", _this.getAttribute("data-original"))
             _this.src = _this.getAttribute("data-original")
             _this.setAttribute("data-attemp_times", attemp_times)
         }, RETRY_GAP_SECOND * 1000);
@@ -72,24 +77,24 @@
         var _this = this;
 
         var param = {
-            page_id: ComicCommon.query_param('id'),
+            "chapter_id": ComicCommon.query_param('id'),
         }
         ComicCommon.get_list(ComicCommon.api.image_list, param, function (list) {
 
-            if(0 == list.length) {
+            if (0 == list.length) {
                 $(_this.target_append).html('<h5>资源不存在</h5>')
             } else {
-                var when_reach_callback = function(){
+                var when_reach_callback = function () {
                     var processed_html = ''
-                    for(var i=0; list.length > 0 && i < LOAD_IMG_LENGTH ;i++){
+                    for (var i = 0; list.length > 0 && i < LOAD_IMG_LENGTH; i++) {
                         var data = list.shift()
-                        processed_html += _this.render_html( data )
+                        processed_html += _this.render_html(data)
                     }
                     $(_this.target_append).append(processed_html)
                 };
                 when_reach_callback(); // 先初始化
                 ComicCommon.reach_page_bottom(when_reach_callback)
-                
+
             }
         })
     };
@@ -101,9 +106,9 @@
         var _this = this;
 
         var param = {
-            page_id: ComicCommon.query_param('id'),
+            id: ComicCommon.query_param('id'),
         }
-        ComicCommon.get_info(ComicCommon.api.page_detail, param, function (detail) {
+        ComicCommon.get_info(ComicCommon.api.chapter_detail, param, function (detail) {
             _this.detail = detail
 
             _this.set_info();
@@ -113,12 +118,11 @@
 
             var cache_name = ''
             var cache_info = []
-            var cache_data = detail.page
+            var cache_data = {"id": detail.chapter.id}
             var cache_ttl = 3600 * 24 * 30 // 缓存 30 天
 
             cache_info.push(CACHE_HISTORY_READ)
-            cache_info.push(detail.comic.channel)
-            cache_info.push(detail.comic.source_id)
+            cache_info.push(detail.comic.id)
             cache_name = cache_info.join('_')
             cache_data = ComicCommon.cache_data_set(cache_name, cache_data, cache_ttl)
 
@@ -132,12 +136,11 @@
         var _this = this
         $('#show').on('click', function () {
             var data = {
-                channel: _this.detail.comic.channel,
-                source_id: _this.detail.comic.source_id,
-                title: _this.detail.comic.name,
+                id: _this.detail.comic.id,
+                name: _this.detail.comic.name,
             }
             var query_string = ComicCommon.json_to_query(data)
-            window.location.href = ComicCommon.comic_html.page + '?' + query_string
+            window.location.href = ComicCommon.comic_html.chapter + '?' + query_string
         })
 
     };
@@ -153,13 +156,12 @@
         })
         // 返回章节列表
         $('.back_btn').on('click', function () {
-            if(DETAIL_LOAD_SUCCESS == _this.check_detail()) {
+            if (DETAIL_LOAD_SUCCESS == _this.check_detail()) {
                 var query_string = ComicCommon.json_to_query({
-                    "channel": _this.detail.comic.channel,
-                    "source_id": _this.detail.comic.source_id,
-                    "title": _this.detail.comic.name,
+                    "id": _this.detail.comic.id,
+                    "name": _this.detail.comic.name,
                 });
-                location.href = ComicCommon.comic_html.page + '?' + query_string;
+                location.href = ComicCommon.comic_html.chapter + '?' + query_string;
             }
         })
     };
@@ -172,15 +174,15 @@
         var _this = this
         $('#trigger_next').on('click', function () {
             var data = {
-                id: _this.detail.next_page.id,
+                id: _this.detail.next_chapter.id,
             }
             var confirm_info = '';
-            if(!data.id) {
+            if (!data.id) {
                 confirm_info = '已经是最后一页了哟';
-            }else if(PROGRESS_STATUS.done != _this.detail.next_page.progress) {
+            } else if (PROGRESS_STATUS.done != _this.detail.next_chapter.progress) {
                 confirm_info = '下一章节暂不可看';
             }
-            if('' != confirm_info) {
+            if ('' != confirm_info) {
                 layer.confirm(confirm_info, {
                     btn: ['返回目录', '留在这里']
                 }, function () {
@@ -200,7 +202,7 @@
     }
 
     Image.prototype.check_detail = function () {
-        if(!this.detail) {
+        if (!this.detail) {
             layer.msg('客官请稍等哦~')
             return DETAIL_LOAD_WAIT
         }

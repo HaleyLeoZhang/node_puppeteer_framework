@@ -24,13 +24,14 @@
 
         ComicCommon.load_target = '#chapter_list'
     }
+
     window.App_Page = new Page();
 
     Page.prototype.get_order = function () {
         ComicCommon.cache_set_engine('local')
         var cache_data = ComicCommon.cache_data_get(this.cache_chapter_order)
 
-        if(cache_data) {
+        if (cache_data) {
             return parseInt(cache_data)
         } else {
             return this.order_enum.positive
@@ -50,16 +51,16 @@
         var list_raw = []
         Object.assign(list_raw, _this.tmp_list) // 对象数据,注意深拷贝数据
         var list = []
-        if(this.order_enum.positive == _this.get_order()) {
+        if (this.order_enum.positive == _this.get_order()) {
             $(this.target_revert_chapter).text('正序排列')
             list = list_raw
         } else {
             $(this.target_revert_chapter).text('倒序排列')
-            for(var i=list_raw.length -1 ; i >= 0; i--) {
+            for (var i = list_raw.length - 1; i >= 0; i--) {
                 list.push(list_raw[i])
             }
         }
-        if(0 == list.length) {
+        if (0 == list.length) {
             $(_this.target_append).html('<h5>资源不存在</h5>')
         } else {
             var processed_html = _this.render_html(list)
@@ -71,7 +72,7 @@
     Page.prototype.listener_btn_revert_chapter = function () {
         var _this = this
         $(_this.target_revert_chapter).on("click", function () {
-            if(_this.order_enum.positive == _this.get_order()) {
+            if (_this.order_enum.positive == _this.get_order()) {
                 _this.set_order(_this.order_enum.revert)
             } else {
                 _this.set_order(_this.order_enum.positive)
@@ -91,20 +92,21 @@
         var add_unreadable = '';
 
 
-        for(; i < len; i++) {
+        for (; i < len; i++) {
             item = list[i];
 
-            if(last_read_id == item.id) {
+            if (last_read_id == item.id) {
                 add_read_mark = 'last_read'
             } else {
                 add_read_mark = ''
             }
-
-            if(PROGRESS_STATUS.done == item.progress) {
-                add_unreadable = ''
-            } else {
-                add_unreadable = 'no_source'
-            }
+            // 2021年1月3日 21:14:19 全部改成后端
+            // if (PROGRESS_STATUS.done == item.progress) {
+            //     add_unreadable = ''
+            // } else {
+            //     add_unreadable = 'no_source'
+            // }
+            add_unreadable = ''
 
             template += `
                 <div class="col-xs-6 col-sm-4  col-md-4 col-lg-3">
@@ -128,21 +130,20 @@
         var cache_info = []
         var cache_data = null
         cache_info.push(CACHE_HISTORY_READ)
-        cache_info.push(ComicCommon.query_param('channel'))
-        cache_info.push(ComicCommon.query_param('source_id'))
+        cache_info.push(ComicCommon.query_param('id'))
         cache_name = cache_info.join('_')
 
         ComicCommon.cache_set_engine('local')
         cache_data = ComicCommon.cache_data_get(cache_name)
 
-        if(cache_data) {
+        if (cache_data) {
             return cache_data.id
         }
         return 0
     };
 
     Page.prototype.set_title = function () {
-        var title = ComicCommon.query_param('title')
+        var title = ComicCommon.query_param('name')
         document.title = title + ' | 章节列表'
         $("#comic_title").html(`${title}`)
     };
@@ -155,8 +156,7 @@
         var _this = this;
 
         var param = {
-            channel: ComicCommon.query_param('channel'),
-            source_id: ComicCommon.query_param('source_id'),
+            "comic_id": ComicCommon.query_param('id'),
         }
 
         ComicCommon.cache_set_engine('session')
@@ -165,26 +165,19 @@
         var cache_data = null
         var cache_ttl = 300
         cache_info.push(CACHE_PAGE_LIST)
-        cache_info.push(param.channel)
-        cache_info.push(param.source_id)
+        cache_info.push(ComicCommon.query_param('id'))
         cache_name = cache_info.join('_')
         // console.log(cache_name)
         cache_data = ComicCommon.cache_data_get(cache_name)
 
-        var callback = function (list) {
-            var processed_html = _this.render_html(list)
-            $(_this.target_append).append(processed_html)
-        }
-
-        var list_for_render = []
-        if(cache_data) {
+        if (cache_data) {
             _this.tmp_list = cache_data
             _this.sort_list_and_render()
         } else {
-            ComicCommon.get_list(ComicCommon.api.page_list, param, function (list) {
-                if(list.length > 0) {
+            ComicCommon.get_list(ComicCommon.api.chapter_list, param, function (list) {
+                if (list.length > 0) {
                     var max_sequence = list[list.length - 1].sequence;
-                    _this.set_max_sequence(param.channel, param.source_id, max_sequence);
+                    _this.set_max_sequence(param.id, max_sequence);
                 }
                 _this.tmp_list = list
                 _this.sort_list_and_render()
@@ -195,7 +188,7 @@
 
     };
 
-    Page.prototype.set_max_sequence = function (channel, source_id, max_sequence) {
+    Page.prototype.set_max_sequence = function (comic_id, max_sequence) {
         // 记录本次打开页面的最大章节序号
         ComicCommon.cache_set_engine('local')
 
@@ -205,8 +198,7 @@
         var cache_ttl = 3600 * 24 * 30 // 缓存 30 天
 
         cache_info.push(CACHE_MAX_SEQUENCE)
-        cache_info.push(channel)
-        cache_info.push(source_id)
+        cache_info.push(comic_id)
         cache_name = cache_info.join('_')
         cache_data = ComicCommon.cache_data_set(cache_name, cache_data, cache_ttl)
     }
@@ -214,7 +206,7 @@
         // 收 正/倒 排序功能影响,每次对应DOM会先被删除然后重新生成,所以用代理模式最好
         $(this.target_append).delegate('.to_see_images', 'click', function () {
             var it = this;
-            if($(it).hasClass('no_source')) {
+            if ($(it).hasClass('no_source')) {
                 layer.msg('该章节暂不可看')
                 return
             }

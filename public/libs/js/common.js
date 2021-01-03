@@ -6,24 +6,24 @@
 // ----------------------------------------------------------------------
 (function ($, window, undefined) {
     'use strict';
-    var HOST = 'http://puppeteer.hlzblog.top';
-    // var HOST = 'http://puppeteer.test.com';
+    // var HOST = 'http://puppeteer.hlzblog.top'; // 生产环境
+    var HOST = 'http://puppeteer.test.com'; // 本地环境
 
     function Comic_Common() {
         this.scroll_tolerant = 50 // 容差值
         this.loading_img = "https://i.loli.net/2019/09/05/YPu62erGMa3l1IE.gif"
         // API列表---可跨域
         this.api = {
-            comic_list: HOST + '/api/comic/comic_list', // 漫画列表
-            page_list: HOST + '/api/comic/page_list', // 漫画章节列表
-            image_list: HOST + '/api/comic/image_list', // 漫画章节对应图片列表
-            page_detail: HOST + '/api/comic/page_detail', // 漫画章节详情
+            comic_list: HOST + '/api/comic/list', // 漫画列表
+            chapter_list: HOST + '/api/chapter/list', // 章节列表
+            chapter_detail: HOST + '/api/chapter/detail', // 章节详情
+            image_list: HOST + '/api/image/list', // 图片列表
         };
         // 页面列表
         this.comic_html = {
             comic: "./index.html",
             image: "./image_list.html",
-            page: "./page_list.html",
+            chapter: "./chapter_list.html",
         }
 
         this.load_switch = 'on'; // 加载层
@@ -34,6 +34,7 @@
 
         this.storage_engine = 'session'; // local || session
     }
+
     window.ComicCommon = new Comic_Common();
 
     // API数据模型
@@ -42,12 +43,12 @@
      * 封装下拉加载 Ajax
      * @param string api 接口地址
      * @param json param http入参
-     * @param callable callback 获取ajax后的回调,会被注入回调list数据 
+     * @param callable callback 获取ajax后的回调,会被注入回调list数据
      */
     Comic_Common.prototype.get_list = function (api, param, callback) {
         var _this = this;
 
-        if(_this.page_lock) {
+        if (_this.page_lock) {
             return
         }
         _this.page_lock = true
@@ -59,7 +60,7 @@
             'type': 'get',
             'data': param,
             'success': function (res) {
-                if(200 == res.code) {
+                if (200 == res.code) {
                     callback(res.data.list)
                 } else {
                     layer.alert(res.message)
@@ -78,7 +79,7 @@
      * 封装单条数据
      * @param string api 接口地址
      * @param json param http入参
-     * @param callable callback 获取ajax后的回调,会被注入回调data数据 
+     * @param callable callback 获取ajax后的回调,会被注入回调data数据
      */
     Comic_Common.prototype.get_info = function (api, param, callback) {
         var _this = this;
@@ -87,7 +88,7 @@
             'type': 'get',
             'data': param,
             'success': function (res) {
-                if(200 == res.code) {
+                if (200 == res.code) {
                     callback(res.data)
                 } else {
                     layer.alert(res.message)
@@ -104,30 +105,30 @@
     Comic_Common.prototype.loading_layer = function (action) {
         var _this = this;
 
-        if('on' == this.load_switch) {
-            switch(action) {
-            case 'open':
-                var loading_tpl = `
+        if ('on' == this.load_switch) {
+            switch (action) {
+                case 'open':
+                    var loading_tpl = `
                     <div class="spinner">
                         <div class="bounce1"></div>
                         <div class="bounce2"></div>
                         <div class="bounce3"></div>
                     </div>
                 `
-                var is_exists = Boolean(document.getElementsByClassName('spinner').length)
-                if(is_exists) {
-                    $('.spinner').show()
-                } else {
-                    $(_this.load_target).append(loading_tpl)
-                }
-                // _this.page_load_index = layer.load(0, { shade: [0.5, '#fff'] });
-                break;
-            case 'close':
-                $('.spinner').hide()
-                // layer.close(_this.page_load_index);
-                break;
-            default:
-                throw new Error("入参错误: 供选择的入参 open 、 close");
+                    var is_exists = Boolean(document.getElementsByClassName('spinner').length)
+                    if (is_exists) {
+                        $('.spinner').show()
+                    } else {
+                        $(_this.load_target).append(loading_tpl)
+                    }
+                    // _this.page_load_index = layer.load(0, { shade: [0.5, '#fff'] });
+                    break;
+                case 'close':
+                    $('.spinner').hide()
+                    // layer.close(_this.page_load_index);
+                    break;
+                default:
+                    throw new Error("入参错误: 供选择的入参 open 、 close");
             }
         }
     };
@@ -143,7 +144,7 @@
             // - 计算当前页面高度
             var tag_position = document.body.scrollHeight;
             var now = scroll + document.documentElement.clientHeight + _this.scroll_tolerant;
-            if(now >= tag_position) {
+            if (now >= tag_position) {
                 callback()
             }
         });
@@ -163,13 +164,13 @@
      * @return localStorage || sessionStorage
      */
     Comic_Common.prototype.cache_get_engine = function () {
-        switch(this.storage_engine) {
-        case 'local':
-            return window.localStorage
-        case 'session':
-            return window.sessionStorage
-        default:
-            throw new Error('存储引擎输入错误')
+        switch (this.storage_engine) {
+            case 'local':
+                return window.localStorage
+            case 'session':
+                return window.sessionStorage
+            default:
+                throw new Error('存储引擎输入错误')
         }
     };
 
@@ -180,7 +181,7 @@
     Comic_Common.prototype.cache_data_set = function (cache_name, cache_data, ttl) {
         var engine = this.cache_get_engine()
         try {
-            if(engine) {
+            if (engine) {
                 // Set
                 var time = parseInt(
                     (new Date().getTime()) / 1000
@@ -195,8 +196,8 @@
             } else {
                 throw new Error("不支持当前存储方案")
             }
-        } catch(e) {
-            if(e.name === 'QuotaExceededError') {
+        } catch (e) {
+            if (e.name === 'QuotaExceededError') {
                 console.warn('缓存存储失败信息:', '超出本地存储限额,即将清空本地所有此种缓存');
                 engine.clear();
             } else {
@@ -212,10 +213,10 @@
     Comic_Common.prototype.cache_data_get = function (cache_name) {
         var engine = this.cache_get_engine()
         try {
-            if(engine) {
+            if (engine) {
 
                 var old_data = engine.getItem(cache_name);
-                if(!old_data) {
+                if (!old_data) {
                     // throw new Error("缓存失效") 
                     return null
                 }
@@ -224,7 +225,7 @@
                 var current_time = parseInt(
                     (new Date().getTime()) / 1000
                 );
-                if(current_time > old_data.expire_at) {
+                if (current_time > old_data.expire_at) {
                     engine.removeItem(cache_name);
                     throw new Error("缓存过期")
                 }
@@ -232,7 +233,7 @@
             } else {
                 throw new Error("不支持当前存储方案")
             }
-        } catch(e) {
+        } catch (e) {
             console.warn('错误信息:', e.message)
             return null
         }
@@ -253,7 +254,7 @@
     Comic_Common.prototype.query_param = function (param_name) {
         var reg = new RegExp('(^|&)' + param_name + '=([^&]*)(&|$)', 'i');
         var r = window.location.search.substr(1).match(reg);
-        if(r != null) {
+        if (r != null) {
             return decodeURIComponent(r[2]);
         }
         return '';
@@ -264,15 +265,15 @@
      * - 如： format_time("Y-m-d h:i:s") 输出 2017-12-11 22:46:11
      * @param string str 待格式化的时间
      * @param int timestamp 指定的时间戳，不填，则显示为当前的时间
-     * @return string 
+     * @return string
      */
     Comic_Common.prototype.format_time = function (str, timestamp) {
         timestamp = timestamp === undefined ? 0 : timestamp;
         timestamp = parseInt(timestamp) * 1000;
-        var date = timestamp === 0 ? 　new Date() : new Date(timestamp);
+        var date = timestamp === 0 ? new Date() : new Date(timestamp);
 
         function add_zero(num) {
-            if(num <= 9) {
+            if (num <= 9) {
                 return "0" + num;
             } else {
                 return "" + num + "";
@@ -297,7 +298,7 @@
     // 设置页足
     Comic_Common.prototype.set_footer_date = function () {
         var _this = this
-        if(undefined !== document.getElementById("date_ch")) {
+        if (undefined !== document.getElementById("date_ch")) {
             var year = _this.format_time('Y');
             $("#date_ch").html(year);
             $("#date_en").html(year);
