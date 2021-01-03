@@ -79,7 +79,7 @@ export default class TaskLogic extends Base {
                 // TODO
                 break;
             default:
-                Log.ctxWarn(ctx, 'event 异常')
+                Log.ctxWarn(ctx, 'channel 异常')
                 return CONST_BUSINESS_COMIC.TASK_SUCCESS
         }
         // - 更新渠道基本信息
@@ -101,9 +101,9 @@ export default class TaskLogic extends Base {
             if (one_comic.method == FIELD_METHOD.AUTO && one_comic.related_id == one_supplier.id && one_comic.name == '') {
                 // 拷贝需要更新的信息过去
                 let update = {
-                    'name': one_supplier.name,
-                    'pic': one_supplier.pic,
-                    'intro': one_supplier.intro,
+                    'name': supplier_name,
+                    'pic': supplier_intro,
+                    'intro': supplier_pic,
                 }
                 await ComicData.update_comic_by_id(comic_id, update)
             }
@@ -129,7 +129,7 @@ export default class TaskLogic extends Base {
                 // TODO
                 break;
             default:
-                Log.ctxWarn(ctx, 'event 异常')
+                Log.ctxWarn(ctx, 'channel 异常')
                 return CONST_BUSINESS_COMIC.TASK_SUCCESS
         }
         // --- 获取最大的章节序号
