@@ -6,6 +6,7 @@
 // ----------------------------------------------------------------------
 
 import Comic from './'
+import {FIELD_STATUS} from "../Comic/Enum";
 
 export default class ComicData {
     /**
@@ -35,5 +36,21 @@ export default class ComicData {
             'id': id,
         }
         return Comic.update(update, where)
+    }
+
+    /**
+     * 获取当前未删除的漫画列表
+     * @return Promise - array
+     */
+    static async get_list_available() {
+        const where = {
+            'status': [FIELD_STATUS.OFFLINE, FIELD_STATUS.ONLINE],
+            'ORDER': {"weight": "DESC"},
+        }
+        const results = await Comic.select(where)
+        if (0 === results.length) {
+            return []
+        }
+        return results
     }
 }

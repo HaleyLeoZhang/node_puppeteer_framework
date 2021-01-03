@@ -44,7 +44,7 @@ export default class TaskLogic extends Base {
                         "id": parseInt(tmp.id),
                     })
                 }
-                mq.push_multi(payloads)
+                await mq.push_multi(payloads)
                 Log.ctxInfo(ctx, `notify ${insert_len} supplier success`)
                 break;
             case CONST_BUSINESS_COMIC.EVENT_UNSUBSCRIBE:
@@ -134,7 +134,7 @@ export default class TaskLogic extends Base {
         }
         // --- 获取最大的章节序号
         let len_supplier_list = supplier_list.length
-        let supplier_list_index = len_supplier_list-1
+        let supplier_list_index = len_supplier_list - 1
         let max_sequence = supplier_list[supplier_list_index]['sequence']
         // - 计算需要增量爬取的章节信息
         const chapter_list = await SupplierChapterData.get_list_by_related_id(supplier_id)
@@ -177,7 +177,7 @@ export default class TaskLogic extends Base {
                 "link": `https://www.gufengmh8.com${tmp.link}`,
             })
         }
-        mq.push_multi(payloads)
+        await mq.push_multi(payloads)
         // --- 设置当前渠道最大顺序号
         let update_supplier = {
             'max_sequence': max_sequence,
@@ -247,4 +247,36 @@ export default class TaskLogic extends Base {
         return CONST_BUSINESS_COMIC.TASK_SUCCESS
     }
 
+    static async notify_sub(ctx, comic_id) {
+        let payloads = [];
+        if (comic_id === undefined) {
+            let comic_list = await ComicData.get_list_available()
+            let len_comic_list = comic_list.length
+            for (let i = 0; i < len_comic_list; i++) {
+                let tmp = {
+                    "id": parseInt(comic_list[i].id),
+                    "event": CONST_BUSINESS_COMIC.EVENT_SUBSCRIBE,
+                }
+                payloads.push(tmp)
+            }
+        } else {
+            let tmp = {
+                "id": parseInt(comic_id),
+                "event": CONST_BUSINESS_COMIC.EVENT_SUBSCRIBE,
+            }
+            payloads.push(tmp)
+        }
+        let len_payloads = payloads.length
+        if (len_payloads === 0) {
+            Log.ctxWarn(ctx, '暂无需要通知订阅的漫画')
+            return
+        }
+        const mq = new RabbitMQ();
+        mq.set_exchange(CONST_AMQP.AMQP_EXCHANGE_TOPIC)
+        mq.set_routing_key(CONST_AMQP.AMQP_ROUTING_KEY_COMIC_BASE)
+        mq.set_queue(CONST_AMQP.AMQP_QUEUE_COMIC_BASE)
+        await mq.push_multi(payloads)
+
+        Log.ctxInfo(ctx, `通知订阅成功,总计 ${len_payloads} 个`)
+    }
 }

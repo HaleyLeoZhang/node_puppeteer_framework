@@ -16,7 +16,7 @@ const FIELD_METHOD = {
 const FIELD_STATUS = {
     "DELETED": 0,
     "OFFLINE": 100,
-    "ONLINE": 100,
+    "ONLINE": 200,
 }
 
 export {

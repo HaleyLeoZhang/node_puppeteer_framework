@@ -26,6 +26,7 @@ export default class ComicTask extends BaseTask {
     // node ./es5/task.js comic base_supplier_consumer  # 拉取渠道基本信息
     // node ./es5/task.js comic supplier_chapter_consumer # 拉取渠道章节信息
     // node ./es5/task.js comic supplier_image_consumer # 拉取渠道章节图片信息
+    // node ./es5/task.js comic notify_sub_all # 通知拉取全部
     // ----------------------------------------------------------------------
 
     /**
@@ -144,4 +145,22 @@ export default class ComicTask extends BaseTask {
         })
     }
 
+    /**
+     * 通知全量拉取爬虫数据
+     */
+    static async notify_sub_all() {
+        let ctx = ContextTool.initial()
+        let comic_id = undefined
+        try {
+            Log.ctxInfo(ctx, 'spider_notify_all.start')
+            let result = await TaskLogic.notify_sub(ctx, comic_id)
+            if (result === CONST_BUSINESS_COMIC.TASK_FAILED) {
+                throw new Error("TASK_FAILED");
+            }
+            Log.ctxInfo(ctx, 'spider_notify_all.success  ' + comic_id)
+        } catch (err) {
+            Log.ctxInfo(ctx, 'spider_notify_all.payload  ' + comic_id)
+            Log.ctxError(ctx, 'base_consumer.CONSUMER_ERROR  ' + err.stack)
+        }
+    }
 }
