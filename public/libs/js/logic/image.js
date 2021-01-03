@@ -179,8 +179,6 @@
             var confirm_info = '';
             if (!data.id) {
                 confirm_info = '已经是最后一页了哟';
-            } else if (PROGRESS_STATUS.done != _this.detail.next_chapter.progress) {
-                confirm_info = '下一章节暂不可看';
             }
             if ('' != confirm_info) {
                 layer.confirm(confirm_info, {
