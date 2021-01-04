@@ -108,10 +108,8 @@
         var last_read_id = this.get_last_read_sequence(item.id)
 
         if (max_chapter_sequence > 0) {
-            console.log("item.supplier.max_sequence", item.supplier.max_sequence , "max_chapter_sequence", max_chapter_sequence)
             if (last_read_id > 0 && item.supplier.max_sequence > max_chapter_sequence) {
                 icon = 'icon_comic_update';
-                console.log("进来了")
             }
         }
         return icon
