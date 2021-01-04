@@ -65,17 +65,15 @@
         }
         return template
     };
-    Comic.prototype.get_max_chapter_sequence = function (channel, source_id) {
+    Comic.prototype.get_max_chapter_sequence = function (id) {
         ComicCommon.cache_set_engine('local')
 
         var cache_name = ''
         var cache_info = []
         var cache_data = null
         cache_info.push(CACHE_MAX_SEQUENCE)
-        cache_info.push(channel)
-        cache_info.push(source_id)
+        cache_info.push(id)
         cache_name = cache_info.join('_')
-
         var cache_data = ComicCommon.cache_data_get(cache_name)
 
         if (cache_data) {
@@ -84,15 +82,14 @@
             return 0
         }
     }
-    Comic.prototype.get_last_read_sequence = function (channel, source_id) {
+    Comic.prototype.get_last_read_sequence = function (id) {
         // 读取记录用户上次阅读到哪里
 
         var cache_name = ''
         var cache_info = []
         var cache_data = null
         cache_info.push(CACHE_HISTORY_READ)
-        cache_info.push(channel)
-        cache_info.push(source_id)
+        cache_info.push(id)
         cache_name = cache_info.join('_')
 
         ComicCommon.cache_set_engine('local')
@@ -107,12 +104,14 @@
         if ('' != icon) {
             return icon
         }
-        var max_chapter_sequence = this.get_max_chapter_sequence(item.channel, item.source_id)
-        var last_read_id = this.get_last_read_sequence(item.channel, item.source_id)
+        var max_chapter_sequence = this.get_max_chapter_sequence(item.id)
+        var last_read_id = this.get_last_read_sequence(item.id)
 
         if (max_chapter_sequence > 0) {
-            if (last_read_id > 0 && item.max_sequence > max_chapter_sequence) {
+            console.log("item.supplier.max_sequence", item.supplier.max_sequence , "max_chapter_sequence", max_chapter_sequence)
+            if (last_read_id > 0 && item.supplier.max_sequence > max_chapter_sequence) {
                 icon = 'icon_comic_update';
+                console.log("进来了")
             }
         }
         return icon
@@ -138,12 +137,13 @@
         if ('' != icon) {
             return icon
         }
-        var tampstamp_now = ComicCommon.format_time("Y-m-d h:i:s")
-        var dis_second = this.get_time_distance_second(item.created_at, tampstamp_now);
-        // 指定天数内创建的
-        if (dis_second < EXPIRE_DAY_NEW_BOOK * ONE_DAY_SECOND) {
-            icon = 'icon_comic_new';
-        }
+        // 需求砍掉 2021-1-4 23:14:54
+        // var tampstamp_now = ComicCommon.format_time("Y-m-d h:i:s")
+        // var dis_second = this.get_time_distance_second(item.created_at, tampstamp_now);
+        // // 指定天数内创建的
+        // if (dis_second < EXPIRE_DAY_NEW_BOOK * ONE_DAY_SECOND) {
+        //     icon = 'icon_comic_new';
+        // }
         return icon
     };
     Comic.prototype.get_time_distance_second = function (tampstamp_before, tampstamp_after) {

@@ -118,7 +118,10 @@
 
             var cache_name = ''
             var cache_info = []
-            var cache_data = {"id": detail.chapter.id}
+            var cache_data = {
+                "id": detail.chapter.id,
+                "sequence": detail.chapter.sequence,
+            }
             var cache_ttl = 3600 * 24 * 30 // 缓存 30 天
 
             cache_info.push(CACHE_HISTORY_READ)

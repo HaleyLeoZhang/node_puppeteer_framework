@@ -177,7 +177,7 @@
             ComicCommon.get_list(ComicCommon.api.chapter_list, param, function (list) {
                 if (list.length > 0) {
                     var max_sequence = list[list.length - 1].sequence;
-                    _this.set_max_sequence(param.id, max_sequence);
+                    _this.set_max_sequence(param.comic_id, max_sequence);
                 }
                 _this.tmp_list = list
                 _this.sort_list_and_render()
