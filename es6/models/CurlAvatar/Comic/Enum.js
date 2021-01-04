@@ -9,7 +9,8 @@
 const FIELD_METHOD = {
     "UNKNOWN": 0,
     "AUTO": 1,
-    "MANUAL_TRIGGER": 2,
+    "AUTO_ONCE": 2,
+    "MANUAL_TRIGGER": 3,
 }
 
 //  `status` tinyint(1) unsigned NOT NULL DEFAULT '100' COMMENT '状态(0:删除,100:下线,200:上线)',

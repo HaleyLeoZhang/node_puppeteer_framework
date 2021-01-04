@@ -98,7 +98,10 @@ export default class TaskLogic extends Base {
                 return CONST_BUSINESS_COMIC.TASK_SUCCESS
             }
             // - 没有漫画名的时候，会被认定为第一次操作，可以拷贝数据过去
-            if (one_comic.method == FIELD_METHOD.AUTO && one_comic.related_id == one_supplier.id && one_comic.name == '') {
+            if (
+                one_comic.related_id == one_supplier.id &&
+                (one_comic.method == FIELD_METHOD.AUTO  || (one_comic.method == FIELD_METHOD.AUTO_ONCE && one_comic.name == '') )
+            ) {
                 // 拷贝需要更新的信息过去
                 let update = {
                     'name': supplier_name,
