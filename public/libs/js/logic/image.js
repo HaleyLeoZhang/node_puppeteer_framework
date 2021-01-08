@@ -18,6 +18,8 @@
     var LOADING_RENAME_PIC = "https://i.loli.net/2020/03/04/VHolG6WtgxprTm3.gif" // 跟loading图片一样,不过请求地址不一样
     var LOAD_IMG_LENGTH = 3 // 每次下拉加载的图片张数
 
+    var CACHE_KEY_IMAGE_WIDTH = "image_width" // 图片屏占比
+
     function Image() {
         this.target_append = '#image_list'
         this.real_index = 2 // 从第几张开始,可以懒加载图片
@@ -201,6 +203,61 @@
             window.scrollTo(0, 0)
         })
     }
+    Image.prototype.action_open_conf = function () {
+        var _this = this;
+        $("#conf").on("click", function () {
+            // https://layer.layui.com/
+            layer.tab({
+                area: ['600px', '300px'],
+                tab: [{
+                    title: '<b>图片屏占比</b>',
+                    content: '<input type="number" placeholder=" % " id="show_rate"/>'
+                // },{ // 2021-1-9 02:04:11 暂时没啥场景用
+                //     title: '<b>背景色</b>',
+                //     content: '<input type="text" placeholder="十六进制色值" id="bg_color"/>'
+                }]
+            });
+            // 初始化值
+            var rate = _this.ini_conf()
+            $("#show_rate").val(rate)
+        })
+
+        $("body").delegate("#show_rate", "keyup change", function () {
+            var show_rate_dom = this
+            var rate = parseInt($(show_rate_dom).val())
+            if (rate > 100 || rate < 1) {
+                layer.msg('请填写 1 ~ 100 内的数字哟~')
+                rate = 100
+            }
+            var rate_text = rate + "%"
+            $(_this.target_append).css({"width": rate_text})
+
+            // 设置宽度配置
+            ComicCommon.cache_set_engine('local')
+            var cache_data = {"rate": rate}
+            ComicCommon.cache_data_set(CACHE_KEY_IMAGE_WIDTH, cache_data, 9999999999999999)
+            var rate = "100"
+            if (cache_data) {
+                rate = cache_data.rate
+            }
+            var rate_text = rate + "%"
+            $(_this.target_append).css({"width": rate_text})
+            $(show_rate_dom).val(rate)
+        })
+    }
+    Image.prototype.ini_conf = function () {
+        var _this = this;
+        // 初始化宽度配置
+        ComicCommon.cache_set_engine('local')
+        var cache_data = ComicCommon.cache_data_get(CACHE_KEY_IMAGE_WIDTH)
+        var rate = "100"
+        if (cache_data) {
+            rate = cache_data.rate
+        }
+        var rate_text = rate + "%"
+        $(_this.target_append).css({"width": rate_text})
+        return rate
+    }
 
     Image.prototype.check_detail = function () {
         if (!this.detail) {
@@ -213,12 +270,14 @@
     Image.prototype.run_app = function () {
         var _this = this;
 
-        _this.action_about_header();
+        _this.ini_conf()
+        _this.action_about_header()
         _this.get_list()
         _this.get_page_detail()
         _this.action_back_page_list()
         _this.action_go_to_next()
         _this.action_go_to_head()
+        _this.action_open_conf()
     };
     App_Image.run_app()
 })(jQuery, window);

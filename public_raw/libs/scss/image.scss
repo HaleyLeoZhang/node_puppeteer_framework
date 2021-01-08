@@ -1,82 +1,105 @@
 @import '_comon.scss';
+
 body {
-    background-color: black;
+  background-color: black;
 }
 
 .g_img_list {
-    margin: 0;
-    padding: 0;
-    img {
-        width: 100%;
-        clear: both;
-        display: block;
-    }
-    .no_pic {
-        color: #fff;
-        text-align: center;
-        height: 50px;
-        line-height: 35px;
-    }
+  margin: 0;
+  padding: 0;
+
+  img {
+    width: 100%;
+    clear: both;
+    display: block;
+  }
+
+  .no_pic {
+    color: #fff;
+    text-align: center;
+    height: 50px;
+    line-height: 35px;
+  }
 }
 
 .next {
-    width: 100%;
-    font-family: 微软雅黑;
-    font-weight: 700;
-    color: #fff;
-    cursor: pointer;
-    outline: none;
-    padding: 10px 10px;
-    font-size: px2rem(17px);
-    border: none;
-    background: #808e91;
+  width: 100%;
+  font-family: 微软雅黑;
+  font-weight: 700;
+  color: #fff;
+  cursor: pointer;
+  outline: none;
+  padding: 10px 10px;
+  font-size: px2rem(17px);
+  border: none;
+  background: #808e91;
 }
 
 #chapter_name {
-    color: #fff;
-    padding-top: 1em;
-    padding-bottom: 1em;
-    text-align: center;
+  color: #fff;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  text-align: center;
 }
 
 #top {
-    display: none;
+  display: none;
+}
+
+#conf {
+  display: none;
 }
 
 #image_list {
-    h5 {
-        text-align: center;
-        font-size: 26px;
-        color: #fff;
-    }
+  margin: auto;
+  h5 {
+    text-align: center;
+    font-size: 26px;
+    color: #fff;
+  }
 }
 
-@media screen and (min-width:1100px) {
-    #top {
-        display: block;
-        opacity: 0.2;
+@media screen and (min-width: 1100px) {
+  #conf, #top {
+    display: block;
+    opacity: 0.2;
 
-        width: 2.4em;
-        height: 2.4em;
+    width: 2.4em;
+    height: 2.4em;
 
-        margin-top: 20px;
-        margin-bottom: 20px;
-        padding: 10px 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 10px 10px;
 
-        position: fixed;
-        bottom: 130px;
-        right: 20px;
+    position: fixed;
+    right: 20px;
 
-        letter-spacing: 0.2em;
-        font-size: 1em;
-        font-family: 微软雅黑;
-        font-weight: 700;
+    letter-spacing: 0.2em;
+    font-size: 1em;
+    font-family: 微软雅黑;
+    font-weight: 700;
 
-        cursor: pointer;
-        outline: none;
-        border: none;
+    cursor: pointer;
+    outline: none;
+    border: none;
 
-        color: #fff;
-        background: #2b2b2b;
-    }
+    color: #fff;
+    background: #2b2b2b;
+  }
+  #conf {
+    bottom: 120px;
+  }
+  #top {
+    bottom: 40px;
+  }
+  #show_rate , #bg_color{
+    line-height: 33px;
+    height: 33px;
+    width: 198px;
+    padding: 0 10px 0 10px;
+    font-size: 15px;
+    float: left;
+    border: 1px solid #b9b8b9;
+    text-align: center;
+  }
 }
