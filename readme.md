@@ -6,8 +6,7 @@
 | 前台前端 | [ES5](https://javascript.ruanyifeng.com/) | `./public/libs/js`| 依据页面划分模块 ; `考虑性能`，前端针对不同场景也对各类数据做了缓存、持久化模块 ; `考虑轻量`，前后端分离,且不依赖第三方框架 |
 | 前台后端 | [Golang](https://golang.org/) | [点此查看](https://github.com/HaleyLeoZhang/node_puppeteer_example_go) | 考虑极致的数据吞吐性能 |
 | 后台管理 | [PHP](https://php.net/) | [点此查看](https://gitee.com/haleyleozhang/yth_cms) | 对性能要求不高,产品快速落地(暂未升级兼容v3爬虫数据) |
-| 后端爬虫-行为类 | [ES6](https://es6.ruanyifeng.com/) 、 [RabbitMq](https://www.rabbitmq.com/) 、 [Puppeteer](https://github.com/puppeteer/puppeteer) | 当前项目，直接看后文即可 | 当然,作为爬虫,使用 [Kafka](https://kafka.apachecn.org/intro.html) 会是个更好的选择|
-| 后端爬虫-破解类 | [PHP](https://php.net/) | [点此查看](https://gitee.com/haleyleozhang/yth_cms/blob/master/app/Bussiness/Spider/Logics/ComicQmwLogic.php)  | 项目只是随手放到的管理后台，平常会放到`Node`中去做; 交互说明: 后台请求拉取 -> 发送渠道拉取信息到 MQ  -> MQ 消费   |
+| 后端爬虫-行为类、破解 | [ES6](https://es6.ruanyifeng.com/) 、 [RabbitMq](https://www.rabbitmq.com/) 、 [Puppeteer](https://github.com/puppeteer/puppeteer) | 当前项目，直接看后文即可 | 当然,作为爬虫,使用 [Kafka](https://kafka.apachecn.org/intro.html) 会是个更好的选择,可惜云天河资源云资源受限且日常消息堆积量不大,所以当前选用的`RabbitMQ`|
 
 [数据流动说明-点击这里](storage/readme_intro/spider_architecture/intro.md)  
 
