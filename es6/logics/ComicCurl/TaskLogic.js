@@ -14,6 +14,7 @@ import ArrayTool from "../../tools/ArrayTool";
 import SupplierImageData from "../../models/CurlAvatar/SupplierImage/SupplierChapterData";
 import {FIELD_STATUS} from "../../models/CurlAvatar/SupplierChapter/Enum";
 import {FIELD_STATUS as IMAGE_FIELD_STATUS} from "../../models/CurlAvatar/SupplierImage/Enum";
+import LiuManHuaService from "../../services/Comic/LiuManHuaService";
 
 export default class TaskLogic extends Base {
     static async comic_base(ctx, payload) {
@@ -66,22 +67,29 @@ export default class TaskLogic extends Base {
         }
         // 获取渠道基本信息
         let update_supplier = {}
+        let spider_info = {
+            "name": "",
+            "pic": "",
+            "intro": "",
+        }
         let supplier_name, supplier_pic, supplier_intro = '';
-        switch (one_supplier.channel) {
+        switch (one_supplier.channel) { // 处理渠道信息
             case FIELD_CHANNEL.GU_FENG:
-                // 处理渠道信息
-                let spider_info = await GuFengService.get_base_info(ctx, one_supplier.source_id)
-                supplier_name = spider_info.name
-                supplier_pic = spider_info.pic
-                supplier_intro = spider_info.intro
+                spider_info = await GuFengService.get_base_info(ctx, one_supplier.source_id)
                 break;
             case FIELD_CHANNEL.QI_MAN_WU:
                 // TODO
+                break;
+            case FIELD_CHANNEL.LIU_MAN_HUA:
+                spider_info = await LiuManHuaService.get_base_info(ctx, one_supplier.source_id)
                 break;
             default:
                 Log.ctxWarn(ctx, 'channel 异常')
                 return CONST_BUSINESS_COMIC.TASK_SUCCESS
         }
+        supplier_name = spider_info.name
+        supplier_pic = spider_info.pic
+        supplier_intro = spider_info.intro
         // - 更新渠道基本信息
         if (supplier_name != one_supplier.name || supplier_pic != one_supplier.pic || supplier_intro != one_supplier.intro) {
             update_supplier.name = supplier_name
@@ -100,7 +108,7 @@ export default class TaskLogic extends Base {
             // - 没有漫画名的时候，会被认定为第一次操作，可以拷贝数据过去
             if (
                 one_comic.related_id == one_supplier.id &&
-                (one_comic.method == FIELD_METHOD.AUTO  || (one_comic.method == FIELD_METHOD.AUTO_ONCE && one_comic.name == '') )
+                (one_comic.method == FIELD_METHOD.AUTO || (one_comic.method == FIELD_METHOD.AUTO_ONCE && one_comic.name == ''))
             ) {
                 // 拷贝需要更新的信息过去
                 let update = {
@@ -130,6 +138,9 @@ export default class TaskLogic extends Base {
                 break;
             case FIELD_CHANNEL.QI_MAN_WU:
                 // TODO
+                break;
+            case FIELD_CHANNEL.LIU_MAN_HUA:
+                supplier_list = await LiuManHuaService.get_chapter_list(ctx, one_supplier.source_id)
                 break;
             default:
                 Log.ctxWarn(ctx, 'channel 异常')
@@ -176,8 +187,8 @@ export default class TaskLogic extends Base {
             let tmp = insert_list[i]
             let id = inserted_chapter_map[tmp.sequence].id
             payloads.push({
-                "id": id,
-                "link": `https://www.gufengmh8.com${tmp.link}`,
+                id,
+                link : tmp.link,
             })
         }
         await mq.push_multi(payloads)
@@ -224,10 +235,29 @@ export default class TaskLogic extends Base {
             Log.ctxWarn(ctx, 'chapter_id 不存在')
             return CONST_BUSINESS_COMIC.TASK_SUCCESS
         }
+        const one_supplier = await SupplierData.get_pne_by_id(one_chapter.related_id)
+        if (!one_supplier) {
+            Log.ctxWarn(ctx, 'supplier_id 不存在')
+            return
+        }
         // 标记该章节之前的图片为删除状态
         await SupplierImageData.delete_by_related_id(chapter_id)
         // 爬取图片列表
-        let image_list = await GuFengService.get_image_list(ctx, link)
+        let image_list = []
+        switch (one_supplier.channel) {
+            case FIELD_CHANNEL.GU_FENG:
+                image_list = await GuFengService.get_image_list(ctx, link)
+                break;
+            case FIELD_CHANNEL.QI_MAN_WU:
+                // TODO
+                break;
+            case FIELD_CHANNEL.LIU_MAN_HUA:
+                image_list = await LiuManHuaService.get_image_list(ctx, link)
+                break;
+            default:
+                Log.ctxWarn(ctx, 'channel 异常')
+                return CONST_BUSINESS_COMIC.TASK_SUCCESS
+        }
         let len_image_list = image_list.length
         if (!len_image_list || len_image_list === 0) {
             return CONST_BUSINESS_COMIC.TASK_SUCCESS
