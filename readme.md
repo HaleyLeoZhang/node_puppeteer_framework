@@ -103,6 +103,12 @@ apt-get install google-chrome-stable
 
 > 安装依赖
 
+### Mac 或者 Linux 开发环境
+
+~~~bash
+make install
+~~~
+
 ~~~bash
 # 安装依赖包，安装过程中，如果提示 chromium 安装失败，可以不用管。最后配置文件指向你的 chrome.exe 路径即可
 npm install --ignore-scripts --no-bin-links
@@ -110,7 +116,6 @@ npm install --ignore-scripts --no-bin-links
 npm install gulp-cli -g
 # 生成兼容 es5 语法的 node 文件 调试过程中 如果有文件新增或者删除 需要重新执行这个命令
 gulp start
-# mac 或者 Linux 开发环境 可以使用 `make intall`
 ~~~
 
 
@@ -120,7 +125,7 @@ gulp start
 `es5` node 可直接运行路径  
 
 ### 运行
-请使用普通用户权限运行,否则chrome无法调起  
+请使用普通用户权限运行,否则 `chrome` 无法调起  
 
 ~~~bash
 # 切换到普通用户(示例:用户名 hlz)
@@ -129,13 +134,23 @@ su hlz
 chmod 755 es5/task.js
 ~~~
 
+#### Mac 或者 Linux 开发环境
+
+~~~bash
+make debug
+~~~
+
 运行应用,示例运行  
 目前需要 `RabbitMQ` 支持  
 建议该任务使用`supervisor`常驻  
 启用多个进程,请根据自身情况测试后决定  
 
 ~~~bash
-/usr/sbin/node /data/common/node_puppeteer_example/es5/task.js mhn queue
+/usr/sbin/node /data/common/node_puppeteer_example/es5/task.js comic base_consumer  # 拉取基本信息
+/usr/sbin/node /data/common/node_puppeteer_example/es5/task.js comic base_supplier_consumer  # 拉取渠道基本信息
+/usr/sbin/node /data/common/node_puppeteer_example/es5/task.js comic supplier_chapter_consumer # 拉取渠道章节信息
+/usr/sbin/node /data/common/node_puppeteer_example/es5/task.js comic supplier_image_consumer # 拉取渠道章节图片信息
+/usr/sbin/node /data/common/node_puppeteer_example/es5/task.js comic notify_sub_all # 通知拉取全部
 ~~~
 
 ##### 操纵浏览器
