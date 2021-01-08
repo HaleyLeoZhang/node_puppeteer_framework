@@ -27,8 +27,7 @@ gulp.task('default', function (done) {
 //      SCSS
 // ----------------------------------------------------
 
-var sass = require('gulp-sass'); // 实现编译 https://www.npmjs.com/package/gulp-sass
-sass.compiler = require('node-sass');
+var sass = require('gulp-dart-sass'); // 实现编译 https://www.npmjs.com/package/gulp-dart-sass
 
 var autoprefixer = require('gulp-autoprefixer'); // 补全浏览器兼容的css
 var cssmin = require('gulp-clean-css'); // 压缩css

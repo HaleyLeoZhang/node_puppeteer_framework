@@ -9,6 +9,7 @@ install:
 	@clear
 	@echo "Package installing"
 	@rm -rf package-lock.json
+	@rm -rf node_modules
 	@npm config set registry https://registry.npm.taobao.org
 	@npm install --ignore-scripts --no-bin-links
 	@npm install gulp-cli -g

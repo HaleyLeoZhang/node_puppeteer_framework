@@ -4,18 +4,18 @@
     "description": "node_puppeteer_framework",
     "main": "gulpfile.js",
     "dependencies": {
-        "amqplib": "^0.5.5",
+        "amqplib": "^0.6.0",
         "babel": "^6.23.0",
         "babel-core": "^6.26.3",
         "cheerio": "^1.0.0-rc.5",
         "gulp-autoprefixer": "^4.1.0",
         "gulp-clean-css": "^3.9.2",
+        "gulp-dart-sass": "^1.0.2",
         "gulp-jshint": "^2.1.0",
         "jshint": "^2.9.5",
         "mysql2": "^1.6.5",
         "node-bugjs": "^2.0.1",
         "node-fetch": "^2.6.1",
-        "node-sass": "^5.0.0",
         "puppeteer": "^1.19.0",
         "random-useragent": "^0.3.1",
         "redis": "^2.8.0",
@@ -28,7 +28,7 @@
         "babel-preset-es2015": "^6.24.1",
         "gulp": "^4.0.2",
         "gulp-babel": "^7.0.0",
-        "gulp-sass": "^4.1.0"
+        "sass": "^1.32.2"
     },
     "repository": {
         "type": "git",
