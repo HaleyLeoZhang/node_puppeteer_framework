@@ -103,7 +103,7 @@ apt-get install google-chrome-stable
 
 > 安装依赖
 
-### Mac 或者 Linux 开发环境
+#### Mac 或者 Linux 开发环境
 
 ~~~bash
 make install
@@ -127,6 +127,12 @@ gulp start
 ### 运行
 请使用普通用户权限运行,否则 `chrome` 无法调起  
 
+#### Mac 或者 Linux 开发环境
+
+~~~bash
+make debug
+~~~
+
 ~~~bash
 # 切换到普通用户(示例:用户名 hlz)
 su hlz
@@ -134,11 +140,6 @@ su hlz
 chmod 755 es5/task.js
 ~~~
 
-#### Mac 或者 Linux 开发环境
-
-~~~bash
-make debug
-~~~
 
 运行应用,示例运行  
 目前需要 `RabbitMQ` 支持  
