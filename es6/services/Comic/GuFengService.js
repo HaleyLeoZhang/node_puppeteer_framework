@@ -57,7 +57,7 @@ export default class GuFengService extends Base {
                             let dom = doms.eq(i)
                             let link = dom.find("a").attr("href")
                             link = `https://www.gufengmh8.com${link}`
-                            console.log("link", link)
+                            // console.log("link", link)
                             let name = dom.find("span").text()
                             let sequence = i + 1
                             let tmp_one = {
