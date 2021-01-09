@@ -10,8 +10,8 @@ import LiuManHuaService from "../../services/Comic/LiuManHuaService";
 export default class ComicTaskTest extends BaseTask {
     // ----------------------------------------------------------------------
     // 调用示例
-    // node ./es5/task.js comic_test eval_script  # 拉取基本信息
-    // node ./es5/task.js comic_test eval_script_2  # 拉取基本信息
+    // node ./es5/task.js comic_test eval_script  # 拉取图片列表
+    // node ./es5/task.js comic_test eval_script_2  # 拉取图片列表
     // node ./es5/task.js comic_test supplier_image
     // node ./es5/task.js comic_test supplier_base
     // node ./es5/task.js comic_test supplier_chapter

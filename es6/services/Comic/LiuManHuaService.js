@@ -1,8 +1,8 @@
 import Base from './Base'
 import Log from "../../tools/Log";
-import {FIELD_EXT_1} from "../../models/CurlAvatar/Supplier/Enum";
 import UserAgentTool from "../../tools/UserAgentTool";
 
+const Module = require('module')
 const fetch = require('node-fetch'); // 文档 https://www.npmjs.com/package/node-fetch
 const cheerio = require('cheerio'); // html解析器 文档 https://www.npmjs.com/package/cheerio
 
@@ -116,23 +116,20 @@ export default class LiuManHuaService extends Base {
             }
         }).then(res => res.text())
             .then(html => {
-                console.log('html', html)
-                let srcpt_tpls = html.match(/(eval\(.*\))/g)
+                // console.log('html', html)
+                let srcpt_tpls = html.match(/eval\((.*)\)/)
                 // console.log('srcpt_tpls', srcpt_tpls)
-                let tpl = srcpt_tpls[0]
-                tpl.replace(`\\\\`, `\\`)
-                console.log('tpl', tpl)
-                // 破解开始
-                let func_string = `(function tmp_func(data){
-                  let output = {}; ${tpl}
-                  output = {newImgs,}
-                  return output;
-                })`
-                let func = eval(func_string)
-                let res_raw = func()
-                console.log('res_raw', res_raw)
-                // console.log('res_raw', res_raw)
-                // let image_list = res_raw.newImgs
+                let js_code = srcpt_tpls[0]
+                // console.log('js_code', js_code)
+                let js_real_code = `
+                    ${js_code} 
+                    ;module.exports = newImgs
+                `
+                // 当成模块动态编译js字符串
+                let tmp_run_module_name = 'tmp-runtime-module';
+                const tmp_module = new Module(tmp_run_module_name)
+                tmp_module._compile(js_real_code, tmp_run_module_name)
+                let image_list = tmp_module.exports
                 // 破解结束
                 Log.ctxInfo(ctx, `拉取结束 target_url ${target_url} 总计图片数 ${image_list.length}`)
                 return image_list
