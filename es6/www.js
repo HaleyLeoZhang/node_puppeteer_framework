@@ -39,7 +39,7 @@ app_router.get('/notify_sub/do', async (http_ctx) => {
     }
     try {
         let ctx = ContextTool.initial()
-        let comic_id = http_ctx.query.comic_id || '';
+        let comic_id = http_ctx.request.query.comic_id || '';
         if (!comic_id) {
             comic_id = undefined
         }
