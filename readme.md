@@ -114,7 +114,7 @@ npm install --ignore-scripts --no-bin-links
 # 安装 gulp 
 npm install gulp-cli -g
 # 生成兼容 es5 语法的 node 文件 调试过程中 如果有文件新增或者删除 需要重新执行这个命令
-gulp start
+gulp compile
 ~~~
 
 
@@ -151,6 +151,10 @@ chmod 755 es5/task.js
 /usr/sbin/node /data/common/node_puppeteer_example/es5/task.js comic supplier_chapter_consumer # 拉取渠道章节信息
 /usr/sbin/node /data/common/node_puppeteer_example/es5/task.js comic supplier_image_consumer # 拉取渠道章节图片信息
 /usr/sbin/node /data/common/node_puppeteer_example/es5/task.js comic notify_sub_all # 通知拉取全部
+~~~
+
+~~~bash
+/usr/sbin/node /data/common/node_puppeteer_example/es5/www.js # 监听 http 服务
 ~~~
 
 ##### 操纵浏览器

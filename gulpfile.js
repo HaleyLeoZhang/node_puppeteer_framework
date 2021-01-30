@@ -119,3 +119,11 @@ gulp.task('start', gulp.parallel(function () {
     task_compile_js()
     task_compile_scss()
 }, task_watch_js_list, task_watch_scss));
+
+gulp.task('compile', function (done) {
+    console.log("编译中")
+    task_compile_js()
+    task_compile_scss()
+    done()
+    console.log("编译完成")
+});
