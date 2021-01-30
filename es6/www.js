@@ -21,12 +21,6 @@ const app_cors = KoaCors.default()
 const app_body_parser = BodyParser.default()
 const app = new Koa.default()
 
-// const Koa = require('koa');
-// const cors = require('koa2-cors');
-// const body_parser = require('koa-bodyparser')
-// const app = new Koa();
-// const app_router = require('koa-router')();
-
 /**
  * 通知开始对应漫画的爬虫
  * - 2021年1月30日 22:51:00 方便调用，直接 get 请求，本次不使用 post
@@ -39,7 +33,11 @@ app_router.get('/notify_sub/do', async (http_ctx) => {
     }
     try {
         let ctx = ContextTool.initial()
-        let comic_id = http_ctx.request.query.comic_id || '';
+        let client_name = http_ctx.request.query.client_name;
+        if (!client_name){
+            throw new Error("请传入 client_name")
+        }
+        let comic_id = http_ctx.request.query.comic_id;
         if (!comic_id) {
             comic_id = undefined
         }
