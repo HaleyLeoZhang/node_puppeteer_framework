@@ -1,6 +1,7 @@
 import Base from './Base'
 import Log from "../../tools/Log";
 import {FIELD_EXT_1} from "../../models/CurlAvatar/Supplier/Enum";
+import UserAgentTool from "../../tools/UserAgentTool";
 
 const fetch = require('node-fetch'); // 文档 https://www.npmjs.com/package/node-fetch
 const cheerio = require('cheerio'); // html解析器 文档 https://www.npmjs.com/package/cheerio
@@ -12,7 +13,13 @@ export default class GuFengService extends Base {
     static async get_base_info(ctx, source_id) {
         Log.ctxInfo(ctx, `开始拉取 source_id ${source_id} 基本信息`)
         let target_url = `https://www.gufengmh8.com/manhua/${source_id}/`
-        return fetch(target_url)
+        let options = {
+            'headers': {
+                'User-Agent': UserAgentTool.fake_one(),
+            },
+            timeout: 3000,
+        }
+        return fetch(target_url, options)
             .then(res => res.text())
             .then(html => {
                 const $ = cheerio.load(html);
@@ -31,7 +38,13 @@ export default class GuFengService extends Base {
     static async get_chapter_list(ctx, source_id, tab_name) {
         Log.ctxInfo(ctx, `开始拉取 source_id ${source_id} 基本信息`)
         let target_url = `https://www.gufengmh8.com/manhua/${source_id}/`
-        return fetch(target_url)
+        let options = {
+            'headers': {
+                'User-Agent': UserAgentTool.fake_one(),
+            },
+            timeout: 3000,
+        }
+        return fetch(target_url, options)
             .then(res => res.text())
             .then(html => {
                 let chapter_list = []
@@ -81,7 +94,13 @@ export default class GuFengService extends Base {
     static async get_image_list(ctx, target_url) {
         let image_list = [];
         Log.ctxInfo(ctx, `开始拉取 ${target_url} 图片列表`)
-        return fetch(target_url)
+        let options = {
+            'headers': {
+                'User-Agent': UserAgentTool.fake_one(),
+            },
+            timeout: 3000,
+        }
+        return fetch(target_url, options)
             .then(res => res.text())
             .then(html => {
                 let srcpt_tpls = html.match(/var siteName = "";(.*?)var prevChapterData/)

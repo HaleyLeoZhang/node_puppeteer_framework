@@ -13,7 +13,13 @@ export default class LiuManHuaService extends Base {
     static async get_base_info(ctx, source_id) {
         Log.ctxInfo(ctx, `开始拉取 source_id ${source_id} 基本信息`)
         let target_url = `http://www.6mh7.com/${source_id}/`
-        return fetch(target_url)
+        let options = {
+            'headers': {
+                'User-Agent': UserAgentTool.fake_one(),
+            },
+            timeout: 3000,
+        }
+        return fetch(target_url, options)
             .then(res => res.text())
             .then(html => {
                 const $ = cheerio.load(html);
@@ -35,8 +41,14 @@ export default class LiuManHuaService extends Base {
         let target_url = `http://www.6mh7.com/${source_id}/`
         let sequence = 0
         let chapter_list = []
+        let options = {
+            'headers': {
+                'User-Agent': UserAgentTool.fake_one(),
+            },
+            timeout: 3000,
+        }
         // 先拉头部
-        await fetch(target_url)
+        await fetch(target_url, options)
             .then(res => res.text())
             .then(html => {
                 const $ = cheerio.load(html);
@@ -110,11 +122,14 @@ export default class LiuManHuaService extends Base {
         let image_list = [];
         Log.ctxInfo(ctx, `开始拉取 ${target_url} 图片列表`)
 
-        return fetch(target_url, {
-            "headers": {
-                "User-Agent": UserAgentTool.fake_one(),
-            }
-        }).then(res => res.text())
+        let options = {
+            'headers': {
+                'User-Agent': UserAgentTool.fake_one(),
+            },
+            timeout: 3000,
+        }
+        return fetch(target_url, options)
+            .then(res => res.text())
             .then(html => {
                 // console.log('html', html)
                 let srcpt_tpls = html.match(/eval\((.*)\)/)
