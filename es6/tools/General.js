@@ -7,13 +7,13 @@
 
 export default class General {
     /**
-     * 获取UUID 
+     * 获取UUID
      * @return string
      */
     static uuid() {
         let s = [];
         let hexDigits = "0123456789abcdef";
-        for(let i = 0; i < 36; i++) {
+        for (let i = 0; i < 36; i++) {
             s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
         }
         s[14] = "4"; // bits 12-15 of the time_hi_and_version field to 0010
@@ -23,19 +23,20 @@ export default class General {
         let uuid = s.join("");
         return uuid;
     }
+
     /**
      * 获取格式化后的时间
      * - 如： format_time("Y-m-d h:i:s") 输出 2017-12-11 22:46:11
      * @param string str 待格式化的时间
      * @param int timestamp 指定的时间戳，不填，则显示为当前的时间
-     * @return string 
+     * @return string
      */
     static format_time(str, timestamp) {
         timestamp = timestamp === undefined ? 0 : timestamp;
         timestamp = parseInt(timestamp) * 1000;
-        let date = timestamp === 0 ? 　new Date() : new Date(timestamp);
+        let date = timestamp === 0 ? new Date() : new Date(timestamp);
         const add_zero = (num) => {
-            if(num <= 9) {
+            if (num <= 9) {
                 return "0" + num;
             } else {
                 return "" + num + "";
@@ -56,6 +57,7 @@ export default class General {
         str = str.replace("s", s);
         return str;
     }
+
     /**
      * 获取随机整数数
      * @param int min 随机数的最小值
@@ -86,5 +88,12 @@ export default class General {
             }
         }
         return false
+    }
+
+    static get_data_with_default(input, output_default) {
+        if (typeof input === "undefined" || input == null) {
+            return output_default
+        }
+        return input
     }
 }

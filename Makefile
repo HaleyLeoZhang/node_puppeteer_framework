@@ -28,6 +28,7 @@ download:
 	@apt-get install google-chrome-stable
 
 compile:
+	@rm -rf ./es5/
 	@gulp compile
 
 ci:

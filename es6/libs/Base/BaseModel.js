@@ -47,7 +47,11 @@ class Handler {
                     const uuid = General.uuid()
                     Log.error(uuid, "SQL Exception: ", err);
                     Log.warn(uuid, "SQL: ", sql);
-                    Log.warn(uuid, "SQL Values: ", datas.json("  "));
+                    let sql_values = ""
+                    if(datas){
+                        sql_values = JSON.stringify(datas)
+                    }
+                    Log.warn(uuid, "SQL Values: ", sql_values);
                     conn.close()
                 })
                 .finally(() => { // 始终释放连接句柄

@@ -9,6 +9,7 @@ import TaskLogic from "../logics/ComicCurl/TaskLogic";
 import Base from "./base";
 import SentryTool from "../libs/Sentry/tool";
 import HTTP_CODE from "../constant/http_code";
+import General from "../tools/General";
 
 export default class Notify extends Base {
     /**
@@ -17,10 +18,9 @@ export default class Notify extends Base {
      */
     static async sub(http_ctx) {
         let {response, ctx} = Base.response_default_with_ctx()
-        console.log(response, ctx)
         try {
             Base.require_client_name(http_ctx)
-            let comic_id = http_ctx.request.query.comic_id;
+            let comic_id = General.get_data_with_default(http_ctx.request.query.comic_id, 0)
             if (!comic_id) {
                 comic_id = undefined
             }

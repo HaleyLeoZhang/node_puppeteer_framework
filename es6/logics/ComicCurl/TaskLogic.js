@@ -15,6 +15,7 @@ import SupplierImageData from "../../models/CurlAvatar/SupplierImage/SupplierCha
 import {FIELD_STATUS} from "../../models/CurlAvatar/SupplierChapter/Enum";
 import {FIELD_STATUS as IMAGE_FIELD_STATUS} from "../../models/CurlAvatar/SupplierImage/Enum";
 import LiuManHuaService from "../../services/Comic/LiuManHuaService";
+import General from "../../tools/General";
 
 export default class TaskLogic extends Base {
     static async comic_base(ctx, payload) {
@@ -87,9 +88,14 @@ export default class TaskLogic extends Base {
                 Log.ctxWarn(ctx, 'channel 异常')
                 return CONST_BUSINESS_COMIC.TASK_SUCCESS
         }
-        supplier_name = spider_info.name
-        supplier_pic = spider_info.pic
-        supplier_intro = spider_info.intro
+        supplier_name = General.get_data_with_default(spider_info.name, '')
+        supplier_pic = General.get_data_with_default(spider_info.pic, '')
+        supplier_intro = General.get_data_with_default(spider_info.intro, '')
+        if (supplier_name == '' && supplier_pic == '' && supplier_intro == '') {
+            Log.ctxWarn(ctx, '本次未更新，因为渠道基本信息都是空的')
+            Log.ctxWarn(ctx, spider_info)
+            return CONST_BUSINESS_COMIC.TASK_SUCCESS
+        }
         // - 更新渠道基本信息
         if (supplier_name != one_supplier.name || supplier_pic != one_supplier.pic || supplier_intro != one_supplier.intro) {
             update_supplier.name = supplier_name
@@ -188,7 +194,7 @@ export default class TaskLogic extends Base {
             let id = inserted_chapter_map[tmp.sequence].id
             payloads.push({
                 id,
-                link : tmp.link,
+                link: tmp.link,
             })
         }
         await mq.push_multi(payloads)

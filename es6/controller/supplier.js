@@ -9,13 +9,14 @@ import Base from "./base";
 import SentryTool from "../libs/Sentry/tool";
 import HTTP_CODE from "../constant/http_code";
 import SupplierLogic from "../logics/Open/SupplierLogic";
+import General from "../tools/General";
 
 export default class Supplier extends Base {
     static async list_by_ids(http_ctx) {
         let {response, ctx} = Base.response_default_with_ctx()
         try {
             Base.require_client_name(http_ctx)
-            let ids = http_ctx.request.query.ids; // 中间以 , 隔开
+            let ids = General.get_data_with_default(http_ctx.request.query.ids, '') // 中间以 , 隔开
             if (!ids) {
                 throw new Error("请传入 ids")
             }
@@ -37,7 +38,7 @@ export default class Supplier extends Base {
         let {response, ctx} = Base.response_default_with_ctx()
         try {
             Base.require_client_name(http_ctx)
-            let comic_id = http_ctx.request.query.comic_id;
+            let comic_id = General.get_data_with_default(http_ctx.request.query.comic_id, 0)
             if (!comic_id) {
                 throw new Error("请传入 comic_id")
             }

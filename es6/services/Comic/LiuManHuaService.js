@@ -102,12 +102,14 @@ export default class LiuManHuaService extends Base {
                 Log.ctxInfo(ctx, `拉取结束 source_id ${source_id} 总计章节数 ${len_chapter_list}`)
             })
         // 最后倒序写入顺序
+        let new_chapter_list = [];
         for (let i = 0; i < len_chapter_list; i++) {
             let handle_index = len_chapter_list - 1 - i
             let set_index = i + 1
             chapter_list[handle_index]["sequence"] = set_index
+            new_chapter_list.push(chapter_list[handle_index])
         }
-        return chapter_list
+        return new_chapter_list
 
     }
 
