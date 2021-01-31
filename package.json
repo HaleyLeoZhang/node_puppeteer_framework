@@ -4,6 +4,8 @@
     "description": "node_puppeteer_framework",
     "main": "gulpfile.js",
     "dependencies": {
+        "@sentry/node": "^6.0.3",
+        "@sentry/tracing": "^6.0.3",
         "amqplib": "^0.6.0",
         "babel": "^6.23.0",
         "babel-core": "^6.26.3",

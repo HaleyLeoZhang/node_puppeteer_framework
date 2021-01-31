@@ -77,6 +77,12 @@ const LOG = {
 }
 
 /**
+ * Sentry 异常采集
+ * -更多请访问 https://sentry.io/
+ */
+const SENTRY_DSN = ''
+
+/**
  * 七牛云上传配置
  */
 const QINIU_CONFIG = {
@@ -91,5 +97,6 @@ export {
     BROWSER,
     SCREENSHOT,
     LOG,
+    SENTRY_DSN,
     QINIU_CONFIG,
 };

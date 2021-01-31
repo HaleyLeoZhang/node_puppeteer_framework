@@ -6,8 +6,7 @@
 // ----------------------------------------------------------------------
 
 import Supplier from './'
-import {FIELD_STATUS} from "./Enum";
-import Comic from "../Comic";
+import {FIELD_CHANNEL, FIELD_STATUS} from "./Enum";
 
 export default class SupplierData {
     /**
@@ -45,11 +44,29 @@ export default class SupplierData {
     }
 
     /**
+     * 查询漫画当前未被删除的渠道信息
+     * @param int related_id 漫画ID
+     * @return Promise - array
+     */
+    static async get_not_deleted_list_by_related_id(related_id) {
+        const where = {
+            'related_id': related_id,
+            'status[!=]': FIELD_STATUS.DELETED,
+            'ORDER': {"id": "ASC"},
+        }
+        const results = await Supplier.select(where)
+        if (0 === results.length) {
+            return []
+        }
+        return results
+    }
+
+    /**
      * 查询渠道信息
      * @param int id 渠道ID
      * @return Promise - array
      */
-    static async get_pne_by_id(id) {
+    static async get_one_by_id(id) {
         const where = {
             'id': id,
             'ORDER': {"id": "ASC"},
@@ -61,6 +78,24 @@ export default class SupplierData {
         }
         return results[0]
     }
+
+    /**
+     * 查询渠道信息
+     * @param array id_list 渠道ID组
+     * @return Promise - array
+     */
+    static async get_by_id_list(id_list) {
+        const where = {
+            'id': id_list,
+            'ORDER': {"id": "ASC"},
+        }
+        const results = await Supplier.select(where)
+        if (0 === results.length) {
+            return []
+        }
+        return results
+    }
+
     /**
      * 更新该漫画详情
      * @return Promise
@@ -70,5 +105,37 @@ export default class SupplierData {
             'id': id,
         }
         return Supplier.update(update, where)
+    }
+
+    /**
+     * 获取渠道名
+     */
+    static get_channel_text(channel) {
+        let text = ''
+        switch (parseInt(channel)) {
+            case FIELD_CHANNEL.GU_FENG:
+                text = '古风漫画'
+                break;
+            case FIELD_CHANNEL.LIU_MAN_HUA:
+                text = '六漫画'
+                break;
+        }
+        return text
+    }
+
+    /**
+     * 获取对应渠道链接
+     */
+    static get_source_href(channel, source_id) {
+        let href = ''
+        switch (parseInt(channel)) {
+            case FIELD_CHANNEL.GU_FENG:
+                href = `https://www.gufengmh8.com/manhua/${source_id}/`;
+                break;
+            case FIELD_CHANNEL.LIU_MAN_HUA:
+                href = `http://www.6mh7.com/${source_id}/`;
+                break;
+        }
+        return href
     }
 }
