@@ -5,7 +5,7 @@
 | 前台前端 | [Gulp](https://www.gulpjs.com.cn/) | `./gulpfile.js` | 前端自动化 |
 | 前台前端 | [ES5](https://javascript.ruanyifeng.com/) | `./public/libs/js`| 依据页面划分模块 ; `考虑性能`，前端针对不同场景也对各类数据做了缓存、持久化模块 ; `考虑轻量`，前后端分离,且不依赖第三方框架 |
 | 前台后端 | [Golang](https://golang.org/) | [点此查看](https://github.com/HaleyLeoZhang/node_puppeteer_example_go) | 考虑极致的数据吞吐性能 |
-| 后台管理 | [PHP](https://php.net/) | [点此查看](https://gitee.com/haleyleozhang/yth_cms) | 对性能要求不高,产品快速落地(暂未升级兼容v3爬虫数据) |
+| 后台管理 | [PHP](https://php.net/) | [点此查看](https://gitee.com/haleyleozhang/yth_cms) | 对性能要求不高,产品快速落地(正在兼容v3爬虫数据中) |
 | 后端爬虫-行为类、破解 | [ES6](https://es6.ruanyifeng.com/) 、 [RabbitMq](https://www.rabbitmq.com/) 、 [Puppeteer](https://github.com/puppeteer/puppeteer) | 当前项目，直接看后文即可 | 当然,作为爬虫,使用 [Kafka](https://kafka.apachecn.org/intro.html) 会是个更好的选择,可惜云天河资源云资源受限且日常消息堆积量不大,所以当前选用的`RabbitMQ`|
 
 [数据流动说明-点击这里](storage/readme_intro/spider_architecture/intro.md)  
@@ -21,12 +21,12 @@
 ![](storage/readme_intro/imgs/preview_detail_20200208_1250.png)  
 `图 03 - 漫画详情页`  
 
-![](storage/readme_intro/imgs/admin_list_202009052007.png)  
+![](storage/readme_intro/imgs/admin_list_202001312112.png)  
 `图 04 - 后台漫画列表页`  
 
 ![](storage/readme_intro/imgs/admin_edit_20200902010.png)  
 `图 05 - 后台漫画修改页`  
-
+(TODO 这个页面计划加上渠道配置)  
 
 ## 框架简介
 这是由云天河自封装的一款行为类爬虫框架  
