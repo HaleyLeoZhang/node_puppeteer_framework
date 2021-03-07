@@ -12,7 +12,7 @@ export default class LiuManHuaService extends Base {
      */
     static async get_base_info(ctx, source_id) {
         Log.ctxInfo(ctx, `开始拉取 source_id ${source_id} 基本信息`)
-        let target_url = `http://www.6mh7.com/${source_id}/`
+        let target_url = `http://www.sixmh6.com/${source_id}/`
         let options = {
             'headers': {
                 'User-Agent': UserAgentTool.fake_one(),
@@ -38,7 +38,7 @@ export default class LiuManHuaService extends Base {
     static async get_chapter_list(ctx, source_id) {
         let _this = this
         Log.ctxInfo(ctx, `开始拉取 source_id ${source_id} 列表信息-头部`)
-        let target_url = `http://www.6mh7.com/${source_id}/`
+        let target_url = `http://www.sixmh6.com/${source_id}/`
         let sequence = 0
         let chapter_list = []
         let options = {
@@ -70,7 +70,7 @@ export default class LiuManHuaService extends Base {
             })
         // 后拉ajax数据
         Log.ctxInfo(ctx, `开始拉取 source_id ${source_id} 列表信息-剩余部分`)
-        let ajax_api = `http://www.6mh7.com/bookchapter/`
+        let ajax_api = `http://www.sixmh6.com/bookchapter/`
         let option = {
             method: "POST",
             mode: 'cors',
@@ -114,7 +114,7 @@ export default class LiuManHuaService extends Base {
     }
 
     static getLink(path) {
-        return `http://www.6mh7.com/${path}`
+        return `http://www.sixmh6.com/${path}`
     }
 
     /**

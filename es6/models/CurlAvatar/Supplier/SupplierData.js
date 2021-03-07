@@ -133,7 +133,7 @@ export default class SupplierData {
                 href = `https://www.gufengmh8.com/manhua/${source_id}/`;
                 break;
             case FIELD_CHANNEL.LIU_MAN_HUA:
-                href = `http://www.6mh7.com/${source_id}/`;
+                href = `http://www.sixmh6.com/${source_id}/`;
                 break;
         }
         return href
