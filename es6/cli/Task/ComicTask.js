@@ -12,7 +12,7 @@ import CONST_BUSINESS_COMIC from "../../constant/business_comic";
 import CONST_AMQP from "../../constant/amqp";
 import ContextTool from "../../tools/ContextTool";
 import Log from "../../tools/Log";
-import {ACK_NO} from "../../../es5/libs/MQ/RabbitMQ";
+import {ACK_NO, DEFAULT_PULL_TIME_SECOND, IF_EXIT_YES} from "../../libs/MQ/RabbitMQ";
 import TaskLogic from '../../logics/ComicCurl/TaskLogic';
 
 // ----------------------------------------------------------------------
@@ -98,6 +98,7 @@ export default class ComicTask extends BaseTask {
         mq.set_routing_key(CONST_AMQP.AMQP_ROUTING_KEY_SUPPLIER_BASE)
         mq.set_queue(CONST_AMQP.AMQP_QUEUE_SUPPLIER_CHAPTER)
         mq.set_block_second(CONST_BUSINESS_COMIC.MQ_CONSUMER_BLOCK_SECOND)
+        mq.set_pull_timeout(DEFAULT_PULL_TIME_SECOND, IF_EXIT_YES)
         await mq.pull(async (payload) => {
             let ctx = ContextTool.initial() // 每次拉取都是一个新的上下文
             try {

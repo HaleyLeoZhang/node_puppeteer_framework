@@ -13,12 +13,25 @@
 
 import amqp from 'amqplib'
 import {DSN_AMQP} from '../../conf/mq/amqp'
+import TimeTool from "../../tools/TimeTool";
+import SafeBuffer from 'safe-buffer'
+// const Buffer = require('safe-buffer').Buffer;
 
-const Buffer = require('safe-buffer').Buffer;
+const Buffer = SafeBuffer.Buffer
+
+
 const DEFAULT_OPTION = {durable: true, autoDelete: false};
 const DEFAULT_CONSUME_OPTION = {noAck: false};
 const DEFAULT_BLOCK_SECOND = 30; // 未拉取到消息时,默认挂起秒数
+const DEFAULT_PULL_TIME_SECOND = 180; // 默认超时时间
+const NO_PULL_TIME_SECOND = -1; // 默认超时时间
 const FLAT_NO_MESSAGE = false; // 没有消息的时候,返回值是false
+
+/**
+ * @var bool 是否自动退出
+ */
+const IF_EXIT_YES = true; // 超时后，关闭程序
+const IF_EXIT_NO = false; // 超时后，不关闭程序
 /**
  * @var bool 是否返回ACK
  */
@@ -63,16 +76,19 @@ export default class RabbitMQ {
      * @return void
      */
     set_block_second(block_second) {
-        this.block_second = block_second
+        this.block_second = block_second || DEFAULT_BLOCK_SECOND
     }
 
     /**
-     * 获取挂起秒数
+     * 设置消费的超时时间
      *
-     * @return int
+     * @param int second 超时秒数
+     * @param bool auto_exit 超时后是否自动退出程序
+     * @return void
      */
-    get_block_second() {
-        return this.block_second || DEFAULT_BLOCK_SECOND
+    set_pull_timeout(second, auto_exit) {
+        this.pull_timeout = second || NO_PULL_TIME_SECOND
+        this.auto_exit = auto_exit || IF_EXIT_NO
     }
 
     /**
@@ -120,15 +136,31 @@ export default class RabbitMQ {
             await new Promise(resolve => {
                 channel.get(this.queue, DEFAULT_CONSUME_OPTION)
                     .then(msg => {
+                        // Part 1 超时处理
+                        let time_out_id = -1
+                        if (this.pull_timeout > 0) {
+                            new Promise(resolve => {
+                                time_out_id = setTimeout(() => {
+                                    if (this.auto_exit === IF_EXIT_YES) {
+                                        console.log("Consumer Timeout. Progress is going to shutdown")
+                                        process.exit()
+                                    }
+                                }, this.pull_timeout * 1000);
+                            })
+                        }
+                        // 消息普通处理
                         if (FLAT_NO_MESSAGE === msg) {
                             // 没有消息就挂起
                             setTimeout(() => {
                                 resolve()
-                            }, this.get_block_second() * 1000);
+                            }, this.block_second * 1000);
                         } else {
                             let payload = msg.content.toString()
                             callback(JSON.parse(payload))
                                 .then((ack_yes) => {
+                                    if (time_out_id > 0) { // 说明本次已处理结束，可以清除当前的定时器
+                                        clearTimeout(time_out_id)
+                                    }
                                     if (ACK_YES === ack_yes || ack_yes === undefined) {
                                         channel.ack(msg);
                                     } else {
@@ -149,6 +181,7 @@ export default class RabbitMQ {
             });
         }
     }
+
 
     /**
      * 生产者
@@ -181,4 +214,8 @@ export default class RabbitMQ {
         await conn.close();
     }
 }
-export {ACK_YES, ACK_NO}
+export {
+    ACK_YES, ACK_NO,
+    IF_EXIT_YES, IF_EXIT_NO,
+    DEFAULT_PULL_TIME_SECOND, NO_PULL_TIME_SECOND,
+}
