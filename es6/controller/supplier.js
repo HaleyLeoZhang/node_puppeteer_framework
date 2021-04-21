@@ -54,5 +54,24 @@ export default class Supplier extends Base {
         }
         http_ctx.body = response
     }
+
+    static async delete_by_comic_id(http_ctx) {
+        let {response, ctx} = Base.response_default_with_ctx()
+        try {
+            Base.require_client_name(http_ctx)
+            let comic_id = General.get_data_with_default(http_ctx.request.query.comic_id, 0)
+            if (!comic_id) {
+                throw new Error("请传入 comic_id")
+            }
+            await SupplierLogic.delete_by_comic_id(ctx, comic_id)
+            response.data = {}
+        } catch (error) {
+            console.log(error)
+            SentryTool.captureException(error)
+            response.code = HTTP_CODE.BUSINESS_ERROR
+            response.msg = 'failed!'
+        }
+        http_ctx.body = response
+    }
 }
 

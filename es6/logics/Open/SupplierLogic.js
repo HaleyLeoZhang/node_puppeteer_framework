@@ -29,4 +29,17 @@ export default class SupplierLogic extends Base {
         }
         return list
     }
+
+    static async delete_by_comic_id(ctx, comic_id) {
+        // TODO 查询涉及的有效渠道ID
+        // TODO 依据有效渠道ID 查询有效章节ID
+        // TODO 依据 查询有效章节ID 查询有效图片数据
+        // TODO 每次软删除指定数量图片-因为数据量较大
+        // TODO 直接软删除指定数量章节
+        // TODO 直接软删除指定数量渠道
+        // let list = await SupplierData.delete_by_related_id(comic_id)
+        // list = Base.handle_datetime(list, 'created_at,updated_at')
+        // list = SupplierLogic.list_add_parse_fields(list)
+        return
+    }
 }

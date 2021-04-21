@@ -24,6 +24,7 @@ const app = new Koa.default()
 app_router.get('/notify/sub', Notify.sub)
 app_router.get('/supplier/list_by_ids', Supplier.list_by_ids)
 app_router.get('/supplier/list_by_comic_id', Supplier.list_by_comic_id)
+app_router.get('/supplier/delete_by_comic_id', Supplier.delete_by_comic_id)
 // 路由注册 ---- END
 
 app.use(app_cors)

@@ -138,4 +138,22 @@ export default class SupplierData {
         }
         return href
     }
+
+    /**
+     * 删除漫画下所有渠道数据
+     * @param int related_id 漫画ID
+     * @return Promise - JSON
+     */
+    static async delete_by_related_id(related_id) {
+        // TODO
+        // 查询
+        // const where = {
+        //     'related_id': related_id,
+        //     'status': FIELD_STATUS.ONLINE,
+        // }
+        // const update = {
+        //     'status': FIELD_STATUS.OFFLINE,
+        // }
+        // return Supplier.update(update, where)
+    }
 }
