@@ -16,8 +16,12 @@ install:
 	@rm -rf node_modules
 	@npm config set registry https://registry.npm.taobao.org
 	@npm install --ignore-scripts --no-bin-links
-	@npm install gulp-cli -g
-	@./node_modules/gulp-cli/bin/gulp compile
+	@make -is link
+	@./node_modules/gulp-cli/bin/gulp.js compile
+
+link:
+	@rm -rf /app/node_modules/gulp
+	@ln -s /app/node_modules/gulp-cli/bin/gulp.js /app/node_modules/gulp
 
 download:
 	@clear
@@ -29,9 +33,9 @@ download:
 
 compile:
 	@rm -rf ./es5/
-	@./node_modules/gulp-cli/bin/gulp c compile
+	@./node_modules/gulp-cli/bin/gulp.js compile
 
 ci:
 	@make -S install
-	@./node_modules/gulp-cli/bin/gulp c compile
+	@./node_modules/gulp-cli/bin/gulp.js compile
 

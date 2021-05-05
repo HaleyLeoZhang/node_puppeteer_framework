@@ -12,6 +12,7 @@
         "cheerio": "^1.0.0-rc.5",
         "gulp-autoprefixer": "^4.1.0",
         "gulp-clean-css": "^3.9.2",
+        "gulp-cli": "^2.3.0",
         "gulp-dart-sass": "^1.0.2",
         "gulp-jshint": "^2.1.0",
         "jshint": "^2.9.5",

@@ -1,0 +1,26 @@
+version: '3.0'
+
+services:
+
+    node:
+        image: node:12
+        container_name: puppeteer-node-app
+        working_dir: /app
+        volumes:
+            - Z:/virtual_pack/space_common/node_puppeteer_example:/app:cached # 重要！！！ 此部分请依据自己的项目位置 进行调整
+            - ./apt_image.txt:/etc/apt/sources.list
+        ports:
+            - 9110:80
+        environment:
+            TZ: Asia/Shanghai
+            NODE_ENV: production
+        networks:
+            default:
+                ipv4_address: 172.18.0.21
+        #command:  bash -c "export TERM=xterm && cd /app && make install && sleep 30000000000000"
+        command:  bash -c "export TERM=xterm && cd /app && sleep 30000000000000"
+
+networks:
+    default:
+        external:
+            name: network_win
