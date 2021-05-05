@@ -3,7 +3,7 @@ default: debug
 debug:
 	@clear
 	@echo "App debug"
-	@while true; do gulp start; sleep 2; done
+	@while true; do ./node_modules/gulp/bin/gulp.js start; sleep 2; done
 
 www:
 	@clear
@@ -16,12 +16,8 @@ install:
 	@rm -rf node_modules
 	@npm config set registry https://registry.npm.taobao.org
 	@npm install --ignore-scripts --no-bin-links
-	@make -is link
-	@./node_modules/gulp-cli/bin/gulp.js compile
+	@./node_modules/gulp/bin/gulp.js compile
 
-link:
-	@rm -rf /app/node_modules/gulp
-	@ln -s /app/node_modules/gulp-cli/bin/gulp.js /app/node_modules/gulp
 
 download:
 	@clear
@@ -33,9 +29,9 @@ download:
 
 compile:
 	@rm -rf ./es5/
-	@./node_modules/gulp-cli/bin/gulp.js compile
+	@./node_modules/gulp/bin/gulp.js compile
 
 ci:
 	@make -S install
-	@./node_modules/gulp-cli/bin/gulp.js compile
+	@./node_modules/gulp/bin/gulp.js compile
 
