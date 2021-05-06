@@ -18,7 +18,7 @@ install:
 	@npm install --ignore-scripts --no-bin-links
 	@./node_modules/gulp/bin/gulp.js compile
 
-
+# 如果要用到 chrome 请执行这个命令
 download:
 	@clear
 	@echo "Package Downloading"

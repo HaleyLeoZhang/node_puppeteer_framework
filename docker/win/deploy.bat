@@ -4,6 +4,7 @@
 @echo down    --- remove current docker instance
 @echo cnet    --- add docker network for current docker instance
 @echo ini     --- function consist of "cnet" and "run"
+@echo in      --- go to current docker bash
 @set /p option="Please enter your option:  "
 
 @: ------------------ Working Place ------------------
@@ -14,6 +15,8 @@
   call:cnet
 ) ELSE IF "%option%"=="run" (
   call:run
+) ELSE IF "%option%"=="in" (
+  call:in
 ) ELSE IF "%option%"=="ini" (
   call:cnet
   call:run
@@ -23,6 +26,10 @@
 
 
 @exit
+
+:in
+@docker exec -it puppeteer-node-app bash
+@goto:eof
 
 
 :down
