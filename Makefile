@@ -15,7 +15,8 @@ install:
 	@rm -rf package-lock.json
 	@rm -rf node_modules
 	@npm config set registry https://registry.npm.taobao.org
-	@npm install --ignore-scripts --no-bin-links
+	@#npm install --ignore-scripts --no-bin-links
+	@npm install --ignore-scripts 
 	@./node_modules/gulp/bin/gulp.js compile
 
 # 如果要用到 chrome 请执行这个命令

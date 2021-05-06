@@ -17,8 +17,8 @@ services:
         networks:
             default:
                 ipv4_address: 172.18.0.21
-        command:  bash -c "export TERM=xterm && cd /app && make install && make www"
-        #command:  bash -c "export TERM=xterm && cd /app && sleep 30000000000000"
+        #command:  bash -c "export TERM=xterm && cd /app && make install && make www"
+        command:  bash -c "export TERM=xterm && cd /app && sleep 30000000000000"
 
 networks:
     default:
