@@ -16,7 +16,7 @@ services:
             NODE_ENV: production
         networks:
             default:
-                ipv4_address: 172.18.0.21
+                ipv4_address: 172.28.0.2
         #command:  bash -c "export TERM=xterm && cd /app && make install && make www"
         command:  bash -c "export TERM=xterm && cd /app && tail -f"
 
