@@ -4,19 +4,18 @@
   "description": "node_puppeteer_framework",
   "main": "gulpfile.js",
   "dependencies": {
+    "@babel/core": "^7.8.3",
+    "@babel/preset-env": "^7.8.3",
+    "@babel/runtime": "^7.8.3",
     "@sentry/node": "^6.0.3",
     "@sentry/tracing": "^6.0.3",
     "amqplib": "^0.6.0",
-    "cheerio": "^1.0.0-rc.5",
-    "@babel/core": "^7.8.3",
-    "@babel/plugin-transform-runtime": "^7.8.3",
-    "@babel/preset-env": "^7.8.3",
-    "@babel/runtime": "^7.8.3",
     "babel-loader": "^8.0.6",
     "babelify": "^10.0.0",
+    "cheerio": "^1.0.0-rc.5",
     "gulp": "^4.0.2",
-    "gulp-babel": "^8.0.0",
     "gulp-autoprefixer": "^6.1.0",
+    "gulp-babel": "^8.0.0",
     "gulp-clean-css": "^3.9.2",
     "gulp-dart-sass": "^1.0.2",
     "gulp-jshint": "^2.1.0",
@@ -35,6 +34,7 @@
     "watchify": "^3.9.0"
   },
   "devDependencies": {
+    "@babel/plugin-transform-runtime": "^7.13.15",
     "sass": "^1.32.2"
   },
   "repository": {
