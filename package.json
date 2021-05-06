@@ -1,53 +1,53 @@
 {
-    "name": "node_puppeteer_framework",
-    "version": "3.0.0",
-    "description": "node_puppeteer_framework",
-    "main": "gulpfile.js",
-    "dependencies": {
-        "@babel/core": "^7.0.0-beta.40",
-        "@babel/cli": "^7.0.0-beta.40",
-        "babel-loader": "^8.0.0-beta.0",
-        "babel-plugin-lodash": "^3.3.2",
-        "babel-plugin-react-transform": "^3.0.0",
-        "@babel/preset-react": "^7.0.0-beta.40",
-        "@sentry/node": "^6.0.3",
-        "@sentry/tracing": "^6.0.3",
-        "amqplib": "^0.6.0",
-        "cheerio": "^1.0.0-rc.5",
-        "gulp": "^4.0.2",
-        "gulp-autoprefixer": "^6.1.0",
-        "gulp-babel": "^8.0.0",
-        "gulp-clean-css": "^3.9.2",
-        "gulp-dart-sass": "^1.0.2",
-        "gulp-jshint": "^2.1.0",
-        "jshint": "^2.9.5",
-        "koa": "^2.13.1",
-        "koa-bodyparser": "^4.3.0",
-        "koa-router": "^10.0.0",
-        "koa2-cors": "^2.0.6",
-        "mysql2": "^1.6.5",
-        "node-bugjs": "^2.0.1",
-        "node-fetch": "^2.6.1",
-        "puppeteer": "^1.19.0",
-        "random-useragent": "^0.3.1",
-        "redis": "^2.8.0",
-        "run-sequence": "^2.2.1",
-        "watchify": "^3.9.0"
-    },
-    "devDependencies": {
-        "sass": "^1.32.2"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/HaleyLeoZhang/node_puppeteer_framework.git"
-    },
-    "keywords": [
-        "HaleyLeoZhang"
-    ],
-    "author": "HaleyLeoZhang",
-    "license": "ISC",
-    "bugs": {
-        "url": "https://github.com/HaleyLeoZhang/node_puppeteer_framework/issues"
-    },
-    "homepage": "https://github.com/HaleyLeoZhang/node_puppeteer_framework#readme"
+  "name": "node_puppeteer_framework",
+  "version": "3.0.0",
+  "description": "node_puppeteer_framework",
+  "main": "gulpfile.js",
+  "dependencies": {
+    "@sentry/node": "^6.0.3",
+    "@sentry/tracing": "^6.0.3",
+    "amqplib": "^0.6.0",
+    "cheerio": "^1.0.0-rc.5",
+    "@babel/core": "^7.8.3",
+    "@babel/plugin-transform-runtime": "^7.8.3",
+    "@babel/preset-env": "^7.8.3",
+    "@babel/runtime": "^7.8.3",
+    "babel-loader": "^8.0.6",
+    "babelify": "^10.0.0",
+    "gulp": "^4.0.2",
+    "gulp-babel": "^8.0.0",
+    "gulp-autoprefixer": "^6.1.0",
+    "gulp-clean-css": "^3.9.2",
+    "gulp-dart-sass": "^1.0.2",
+    "gulp-jshint": "^2.1.0",
+    "jshint": "^2.9.5",
+    "koa": "^2.13.1",
+    "koa-bodyparser": "^4.3.0",
+    "koa-router": "^10.0.0",
+    "koa2-cors": "^2.0.6",
+    "mysql2": "^1.6.5",
+    "node-bugjs": "^2.0.1",
+    "node-fetch": "^2.6.1",
+    "puppeteer": "^1.19.0",
+    "random-useragent": "^0.3.1",
+    "redis": "^2.8.0",
+    "run-sequence": "^2.2.1",
+    "watchify": "^3.9.0"
+  },
+  "devDependencies": {
+    "sass": "^1.32.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HaleyLeoZhang/node_puppeteer_framework.git"
+  },
+  "keywords": [
+    "HaleyLeoZhang"
+  ],
+  "author": "HaleyLeoZhang",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HaleyLeoZhang/node_puppeteer_framework/issues"
+  },
+  "homepage": "https://github.com/HaleyLeoZhang/node_puppeteer_framework#readme"
 }
