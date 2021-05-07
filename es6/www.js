@@ -5,15 +5,13 @@
 // GITHUB: https://github.com/HaleyLeoZhang
 // ----------------------------------------------------------------------
 
-
-const HTTP_PORT = 7070; // 设置 http 服务的端口
-
 import * as Koa from 'koa'
 import * as KoaCors from 'koa2-cors'
 import * as BodyParser from 'koa-bodyparser'
 import * as RouterTool from 'koa-router'
 import Notify from "./controller/notify";
 import Supplier from "./controller/supplier";
+import {HTTP_PORT} from "./conf";
 
 const app_router = RouterTool.default()
 const app_cors = KoaCors.default()

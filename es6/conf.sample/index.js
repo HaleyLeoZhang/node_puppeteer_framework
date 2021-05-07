@@ -92,6 +92,9 @@ const QINIU_CONFIG = {
     "cdn_host": "",
 }
 
+// 设置 http 服务的端口
+const HTTP_PORT = 7070
+
 export {
     APP_PATH,
     BROWSER,
@@ -99,4 +102,5 @@ export {
     LOG,
     SENTRY_DSN,
     QINIU_CONFIG,
+    HTTP_PORT,
 };
