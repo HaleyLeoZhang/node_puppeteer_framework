@@ -35,8 +35,8 @@ class Handler {
 
         POOL.getConnection((err, conn) => {
             if (err) {
-                POOL.releaseConnection(conn);
                 Log.error("SQL Exception: ", err.message);
+                return
             }
             conn.promise()
                 .execute(sql, datas)
