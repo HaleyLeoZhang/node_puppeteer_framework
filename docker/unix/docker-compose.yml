@@ -8,8 +8,8 @@ services:
         working_dir: /app
         volumes:
             - /data/www/site/comic.pre.hlzblog.top:/app:cached # 重要！！！ 此部分请依据自己的项目位置 进行调整
-            - ../apt_image.txt:/etc/apt/sources.list
-            - /tmp/comic_node:/app/storage/log
+            - ../apt_image.txt:/etc/apt/sources.list:cached
+            #- /tmp/comic_node:/app/storage/log:cached
         ports:
             - 7070:7070
         environment:
