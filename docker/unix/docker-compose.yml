@@ -10,7 +10,8 @@ services:
             - /data/www/site/comic.pre.hlzblog.top:/app:cached # 重要！！！ 此部分请依据自己的项目位置 进行调整
             - ../apt_image.txt:/etc/apt/sources.list:cached
             - ../supervisor.conf:/etc/supervisor/conf.d/node_comic.conf:cached
-            #- /tmp/comic_node:/app/storage/log:cached
+            - ../ini.sh:/usr/src/ini.sh:cached
+            - /tmp/comic_node:/tmp/comic:cached
         ports:
             - 7070:7070
         environment:
@@ -21,10 +22,10 @@ services:
                 ipv4_address: 172.28.0.2
         # www服务开启这个
         #command:  bash -c "export TERM=xterm && cd /app && make install && make www"
-	# 调试开启这个
+        # 调试开启这个
         #command:  bash -c "export TERM=xterm && tail -f"
-	# 生产开启这个
-        command:  bash -c "export TERM=xterm && apt-get update && apt-get install supervisor -y  && cd /app && make install && /usr/bin/supervisord && tail -f"
+        # 生产开启这个
+        command: bash -c "bash /usr/src/ini.sh && tail -f "
 
 networks:
     default:

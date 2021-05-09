@@ -22,6 +22,9 @@ ini:
 in:
 	@docker exec -it puppeteer-node-app bash
 
+log:
+	@docker logs -f puppeteer-node-app
+
 clear:
 	@clear
 	@make -s down
