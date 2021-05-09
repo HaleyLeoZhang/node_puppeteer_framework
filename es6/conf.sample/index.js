@@ -74,6 +74,9 @@ const LOG = {
     // this.dateColor = options.dateColor || 'cyan'
     // this.filenameColor = options.filenameColor || 'gray'
     // this.callIndex = options.callIndex || 2
+    // 注意 这里配置日志位置
+    // log_path: APP_PATH + '/storage/log', // win
+    log_path: '/tmp/comic', // unix
 }
 
 /**

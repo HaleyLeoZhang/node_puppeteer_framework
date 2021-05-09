@@ -28,9 +28,8 @@ Log.storeHandler = (log) => {
 
     }
     logs.push(' ')
-    const file_path = APP_PATH + '/storage/log'
     const file_name = General.format_time('Y-m-d') + '.log'
-    const target_file = file_path + '/' + file_name
+    const target_file = LOG.log_path + '/' + file_name
     fs.appendFileSync(target_file, logs.concat(log.logs).join('') + '\n')
 }
 
