@@ -64,6 +64,8 @@ cp -r es6/conf.sample es6/conf
 本次表结构请看目录 [storage/sql/](storage/sql/) 建表语句及当前可用的部分数据  
 请到目录 `es6/conf/` 下完成配置 `rabbitmq`、`mysql`、`redis`、浏览器(chromium或者chrome)等配置 
 
+请注意: `mysql` 建议 `5.6`~`5.7` 之间的版本,目前暂无`8.0`的账号认证驱动  
+
 > 容器化部署
 
 强烈建议以此种方式部署  
