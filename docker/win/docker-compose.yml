@@ -8,8 +8,9 @@ services:
         working_dir: /app
         volumes:
             - ../../:/app:cached
-            - ../apt_image.txt:/etc/apt/sources.list
+            - ../apt_image.txt:/etc/apt/sources.list:cached
             - ../supervisor.conf:/etc/supervisor/conf.d/node_comic.conf:cached
+            - ../ini.sh:/usr/src/ini.sh:cached
             - ../../storage/log/:/tmp/comic:cached
         ports:
             - 9110:7070
