@@ -10,6 +10,7 @@ services:
             - ../../:/app:cached
             - ../apt_image.txt:/etc/apt/sources.list
             - ../supervisor.conf:/etc/supervisor/conf.d/node_comic.conf:cached
+            - ../../storage/log/:/tmp/comic:cached
         ports:
             - 9110:7070
         environment:
@@ -23,7 +24,7 @@ services:
         # 调试开启这个
         #command:  bash -c "export TERM=xterm && tail -f"
         # 生产开启这个
-        command:  bash -c "export TERM=xterm && apt-get update && apt-get install supervisor -y  && cd /app && make install && /usr/bin/supervisord && tail -f"
+        command:  bash -c "bash /usr/src/ini.sh && tail -f "
 
 networks:
     default:
