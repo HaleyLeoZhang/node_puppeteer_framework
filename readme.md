@@ -78,8 +78,6 @@ cd docker/unix/
 make ini
 ~~~
 
-
-
 ##### `windows` 环境  
 ~~~bash
 cd .\docker\win\
@@ -99,9 +97,9 @@ log     --- see current docker output logs
 
 输入`ini`，即可完成部署  
 
-> 普通安装
+> 普通部署方式
 
-详见 [storage/readme_intro/article/general_install.md](storage/readme_intro/article/general_install.md)
+[点此查看](storage/readme_intro/article/general_install.md)
 
 ### 附录
 
