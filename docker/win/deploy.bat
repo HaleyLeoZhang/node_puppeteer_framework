@@ -5,6 +5,7 @@
 @echo cnet    --- add docker network for current docker instance
 @echo ini     --- function consist of "cnet" and "run"
 @echo in      --- go to current docker bash
+@echo log     --- see current docker output logs
 @set /p option="Please enter your option:  "
 
 @: ------------------ Working Place ------------------
@@ -17,6 +18,8 @@
   call:run
 ) ELSE IF "%option%"=="in" (
   call:in
+) ELSE IF "%option%"=="log" (
+  call:log
 ) ELSE IF "%option%"=="ini" (
   call:cnet
   call:run
@@ -31,6 +34,9 @@
 @docker exec -it puppeteer-node-app bash
 @goto:eof
 
+:log
+@docker logs -f puppeteer-node-app
+@goto:eof
 
 :down
 @docker-compose down
