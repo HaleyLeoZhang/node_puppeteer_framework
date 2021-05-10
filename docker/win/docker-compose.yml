@@ -25,7 +25,7 @@ services:
         # 调试开启这个
         #command:  bash -c "export TERM=xterm && tail -f"
         # 生产开启这个
-        command:  bash -c "bash /usr/src/ini.sh && tail -f "
+        command:  bash -c "/bin/bash /usr/src/ini.sh && tail -f "
 
 networks:
     default:
