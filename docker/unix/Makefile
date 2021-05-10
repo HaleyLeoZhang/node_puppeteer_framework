@@ -15,7 +15,7 @@ cnet:
 
 ini:
 	@clear
-	@mkdir -p /data/www
+	@#mkdir -p /data/www
 	@make -is cnet
 	@make -s run
 
