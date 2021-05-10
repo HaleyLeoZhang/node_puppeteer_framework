@@ -130,9 +130,9 @@ apt-get install google-chrome-stable
 
 > 配套服务
 
-`Mysql` 5.6 及以上环境  
+`Mysql` 5.7 及以上环境  
 `Redis` 5.0 及以上环境  
-`Node` 14.0 及以上环境  
+`Node` 12
 
 > 安装依赖
 
