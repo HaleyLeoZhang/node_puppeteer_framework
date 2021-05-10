@@ -57,10 +57,6 @@
 
 ## 起步
 
-###### 规划
-2021年5月5日 23:30:20  
-当前正在集成容器化部署  
-后续可以直接打包运行  
 
 > 配置
 
@@ -74,6 +70,35 @@ cp -r es6/conf.sample es6/conf
 本次表结构请看目录 `sqls/` 建表  
 请根据到目录 `es6/conf/db/mysql.js` 配置 `mysql`、`redis`、浏览器(chromium或者chrome)应用地址  
 
+> 容器化部署
+
+##### `windows` 环境  
+~~~bash
+cd .\docker\win\
+.\deploy.bat # 执行这个脚本
+~~~
+出现如下消息  
+
+~~~bash
+Options are in the following:
+run     --- remove current docker instance AND run new docker instance for node
+down    --- remove current docker instance
+cnet    --- add docker network for current docker instance
+ini     --- function consist of "cnet" and "run"
+in      --- go to current docker bash
+log     --- see current docker output logs
+~~~
+
+输入`ini`，即可完成部署  
+
+##### `unix` 环境  
+
+`Mac OS` 或者 `Linux` 系统 可以使用下面命令  
+
+~~~bash
+cd docker/unix/
+make ini
+~~~
 
 ## 安装
 
