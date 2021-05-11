@@ -74,6 +74,9 @@ const LOG = {
     // this.dateColor = options.dateColor || 'cyan'
     // this.filenameColor = options.filenameColor || 'gray'
     // this.callIndex = options.callIndex || 2
+    // 注意 这里配置日志位置
+    // log_path: APP_PATH + '/storage/log', // win
+    log_path: '/tmp/comic', // unix
 }
 
 /**
@@ -92,6 +95,9 @@ const QINIU_CONFIG = {
     "cdn_host": "",
 }
 
+// 设置 http 服务的端口
+const HTTP_PORT = 7070
+
 export {
     APP_PATH,
     BROWSER,
@@ -99,4 +105,5 @@ export {
     LOG,
     SENTRY_DSN,
     QINIU_CONFIG,
+    HTTP_PORT,
 };

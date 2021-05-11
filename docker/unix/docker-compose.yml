@@ -1,0 +1,33 @@
+version: '3.0'
+
+services:
+
+    node:
+        image: node:12
+        container_name: puppeteer-node-app
+        working_dir: /app
+        volumes:
+            - ../../:/app:cached
+            - ../apt_image.txt:/etc/apt/sources.list:cached
+            - ../supervisor.conf:/etc/supervisor/conf.d/node_comic.conf:cached
+            - ../ini.sh:/usr/src/ini.sh:cached
+            - /tmp/comic_node:/tmp/comic:cached
+        ports:
+            - 7070:7070
+        environment:
+            TZ: Asia/Shanghai
+            NODE_ENV: production
+        networks:
+            default:
+                ipv4_address: 172.28.0.2
+        # www服务开启这个
+        #command:  bash -c "export TERM=xterm && cd /app && make install && make www"
+        # 调试开启这个
+        #command:  bash -c "export TERM=xterm && tail -f"
+        # 生产开启这个
+        command: bash -c "bash /usr/src/ini.sh && tail -f "
+
+networks:
+    default:
+        external:
+            name: network_unix

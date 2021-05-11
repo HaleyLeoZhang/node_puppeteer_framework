@@ -3,7 +3,7 @@ default: debug
 debug:
 	@clear
 	@echo "App debug"
-	@while true; do gulp start; sleep 2; done
+	@while true; do ./node_modules/gulp/bin/gulp.js start; sleep 2; done
 
 www:
 	@clear
@@ -15,10 +15,11 @@ install:
 	@rm -rf package-lock.json
 	@rm -rf node_modules
 	@npm config set registry https://registry.npm.taobao.org
-	@npm install --ignore-scripts --no-bin-links
-	@npm install gulp-cli -g
-	@gulp compile
+	@#npm install --ignore-scripts --no-bin-links
+	@npm install --ignore-scripts 
+	@./node_modules/gulp/bin/gulp.js compile
 
+# 如果要用到 chrome 请执行这个命令
 download:
 	@clear
 	@echo "Package Downloading"
@@ -29,9 +30,9 @@ download:
 
 compile:
 	@rm -rf ./es5/
-	@gulp compile
+	@./node_modules/gulp/bin/gulp.js compile
 
 ci:
 	@make -S install
-	@gulp compile
+	@./node_modules/gulp/bin/gulp.js compile
 

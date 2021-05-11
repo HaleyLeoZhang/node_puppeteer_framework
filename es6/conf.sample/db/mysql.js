@@ -23,7 +23,9 @@ const DSN_COMIC = {
         password: '',
         database: 'curl_avatar',
         connection_limit: 5, 
-    }]
+    }],
+    // 是否打印SQL false 关闭 true 打开
+    show_sql: false,
 }
 
 
