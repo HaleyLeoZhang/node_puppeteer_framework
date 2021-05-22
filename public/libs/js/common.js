@@ -10,7 +10,7 @@
     // var HOST = 'http://puppeteer.test.com'; // 本地环境
 
     function Comic_Common() {
-        this.scroll_tolerant = 50 // 容差值
+        this.scroll_tolerant_rate = 0.1 // 容差比率（主要为了兼容一些刘海屏）
         this.loading_img = "https://i.loli.net/2019/09/05/YPu62erGMa3l1IE.gif"
         // API列表---可跨域
         this.api = {
@@ -139,11 +139,11 @@
      */
     Comic_Common.prototype.reach_page_bottom = function (callback) {
         var _this = this;
-        $(window).on("scroll touchmove", function (){
+        $(window).on("scroll touchmove", function () {
             var scroll = parseInt(document.documentElement.scrollTop || document.body.scrollTop);
             // - 计算当前页面高度
             var tag_position = document.body.scrollHeight;
-            var now = scroll + document.documentElement.clientHeight + _this.scroll_tolerant;
+            var now = scroll + document.documentElement.clientHeight * (1 + _this.scroll_tolerant_rate);
             if (now >= tag_position) {
                 callback()
             }
@@ -296,15 +296,41 @@
     };
 
     // 设置页足
-    Comic_Common.prototype.set_footer_date = function () {
+    Comic_Common.prototype.ini_footer = function () {
         var _this = this
-        if (undefined !== document.getElementById("date_ch")) {
-            var year = _this.format_time('Y');
-            $("#date_ch").html(year);
-            $("#date_en").html(year);
-        }
+        var year = _this.format_time('Y');
+        var footer_html = `
+        <div class="g_footer">
+            <div class="g_container">
+                <p class="feedback">
+                    信息反馈，请联系邮箱 <a href="mailto:hlzblog@vip.qq.com">hlzblog@vip.qq.com</a>
+                </p>
+                <p>
+                    Copyright&nbsp;&copy; 2019-<span id="date_ch">${year}</span>&nbsp;HaleyLeoZhang All Rights Reserved
+                </p>
+                <p>
+                    版权&nbsp;&copy; 2019-<span id="date_en">${year}</span>&nbsp; HaleyLeoZhang 版权所有
+                </p>
+                <p>
+                    <a style="color:#437373;" target="_blank" rel="nofollow" href="http://beian.miit.gov.cn/">鲁ICP备16014994号</a>
+                </p>
+            </div>
+        </div>
+        `
+        $("body").append(footer_html)
     };
 
-    ComicCommon.set_footer_date();
+    // 配置前端异常捕获服务
+    // - 当前 https://cdn.staticfile.org/raven.js/3.9.2/raven.min.js CDN备份 https://cdn.ravenjs.com/3.19.1/raven.min.js  备份 ./libs/js/plugin/raven.min.js
+    Comic_Common.prototype.ini_sentry = function () {
+        Raven.config('https://abe5d01a283f419c84463cc99e27161d@o481346.ingest.sentry.io/5778330').install()
+    }
+
+    // 初始化页面时运行
+    Comic_Common.prototype.initial_page = function () {
+        var _this = this
+        _this.ini_footer()
+        _this.ini_sentry()
+    }
 
 })(jQuery, window);

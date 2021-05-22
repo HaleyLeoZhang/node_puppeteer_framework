@@ -233,6 +233,7 @@
         })
     };
     Page.prototype.run_app = function () {
+        ComicCommon.initial_page()
         var _this = this;
 
         _this.set_title()
