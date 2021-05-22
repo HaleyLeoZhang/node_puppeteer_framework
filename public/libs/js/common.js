@@ -139,7 +139,7 @@
      */
     Comic_Common.prototype.reach_page_bottom = function (callback) {
         var _this = this;
-        $(window).scroll(function () {
+        $(window).on("scroll touchmove", function (){
             var scroll = parseInt(document.documentElement.scrollTop || document.body.scrollTop);
             // - 计算当前页面高度
             var tag_position = document.body.scrollHeight;
@@ -147,7 +147,7 @@
             if (now >= tag_position) {
                 callback()
             }
-        });
+        })
     };
 
     // 本地缓存
