@@ -10,7 +10,7 @@
     // var HOST = 'http://puppeteer.test.com'; // 本地环境
 
     function Comic_Common() {
-        this.scroll_tolerant_rate = 0.1 // 容差比率（主要为了兼容一些刘海屏）
+        this.scroll_tolerant_rate = 0.2 // 容差比率（主要为了兼容一些刘海屏）
         this.loading_img = "https://i.loli.net/2019/09/05/YPu62erGMa3l1IE.gif"
         // API列表---可跨域
         this.api = {
