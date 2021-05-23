@@ -268,6 +268,7 @@
     }
 
     Image.prototype.run_app = function () {
+        ComicCommon.initial_page()
         var _this = this;
 
         _this.ini_conf()

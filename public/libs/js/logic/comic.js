@@ -183,6 +183,7 @@
         })
     };
     Comic.prototype.run_app = function () {
+        ComicCommon.initial_page()
         var _this = this;
 
         _this.get_list()
