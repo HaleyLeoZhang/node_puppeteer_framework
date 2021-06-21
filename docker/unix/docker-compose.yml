@@ -2,9 +2,9 @@ version: '3.0'
 
 services:
 
-    node:
+    comic_node:
         image: node:12
-        container_name: puppeteer-node-app
+        container_name: comic-node-app
         working_dir: /app
         volumes:
             - ../../:/app:cached
@@ -20,6 +20,11 @@ services:
         networks:
             default:
                 ipv4_address: 172.28.0.2
+        deploy:
+            resources:
+                limits: # cpu最大使用数
+                    cpus: '0.5'
+                    memory: 1G
         # www服务开启这个
         #command:  bash -c "export TERM=xterm && cd /app && make install && make www"
         # 调试开启这个

@@ -4,10 +4,10 @@ run:
 	@# 删除镜像
 	@make -s down
 	@# 以后台挂起的模式运行
-	@docker-compose up -d
+	@docker-compose  --compatibility -p comic_node  up -d
 
 down:
-	@docker-compose down
+	@docker-compose  -p comic_node down
 
 cnet:
 	@# 创建网卡
@@ -20,10 +20,10 @@ ini:
 	@make -s run
 
 in:
-	@docker exec -it puppeteer-node-app bash
+	@docker exec -it comic-node-app bash
 
 log:
-	@docker logs -f puppeteer-node-app
+	@docker logs -f comic-node-app
 
 clear:
 	@clear
