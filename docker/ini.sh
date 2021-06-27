@@ -4,7 +4,7 @@
 #&& apt-get update \
 #&& apt-get install supervisor -y  \
 cd /app \
-&& make install \
+&& make install_prod \
 && /usr/bin/supervisord 
 
 for((;;))
