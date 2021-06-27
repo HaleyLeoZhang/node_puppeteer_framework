@@ -4,10 +4,10 @@ run:
 	@# 删除镜像
 	@make -s down
 	@# 以后台挂起的模式运行
-	@docker-compose up -d
+	@docker-compose --compatibility -p puppeteer_node up -d
 
 down:
-	@docker-compose down
+	@docker-compose -p puppeteer_node down
 
 cnet:
 	@# 创建网卡

@@ -1,9 +1,9 @@
 #!/bin/bash
 
-export TERM=xterm \
-&& apt-get update \
-&& apt-get install supervisor -y  \
-&& cd /app \
+#export TERM=xterm \
+#&& apt-get update \
+#&& apt-get install supervisor -y  \
+cd /app \
 && make install \
 && /usr/bin/supervisord 
 

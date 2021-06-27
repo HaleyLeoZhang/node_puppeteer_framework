@@ -3,12 +3,11 @@ version: '3.0'
 services:
 
     node:
-        image: node:12
+        build: ../
         container_name: puppeteer-node-app
         working_dir: /app
         volumes:
             - ../../:/app:cached
-            - ../apt_image.txt:/etc/apt/sources.list:cached
             - ../supervisor.conf:/etc/supervisor/conf.d/node_comic.conf:cached
             - ../ini.sh:/usr/src/ini.sh:cached
             - ../../storage/log/:/tmp/comic:cached
@@ -17,6 +16,7 @@ services:
         environment:
             TZ: Asia/Shanghai
             NODE_ENV: production
+            TERM: xterm
         networks:
             default:
                 ipv4_address: 172.18.0.21
@@ -26,6 +26,13 @@ services:
         #command:  bash -c "export TERM=xterm && tail -f"
         # 生产开启这个
         command:  bash -c "/bin/bash /usr/src/ini.sh && tail -f "
+        # 部署资源限制
+        deploy:
+            replicas: 1  # 指定部署数量
+            resources:
+                limits: # cpu最大使用数
+                    cpus: '0.3' # 该服务cpu资源可用百分比，单个cpu打满就是 100%, 这里的 1.0 就是 100% 的 意思
+                    memory: 300M
 
 networks:
     default:

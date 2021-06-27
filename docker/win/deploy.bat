@@ -39,7 +39,7 @@
 @goto:eof
 
 :down
-@docker-compose down
+@docker-compose -p puppeteer_node down
 @goto:eof
 
 
@@ -53,5 +53,5 @@
 : 删除镜像
 @call:down
 : 以后台挂起的模式运行
-@docker-compose up -d
+@docker-compose --compatibility -p puppeteer_node up -d
 @goto:eof
