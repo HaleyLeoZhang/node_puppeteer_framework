@@ -2,9 +2,9 @@ version: '3.0'
 
 services:
 
-    node:
+    comic_node:
         build: ../ # using layer cache
-        container_name: puppeteer-node-app
+        container_name: comic-node-app
         working_dir: /app
         volumes:
             - ../../:/app:cached
@@ -20,10 +20,6 @@ services:
         networks:
             default:
                 ipv4_address: 172.28.0.2
-        # www服务开启这个
-        #command:  bash -c "export TERM=xterm && cd /app && make install && make www"
-        # 调试开启这个
-        #command:  bash -c "export TERM=xterm && tail -f"
         # 生产开启这个
         command: bash -c "bash /usr/src/ini.sh && tail -f "
         # 部署资源限制

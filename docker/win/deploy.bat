@@ -31,15 +31,15 @@
 @exit
 
 :in
-@docker exec -it puppeteer-node-app bash
+@docker exec -it comic-node-app bash
 @goto:eof
 
 :log
-@docker logs -f puppeteer-node-app
+@docker logs -f comic-node-app
 @goto:eof
 
 :down
-@docker-compose -p puppeteer_node down
+@docker-compose -p comic_node down
 @goto:eof
 
 
@@ -53,5 +53,5 @@
 : 删除镜像
 @call:down
 : 以后台挂起的模式运行
-@docker-compose --compatibility -p puppeteer_node up -d
+@docker-compose --compatibility -p comic_node up -d
 @goto:eof
