@@ -20,9 +20,12 @@
 
     var CACHE_KEY_IMAGE_WIDTH = "image_width" // 图片屏占比
 
+    var KEY_ESC_INDEX = 27 // 腿出键 Esc
+
     function Image() {
         this.target_append = '#image_list'
         this.real_index = 2 // 从第几张开始,可以懒加载图片
+        this.conf_index = 0 // 配置界面的弹出层 index
 
         this.detail = null
 
@@ -207,14 +210,14 @@
         var _this = this;
         $("#conf").on("click", function () {
             // https://layer.layui.com/
-            layer.tab({
+            _this.conf_index = layer.tab({
                 area: ['600px', '300px'],
                 tab: [{
                     title: '<b>图片屏占比</b>',
                     content: '<input type="number" placeholder=" % " id="show_rate"/>'
-                // },{ // 2021-1-9 02:04:11 暂时没啥场景用
-                //     title: '<b>背景色</b>',
-                //     content: '<input type="text" placeholder="十六进制色值" id="bg_color"/>'
+                    // },{ // 2021-1-9 02:04:11 暂时没啥场景用
+                    //     title: '<b>背景色</b>',
+                    //     content: '<input type="text" placeholder="十六进制色值" id="bg_color"/>'
                 }]
             });
             // 初始化值
@@ -243,6 +246,16 @@
             var rate_text = rate + "%"
             $(_this.target_append).css({"width": rate_text})
             $(show_rate_dom).val(rate)
+        })
+    }
+    Image.prototype.action_close_conf = function () {
+        var _this = this;
+        $(document).keyup(function (event) {
+            var keyRaw = event.which || event.keyCode;
+            keyRaw = parseInt(keyRaw)
+            if (keyRaw === KEY_ESC_INDEX) {
+                layer.close(_this.conf_index)
+            }
         })
     }
     Image.prototype.ini_conf = function () {
@@ -279,6 +292,7 @@
         _this.action_go_to_next()
         _this.action_go_to_head()
         _this.action_open_conf()
+        _this.action_close_conf()
     };
     App_Image.run_app()
 })(jQuery, window);
