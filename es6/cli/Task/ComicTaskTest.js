@@ -27,7 +27,7 @@ export default class ComicTaskTest extends BaseTask {
     }
     static async eval_script_2() {
         let ctx = ContextTool.initial() // 每次拉取都是一个新的上下文
-        let url = "http://www.sixmh6.com/17128/703818.html"
+        let url = "http://www.sixmh7.com/17128/703818.html"
         let list = await LiuManHuaService.get_image_list(ctx, url)
         console.log(list)
     }
