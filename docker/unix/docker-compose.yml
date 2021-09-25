@@ -28,7 +28,7 @@ services:
             resources:
                 limits: # cpu最大使用数
                     cpus: '0.3' # 该服务cpu资源可用百分比，单个cpu打满就是 100%, 这里的 1.0 就是 100% 的 意思
-                    memory: 800M # 主要是编译耗内存：特别是www服务的编译 峰值700~800M，如果只编译 task服务 只需要200M 就够用
+                    memory: 1000M # 主要是编译耗内存：特别是www服务的编译 峰值700~800M，如果只编译 task服务 只需要200M 就够用
 
 networks:
     default:
