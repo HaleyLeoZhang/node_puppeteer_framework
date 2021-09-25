@@ -6,13 +6,15 @@ import UserAgentTool from "../../tools/UserAgentTool";
 const fetch = require('node-fetch'); // 文档 https://www.npmjs.com/package/node-fetch
 const cheerio = require('cheerio'); // html解析器 文档 https://www.npmjs.com/package/cheerio
 
+const BASE_HREF = "https://www.gufengmh9.com" // 爬取地址
+
 export default class GuFengService extends Base {
     /**
      * @return Promise
      */
     static async get_base_info(ctx, source_id) {
         Log.ctxInfo(ctx, `开始拉取 source_id ${source_id} 基本信息`)
-        let target_url = `https://www.gufengmh8.com/manhua/${source_id}/`
+        let target_url = `${BASE_HREF}/manhua/${source_id}/`
         let options = {
             'headers': {
                 'User-Agent': UserAgentTool.fake_one(),
@@ -37,7 +39,7 @@ export default class GuFengService extends Base {
      */
     static async get_chapter_list(ctx, source_id, tab_name) {
         Log.ctxInfo(ctx, `开始拉取 source_id ${source_id} 基本信息`)
-        let target_url = `https://www.gufengmh8.com/manhua/${source_id}/`
+        let target_url = `${BASE_HREF}/manhua/${source_id}/`
         let options = {
             'headers': {
                 'User-Agent': UserAgentTool.fake_one(),
@@ -69,7 +71,7 @@ export default class GuFengService extends Base {
                         for (let i = 0; i < len_doms; i++) {
                             let dom = doms.eq(i)
                             let link = dom.find("a").attr("href")
-                            link = `https://www.gufengmh8.com${link}`
+                            link = `${BASE_HREF}${link}`
                             // console.log("link", link)
                             let name = dom.find("span").text()
                             let sequence = i + 1
