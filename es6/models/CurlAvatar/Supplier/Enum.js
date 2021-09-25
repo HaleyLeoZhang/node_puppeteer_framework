@@ -10,7 +10,7 @@ const FIELD_CHANNEL = {
     "UNKNOWN": 0,
     "GU_FENG": 1, // 古风漫画 https://www.gufengmh8.com/
     "QI_MAN_WU": 2, // 奇漫屋 http://www.qiman6.com/
-    "LIU_MAN_HUA": 3, // 6漫画 http://www.sixmh6.com/
+    "LIU_MAN_HUA": 3, // 6漫画 http://www.sixmh7.com/
 }
 
 //  `status` tinyint(1) unsigned NOT NULL DEFAULT '200' COMMENT '状态(0:删除,50:渠道不可用,100:手动下线,200:正常)',
