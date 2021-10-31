@@ -42,7 +42,7 @@
         ComicCommon.cache_set_engine('local')
 
         var cache_data = order
-        var cache_ttl = 999999
+        var cache_ttl = 1e10  // 缓存时间比较大，基本属于不过期了
         return ComicCommon.cache_data_set(this.cache_chapter_order, cache_data, cache_ttl)
     }
 
@@ -195,7 +195,7 @@
         var cache_name = ''
         var cache_info = []
         var cache_data = max_sequence
-        var cache_ttl = 3600 * 24 * 30 // 缓存 30 天
+        var cache_ttl = 1e10 // 缓存时间比较大，基本属于不过期了
 
         cache_info.push(CACHE_MAX_SEQUENCE)
         cache_info.push(comic_id)
