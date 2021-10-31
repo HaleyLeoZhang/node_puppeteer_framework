@@ -9,6 +9,9 @@ const cheerio = require('cheerio'); // html解析器 文档 https://www.npmjs.co
 const BASE_HREF = "https://www.gufengmh9.com" // 爬取地址
 
 export default class GuFengService extends Base {
+    static get_base_href(){
+        return BASE_HREF
+    }
     /**
      * @return Promise
      */
