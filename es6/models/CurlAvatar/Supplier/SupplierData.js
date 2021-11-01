@@ -132,10 +132,10 @@ export default class SupplierData {
         let href = ''
         switch (parseInt(channel)) {
             case FIELD_CHANNEL.GU_FENG:
-                href `${GuFengService.get_base_href()}/manhua/${source_id}/`
+                href =`${GuFengService.get_base_href()}/manhua/${source_id}/`
                 break;
             case FIELD_CHANNEL.LIU_MAN_HUA:
-                href `${LiuManHuaService.get_base_href()}/${source_id}/`
+                href =`${LiuManHuaService.get_base_href()}/${source_id}/`
                 break;
         }
         return href
