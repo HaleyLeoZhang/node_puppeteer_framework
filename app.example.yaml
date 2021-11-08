@@ -59,7 +59,7 @@ log:
   absolute: false,
   date: true # 是否显示 UTC 时间
   store: true # 写入日志文件
-  log_path: "/tmp/comic" # 日志存放位置
+  path: '/tmp/comic' # 日志存放位置
 
 # Sentry 异常采集  更多请访问 https://sentry.io/
 sentry_dsn: "" # 异常上报地址
