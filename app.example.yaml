@@ -1,0 +1,69 @@
+
+# DB配置
+db_comic: # 模块专属 中间件
+  write: # 主库列表
+    - host: '127.0.0.1'
+      port: 3306
+      user: 'root'
+      password: ''
+      database: 'curl_avatar'
+      connection_limit: 5 // 连接池配置:维持链接数,理论上10个应该够了
+  read: # 从库列表
+    - host: '127.0.0.1'
+      port: 3306
+      user: 'root'
+      password: ''
+      database: 'curl_avatar'
+      connection_limit: 5 // 连接池配置:维持链接数,理论上10个应该够了
+  show_sql: false # 是否打印SQL false 关闭 true 打开
+
+# RabbitMq 配置
+rabbit_mq: # 通用中间件
+  host: '192.168.56.110'
+  port: 5672
+  user: 'guest'
+  password: 'guest'
+  vhost: '/'
+
+# Redis 配置
+redis_comic: # 模块专属 中间件
+  host: '192.168.56.110'
+  port: 6379
+  password: ''
+  db: 0 # 默认都走0号库，不要切库
+
+# 无头浏览器配置
+puppeteer_comic: # 模块专属 中间件
+  # 浏览器配置
+  browse:
+    #  Chrome 应用路径
+    executable_path: "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe" # windows 环境
+    # executablePath: "google-chrome" # linux 环境
+    # 设置超时时间
+    timeout: 15000,
+    # 如果是访问https页面 此属性会忽略https错误
+    ignoreHTTPSErrors: true,
+    # 打开开发者工具, 当此值为true时, headless总为false
+    devtools: false,
+    # 关闭headless模式, 不会打开浏览器
+    headless: true
+
+# 日志配置
+log:
+  console: true # 输出到命令行
+  debug: true # 显示是哪个文件哪行代码输出的
+  bright: true # 是否文字颜色高亮
+  absolute: false,
+  date: true # 是否显示 UTC 时间
+  store: true # 写入日志文件
+  log_path: "/tmp/comic" # 日志存放位置
+
+# Sentry 异常采集  更多请访问 https://sentry.io/
+sentry_dsn: "" # 异常上报地址
+
+# 七牛云上传配置
+qiniu_comic:
+  app_key: "23333333" # 应用ID
+  app_secret: "4543553453" # 应用ID对应的私钥
+  bucket_name: "dfgdfgdfg" # 存储桶 英文名
+  cdn_host: "" # cdn地址

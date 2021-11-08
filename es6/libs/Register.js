@@ -13,6 +13,17 @@ export default class Register {
         this.load_module = undefined === ars[2] ? undefined : ars[2];
         this.load_action = undefined === ars[3] ? undefined : ars[3];
 
+        let config_path = "/app/app.yaml" // 配置文件默认位置
+        for let i=0,len_ars= ars.length ;i<len_ars ;i++{
+            let one = ars[i]
+            let res_config = one.match(/--conf=(.*)"/i)
+            if (res_config !== null) {
+                let config_path = res_config[1].trim(" ")
+            }
+        }
+        // TODO 读取配置文件
+        // 载入配置文件
+
         this.resgist_list = {}
         return this
     }
