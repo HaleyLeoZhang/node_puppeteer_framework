@@ -15,7 +15,7 @@ export default class Register {
     // 读取配置文件
     read_config(ars) {
         let config_path = DEFAULT_CONFIG_PATH
-        for let i = 0, len_ars = ars.length; i < len_ars; i++{
+        for (let i = 0, len_ars = ars.length; i < len_ars; i++){
             let one = ars[i]
             let res_config = one.match(/--conf=(.*)"/i)
             if (res_config !== null) {
