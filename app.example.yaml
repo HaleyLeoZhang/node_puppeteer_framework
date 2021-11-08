@@ -50,9 +50,8 @@ puppeteer_comic: # 模块专属 中间件
     headless: true
     # 在docker中 以 root 权限运行
     args:
-      -
-          '--no-sandbox'
-            '--disable-setuid-sandbox'
+      - '--no-sandbox'
+      - '--disable-setuid-sandbox'
 
 # 日志配置
 log:
