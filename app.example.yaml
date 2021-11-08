@@ -1,4 +1,3 @@
-
 # DB配置
 db_comic: # 模块专属 中间件
   write: # 主库列表
@@ -7,14 +6,14 @@ db_comic: # 模块专属 中间件
       user: 'root'
       password: ''
       database: 'curl_avatar'
-      connection_limit: 5 // 连接池配置:维持链接数,理论上10个应该够了
+      connection_limit: 5 # 连接池配置:维持链接数,理论上10个应该够了
   read: # 从库列表
     - host: '127.0.0.1'
       port: 3306
       user: 'root'
       password: ''
       database: 'curl_avatar'
-      connection_limit: 5 // 连接池配置:维持链接数,理论上10个应该够了
+      connection_limit: 5 # 连接池配置:维持链接数,理论上10个应该够了
   show_sql: false # 是否打印SQL false 关闭 true 打开
 
 # RabbitMq 配置
@@ -47,6 +46,10 @@ puppeteer_comic: # 模块专属 中间件
     devtools: false,
     # 关闭headless模式, 不会打开浏览器
     headless: true
+    # 在docker中 以 root 权限运行
+    args:
+      - "--no-sandbox"
+      - "--disable-setuid-sandbox",
 
 # 日志配置
 log:

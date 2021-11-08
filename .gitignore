@@ -5,4 +5,4 @@
 **/*.log
 **/.idea
 **/.DS_Store
-app.yaml
+**/app.yaml
