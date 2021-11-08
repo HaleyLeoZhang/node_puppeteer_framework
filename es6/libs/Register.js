@@ -19,7 +19,7 @@ export default class Register {
             let one = ars[i]
             let res_config = one.match(/--conf=(.*)"/i)
             if (res_config !== null) {
-                let config_path = res_config[1].trim(" ")
+                config_path = res_config[1].trim(" ")
             }
         }
         // TODO 读取配置文件
