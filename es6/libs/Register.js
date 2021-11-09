@@ -17,7 +17,7 @@ export default class Register {
         let config_path = DEFAULT_CONFIG_PATH
         for (let i = 0, len_ars = ars.length; i < len_ars; i++){
             let one = ars[i]
-            let res_config = one.match(/--conf=(.*)"/i)
+            let res_config = one.match(/--conf=(.*)/i)
             if (res_config !== null) {
                 config_path = res_config[1].trim(" ")
             }
