@@ -1,3 +1,6 @@
+# http 配置
+http_port: 4040 # 对外端口
+
 # DB配置
 db_comic: # 模块专属 中间件
   write: # 主库列表
@@ -36,10 +39,10 @@ redis_comic: # 模块专属 中间件
 # 无头浏览器配置
 puppeteer_comic: # 模块专属 中间件
   # 浏览器配置
-  browse:
+  browser:
     #  Chrome 应用路径
     #executable_path: 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe' # windows 环境
-    executablePath: 'google-chrome' # linux 环境
+    executable_path: 'google-chrome' # linux 环境
     # 设置超时时间
     timeout: 15000
     # 如果是访问https页面 此属性会忽略https错误
