@@ -11,12 +11,15 @@ import * as BodyParser from 'koa-bodyparser'
 import * as RouterTool from 'koa-router'
 import Notify from "./controller/notify";
 import Supplier from "./controller/supplier";
-import {HTTP_PORT} from "./conf";
+import Conf, {HTTP_PORT} from "./conf";
 
 const app_router = RouterTool.default()
 const app_cors = KoaCors.default()
 const app_body_parser = BodyParser.default()
 const app = new Koa.default()
+
+// 初始化配置文件
+Conf.load_config(process.argv)
 
 // 路由注册 ---- START
 app_router.get('/notify/sub', Notify.sub)

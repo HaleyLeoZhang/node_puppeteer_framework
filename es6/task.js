@@ -7,6 +7,10 @@
 import Register from './libs/Register'
 // 待注册模块列表
 import ComicTask from "./cli/Task/ComicTask";
+import Conf from "./conf";
+
+// 初始化配置文件
+Conf.load_config(process.argv)
 
 const app = new Register()
 app.bootstrap()

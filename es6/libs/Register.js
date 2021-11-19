@@ -8,31 +8,36 @@
 import Log from '../tools/Log'
 
 export default class Register {
+    // 初始化
     bootstrap() {
         const ars = process.argv
+
         this.load_module = undefined === ars[2] ? undefined : ars[2];
         this.load_action = undefined === ars[3] ? undefined : ars[3];
 
         this.resgist_list = {}
         return this
     }
+
     // 注册
     use(___alias, ___module) {
         this.resgist_list[___alias] = ___module
         return this;
     }
+
     // 检测模块
     get_action() {
         const run_module = this.resgist_list[this.load_module]
-        if(undefined === run_module) {
+        if (undefined === run_module) {
             Log.log(this.load_module + ' 模块---不存在')
         }
         const run_action = run_module[this.load_action]
-        if(undefined === run_action) {
+        if (undefined === run_action) {
             Log.log(this.load_action + ' 方法---不存在')
         }
         return run_action
     }
+
     // 启动
     run() {
         const program = this.get_action()

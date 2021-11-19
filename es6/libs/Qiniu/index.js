@@ -6,7 +6,7 @@
 // ----------------------------------------------------------------------
 
 import * as QiNiuSDk from 'qiniu'
-import {QINIU_CONFIG} from "../../conf";
+import {QINIU_COMIC} from "../../conf";
 
 /**
  * let upload = new QiNiu()
@@ -19,13 +19,13 @@ export default class QiNiu {
             console.log("已生成 mac ")
             return _this
         }
-        this.app_id = QINIU_CONFIG.access_key;
-        this.app_secret = QINIU_CONFIG.secret_key;
+        this.app_id = QINIU_COMIC.access_key;
+        this.app_secret = QINIU_COMIC.secret_key;
         if (this.app_id === "" || this.app_secret === "") {
-            throw new Error("初始化七牛上传失败，请完成 es6/conf/business_comic.js 中 QINIU_CONFIG 配置")
+            throw new Error("初始化七牛上传失败，请完成 es6/conf/business_comic.js 中 QINIU_COMIC 配置")
         }
-        this.bucket = QINIU_CONFIG.bucket;
-        this.cdn_host = QINIU_CONFIG.cdn_host; // 示例 http://tencent.cdn.hlzblog.top
+        this.bucket = QINIU_COMIC.bucket;
+        this.cdn_host = QINIU_COMIC.cdn_host; // 示例 http://tencent.cdn.hlzblog.top
         this.mac = new QiNiuSDk.auth.digest.Mac(this.app_id, this.app_secret)
     }
 
@@ -51,7 +51,7 @@ export default class QiNiu {
     get_pic_src(to_path) {
         let _this = this
         //http://tencent.cdn.hlzblog.top/app/avatar/159828116110872.jpg
-        this.cdn_host = QINIU_CONFIG.cdn_host;
+        this.cdn_host = QINIU_COMIC.cdn_host;
         let src = `${_this.cdn_host}/${to_path}`
         return src
     }
@@ -82,7 +82,7 @@ export default class QiNiu {
                 resolve(src)
             });
         }).catch(err => {
-            console.log("QiNiuSDk.stack  " , err);
+            console.log("QiNiuSDk.stack  ", err);
         });
 
 

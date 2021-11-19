@@ -9,15 +9,14 @@
 // GITHUB: https://github.com/HaleyLeoZhang
 // ----------------------------------------------------------------------
 import redis from 'redis'
-import { DSN_CACHE, CACHE_PREFIX } from '../../conf/db/redis'
-import Log from '../../tools/Log'
 
 
 class Helper {
     static get_real_key(name, key) {
-        const real_key = [CACHE_PREFIX, name, key].join(':')
+        const real_key = [name, key].join(':')
         return real_key
     }
+
     static set_data_sync(redis_client, real_key, data_str, is_EX, ttl, type) {
 
         return new Promise((resolve) => {
@@ -43,7 +42,7 @@ export default class BaseCache {
     static async get_redis() {
         // 单例获取
         if (!this.instance) {
-            const client = redis.createClient(DSN_CACHE);
+            const client = redis.createClient(REDIS_COMIC);
             await new Promise((resolve) => {
                 client.on('connect', () => {
                     resolve(true)
@@ -64,18 +63,22 @@ export default class BaseCache {
         //     client.quit();
         // });
     }
+
     // 缓存名称
     static get_name() {
         throw new Error("请重写 get_name 方法，返回 {缓存名}")
     }
+
     // 缓存秒数
     static get_ttl() {
         throw new Error("请重写 get_ttl 方法，返回秒数")
     }
+
     // 缓存类型
     static get_type() {
         throw new Error("请重写 get_type 方法，返回数据类型： string、object")
     }
+
     // 缓存数据
     static async set_data(key, data, is_lock) {
         is_lock = undefined === is_lock ? false : true
@@ -104,6 +107,7 @@ export default class BaseCache {
         }
         return res
     }
+
     static async get_data(key) {
         const redis_client = await this.get_redis()
 
@@ -126,6 +130,7 @@ export default class BaseCache {
             });
         });
     }
+
     static async delete_data(key) {
         const redis_client = await this.get_redis()
 
@@ -138,6 +143,7 @@ export default class BaseCache {
         const res = redis_client.expire(real_key, ttl);
         return res
     }
+
     // 获取数据
 
 }

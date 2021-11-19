@@ -6,8 +6,7 @@
 复制初始配置文件  
 
 ~~~bash
-cp -r es6/conf.sample es6/conf
+cp -r app.example.yaml app.yaml
 ~~~
 
 本次表结构请看目录 `sqls/` 建表  
-请根据到目录 `es6/conf/db/mysql.js` 配置 `mysql`、`redis`、浏览器(chromium或者chrome)应用地址  
