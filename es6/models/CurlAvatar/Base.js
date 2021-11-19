@@ -5,12 +5,12 @@
 // GITHUB: https://github.com/HaleyLeoZhang
 // ----------------------------------------------------------------------
 
-import { DSN_COMIC } from '../../conf/db/mysql'
 import BaseModel from '../../libs/Base/BaseModel'
+import {DB_COMIC} from "../../conf";
 
 class Base extends BaseModel {
     static get_dsn(){
-        return DSN_COMIC // 注入数据库配置
+        return DB_COMIC // 注入数据库配置
     }
 }
 

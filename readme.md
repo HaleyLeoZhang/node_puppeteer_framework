@@ -59,7 +59,7 @@
 复制初始配置文件  
 
 ~~~bash
-cp -r es6/conf.sample es6/conf
+cp -r es6/conf es6/conf
 ~~~
 
 本次表结构请看目录 [storage/sql/](storage/sql/) 建表语句及当前可用的部分数据  

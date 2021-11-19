@@ -1,16 +1,17 @@
+# HTTP 配置
+http_port: 4040
+
 # DB配置
 db_comic: # 模块专属 中间件
   write: # 主库列表
-    -
-      host: '127.0.0.1'
+    - host: '127.0.0.1'
       port: 3306
       user: 'root'
       password: ''
       database: 'curl_avatar'
       connection_limit: 5 # 连接池配置:维持链接数,理论上10个应该够了
   read: # 从库列表
-    -
-      host: '127.0.0.1'
+    - host: '127.0.0.1'
       port: 3306
       user: 'root'
       password: ''

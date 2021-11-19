@@ -6,38 +6,11 @@
 // ----------------------------------------------------------------------
 
 import Log from '../tools/Log'
-import * as yaml from 'js-yaml'
-import * as  fs from 'fs';
-
-const DEFAULT_CONFIG_PATH = '/app/app.yaml' // 配置文件默认位置
 
 export default class Register {
-    // 读取配置文件
-    read_config(ars) {
-        let config_path = DEFAULT_CONFIG_PATH
-        for (let i = 0, len_ars = ars.length; i < len_ars; i++){
-            let one = ars[i]
-            let res_config = one.match(/--conf=(.*)"/i)
-            if (res_config !== null) {
-                config_path = res_config[1].trim(" ")
-            }
-        }
-        // TODO 读取配置文件
-        try {
-            const doc = yaml.load(fs.readFileSync(config_path, 'utf8'));
-            console.log(doc);
-        } catch (e) {
-            console.log("读取配置文件失败");
-            console.log(e);
-        }
-        // TODO 载入配置文件
-    }
-
     // 初始化
     bootstrap() {
         const ars = process.argv
-
-        this.read_config(ars)
 
         this.load_module = undefined === ars[2] ? undefined : ars[2];
         this.load_action = undefined === ars[3] ? undefined : ars[3];
