@@ -38,9 +38,9 @@ export default class Conf {
     // 注入参数
     static ini_doc(doc) {
         BROWSER = {
-            executablePath: doc.puppeteer_comic.executablePath,
+            executablePath: doc.puppeteer_comic.executable_path,
             timeout: doc.puppeteer_comic.timeout,
-            ignoreHTTPSErrors: doc.puppeteer_comic.executablePath,
+            ignoreHTTPSErrors: doc.puppeteer_comic.ignore_https_errors,
             devtools: doc.puppeteer_comic.devtools,
             headless: doc.puppeteer_comic.headless
         }

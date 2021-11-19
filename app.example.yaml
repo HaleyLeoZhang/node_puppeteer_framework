@@ -65,7 +65,7 @@ log:
   path: '/tmp/comic' # 日志存放位置
 
 # Sentry 异常采集  更多请访问 https://sentry.io/
-sentry_dsn: 'https://dfe6457f6176454d8c27edc2f8752741@o481346.ingest.sentry.io/5584132' # 异常上报地址
+sentry_dsn: '' # 异常上报地址
 
 # 七牛云上传配置 - 暂不配置
 qiniu_comic:
