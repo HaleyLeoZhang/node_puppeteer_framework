@@ -12,9 +12,9 @@
 // ----------------------------------------------------------------------
 
 import amqp from 'amqplib'
-import {DSN_AMQP} from '../../conf/mq/amqp'
 import TimeTool from "../../tools/TimeTool";
 import SafeBuffer from 'safe-buffer'
+import {RABBIT_MQ} from "../../conf";
 // const Buffer = require('safe-buffer').Buffer;
 
 const Buffer = SafeBuffer.Buffer
@@ -98,7 +98,7 @@ export default class RabbitMQ {
      * @return promise
      */
     get_conn() {
-        const Dial = `amqp://${DSN_AMQP.user}:${DSN_AMQP.password}@${DSN_AMQP.host}:${DSN_AMQP.port}${DSN_AMQP.vhost}`
+        const Dial = `amqp://${RABBIT_MQ.user}:${RABBIT_MQ.password}@${RABBIT_MQ.host}:${RABBIT_MQ.port}${RABBIT_MQ.vhost}`
         return amqp.connect(Dial)
     }
 

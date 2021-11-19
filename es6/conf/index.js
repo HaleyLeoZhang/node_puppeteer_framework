@@ -9,7 +9,6 @@ import * as yaml from "js-yaml";
 
 const APP_PATH = __dirname + '/../../'
 
-import General from '../tools/General'
 import fs from "fs";
 
 
@@ -27,7 +26,13 @@ let BROWSER = {}, // 浏览器配置
     },
     HTTP_PORT = 4040, // HTTP 服务端口
     RABBIT_MQ = {}, // RabbitMQ 配置
-    DB_COMIC = {} // 图片的Mysql数据库配置
+    DB_COMIC = {}, // Mysql数据库配置
+    REDIS_COMIC = { // 缓存配置
+        // host: '192.168.56.110',
+        // port: 6379,
+        // password: '',
+        // db: 0,
+    }
 
 export default class Conf {
     // 注入参数
@@ -61,6 +66,12 @@ export default class Conf {
             read: doc.db_comic.read,
             write: doc.db_comic.write,
         }
+        REDIS_COMIC = {
+            host: doc.db_comic.host,
+            port: doc.db_comic.port,
+            password: doc.db_comic.password,
+            db: doc.db_comic.db,
+        }
     }
 
     // 读取配置
@@ -89,6 +100,7 @@ export {
     HTTP_PORT,
     RABBIT_MQ,
     DB_COMIC,
+    REDIS_COMIC,
 };
 
 

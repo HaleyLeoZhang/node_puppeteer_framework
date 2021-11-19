@@ -1,8 +1,9 @@
+@use "sass:math";
 /**
  * 栅格系统
  * 同义  https://www.runoob.com/bootstrap/bootstrap-grid-system.html
  */
-$one_in_12 : (100/ 12);
+$one_in_12 : math.div(100, 12);
 $block_of_6: ($one_in_12 * 6) ;
 $block_of_4: ($one_in_12 * 4) ;
 $block_of_3: ($one_in_12 * 3) ;

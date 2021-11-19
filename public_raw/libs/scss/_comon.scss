@@ -1,3 +1,5 @@
+@use "sass:math";
+
 $base-font-size: 16px;
 html,
 body {
@@ -84,13 +86,9 @@ a {
 /**
  * 计算像素
  */
-
 @function px2rem($px) {
-    @return ($px / $base-font-size) * 1rem;
+    @return math.div($px, $base-font-size) * 1rem;
 }
-
-
-
 
 
 /**
