@@ -11,7 +11,7 @@ for((;;))
 do
     # 定时通知抓取
     echo "推送中"
-    /usr/local/bin/node /app/es5/task.js comic notify_sub_all
+    /usr/local/bin/node /app/dist/task comic notify_sub_all
     echo "推送成功"
     sleep_second=3600
     echo "正在挂起 ${sleep_second} 秒"
