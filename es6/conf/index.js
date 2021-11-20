@@ -86,7 +86,7 @@ export default class Conf {
         }
         const doc = yaml.load(fs.readFileSync(config_path, 'utf8'));
         // console.log(doc); // 配置文件日常这里
-        Conf.load_config(doc)
+        Conf.ini_doc(doc)
     }
 }
 
