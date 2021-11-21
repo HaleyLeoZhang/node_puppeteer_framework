@@ -38,8 +38,12 @@ export default class SupplierData {
             'related_id': related_id,
             'channel': [
                 FIELD_CHANNEL.GU_FENG,
+                FIELD_CHANNEL.KU_MAN_WU,
             ],
-            'status': FIELD_STATUS.ONLINE,
+            'status': [
+                FIELD_STATUS.OFFLINE,
+                FIELD_STATUS.ONLINE,
+            ],
             'ORDER': {"id": "ASC"},
         }
         const results = await Supplier.select(where)
