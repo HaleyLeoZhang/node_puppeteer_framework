@@ -31,9 +31,10 @@ export default class GuFengService extends Base {
                 let name = $(".book-title").find("span").text()
                 let pic = $(".book-cover").find("img").attr("src")
                 let intro = $("#intro-all").text().trim("")
-                Log.ctxInfo(ctx, "数据如下", {name, pic, intro})
+                let res = {name, pic, intro}
+                Log.ctxInfo(ctx, "数据如下" + JSON.stringify(res))
                 Log.ctxInfo(ctx, `拉取结束 source_id ${source_id} 基本信息`)
-                return {name, pic, intro}
+                return res
             })
     }
 

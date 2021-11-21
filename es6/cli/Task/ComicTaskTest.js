@@ -25,6 +25,7 @@ export default class ComicTaskTest extends BaseTask {
         let list = await GuFengService.get_image_list(ctx, url)
         console.log(list)
     }
+
     static async eval_script_2() {
         let ctx = ContextTool.initial() // 每次拉取都是一个新的上下文
         let url = "http://www.sixmh7.com/17128/703818.html"
@@ -35,16 +36,16 @@ export default class ComicTaskTest extends BaseTask {
     static async supplier_image() {
         let ctx = ContextTool.initial() // 每次拉取都是一个新的上下文
         let url = "https://www.gufengmh8.com/manhua/bailianchengshen/1447913.html"
-        let payload = {
-            "id": 14,
-            "url": url,
-        }
+        let payload ={"id":45659,"link":"http://www.kmwu6.com//23761/1220513.html"}
+
+
         await TaskLogic.supplier_image(ctx, payload)
     }
+
     static async supplier_base() {
         let ctx = ContextTool.initial() // 每次拉取都是一个新的上下文
         let payload = {
-            "id": 14, // 渠道ID
+            "id": 53, // 渠道ID
         }
         try {
             Log.ctxInfo(ctx, 'base_supplier_consumer.start')
@@ -59,6 +60,26 @@ export default class ComicTaskTest extends BaseTask {
             Log.ctxError(ctx, 'base_supplier_consumer.CONSUMER_ERROR  ' + err.stack)
         }
     }
+
+    static async supplier_chapter() {
+        let ctx = ContextTool.initial() // 每次拉取都是一个新的上下文
+        let payload = {
+            "id": 53, // 渠道ID
+        }
+        try { // 2333
+            Log.ctxInfo(ctx, 'supplier_chapter_consumer start')
+            let result = await TaskLogic.supplier_chapter(ctx, payload)
+            if (result === CONST_BUSINESS_COMIC.TASK_FAILED) {
+                throw new Error("TASK_FAILED");
+            }
+            Log.ctxInfo(ctx, 'supplier_chapter_consumer success  ' + JSON.stringify(payload))
+            return ACK_YES
+        } catch (err) {
+            Log.ctxInfo(ctx, 'supplier_chapter_consumer payload  ' + JSON.stringify(payload))
+            Log.ctxError(ctx, 'supplier_chapter_consumer CONSUMER_ERROR  ' + err.stack)
+        }
+    }
+
     static async mq_timeout() {
         const mq = new RabbitMQ();
         mq.set_exchange(CONST_AMQP.AMQP_EXCHANGE_TOPIC)

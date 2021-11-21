@@ -9,6 +9,7 @@ import Supplier from './'
 import {FIELD_CHANNEL, FIELD_STATUS} from "./Enum";
 import GuFengService from "../../../services/Comic/GuFengService";
 import LiuManHuaService from "../../../services/Comic/LiuManHuaService";
+import KuManWuService from "../../../services/Comic/KuManWuervice";
 
 export default class SupplierData {
     /**
@@ -35,6 +36,9 @@ export default class SupplierData {
     static async get_list_by_related_id(related_id) {
         const where = {
             'related_id': related_id,
+            'channel': [
+                FIELD_CHANNEL.GU_FENG,
+            ],
             'status': FIELD_STATUS.ONLINE,
             'ORDER': {"id": "ASC"},
         }
@@ -71,8 +75,6 @@ export default class SupplierData {
     static async get_one_by_id(id) {
         const where = {
             'id': id,
-            'ORDER': {"id": "ASC"},
-            'LIMIT': 1,
         }
         const results = await Supplier.select(where)
         if (0 === results.length) {
@@ -121,6 +123,9 @@ export default class SupplierData {
             case FIELD_CHANNEL.LIU_MAN_HUA:
                 text = '六漫画'
                 break;
+            case FIELD_CHANNEL.KU_MAN_WU:
+                text = '酷漫屋'
+                break;
         }
         return text
     }
@@ -136,6 +141,9 @@ export default class SupplierData {
                 break;
             case FIELD_CHANNEL.LIU_MAN_HUA:
                 href =`${LiuManHuaService.get_base_href()}/${source_id}/`
+                break;
+            case FIELD_CHANNEL.KU_MAN_WU:
+                href =`${KuManWuService.get_base_href()}/${source_id}/`
                 break;
         }
         return href

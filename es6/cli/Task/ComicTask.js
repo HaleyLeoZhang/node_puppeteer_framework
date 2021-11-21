@@ -43,16 +43,16 @@ export default class ComicTask extends BaseTask {
         await mq.pull(async (payload) => {
             let ctx = ContextTool.initial() // 每次拉取都是一个新的上下文
             try {
-                Log.ctxInfo(ctx, 'base_consumer.start')
+                Log.ctxInfo(ctx, 'base_consumer start')
                 let result = await TaskLogic.comic_base(ctx, payload)
                 if (result === CONST_BUSINESS_COMIC.TASK_FAILED) {
                     throw new Error("TASK_FAILED");
                 }
-                Log.ctxInfo(ctx, 'base_consumer.success  ' + JSON.stringify(payload))
+                Log.ctxInfo(ctx, 'base_consumer success  ' + JSON.stringify(payload))
                 return ACK_YES
             } catch (err) {
-                Log.ctxInfo(ctx, 'base_consumer.payload  ' + JSON.stringify(payload))
-                Log.ctxError(ctx, 'base_consumer.CONSUMER_ERROR  ' + err.stack)
+                Log.ctxInfo(ctx, 'base_consumer payload  ' + JSON.stringify(payload))
+                Log.ctxError(ctx, 'base_consumer CONSUMER_ERROR  ' + err.stack)
             }
             return ACK_NO
         })
@@ -73,16 +73,16 @@ export default class ComicTask extends BaseTask {
         await mq.pull(async (payload) => {
             let ctx = ContextTool.initial() // 每次拉取都是一个新的上下文
             try {
-                Log.ctxInfo(ctx, 'base_supplier_consumer.start')
+                Log.ctxInfo(ctx, 'base_supplier_consumer start')
                 let result = await TaskLogic.supplier_base(ctx, payload)
                 if (result === CONST_BUSINESS_COMIC.TASK_FAILED) {
                     throw new Error("TASK_FAILED");
                 }
-                Log.ctxInfo(ctx, 'base_supplier_consumer.success  ' + JSON.stringify(payload))
+                Log.ctxInfo(ctx, 'base_supplier_consumer success  ' + JSON.stringify(payload))
                 return ACK_YES
             } catch (err) {
-                Log.ctxInfo(ctx, 'base_supplier_consumer.payload  ' + JSON.stringify(payload))
-                Log.ctxError(ctx, 'base_supplier_consumer.CONSUMER_ERROR  ' + err.stack)
+                Log.ctxInfo(ctx, 'base_supplier_consumer payload  ' + JSON.stringify(payload))
+                Log.ctxError(ctx, 'base_supplier_consumer CONSUMER_ERROR  ' + err.stack)
             }
             return ACK_NO
         })
@@ -102,16 +102,16 @@ export default class ComicTask extends BaseTask {
         await mq.pull(async (payload) => {
             let ctx = ContextTool.initial() // 每次拉取都是一个新的上下文
             try {
-                Log.ctxInfo(ctx, 'supplier_chapter_consumer.start')
+                Log.ctxInfo(ctx, 'supplier_chapter_consumer start')
                 let result = await TaskLogic.supplier_chapter(ctx, payload)
                 if (result === CONST_BUSINESS_COMIC.TASK_FAILED) {
                     throw new Error("TASK_FAILED");
                 }
-                Log.ctxInfo(ctx, 'supplier_chapter_consumer.success  ' + JSON.stringify(payload))
+                Log.ctxInfo(ctx, 'supplier_chapter_consumer success  ' + JSON.stringify(payload))
                 return ACK_YES
             } catch (err) {
-                Log.ctxInfo(ctx, 'supplier_chapter_consumer.payload  ' + JSON.stringify(payload))
-                Log.ctxError(ctx, 'supplier_chapter_consumer.CONSUMER_ERROR  ' + err.stack)
+                Log.ctxInfo(ctx, 'supplier_chapter_consumer payload  ' + JSON.stringify(payload))
+                Log.ctxError(ctx, 'supplier_chapter_consumer CONSUMER_ERROR  ' + err.stack)
             }
             return ACK_NO
         })
@@ -131,16 +131,16 @@ export default class ComicTask extends BaseTask {
         await mq.pull(async (payload) => {
             let ctx = ContextTool.initial() // 每次拉取都是一个新的上下文
             try {
-                Log.ctxInfo(ctx, 'supplier_image_consumer.start')
+                Log.ctxInfo(ctx, 'supplier_image_consumer start')
                 let result = await TaskLogic.supplier_image(ctx, payload)
                 if (result === CONST_BUSINESS_COMIC.TASK_FAILED) {
                     throw new Error("TASK_FAILED");
                 }
-                Log.ctxInfo(ctx, 'supplier_image_consumer.success  ' + JSON.stringify(payload))
+                Log.ctxInfo(ctx, 'supplier_image_consumer success  ' + JSON.stringify(payload))
                 return ACK_YES
             } catch (err) {
-                Log.ctxInfo(ctx, 'supplier_image_consumer.payload  ' + JSON.stringify(payload))
-                Log.ctxError(ctx, 'supplier_image_consumer.CONSUMER_ERROR  ' + err.stack)
+                Log.ctxInfo(ctx, 'supplier_image_consumer payload  ' + JSON.stringify(payload))
+                Log.ctxError(ctx, 'supplier_image_consumer CONSUMER_ERROR  ' + err.stack)
             }
             return ACK_NO
         })
@@ -153,15 +153,15 @@ export default class ComicTask extends BaseTask {
         let ctx = ContextTool.initial()
         let comic_id = undefined
         try {
-            Log.ctxInfo(ctx, 'spider_notify_all.start')
+            Log.ctxInfo(ctx, 'spider_notify_all start')
             let result = await TaskLogic.notify_sub(ctx, comic_id)
             if (result === CONST_BUSINESS_COMIC.TASK_FAILED) {
                 throw new Error("TASK_FAILED");
             }
-            Log.ctxInfo(ctx, 'spider_notify_all.success  ' + comic_id)
+            Log.ctxInfo(ctx, 'spider_notify_all success  ' + comic_id)
         } catch (err) {
-            Log.ctxInfo(ctx, 'spider_notify_all.payload  ' + comic_id)
-            Log.ctxError(ctx, 'spider_notify_all.CONSUMER_ERROR  ' + err.stack)
+            Log.ctxInfo(ctx, 'spider_notify_all payload  ' + comic_id)
+            Log.ctxError(ctx, 'spider_notify_all CONSUMER_ERROR  ' + err.stack)
         }
     }
 }

@@ -16,6 +16,7 @@ import {FIELD_STATUS} from "../../models/CurlAvatar/SupplierChapter/Enum";
 import {FIELD_STATUS as IMAGE_FIELD_STATUS} from "../../models/CurlAvatar/SupplierImage/Enum";
 import LiuManHuaService from "../../services/Comic/LiuManHuaService";
 import General from "../../tools/General";
+import KuManWuService from "../../services/Comic/KuManWuervice";
 
 export default class TaskLogic extends Base {
     static async comic_base(ctx, payload) {
@@ -78,11 +79,14 @@ export default class TaskLogic extends Base {
             case FIELD_CHANNEL.GU_FENG:
                 spider_info = await GuFengService.get_base_info(ctx, one_supplier.source_id)
                 break;
-            case FIELD_CHANNEL.QI_MAN_WU:
-                // TODO
-                break;
-            case FIELD_CHANNEL.LIU_MAN_HUA:
-                spider_info = await LiuManHuaService.get_base_info(ctx, one_supplier.source_id)
+            // case FIELD_CHANNEL.QI_MAN_WU:
+            //     // TODO
+            //     break;
+            // case FIELD_CHANNEL.LIU_MAN_HUA:
+            //     spider_info = await LiuManHuaService.get_base_info(ctx, one_supplier.source_id)
+            //     break;
+            case FIELD_CHANNEL.KU_MAN_WU:
+                spider_info = await KuManWuService.get_base_info(ctx, one_supplier.source_id)
                 break;
             default:
                 Log.ctxWarn(ctx, 'channel 异常')
@@ -142,11 +146,14 @@ export default class TaskLogic extends Base {
                 let tab_name = one_supplier.ext_1
                 supplier_list = await GuFengService.get_chapter_list(ctx, one_supplier.source_id, tab_name)
                 break;
-            case FIELD_CHANNEL.QI_MAN_WU:
-                // TODO
-                break;
-            case FIELD_CHANNEL.LIU_MAN_HUA:
-                supplier_list = await LiuManHuaService.get_chapter_list(ctx, one_supplier.source_id)
+            // case FIELD_CHANNEL.QI_MAN_WU:
+            //     // TODO
+            //     break;
+            // case FIELD_CHANNEL.LIU_MAN_HUA:
+            //     supplier_list = await LiuManHuaService.get_chapter_list(ctx, one_supplier.source_id)
+            //     break;
+            case FIELD_CHANNEL.KU_MAN_WU:
+                supplier_list = await KuManWuService.get_chapter_list(ctx, one_supplier.source_id)
                 break;
             default:
                 Log.ctxWarn(ctx, 'channel 异常')
@@ -254,11 +261,14 @@ export default class TaskLogic extends Base {
             case FIELD_CHANNEL.GU_FENG:
                 image_list = await GuFengService.get_image_list(ctx, link)
                 break;
-            case FIELD_CHANNEL.QI_MAN_WU:
-                // TODO
-                break;
-            case FIELD_CHANNEL.LIU_MAN_HUA:
-                image_list = await LiuManHuaService.get_image_list(ctx, link)
+            // case FIELD_CHANNEL.QI_MAN_WU:
+            //     // TODO
+            //     break;
+            // case FIELD_CHANNEL.LIU_MAN_HUA:
+            //     image_list = await LiuManHuaService.get_image_list(ctx, link)
+            //     break;
+            case FIELD_CHANNEL.KU_MAN_WU:
+                image_list = await KuManWuService.get_image_list(ctx, link)
                 break;
             default:
                 Log.ctxWarn(ctx, 'channel 异常')
