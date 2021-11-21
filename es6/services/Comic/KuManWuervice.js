@@ -120,10 +120,8 @@ export default class KuManWuService extends Base {
                 console.log('raw_data', raw_data)
                 for (let i = 0, len_data = raw_data.length; i < len_data; i++) {
                     let one_image = raw_data[i].split("|")[1].trim("\\r");
-                    console.log('one_image', one_image )
                     image_list.push(one_image)
                 }
-                console.log('image_list', image_list)
                 // 破解结束
                 Log.ctxInfo(ctx, `拉取结束 target_url ${target_url} 总计图片数 ${image_list.length}`)
                 return image_list
