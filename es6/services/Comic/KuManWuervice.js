@@ -30,8 +30,8 @@ export default class KuManWuService extends Base {
             .then(res => res.text())
             .then(html => {
                 const $ = cheerio.load(html);
-                let name = $(".info").find("h1").text()
-                let pic = $(".info .cover img").eq(0).attr("src")
+                let name = $(".info h1").eq(0).text()
+                let pic = $(".cover img").eq(0).attr("src")
                 let intro = $(".info .content").eq(0).text()
                     .trim("")
                     .replace("漫画简介：", "")
