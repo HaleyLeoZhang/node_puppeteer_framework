@@ -30,15 +30,16 @@ export default class TaskLogic extends Base {
         // 判断事件
         switch (event) {
             case CONST_BUSINESS_COMIC.EVENT_SUBSCRIBE:
+                // 设置默认渠道
+                const supplier_default_id = await SupplierData.get_supplier_id_by_weight(comic_id);
+                await ComicData.set_default_supplier(comic_id, supplier_default_id)
+                // 渠道信息
                 const supplier_list = await SupplierData.get_list_by_related_id(comic_id);
                 let insert_len = supplier_list.length
                 if (insert_len === 0) {
                     Log.ctxInfo(ctx, '暂无渠道')
                     break;
                 }
-                // 设置默认渠道
-                const supplier_default_id = await SupplierData.get_supplier_id_by_weight(comic_id);
-                await ComicData.set_default_supplier(comic_id, supplier_default_id)
 
                 const mq = new RabbitMQ();
                 mq.set_exchange(CONST_AMQP.AMQP_EXCHANGE_TOPIC)
