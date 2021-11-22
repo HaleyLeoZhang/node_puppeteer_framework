@@ -6,7 +6,7 @@
 // ----------------------------------------------------------------------
 
 import Comic from './'
-import {AVAILABLE_STATUS_LIST} from "./Enum";
+import {AVAILABLE_STATUS_LIST, FIELD_STATUS} from "./Enum";
 
 export default class ComicData {
     /**
@@ -44,8 +44,13 @@ export default class ComicData {
         const where = {
             'id': id,
         }
-        const update = {
+        let update = {
             'related_id': supplier_id,
+        }
+        if (supplier_id == 0) { // 如果没有渠道，就下线
+            update = {
+                "status": FIELD_STATUS.OFFLINE
+            }
         }
         return Comic.update(update, where)
     }
