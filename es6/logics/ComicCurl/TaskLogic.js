@@ -36,6 +36,13 @@ export default class TaskLogic extends Base {
                     Log.ctxInfo(ctx, '暂无渠道')
                     break;
                 }
+                // 设置默认渠道
+                const supplier_default_id = await SupplierData.get_supplier_id_by_weight(comic_id);
+                if(supplier_default_id != 0){
+                    await ComicData.set_default_supplier(comic_id, supplier_default_id)
+                    Log.ctxInfo(ctx, `supplier_default_id ${supplier_default_id}`)
+                }
+
                 const mq = new RabbitMQ();
                 mq.set_exchange(CONST_AMQP.AMQP_EXCHANGE_TOPIC)
                 mq.set_routing_key(CONST_AMQP.AMQP_ROUTING_KEY_SUPPLIER_BASE)

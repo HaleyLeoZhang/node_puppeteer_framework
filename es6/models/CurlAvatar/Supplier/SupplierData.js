@@ -53,6 +53,32 @@ export default class SupplierData {
         return results
     }
 
+
+    /**
+     * 获取最权重最高的有效渠道
+     * @param int related_id 漫画ID
+     * @return int
+     */
+    static async get_supplier_id_by_weight(related_id) {
+        const where = {
+            'related_id': related_id,
+            'channel': [
+                FIELD_CHANNEL.GU_FENG,
+                FIELD_CHANNEL.KU_MAN_WU,
+            ],
+            'status': [
+                FIELD_STATUS.ONLINE,
+            ],
+            'ORDER': {"weight": "DESC"},
+            'LIMIT': 1,
+        }
+        const results = await Supplier.select(where)
+        if (0 === results.length) {
+            return 0
+        }
+        return results[0].id
+    }
+
     /**
      * 查询漫画当前未被删除的渠道信息
      * @param int related_id 漫画ID
@@ -141,13 +167,13 @@ export default class SupplierData {
         let href = ''
         switch (parseInt(channel)) {
             case FIELD_CHANNEL.GU_FENG:
-                href =`${GuFengService.get_base_href()}/manhua/${source_id}/`
+                href = `${GuFengService.get_base_href()}/manhua/${source_id}/`
                 break;
             case FIELD_CHANNEL.LIU_MAN_HUA:
-                href =`${LiuManHuaService.get_base_href()}/${source_id}/`
+                href = `${LiuManHuaService.get_base_href()}/${source_id}/`
                 break;
             case FIELD_CHANNEL.KU_MAN_WU:
-                href =`${KuManWuService.get_base_href()}/${source_id}/`
+                href = `${KuManWuService.get_base_href()}/${source_id}/`
                 break;
         }
         return href

@@ -16,7 +16,7 @@ debug_supplier:
 	@clear
 	@rm -rf ./dist/app
 	@node ./node_modules/@vercel/ncc/dist/ncc/cli.js build ./es6/app.js -m -o ./dist/app
-	@node ./dist/app comic_test supplier_base --conf="D:/own_files/codes/own/node_puppeteer_framework/app.yaml"
+	@node ./dist/app comic_test comic_base --conf="D:/own_files/codes/own/node_puppeteer_framework/app.yaml"
 
 
 install:

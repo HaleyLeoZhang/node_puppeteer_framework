@@ -7,6 +7,7 @@
 
 import Comic from './'
 import {FIELD_STATUS} from "../Comic/Enum";
+import Log from "../../../tools/Log";
 
 export default class ComicData {
     /**
@@ -17,8 +18,6 @@ export default class ComicData {
     static async get_comic_by_id(id) {
         const where = {
             'id': id,
-            'ORDER': {"id": "asc"},
-            'LIMIT': 1,
         }
         const results = await Comic.select(where)
         if (0 === results.length) {
@@ -37,6 +36,21 @@ export default class ComicData {
         }
         return Comic.update(update, where)
     }
+
+    /**
+     * 设置默认渠道
+     * @return Promise
+     */
+    static set_default_supplier(id, supplier_id) {
+        const where = {
+            'id': id,
+        }
+        const update = {
+            'related_id': supplier_id,
+        }
+        return Comic.update(update, where)
+    }
+
 
     /**
      * 获取当前未删除的漫画列表

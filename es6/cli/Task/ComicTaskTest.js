@@ -42,6 +42,27 @@ export default class ComicTaskTest extends BaseTask {
         await TaskLogic.supplier_image(ctx, payload)
     }
 
+
+    static async comic_base() {
+        let ctx = ContextTool.initial() // 每次拉取都是一个新的上下文
+        let payload = {
+            "id": 1,
+            "event":"sub"
+        }
+        try {
+            Log.ctxInfo(ctx, 'comic_base start')
+            let result = await TaskLogic.comic_base(ctx, payload)
+            if (result === CONST_BUSINESS_COMIC.TASK_FAILED) {
+                throw new Error("TASK_FAILED");
+            }
+            Log.ctxInfo(ctx, 'comic_base success  ' + JSON.stringify(payload))
+            return ACK_YES
+        } catch (err) {
+            Log.ctxInfo(ctx, 'comic_base payload  ' + JSON.stringify(payload))
+            Log.ctxError(ctx, 'comic_base CONSUMER_ERROR  ' + err.stack)
+        }
+    }
+
     static async supplier_base() {
         let ctx = ContextTool.initial() // 每次拉取都是一个新的上下文
         let payload = {
