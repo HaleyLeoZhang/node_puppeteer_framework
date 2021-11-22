@@ -22,6 +22,11 @@ const FIELD_STATUS = {
     "ONLINE": 200,
 }
 
+// 有效状态数据列表
+const AVAILABLE_STATUS_LIST = [
+    FIELD_STATUS.OFFLINE, FIELD_STATUS.ONLINE
+]
+
 //  `ext_1` varchar(50) NOT NULL DEFAULT '' COMMENT '扩展字段1.针对不同场景使用',
 const FIELD_EXT_1 = {
     // TODO
@@ -30,4 +35,5 @@ export {
     FIELD_CHANNEL,
     FIELD_STATUS,
     FIELD_EXT_1,
+    AVAILABLE_STATUS_LIST,
 }

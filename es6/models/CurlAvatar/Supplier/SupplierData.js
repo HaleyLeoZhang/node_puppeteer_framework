@@ -6,7 +6,7 @@
 // ----------------------------------------------------------------------
 
 import Supplier from './'
-import {FIELD_CHANNEL, FIELD_STATUS} from "./Enum";
+import {AVAILABLE_STATUS_LIST, FIELD_CHANNEL, FIELD_STATUS} from "./Enum";
 import GuFengService from "../../../services/Comic/GuFengService";
 import LiuManHuaService from "../../../services/Comic/LiuManHuaService";
 import KuManWuService from "../../../services/Comic/KuManWuervice";
@@ -40,10 +40,7 @@ export default class SupplierData {
                 FIELD_CHANNEL.GU_FENG,
                 FIELD_CHANNEL.KU_MAN_WU,
             ],
-            'status': [
-                FIELD_STATUS.OFFLINE,
-                FIELD_STATUS.ONLINE,
-            ],
+            'status': AVAILABLE_STATUS_LIST,
             'ORDER': {"id": "ASC"},
         }
         const results = await Supplier.select(where)

@@ -6,8 +6,7 @@
 // ----------------------------------------------------------------------
 
 import Comic from './'
-import {FIELD_STATUS} from "../Comic/Enum";
-import Log from "../../../tools/Log";
+import {AVAILABLE_STATUS_LIST} from "./Enum";
 
 export default class ComicData {
     /**
@@ -58,7 +57,7 @@ export default class ComicData {
      */
     static async get_list_available() {
         const where = {
-            'status': [FIELD_STATUS.OFFLINE, FIELD_STATUS.ONLINE],
+            'status': AVAILABLE_STATUS_LIST,
             'ORDER': {"weight": "DESC"},
         }
         const results = await Comic.select(where)

@@ -20,7 +20,13 @@ const FIELD_STATUS = {
     "ONLINE": 200,
 }
 
+// 有效状态数据列表
+const AVAILABLE_STATUS_LIST = [
+    FIELD_STATUS.OFFLINE, FIELD_STATUS.ONLINE
+]
+
 export {
     FIELD_METHOD,
     FIELD_STATUS,
+    AVAILABLE_STATUS_LIST,
 }
