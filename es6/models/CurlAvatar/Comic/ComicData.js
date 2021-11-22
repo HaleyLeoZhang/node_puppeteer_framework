@@ -47,10 +47,8 @@ export default class ComicData {
         let update = {
             'related_id': supplier_id,
         }
-        if (supplier_id == 0) { // 如果没有渠道，就下线
-            update = {
-                "status": FIELD_STATUS.OFFLINE
-            }
+        if (supplier_id === 0) { // 如果没有渠道，就下线
+            update['status'] = FIELD_STATUS.OFFLINE
         }
         return Comic.update(update, where)
     }
