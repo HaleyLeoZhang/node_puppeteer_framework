@@ -6,7 +6,7 @@ const Module = require('module')
 const fetch = require('node-fetch'); // 文档 https://www.npmjs.com/package/node-fetch
 const cheerio = require('cheerio'); // html解析器 文档 https://www.npmjs.com/package/cheerio
 
-const BASE_HREF = "http://www.kmwu7.com" // 爬取地址
+const BASE_HREF = "http://www.kmwu6.com" // 爬取地址
 
 export default class KuManWuService extends Base {
     static get_base_href() {
