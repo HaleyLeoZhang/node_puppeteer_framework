@@ -5,7 +5,7 @@
 // GITHUB: https://github.com/HaleyLeoZhang
 // ----------------------------------------------------------------------
 
-//    `channel` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '枚举值 0:未知 1:古风漫画 2:奇漫屋',
+//    `channel` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '枚举值 0:未知 1:古风漫画 2:奇漫屋' 3:6漫画 4:酷漫屋
 const FIELD_CHANNEL = {
     "UNKNOWN": 0,
     "GU_FENG": 1, // 古风漫画 https://www.gufengmh8.com/
