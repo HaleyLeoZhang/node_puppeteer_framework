@@ -1,0 +1,34 @@
+version: '3.0'
+
+services:
+
+  comic_node:
+    build: ../ # using layer cache
+    container_name: comic-node-app
+    working_dir: /app
+        volumes:
+          - ../../dist:/app/dist:cached # 可运行文件
+          - ../../app.yaml:/app/app.yaml:cached # 配置文件
+          - ../supervisor.conf:/etc/supervisor/conf.d/node_comic.conf:cached
+          - ../run.sh:/usr/src/run.sh:cached
+#          - /tmp/comic_node:/tmp/comic:cached
+    ports:
+      - 7070:7070
+    environment:
+      TZ: Asia/Shanghai
+      NODE_ENV: production
+      TERM: xterm
+    # 生产开启这个
+    #    command: bash -c "bash /usr/src/run.sh && tail -f "
+    # 部署资源限制
+    deploy:
+      replicas: 1  # 指定部署数量
+      resources:
+        limits: # cpu最大使用数
+          cpus: '0.5' # 该服务cpu资源可用百分比，单个cpu打满就是 100%, 这里的 1.0 就是 100% 的 意思
+          memory: 200M # 运行消耗
+
+networks:
+  comic-node-net: # 网卡在项目中的别名，使用同一张网卡，可以让模块名作为域名，让容器互通
+    driver: bridge # 驱动写死即可
+

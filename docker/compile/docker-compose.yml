@@ -1,0 +1,28 @@
+version: '3.0'
+
+services:
+
+  comic_compile: # 专门用来编译的
+    image: node:12 # using layer cache
+    container_name: comic_node_compiler
+    working_dir: /app
+    volumes:
+      - ../../:/app # 编译好的文件需要写回宿主机,所以这里用的挂载
+    environment:
+      TZ: Asia/Shanghai
+      NODE_ENV: production
+      TERM: xterm
+    command: bash -c "make install_prod" # 编译完资源即可
+    # 部署资源限制---暂时不用限制
+  #    deploy:
+  #      replicas: 1  # 指定部署数量
+  #      resources:
+  #        limits: # cpu最大使用数
+  #          cpus: '1' # 该服务cpu资源可用百分比，单个cpu打满就是 100%, 这里的 1.0 就是 100% 的 意思
+  #          memory: 1000M # 主要是编译耗内存：特别是www服务的编译 峰值700~800M，如果只编译 task服务 只需要200M 就够用
+
+
+networks:
+  comic-node-net: # 网卡在项目中的别名，使用同一张网卡，可以让模块名作为域名，让容器互通
+    driver: bridge # 驱动写死即可
+

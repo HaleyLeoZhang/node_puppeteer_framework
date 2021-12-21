@@ -66,3 +66,13 @@ build:
 	@node ./node_modules/@vercel/ncc/dist/ncc/cli.js build ./es6/task.js -m -o ./dist/task
 	@node ./node_modules/@vercel/ncc/dist/ncc/cli.js build ./es6/www.js -m -o ./dist/www
 	@echo "----------- Compile success"
+
+for_docker:
+	@clear
+	@echo "----------- Compile File , please wait...."
+	@cd ./docker/compile
+	@make
+	@cd ../..
+	@cd ./docker/run
+	@make
+	@echo "----------- Compile success"

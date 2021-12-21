@@ -77,7 +77,7 @@ cp -r app.example.yaml app.yaml
 `Mac OS` 或者 `Linux` 系统 可以使用下面命令  
 
 ~~~bash
-cd docker/unix/
+cd docker/compile/
 make ini
 ~~~
 

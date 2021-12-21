@@ -3,9 +3,8 @@
 #export TERM=xterm \
 #&& apt-get update \
 #&& apt-get install supervisor -y  \
-cd /app \
-&& make install_prod \
-&& /usr/bin/supervisord 
+
+/usr/bin/supervisord
 
 for((;;))
 do

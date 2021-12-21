@@ -9,10 +9,6 @@ run:
 down:
 	@docker-compose  -p comic_node down
 
-cnet:
-	@# 创建网卡
-	@docker network create --subnet=172.28.0.0/16 network_unix
-
 ini:
 	@clear
 	@#mkdir -p /data/www
@@ -28,4 +24,3 @@ log:
 clear:
 	@clear
 	@make -s down
-	@#docker rmi nginx_hlz-php-fpm
