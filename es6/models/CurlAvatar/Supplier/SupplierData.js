@@ -37,7 +37,7 @@ export default class SupplierData {
         const where = {
             'related_id': related_id,
             'channel': [
-                FIELD_CHANNEL.GU_FENG,
+                FIELD_CHANNEL.HAO_MAN_LIU,
                 FIELD_CHANNEL.KU_MAN_WU,
             ],
             'status': AVAILABLE_STATUS_LIST,
