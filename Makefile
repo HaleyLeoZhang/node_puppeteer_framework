@@ -67,12 +67,20 @@ build:
 	@node ./node_modules/@vercel/ncc/dist/ncc/cli.js build ./es6/www.js -m -o ./dist/www
 	@echo "----------- Compile success"
 
-for_docker:
-	@clear
+docker_ci_cd:
+	@make for_docker_compile
+	@make for_docker_run_app
+
+for_docker_compile:
 	@echo "----------- Compile File , please wait...."
-	@cd ./docker/compile
-	@make
+	@cd docker/compile
+	@make run
+	@docker inspect comic_node_compiler|grep Status |grep exited
 	@cd ../..
+
+for_docker_run_app:
+	@echo "----------- Running App ..."
 	@cd ./docker/run
-	@make
-	@echo "----------- Compile success"
+	@make run
+	@cd ../..
+	@echo "----------- Running success"

@@ -7,5 +7,5 @@ COPY ../apt_image.txt  /etc/apt/sources.list
 
 # 更新 apt-get
 RUN apt-get update \
- && apt-get install supervisor -y \
- && bash -c /usr/src/run.sh
+ && apt-get install supervisor -y
+

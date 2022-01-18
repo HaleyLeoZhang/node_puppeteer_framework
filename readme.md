@@ -77,28 +77,11 @@ cp -r app.example.yaml app.yaml
 `Mac OS` 或者 `Linux` 系统 可以使用下面命令  
 
 ~~~bash
-cd docker/compile/
-make ini
+make for_docker
 ~~~
 
 ##### `windows` 环境  
-~~~bash
-cd .\docker\win\
-.\deploy.bat # 执行这个脚本
-~~~
-出现如下消息  
-
-~~~bash
-Options are in the following:
-run     --- remove current docker instance AND run new docker instance for node
-down    --- remove current docker instance
-cnet    --- add docker network for current docker instance
-ini     --- function consist of "cnet" and "run"
-in      --- go to current docker bash
-log     --- see current docker output logs
-~~~
-
-输入`ini`，即可完成部署  
+配置 `make` 命令 见 [这里](https://note.youdao.com/s/Z1w74WkV)
 
 > 普通部署方式
 

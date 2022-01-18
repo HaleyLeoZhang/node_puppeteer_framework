@@ -16,10 +16,10 @@ ini:
 	@make -s run
 
 in:
-	@docker exec -it comic-node-app bash
+	@docker exec -it comic_node_compiler bash
 
 log:
-	@docker logs -f comic-node-app
+	@docker logs -f comic_node_compiler
 
 clear:
 	@clear
