@@ -267,9 +267,9 @@ export default class TaskLogic extends Base {
         // 爬取图片列表
         let image_list = []
         switch (one_supplier.channel) {
-            // case FIELD_CHANNEL.GU_FENG: // 因为其域名限制，现在要更换
-            //     image_list = await GuFengService.get_image_list(ctx, link)
-            //     break;
+            case FIELD_CHANNEL.GU_FENG: // 因为其域名限制，现在要更换
+                image_list = await GuFengService.get_image_list(ctx, link)
+                break;
             // case FIELD_CHANNEL.QI_MAN_WU:
             //     // TODO
             //     break;
