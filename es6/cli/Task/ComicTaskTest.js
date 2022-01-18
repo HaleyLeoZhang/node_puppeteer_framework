@@ -8,6 +8,7 @@ import RabbitMQ, {ACK_NO, ACK_YES, DEFAULT_PULL_TIME_SECOND, IF_EXIT_YES} from "
 import LiuManHuaService from "../../services/Comic/LiuManHuaService";
 import CONST_AMQP from "../../constant/amqp";
 import TimeTool from "../../tools/TimeTool";
+import HaoManLiuService from "../../services/Comic/HaoManLiuService";
 
 export default class ComicTaskTest extends BaseTask {
     // ---------------------------------------------------
@@ -28,8 +29,8 @@ export default class ComicTaskTest extends BaseTask {
 
     static async eval_script_2() {
         let ctx = ContextTool.initial() // 每次拉取都是一个新的上下文
-        let url = "http://www.sixmh7.com/17128/703818.html"
-        let list = await LiuManHuaService.get_image_list(ctx, url)
+        let url = "https://www.g-lens.com/chapter/1157358"
+        let list = await HaoManLiuService.get_image_list(ctx, url)
         console.log(list)
     }
 
@@ -66,7 +67,7 @@ export default class ComicTaskTest extends BaseTask {
     static async supplier_base() {
         let ctx = ContextTool.initial() // 每次拉取都是一个新的上下文
         let payload = {
-            "id": 53, // 渠道ID
+            "id": 67, // 渠道ID
         }
         try {
             Log.ctxInfo(ctx, 'base_supplier_consumer.start')
@@ -85,7 +86,7 @@ export default class ComicTaskTest extends BaseTask {
     static async supplier_chapter() {
         let ctx = ContextTool.initial() // 每次拉取都是一个新的上下文
         let payload = {
-            "id": 53, // 渠道ID
+            "id": 67, // 渠道ID
         }
         try { // 2333
             Log.ctxInfo(ctx, 'supplier_chapter_consumer start')

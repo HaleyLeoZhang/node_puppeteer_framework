@@ -17,6 +17,7 @@ import {FIELD_STATUS as IMAGE_FIELD_STATUS} from "../../models/CurlAvatar/Suppli
 import LiuManHuaService from "../../services/Comic/LiuManHuaService";
 import General from "../../tools/General";
 import KuManWuService from "../../services/Comic/KuManWuervice";
+import HaoManLiuService from "../../services/Comic/HaoManLiuService";
 
 export default class TaskLogic extends Base {
     static async comic_base(ctx, payload) {
@@ -84,14 +85,14 @@ export default class TaskLogic extends Base {
             case FIELD_CHANNEL.GU_FENG:
                 spider_info = await GuFengService.get_base_info(ctx, one_supplier.source_id)
                 break;
-            // case FIELD_CHANNEL.QI_MAN_WU:
-            //     // TODO
-            //     break;
             // case FIELD_CHANNEL.LIU_MAN_HUA:
             //     spider_info = await LiuManHuaService.get_base_info(ctx, one_supplier.source_id)
             //     break;
             case FIELD_CHANNEL.KU_MAN_WU:
                 spider_info = await KuManWuService.get_base_info(ctx, one_supplier.source_id)
+                break;
+            case FIELD_CHANNEL.HAO_MAN_LIU:
+                spider_info = await HaoManLiuService.get_base_info(ctx, one_supplier.source_id)
                 break;
             default:
                 Log.ctxWarn(ctx, 'channel 异常')
@@ -159,6 +160,9 @@ export default class TaskLogic extends Base {
             //     break;
             case FIELD_CHANNEL.KU_MAN_WU:
                 supplier_list = await KuManWuService.get_chapter_list(ctx, one_supplier.source_id)
+                break;
+            case FIELD_CHANNEL.HAO_MAN_LIU:
+                supplier_list = await HaoManLiuService.get_chapter_list(ctx, one_supplier.source_id)
                 break;
             default:
                 Log.ctxWarn(ctx, 'channel 异常')
@@ -263,9 +267,9 @@ export default class TaskLogic extends Base {
         // 爬取图片列表
         let image_list = []
         switch (one_supplier.channel) {
-            case FIELD_CHANNEL.GU_FENG:
-                image_list = await GuFengService.get_image_list(ctx, link)
-                break;
+            // case FIELD_CHANNEL.GU_FENG: // 因为其域名限制，现在要更换
+            //     image_list = await GuFengService.get_image_list(ctx, link)
+            //     break;
             // case FIELD_CHANNEL.QI_MAN_WU:
             //     // TODO
             //     break;
@@ -274,6 +278,9 @@ export default class TaskLogic extends Base {
             //     break;
             case FIELD_CHANNEL.KU_MAN_WU:
                 image_list = await KuManWuService.get_image_list(ctx, link)
+                break;
+            case FIELD_CHANNEL.HAO_MAN_LIU:
+                image_list = await HaoManLiuService.get_image_list(ctx, link)
                 break;
             default:
                 Log.ctxWarn(ctx, 'channel 异常')
