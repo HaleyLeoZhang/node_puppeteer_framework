@@ -6,10 +6,11 @@
 // ----------------------------------------------------------------------
 
 import Supplier from './'
-import {AVAILABLE_STATUS_LIST, FIELD_CHANNEL, FIELD_STATUS} from "./Enum";
+import {AVAILABLE_CHANNEL_LIST, AVAILABLE_STATUS_LIST, FIELD_CHANNEL, FIELD_STATUS} from "./Enum";
 import GuFengService from "../../../services/Comic/GuFengService";
 import LiuManHuaService from "../../../services/Comic/LiuManHuaService";
 import KuManWuService from "../../../services/Comic/KuManWuervice";
+import HaoManLiuService from "../../../services/Comic/HaoManLiuService";
 
 export default class SupplierData {
     /**
@@ -36,10 +37,7 @@ export default class SupplierData {
     static async get_list_by_related_id(related_id) {
         const where = {
             'related_id': related_id,
-            'channel': [
-                FIELD_CHANNEL.HAO_MAN_LIU,
-                FIELD_CHANNEL.KU_MAN_WU,
-            ],
+            'channel': AVAILABLE_CHANNEL_LIST,
             'status': AVAILABLE_STATUS_LIST,
             'ORDER': {"id": "ASC"},
         }
@@ -59,10 +57,7 @@ export default class SupplierData {
     static async get_supplier_id_by_weight(related_id) {
         const where = {
             'related_id': related_id,
-            'channel': [
-                FIELD_CHANNEL.GU_FENG,
-                FIELD_CHANNEL.KU_MAN_WU,
-            ],
+            'channel': AVAILABLE_CHANNEL_LIST,
             'status': [
                 FIELD_STATUS.ONLINE,
             ],
@@ -153,6 +148,9 @@ export default class SupplierData {
             case FIELD_CHANNEL.KU_MAN_WU:
                 text = '酷漫屋'
                 break;
+            case FIELD_CHANNEL.HAO_MAN_LIU:
+                text = '好漫6'
+                break;
         }
         return text
     }
@@ -171,6 +169,9 @@ export default class SupplierData {
                 break;
             case FIELD_CHANNEL.KU_MAN_WU:
                 href = `${KuManWuService.get_base_href()}/${source_id}/`
+                break;
+            case FIELD_CHANNEL.HAO_MAN_LIU:
+                href = `${HaoManLiuService.get_base_href()}/comic/${source_id}`
                 break;
         }
         return href
