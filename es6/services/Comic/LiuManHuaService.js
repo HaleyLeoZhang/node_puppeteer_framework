@@ -1,6 +1,7 @@
 import Base from './Base'
 import Log from "../../tools/Log";
 import UserAgentTool from "../../tools/UserAgentTool";
+import CONST_BUSINESS_COMIC from "../../constant/business_comic";
 
 const Module = require('module')
 const fetch = require('node-fetch'); // 文档 https://www.npmjs.com/package/node-fetch
@@ -22,7 +23,7 @@ export default class LiuManHuaService extends Base {
             'headers': {
                 'User-Agent': UserAgentTool.fake_one(),
             },
-            timeout: 3000,
+            timeout: CONST_BUSINESS_COMIC.HTTP_FETCH_TIMEOUT,
         }
         return fetch(target_url, options)
             .then(res => res.text())
@@ -50,7 +51,7 @@ export default class LiuManHuaService extends Base {
             'headers': {
                 'User-Agent': UserAgentTool.fake_one(),
             },
-            timeout: 3000,
+            timeout: CONST_BUSINESS_COMIC.HTTP_FETCH_TIMEOUT,
         }
         // 先拉头部
         await fetch(target_url, options)
@@ -133,7 +134,7 @@ export default class LiuManHuaService extends Base {
             'headers': {
                 'User-Agent': UserAgentTool.fake_one(),
             },
-            timeout: 3000,
+            timeout: CONST_BUSINESS_COMIC.HTTP_FETCH_TIMEOUT,
         }
         return fetch(target_url, options)
             .then(res => res.text())

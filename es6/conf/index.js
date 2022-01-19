@@ -12,7 +12,7 @@ const APP_PATH = __dirname + '/../../'
 import fs from "fs";
 
 
-const DEFAULT_CONFIG_PATH = '/app/app.yaml' // 配置文件默认位置
+// const DEFAULT_CONFIG_PATH = '/app/app.yaml' // 配置文件默认位置
 
 // 初始化配置
 let BROWSER = {}, // 浏览器配置
@@ -25,6 +25,7 @@ let BROWSER = {}, // 浏览器配置
         // "cdn_host": "",
     },
     HTTP_PORT = 4040, // HTTP 服务端口
+    PROXY_DSN = "", // 代理服务器配置
     RABBIT_MQ = {}, // RabbitMQ 配置
     DB_COMIC = {}, // Mysql数据库配置
     REDIS_COMIC = { // 缓存配置
@@ -55,6 +56,7 @@ export default class Conf {
             log_path: doc.log.log_path,
         }
         HTTP_PORT = doc.http_port
+        PROXY_DSN = doc.proxy_dsn
         RABBIT_MQ = {
             host: doc.rabbit_mq.host,
             port: doc.rabbit_mq.port,
@@ -76,7 +78,8 @@ export default class Conf {
 
     // 读取配置
     static load_config(ars) {
-        let config_path = DEFAULT_CONFIG_PATH
+        // let config_path = DEFAULT_CONFIG_PATH
+        let config_path = ""
         for (let i = 0, len_ars = ars.length; i < len_ars; i++) {
             let one = ars[i]
             let res_config = one.match(/--conf=(.*)/i)
@@ -98,6 +101,7 @@ export {
     SENTRY_DSN,
     QINIU_COMIC,
     HTTP_PORT,
+    PROXY_DSN,
     RABBIT_MQ,
     DB_COMIC,
     REDIS_COMIC,

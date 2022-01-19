@@ -2,6 +2,7 @@ import Base from './Base'
 import Log from "../../tools/Log";
 import {FIELD_EXT_1} from "../../models/CurlAvatar/Supplier/Enum";
 import UserAgentTool from "../../tools/UserAgentTool";
+import CONST_BUSINESS_COMIC from "../../constant/business_comic";
 
 const fetch = require('node-fetch'); // 文档 https://www.npmjs.com/package/node-fetch
 const cheerio = require('cheerio'); // html解析器 文档 https://www.npmjs.com/package/cheerio
@@ -22,7 +23,7 @@ export default class GuFengService extends Base {
             'headers': {
                 'User-Agent': UserAgentTool.fake_one(),
             },
-            timeout: 3000,
+            timeout: CONST_BUSINESS_COMIC.HTTP_FETCH_TIMEOUT,
         }
         return fetch(target_url, options)
             .then(res => res.text())
@@ -48,7 +49,7 @@ export default class GuFengService extends Base {
             'headers': {
                 'User-Agent': UserAgentTool.fake_one(),
             },
-            timeout: 3000,
+            timeout: CONST_BUSINESS_COMIC.HTTP_FETCH_TIMEOUT,
         }
         return fetch(target_url, options)
             .then(res => res.text())
@@ -104,7 +105,7 @@ export default class GuFengService extends Base {
             'headers': {
                 'User-Agent': UserAgentTool.fake_one(),
             },
-            timeout: 3000,
+            timeout: CONST_BUSINESS_COMIC.HTTP_FETCH_TIMEOUT,
         }
         return fetch(target_url, options)
             .then(res => res.text())
