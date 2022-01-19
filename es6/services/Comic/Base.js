@@ -7,6 +7,7 @@ class Base extends BaseService {
     static getProxyOption(options) {
         if (undefined !== PROXY_DSN && PROXY_DSN.length > 0) {
             options["agent"] = new HttpProxyAgent(PROXY_DSN)
+            options["redirect"] = 'follow'
         }
         return options
     }
