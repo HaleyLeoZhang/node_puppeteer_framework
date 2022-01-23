@@ -31,6 +31,7 @@
     "mysql2": "^1.6.5",
     "node-bugjs": "^2.0.1",
     "node-fetch": "^2.6.1",
+    "proxy-http-agent": "^1.0.1",
     "puppeteer": "^1.19.0",
     "random-useragent": "^0.3.1",
     "redis": "^2.8.0",
