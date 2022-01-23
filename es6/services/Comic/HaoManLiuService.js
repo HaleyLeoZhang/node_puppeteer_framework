@@ -108,7 +108,7 @@ export default class HaoManLiuService extends Base {
                 let image_object_list = $("img[data-echo]")
                 let image_length = image_object_list.length
                 for (let i = 0; i < image_length; i++) {
-                    let src = image_object_list.attr("data-echo")
+                    let src = image_object_list.eq(i).attr("data-echo")
                     image_list.push(src)
                 }
                 // 破解结束
