@@ -13,7 +13,6 @@ class Base extends BaseService {
             });
             options["redirect"] = 'follow'
         }
-        console.log(options)
         return options
     }
 }
