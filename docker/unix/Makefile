@@ -22,8 +22,13 @@ ini:
 in:
 	@docker exec -it comic-node-app bash
 
+# 容器日志
 log:
 	@docker logs -f comic-node-app
+
+# 业务日志
+logs:
+	@docker exec -it comic-node-app bash -c "tail -f /tmp/*.log"
 
 clear:
 	@clear
