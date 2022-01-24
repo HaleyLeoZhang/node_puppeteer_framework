@@ -9,6 +9,7 @@ import LiuManHuaService from "../../services/Comic/LiuManHuaService";
 import CONST_AMQP from "../../constant/amqp";
 import TimeTool from "../../tools/TimeTool";
 import HaoManLiuService from "../../services/Comic/HaoManLiuService";
+import BaoZiService from "../../services/Comic/BaoZiService";
 
 export default class ComicTaskTest extends BaseTask {
     // ---------------------------------------------------
@@ -29,8 +30,8 @@ export default class ComicTaskTest extends BaseTask {
 
     static async eval_script_2() {
         let ctx = ContextTool.initial() // 每次拉取都是一个新的上下文
-        let url = "https://www.g-lens.com/chapter/1157358"
-        let list = await HaoManLiuService.get_image_list(ctx, url)
+        let url = "https://www.webmota.com/comic/chapter/bailianchengshen-fengxingzhe/0_1.html"
+        let list = await BaoZiService.get_image_list(ctx, url)
         console.log(list)
     }
 
@@ -67,7 +68,7 @@ export default class ComicTaskTest extends BaseTask {
     static async supplier_base() {
         let ctx = ContextTool.initial() // 每次拉取都是一个新的上下文
         let payload = {
-            "id": 67, // 渠道ID
+            "id": 68, // 渠道ID
         }
         try {
             Log.ctxInfo(ctx, 'base_supplier_consumer.start')
@@ -86,7 +87,7 @@ export default class ComicTaskTest extends BaseTask {
     static async supplier_chapter() {
         let ctx = ContextTool.initial() // 每次拉取都是一个新的上下文
         let payload = {
-            "id": 67, // 渠道ID
+            "id": 68, // 渠道ID
         }
         try { // 2333
             Log.ctxInfo(ctx, 'supplier_chapter_consumer start')
