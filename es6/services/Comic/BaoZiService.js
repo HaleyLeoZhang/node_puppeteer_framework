@@ -86,7 +86,7 @@ export default class BaoZiService extends Base {
      * sequence 跟顺序号保持一致
      */
     static getLink(source_id, sequence) {
-        return `https://www.webmota.com/comic/chapter/${source_id}/0_${sequence}.html`
+        return `https://www.webmota.com/comic/chapter/${source_id}/0_${sequence -1}.html`
     }
 
     /**
