@@ -11,6 +11,7 @@ import GuFengService from "../../../services/Comic/GuFengService";
 import LiuManHuaService from "../../../services/Comic/LiuManHuaService";
 import KuManWuService from "../../../services/Comic/KuManWuervice";
 import HaoManLiuService from "../../../services/Comic/HaoManLiuService";
+import BaoZiService from "../../../services/Comic/BaoZiService";
 
 export default class SupplierData {
     /**
@@ -151,6 +152,9 @@ export default class SupplierData {
             case FIELD_CHANNEL.HAO_MAN_LIU:
                 text = '好漫6'
                 break;
+            case FIELD_CHANNEL.BAO_ZI:
+                text = '包子漫画'
+                break;
         }
         return text
     }
@@ -172,6 +176,9 @@ export default class SupplierData {
                 break;
             case FIELD_CHANNEL.HAO_MAN_LIU:
                 href = `${HaoManLiuService.get_base_href()}/comic/${source_id}`
+                break;
+            case FIELD_CHANNEL.BAO_ZI:
+                href = `${BaoZiService.get_base_href()}/comic/${source_id}`
                 break;
         }
         return href
