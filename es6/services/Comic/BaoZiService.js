@@ -7,7 +7,7 @@ const Module = require('module')
 const fetch = require('node-fetch'); // 文档 https://www.npmjs.com/package/node-fetch
 const cheerio = require('cheerio'); // html解析器 文档 https://www.npmjs.com/package/cheerio
 
-const BASE_HREF = "https://www.baozimh.com" // 爬取地址
+const BASE_HREF = "https://cn.baozimh.com" // 爬取地址
 
 export default class BaoZiService extends Base {
     static get_base_href() {
@@ -86,7 +86,7 @@ export default class BaoZiService extends Base {
      * sequence 跟顺序号保持一致
      */
     static getLink(source_id, sequence) {
-        return `https://www.webmota.com/comic/chapter/${source_id}/0_${sequence -1}.html`
+        return `https://cn.webmota.com/comic/chapter/${source_id}/0_${sequence -1}.html`
     }
 
     /**
