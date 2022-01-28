@@ -108,7 +108,7 @@ export default class BaoZiService extends Base {
             .then(html => {
 
                 const $ = cheerio.load(html);
-                let image_object_list = $("amp-img")
+                let image_object_list = $("amp-img.comic-contain__item")
                 let image_length = image_object_list.length
                 for (let i = 0; i < image_length; i++) {
                     let src = image_object_list.eq(i).attr("src")
