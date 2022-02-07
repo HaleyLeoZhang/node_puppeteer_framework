@@ -19,6 +19,13 @@ debug_supplier:
 	@#node ./dist/app comic_test eval_script_2 --conf="D:/own_files/codes/own/node_puppeteer_framework/app.yaml"
 	@node ./dist/app comic_test eval_script_2 --conf="D:/own_files/codes/own/node_puppeteer_framework/app.yaml"
 
+# 调试www服务
+debug_www:
+	@clear
+	@rm -rf ./dist/www
+	@node ./node_modules/@vercel/ncc/dist/ncc/cli.js build ./es6/www.js -m -o ./dist/www
+	@node ./dist/www --conf="D:/own_files/codes/own/node_puppeteer_framework/app.yaml"
+
 
 install:
 	@clear
