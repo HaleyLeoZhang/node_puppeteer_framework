@@ -35,6 +35,11 @@ export default class SupplierLogic extends Base {
         return list
     }
 
+    // 漫画页保存渠道信息
+    static async save_supplier_list_by_comic_id(ctx, comic_id) {
+        // TODO
+    }
+
     // 漫画基本配置
     static comic_conf() {
         let data = []
