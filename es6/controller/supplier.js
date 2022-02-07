@@ -43,8 +43,10 @@ export default class Supplier extends Base {
                 throw new Error("请传入 comic_id")
             }
             let list = await SupplierLogic.list_by_comic_id(ctx, comic_id)
+            let conf = SupplierLogic.comic_conf()
             response.data = {
-                "list": list
+                "list": list,
+                "conf": conf,
             }
         } catch (error) {
             console.log(error)

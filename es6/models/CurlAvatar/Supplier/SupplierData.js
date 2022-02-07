@@ -62,7 +62,10 @@ export default class SupplierData {
             'status': [
                 FIELD_STATUS.ONLINE,
             ],
-            'ORDER': {"weight": "DESC"},
+            'ORDER': {
+                "weight": "ASC",
+                "id": "ASC",
+            },
             'LIMIT': 1,
         }
         const results = await Supplier.select(where)
@@ -80,8 +83,11 @@ export default class SupplierData {
     static async get_not_deleted_list_by_related_id(related_id) {
         const where = {
             'related_id': related_id,
-            'status[!=]': FIELD_STATUS.DELETED,
-            'ORDER': {"id": "ASC"},
+            'status': FIELD_STATUS.ONLINE,
+            'ORDER': {
+                "weight": "ASC",
+                "id": "ASC",
+            },
         }
         const results = await Supplier.select(where)
         if (0 === results.length) {
