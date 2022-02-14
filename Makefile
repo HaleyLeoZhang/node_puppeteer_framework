@@ -32,7 +32,7 @@ install:
 	@echo "Package installing"
 	@rm -rf package-lock.json
 	@rm -rf node_modules
-	@npm config set registry https://registry.npm.taobao.org
+	@npm config set registry https://registry.npmmirror.com
 	@#npm install --ignore-scripts --no-bin-links
 	@npm install --ignore-scripts 
 	@./node_modules/gulp/bin/gulp.js compile
@@ -61,7 +61,7 @@ install_prod:
 	@echo "Package installing"
 	@rm -rf package-lock.json
 	@rm -rf node_modules
-	@npm config set registry https://registry.npm.taobao.org
+	@npm config set registry https://registry.npmmirror.com
 	@npm install --ignore-scripts
 	@make -is build
 
