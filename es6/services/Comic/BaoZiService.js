@@ -102,7 +102,7 @@ export default class BaoZiService extends Base {
             },
             timeout: CONST_BUSINESS_COMIC.HTTP_FETCH_TIMEOUT,
         }
-        // options = this.getProxyOption(options) // 这个不需要代理
+        options = this.getProxyOption(options) // 这个不需要代理
         return fetch(target_url, options)
             .then(res => res.text())
             .then(html => {
