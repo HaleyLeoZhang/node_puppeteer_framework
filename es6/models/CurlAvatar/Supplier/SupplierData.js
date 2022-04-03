@@ -63,7 +63,7 @@ export default class SupplierData {
                 FIELD_STATUS.ONLINE,
             ],
             'ORDER': {
-                "weight": "ASC",
+                "weight": "DESC",
                 "id": "ASC",
             },
             'LIMIT': 1,
