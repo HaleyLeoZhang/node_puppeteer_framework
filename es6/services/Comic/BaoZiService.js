@@ -111,7 +111,7 @@ export default class BaoZiService extends Base {
                 let image_object_list = $(".comic-contain__item")
                 let image_length = image_object_list.length
                 for (let i = 0; i < image_length; i++) {
-                    let src = image_object_list.eq(i).attr("data-src")
+                    let src = image_object_list.eq(i).attr("src")
                     image_list.push(src)
                 }
                 // 破解结束
