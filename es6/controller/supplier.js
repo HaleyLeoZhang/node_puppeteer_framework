@@ -66,16 +66,13 @@ export default class Supplier extends Base {
             if (comic_id <= 0) {
                 throw new Error("请传入 comic_id")
             }
-            if (suppliers.length == 0){
-                // 删除
-                // await
-            }
-            await SupplierLogic.save_supplier_list_by_comic_id(ctx, comic_id)
+            await SupplierLogic.save_supplier_list_by_comic_id(ctx, comic_id, suppliers)
         } catch (error) {
             console.log(error)
             SentryTool.captureException(error)
             response.code = HTTP_CODE.BUSINESS_ERROR
             response.msg = 'failed!'
+            response.msg = error.message
         }
         http_ctx.body = response
     }

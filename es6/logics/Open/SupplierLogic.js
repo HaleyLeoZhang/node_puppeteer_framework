@@ -1,7 +1,7 @@
 import Base from './Base'
 import Log from '../../tools/Log'
 import SupplierData from "../../models/CurlAvatar/Supplier/SupplierData";
-import {AVAILABLE_CHANNEL_LIST, FIELD_CHANNEL} from "../../models/CurlAvatar/Supplier/Enum";
+import {AVAILABLE_CHANNEL_LIST, FIELD_CHANNEL, FIELD_STATUS} from "../../models/CurlAvatar/Supplier/Enum";
 import HaoManLiuService from "../../services/Comic/HaoManLiuService";
 import BaoZiService from "../../services/Comic/BaoZiService";
 import * as Enum from "../../models/CurlAvatar/Supplier/Enum";
@@ -36,8 +36,56 @@ export default class SupplierLogic extends Base {
     }
 
     // 漫画页保存渠道信息
-    static async save_supplier_list_by_comic_id(ctx, comic_id) {
-        // TODO
+    static async save_supplier_list_by_comic_id(ctx, comic_id, suppliers) {
+        if (suppliers.length === 0) {
+            // 删除关联渠道
+            return SupplierData.delete_suppliers_by_comic_id(comic_id)
+        }
+        // 读取以前的数据，看看source_id是否变化，如果变化，则需要删除渠道
+        let list = await SupplierLogic.list_by_comic_id(ctx, comic_id)
+        let to_delete_not_in_supplier_ids = []; // 不在范围内的要删除
+        let supplier_id_map_old = []; // 库中的渠道列表 channel => 渠道数据
+        let insert_list = []; // 待插入的数据
+        // - 初始化
+        for (let i = 0, len = list.length; i < len; i++) {
+            let one_supplier = list[i]
+            supplier_id_map_old[one_supplier.channel] = one_supplier
+        }
+        // - 判断要删除的
+        for (let i = 0, len = suppliers.length; i < len; i++) {
+            let curr_supplier = suppliers[i]
+            let old_supplier = supplier_id_map_old[curr_supplier.channel]
+            // 新建: 没有渠道   或者   资源ID不同,要删除
+            if (old_supplier === undefined || old_supplier.source_id !== curr_supplier.source_id) {
+                let insert_one = {
+                    "related_id": comic_id,
+                    "channel": curr_supplier.channel,
+                    "source_id": curr_supplier.source_id,
+                    "weight": curr_supplier.weight,
+                    "ext_1": curr_supplier["ext_1"],
+                    "ext_2": curr_supplier["ext_2"],
+                    "ext_3": curr_supplier["ext_3"],
+                    "status": FIELD_STATUS.ONLINE,
+                }
+                insert_list.push(insert_one)
+            } else {
+                // 更新信息
+                await SupplierData.update_supplier_by_id(old_supplier.id, {
+                    "weight": curr_supplier.weight,
+                    "ext_1": curr_supplier.ext_1,
+                    "ext_2": curr_supplier.ext_2,
+                    "ext_3": curr_supplier.ext_3,
+                })
+                // 记录不要删除这个数据
+                to_delete_not_in_supplier_ids.push(old_supplier.id)
+            }
+        }
+        // 删除没有用到的
+        await SupplierData.delete_not_in_suppliers_by_comic_id(comic_id, to_delete_not_in_supplier_ids)
+        // 批量新建
+        if (insert_list.length > 0) {
+            await SupplierData.do_insert(insert_list)
+        }
     }
 
     // 漫画基本配置

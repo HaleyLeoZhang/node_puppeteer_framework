@@ -12,6 +12,7 @@ import LiuManHuaService from "../../../services/Comic/LiuManHuaService";
 import KuManWuService from "../../../services/Comic/KuManWuervice";
 import HaoManLiuService from "../../../services/Comic/HaoManLiuService";
 import BaoZiService from "../../../services/Comic/BaoZiService";
+import SupplierChapter from "../SupplierChapter";
 
 export default class SupplierData {
     /**
@@ -130,6 +131,41 @@ export default class SupplierData {
     }
 
     /**
+     * 通过漫画ID删除所有渠道
+     * @return Promise
+     */
+    static delete_suppliers_by_comic_id(comic_id) {
+        const where = {
+            'related_id': comic_id,
+            'status': FIELD_STATUS.ONLINE,
+        }
+        const update = {
+            'status': FIELD_STATUS.DELETED,
+        }
+        return Supplier.update(update, where)
+    }
+
+    /**
+     * 通过漫画ID删除所有不在范围内的渠道ID组
+     * @return Promise
+     */
+    static delete_not_in_suppliers_by_comic_id(comic_id, supplier_ids) {
+        if (supplier_ids.length === 0) {
+            return SupplierData.delete_suppliers_by_comic_id(comic_id)
+        }
+        const where = {
+            'related_id': comic_id,
+            'id[!=]': supplier_ids,
+            'status': FIELD_STATUS.ONLINE,
+        }
+        const update = {
+            'status': FIELD_STATUS.DELETED,
+        }
+        return Supplier.update(update, where)
+    }
+
+
+    /**
      * 更新该漫画详情
      * @return Promise
      */
@@ -188,5 +224,14 @@ export default class SupplierData {
                 break;
         }
         return href
+    }
+
+    /**
+     * 批量插入数据
+     * @param array list 整理好对应表中格式的渠道列表
+     * @return Promise
+     */
+    static async do_insert(list) {
+        return Supplier.insert(list)
     }
 }

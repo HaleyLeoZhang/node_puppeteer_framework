@@ -25,7 +25,7 @@ Conf.load_config(process.argv)
 app_router.get('/notify/sub', Notify.sub)
 app_router.get('/supplier/list_by_ids', Supplier.list_by_ids)
 app_router.get('/supplier/list_by_comic_id', Supplier.list_by_comic_id)
-app_router.get('/supplier/save_supplier_list_by_comic_id', Supplier.save_supplier_list_by_comic_id) // TODO 保存单个漫画的所有渠道信息
+app_router.post('/supplier/save_supplier_list_by_comic_id', Supplier.save_supplier_list_by_comic_id) // TODO 保存单个漫画的所有渠道信息
 
 // 路由注册 ---- END
 
