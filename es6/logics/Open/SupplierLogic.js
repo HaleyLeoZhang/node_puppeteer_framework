@@ -6,6 +6,7 @@ import HaoManLiuService from "../../services/Comic/HaoManLiuService";
 import BaoZiService from "../../services/Comic/BaoZiService";
 import * as Enum from "../../models/CurlAvatar/Supplier/Enum";
 import KuManWuService from "../../services/Comic/KuManWuervice";
+import General from "../../tools/General";
 
 export default class SupplierLogic extends Base {
     static async list_by_ids(ctx, id_list) {
@@ -44,6 +45,7 @@ export default class SupplierLogic extends Base {
             if (http_supplier.source_id == "") {
                 continue
             }
+            http_supplier.weight = General.get_data_with_default(http_supplier.weight, 0)
             suppliers.push(http_supplier)
         }
         if (suppliers.length === 0) {
