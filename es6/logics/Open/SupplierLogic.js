@@ -36,7 +36,16 @@ export default class SupplierLogic extends Base {
     }
 
     // 漫画页保存渠道信息
-    static async save_supplier_list_by_comic_id(ctx, comic_id, suppliers) {
+    static async save_supplier_list_by_comic_id(ctx, comic_id, suppliers_raw) {
+        let suppliers = []; // 清洗后的入参
+        // 如果没有source_id,则认为没有传入
+        for (let i = 0, len = suppliers_raw.length; i < len; i++) {
+            let http_supplier = suppliers_raw[i]
+            if (http_supplier.source_id == "") {
+                continue
+            }
+            suppliers.push(http_supplier)
+        }
         if (suppliers.length === 0) {
             // 删除关联渠道
             return SupplierData.delete_suppliers_by_comic_id(comic_id)
