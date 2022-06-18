@@ -70,7 +70,7 @@ export default class TaskLogic extends Base {
     static async supplier_base(ctx, payload) {
         let supplier_id = payload.id
         const one_supplier = await SupplierData.get_one_by_id(supplier_id)
-        if (!one_supplier) {
+        if (!one_supplier || one_supplier.status === FIELD_STATUS.DELETED) {
             Log.ctxWarn(ctx, 'supplier_id 不存在')
             return
         }
@@ -146,7 +146,7 @@ export default class TaskLogic extends Base {
     static async supplier_chapter(ctx, payload) {
         let supplier_id = payload.id
         const one_supplier = await SupplierData.get_one_by_id(supplier_id)
-        if (!one_supplier) {
+        if (!one_supplier || one_supplier.status === FIELD_STATUS.DELETED) {
             Log.ctxWarn(ctx, 'supplier_id 不存在')
             return
         }
@@ -266,7 +266,7 @@ export default class TaskLogic extends Base {
             return CONST_BUSINESS_COMIC.TASK_SUCCESS
         }
         const one_supplier = await SupplierData.get_one_by_id(one_chapter.related_id)
-        if (!one_supplier) {
+        if (!one_supplier || one_supplier.status === FIELD_STATUS.DELETED) {
             Log.ctxWarn(ctx, 'supplier_id 不存在')
             return
         }
