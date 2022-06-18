@@ -61,9 +61,14 @@ export default class Supplier extends Base {
         let {response, ctx} = Base.response_default_with_ctx()
         try {
             Base.require_client_name(http_ctx)
-            let comic_id = General.get_data_with_default(http_ctx.request.query.comic_id, 0)
-            if (!comic_id) {
+            let comic_id = General.get_data_with_default(http_ctx.request.body.comic_id, 0)
+            let suppliers = General.get_data_with_default(http_ctx.request.body.suppliers, 0)
+            if (comic_id <= 0) {
                 throw new Error("请传入 comic_id")
+            }
+            if (suppliers.length == 0){
+                // 删除
+                // await
             }
             await SupplierLogic.save_supplier_list_by_comic_id(ctx, comic_id)
         } catch (error) {
@@ -74,7 +79,6 @@ export default class Supplier extends Base {
         }
         http_ctx.body = response
     }
-
 
 
 }
