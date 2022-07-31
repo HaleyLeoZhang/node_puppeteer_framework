@@ -60,7 +60,7 @@ export default class BaoZiService extends Base {
             .then(res => res.text())
             .then(html => {
                 const $ = cheerio.load(html);
-                let li_dom_list = $("#chapter-items .comics-chapters , #chapters_other_list .comics-chapters ")
+                let li_dom_list = $(".comics-chapters")
                 let len_li_dom_list = li_dom_list.length
                 if (len_li_dom_list > 0) {
                     for (let i = 0; i < len_li_dom_list; i++) {

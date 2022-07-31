@@ -35,6 +35,14 @@ export default class ComicTaskTest extends BaseTask {
         console.log(list)
     }
 
+    static async eval_script_3() {
+        let ctx = ContextTool.initial() // 每次拉取都是一个新的上下文
+        let source_id = "quanqiushalukaijujuexingsssjitianfu-manchaoshe"
+        let supplier_list = await BaoZiService.get_chapter_list(ctx, source_id)
+        console.log(supplier_list)
+    }
+
+
     static async supplier_image() {
         let ctx = ContextTool.initial() // 每次拉取都是一个新的上下文
         let url = "https://www.gufengmh8.com/manhua/bailianchengshen/1447913.html"
