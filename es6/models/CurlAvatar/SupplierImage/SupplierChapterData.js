@@ -16,7 +16,7 @@ export default class SupplierImageData {
      * @return Promise
      */
     static async do_insert(list) {
-        let duplicate_sql = 'ON DUPLICATE KEY UPDATE status = VALUES( status )';
+        let duplicate_sql = 'ON DUPLICATE KEY UPDATE status = VALUES( status ), src_origin = VALUES( src_origin ), src_origin = VALUES( src_origin ), progress = VALUES( progress )';
         return SupplierImage.insert(list, duplicate_sql)
     }
 
