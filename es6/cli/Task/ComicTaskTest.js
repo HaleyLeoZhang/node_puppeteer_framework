@@ -37,7 +37,8 @@ export default class ComicTaskTest extends BaseTask {
 
     static async eval_script_3() {
         let ctx = ContextTool.initial() // 每次拉取都是一个新的上下文
-        let source_id = "quanqiushalukaijujuexingsssjitianfu-manchaoshe"
+        // let source_id = "quanqiushalukaijujuexingsssjitianfu-manchaoshe"
+        let source_id = "bailianchengshen-fengxingzhe"
         let supplier_list = await BaoZiService.get_chapter_list(ctx, source_id)
         console.log(supplier_list)
     }
