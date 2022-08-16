@@ -67,7 +67,7 @@ export default class BaoZiService extends Base {
                         let dom = li_dom_list.eq(i)
                         let name = dom.find("span").text().trim()
                         let sequence = i + 1
-                        let link = _this.getLink(source_id ,sequence)
+                        let link = _this.getLink(source_id, sequence)
                         let tmp_one = {
                             link,
                             name,
@@ -86,13 +86,42 @@ export default class BaoZiService extends Base {
      * sequence 跟顺序号保持一致
      */
     static getLink(source_id, sequence) {
-        return `https://cn.webmota.com/comic/chapter/${source_id}/0_${sequence -1}.html`
+        return `https://cn.webmota.com/comic/chapter/${source_id}/0_${sequence - 1}.html`
     }
 
     /**
+     * 这个渠道，漫画内容比较多的时候，需要翻页
      * @return Promise
      */
     static async get_image_list(ctx, target_url) {
+        let image_list = []
+        let has_more = true
+        for (let i = 1; has_more; i++) {
+            let link = target_url.replace(".html", `_${i}.html`)
+            let image_list_tmp = await BaoZiService.get_image_list_one(ctx, link)
+            let len_tmp = image_list_tmp.length
+            let len_img = image_list.length
+            if (len_tmp === 0) {
+                has_more = false
+                continue
+            } else if (len_img > 0 && (image_list_tmp[len_tmp-1] === image_list[len_img-1] )) {
+                 // 如果最好一张图一样，说明已经到最后一页了
+                has_more = false
+                continue
+            }
+            // 合并内容
+            image_list = image_list.concat(image_list_tmp)
+        }
+        // 拉取结束
+        Log.ctxInfo(ctx, `拉取结束 target_url ${target_url} 总计图片数 ${image_list.length}`)
+        return image_list
+    }
+
+    /**
+     * 拉取一页数据
+     * @return Promise
+     */
+    static async get_image_list_one(ctx, target_url) {
         let image_list = [];
         Log.ctxInfo(ctx, `BaoZiService 开始拉取 ${target_url} 图片列表`)
 
@@ -106,7 +135,6 @@ export default class BaoZiService extends Base {
         return fetch(target_url, options)
             .then(res => res.text())
             .then(html => {
-
                 const $ = cheerio.load(html);
                 let image_object_list = $(".comic-contain__item")
                 let image_length = image_object_list.length
@@ -115,7 +143,7 @@ export default class BaoZiService extends Base {
                     image_list.push(src)
                 }
                 // 破解结束
-                Log.ctxInfo(ctx, `拉取结束 target_url ${target_url} 总计图片数 ${image_list.length}`)
+                Log.ctxInfo(ctx, `单次拉取结束 target_url ${target_url} 总计图片数 ${image_list.length}`)
                 return image_list
             })
     }
