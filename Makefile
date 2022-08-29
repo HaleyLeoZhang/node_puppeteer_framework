@@ -4,7 +4,8 @@ default: debug
 
 www:
 	@clear
-	@node ./es5/www.js
+	@node ./node_modules/@vercel/ncc/dist/ncc/cli.js build ./es6/www.js -m -o ./dist/www
+	@node ./dist/www --conf="D:/own_files/codes/own/node_puppeteer_framework/app.yaml"
 
 debug:
 	@clear
