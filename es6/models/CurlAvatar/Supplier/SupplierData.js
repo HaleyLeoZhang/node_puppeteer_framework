@@ -225,6 +225,9 @@ export default class SupplierData {
             case FIELD_CHANNEL.BAO_ZI:
                 href = `${BaoZiService.get_base_href()}/comic/${source_id}`
                 break;
+            case FIELD_CHANNEL.TU_ZHUI:
+                href = `${BaoZiService.get_base_href()}/${source_id}`
+                break;
         }
         return href
     }
