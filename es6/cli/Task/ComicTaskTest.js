@@ -10,6 +10,7 @@ import CONST_AMQP from "../../constant/amqp";
 import TimeTool from "../../tools/TimeTool";
 import HaoManLiuService from "../../services/Comic/HaoManLiuService";
 import BaoZiService from "../../services/Comic/BaoZiService";
+import TuZhuiService from "../../services/Comic/TuZhuiService";
 
 export default class ComicTaskTest extends BaseTask {
     // ---------------------------------------------------
@@ -28,27 +29,31 @@ export default class ComicTaskTest extends BaseTask {
         console.log(list)
     }
 
+    static async eval_info() {
+        let ctx = ContextTool.initial() // 每次拉取都是一个新的上下文
+        let source_id = "woweixiedi"
+        let info = await TuZhuiService.get_base_info(ctx, source_id)
+        console.log(info)
+    }
+
     static async eval_script_2() {
         let ctx = ContextTool.initial() // 每次拉取都是一个新的上下文
-        let url = "https://cn.webmota.com/comic/chapter/woshiyaoshihouwudiliao-chuangyiwenhuafanqiexiaoshuowangyuanzhuxiliuxiansheng/0_40.html"
-        let list = await BaoZiService.get_image_list(ctx, url)
+        let url = "https://www.mianzhui.com/74672-16775.html"
+        let list = await TuZhuiService.get_image_list(ctx, url)
         console.log(list)
     }
 
     static async eval_script_3() {
         let ctx = ContextTool.initial() // 每次拉取都是一个新的上下文
-        // let source_id = "quanqiushalukaijujuexingsssjitianfu-manchaoshe"
-        let source_id = "bailianchengshen-fengxingzhe"
-        let supplier_list = await BaoZiService.get_chapter_list(ctx, source_id)
+        let source_id = "woweixiedi"
+        let supplier_list = await TuZhuiService.get_chapter_list(ctx, source_id)
         console.log(supplier_list)
     }
-
 
     static async supplier_image() {
         let ctx = ContextTool.initial() // 每次拉取都是一个新的上下文
         let url = "https://www.gufengmh8.com/manhua/bailianchengshen/1447913.html"
-        let payload ={"id":45659,"link":"http://www.kmwu6.com//23761/1220513.html"}
-
+        let payload = {"id": 45659, "link": "http://www.kmwu6.com//23761/1220513.html"}
 
         await TaskLogic.supplier_image(ctx, payload)
     }
@@ -58,7 +63,7 @@ export default class ComicTaskTest extends BaseTask {
         let ctx = ContextTool.initial() // 每次拉取都是一个新的上下文
         let payload = {
             "id": 1,
-            "event":"sub"
+            "event": "sub"
         }
         try {
             Log.ctxInfo(ctx, 'comic_base start')

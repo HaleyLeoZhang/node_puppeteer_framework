@@ -197,6 +197,9 @@ export default class SupplierData {
             case FIELD_CHANNEL.BAO_ZI:
                 text = '包子漫画'
                 break;
+            case FIELD_CHANNEL.TU_ZHUI:
+                text = '兔追漫画'
+                break;
         }
         return text
     }

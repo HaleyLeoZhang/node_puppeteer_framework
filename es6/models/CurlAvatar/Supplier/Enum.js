@@ -14,6 +14,7 @@ const FIELD_CHANNEL = {
     "KU_MAN_WU": 4, // 酷漫屋 http://www.kmwu6.com/
     "HAO_MAN_LIU": 5, // 好漫6 https://www.g-lens.com/  -- 要翻墙
     "BAO_ZI": 6, // 包子漫画 https://www.baozimh.com/ -- 要翻墙
+    "TU_ZHUI": 7, // 兔追漫画 https://www.mianzhui.com/woweixiedi/
 }
 
 //  `status` tinyint(1) unsigned NOT NULL DEFAULT '200' COMMENT '状态(0:删除,50:渠道不可用,100:手动下线,200:正常)',
@@ -35,6 +36,7 @@ const AVAILABLE_CHANNEL_LIST = [
     FIELD_CHANNEL.HAO_MAN_LIU,
     FIELD_CHANNEL.KU_MAN_WU,
     FIELD_CHANNEL.BAO_ZI,
+    FIELD_CHANNEL.TU_ZHUI,
 ]
 
 //  `ext_1` varchar(50) NOT NULL DEFAULT '' COMMENT '扩展字段1.针对不同场景使用',

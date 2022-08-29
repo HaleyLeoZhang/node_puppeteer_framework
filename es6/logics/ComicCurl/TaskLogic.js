@@ -19,6 +19,7 @@ import General from "../../tools/General";
 import KuManWuService from "../../services/Comic/KuManWuervice";
 import HaoManLiuService from "../../services/Comic/HaoManLiuService";
 import BaoZiService from "../../services/Comic/BaoZiService";
+import TuZhuiService from "../../services/Comic/TuZhuiService";
 
 export default class TaskLogic extends Base {
     static async comic_base(ctx, payload) {
@@ -98,6 +99,9 @@ export default class TaskLogic extends Base {
             case FIELD_CHANNEL.BAO_ZI:
                 spider_info = await BaoZiService.get_base_info(ctx, one_supplier.source_id)
                 break;
+            case FIELD_CHANNEL.TU_ZHUI:
+                spider_info = await TuZhuiService.get_base_info(ctx, one_supplier.source_id)
+                break;
 
             default:
                 Log.ctxWarn(ctx, 'channel 异常')
@@ -171,6 +175,9 @@ export default class TaskLogic extends Base {
                 break;
             case FIELD_CHANNEL.BAO_ZI:
                 supplier_list = await BaoZiService.get_chapter_list(ctx, one_supplier.source_id)
+                break;
+            case FIELD_CHANNEL.TU_ZHUI:
+                supplier_list = await TuZhuiService.get_chapter_list(ctx, one_supplier.source_id)
                 break;
             default:
                 Log.ctxWarn(ctx, 'channel 异常')
@@ -292,6 +299,9 @@ export default class TaskLogic extends Base {
                 break;
             case FIELD_CHANNEL.BAO_ZI:
                 image_list = await BaoZiService.get_image_list(ctx, link)
+                break;
+            case FIELD_CHANNEL.TU_ZHUI:
+                image_list = await TuZhuiService.get_image_list(ctx, link)
                 break;
             default:
                 Log.ctxWarn(ctx, 'channel 异常')
