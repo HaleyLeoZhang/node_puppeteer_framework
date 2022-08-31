@@ -13,6 +13,7 @@ import KuManWuService from "../../../services/Comic/KuManWuervice";
 import HaoManLiuService from "../../../services/Comic/HaoManLiuService";
 import BaoZiService from "../../../services/Comic/BaoZiService";
 import SupplierChapter from "../SupplierChapter";
+import TuZhuiService from "../../../services/Comic/TuZhuiService";
 
 export default class SupplierData {
     /**
@@ -226,7 +227,7 @@ export default class SupplierData {
                 href = `${BaoZiService.get_base_href()}/comic/${source_id}`
                 break;
             case FIELD_CHANNEL.TU_ZHUI:
-                href = `${BaoZiService.get_base_href()}/${source_id}`
+                href = `${TuZhuiService.get_base_href()}/${source_id}`
                 break;
         }
         return href
