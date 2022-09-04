@@ -110,13 +110,13 @@ export default class TaskLogic extends Base {
         supplier_name = General.get_data_with_default(spider_info.name, '')
         supplier_pic = General.get_data_with_default(spider_info.pic, '')
         supplier_intro = General.get_data_with_default(spider_info.intro, '')
-        if (supplier_name == '' && supplier_pic == '' && supplier_intro == '') {
+        if (supplier_name === '' && supplier_pic === '' && supplier_intro === '') {
             Log.ctxWarn(ctx, '本次未更新，因为渠道基本信息都是空的')
             Log.ctxWarn(ctx, spider_info)
             return CONST_BUSINESS_COMIC.TASK_SUCCESS
         }
         // - 更新渠道基本信息
-        if (supplier_name != one_supplier.name || supplier_pic != one_supplier.pic || supplier_intro != one_supplier.intro) {
+        if (supplier_name !== one_supplier.name || supplier_pic !== one_supplier.pic || supplier_intro !== one_supplier.intro) {
             update_supplier.name = supplier_name
             update_supplier.intro = supplier_intro
             update_supplier.pic = supplier_pic
@@ -132,8 +132,11 @@ export default class TaskLogic extends Base {
             }
             // - 没有漫画名的时候，会被认定为第一次操作，可以拷贝数据过去
             if (
-                one_comic.related_id == one_supplier.id &&
-                (one_comic.method == FIELD_METHOD.AUTO || (one_comic.method == FIELD_METHOD.AUTO_ONCE && (one_comic.name == '' || one_comic.pic)))
+                one_comic.related_id === one_supplier.id &&
+                (
+                    one_comic.method === FIELD_METHOD.AUTO ||
+                    (one_comic.method === FIELD_METHOD.AUTO_ONCE && (one_comic.name === '' || one_comic.pic === ''))
+                )
             ) {
                 // 拷贝需要更新的信息过去
                 let update = {
