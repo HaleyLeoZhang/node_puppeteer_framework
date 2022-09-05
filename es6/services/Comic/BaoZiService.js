@@ -95,6 +95,8 @@ export default class BaoZiService extends Base {
      */
     static async get_image_list(ctx, target_url) {
         let image_list = []
+        let image_map = {}; // 去重，这个渠道，图片翻页可能出现重复的
+
         let has_more = true
         for (let i = 1; has_more; i++) {
             let link = target_url.replace(".html", `_${i}.html`)
@@ -104,13 +106,25 @@ export default class BaoZiService extends Base {
             if (len_tmp === 0) {
                 has_more = false
                 continue
-            } else if (len_img > 0 && (image_list_tmp[len_tmp-1] === image_list[len_img-1] )) {
-                 // 如果最好一张图一样，说明已经到最后一页了
+            } else if (len_img > 0 && (image_list_tmp[len_tmp - 1] === image_list[len_img - 1])) {
+                // 如果最后一张图一样，说明已经到最后一页了
                 has_more = false
                 continue
             }
+            // 处理翻页重复图片问题
+            let image_list_raw = [];
+            for (let j = 0; j < image_list_tmp.length; j++) {
+                let img_key = image_list_tmp[j]
+                if (image_map[img_key] === 1) {
+                    // console.log("重复图，跳过")
+                    continue
+                }
+                image_map[img_key] = 1
+                image_list_raw.push(img_key)
+            }
+
             // 合并内容
-            image_list = image_list.concat(image_list_tmp)
+            image_list = image_list.concat(image_list_raw)
         }
         // 拉取结束
         Log.ctxInfo(ctx, `拉取结束 target_url ${target_url} 总计图片数 ${image_list.length}`)

@@ -24,8 +24,8 @@ export default class ComicTaskTest extends BaseTask {
     // ----------------------------------------------------------------------
     static async eval_script() {
         let ctx = ContextTool.initial() // 每次拉取都是一个新的上下文
-        let url = "https://www.gufengmh8.com/manhua/bailianchengshen/1447913.html"
-        let list = await GuFengService.get_image_list(ctx, url)
+        let url = "https://cn.webmota.com/comic/chapter/dawangraoming-yuedongwenhua/0_575.html"
+        let list = await BaoZiService.get_image_list(ctx, url)
         console.log(list)
     }
 

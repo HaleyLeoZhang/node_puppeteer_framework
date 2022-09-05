@@ -17,7 +17,8 @@ debug_supplier:
 	@clear
 	@rm -rf ./dist/app
 	@node ./node_modules/@vercel/ncc/dist/ncc/cli.js build ./es6/app.js -m -o ./dist/app
-	@node ./dist/app comic_test eval_script_2 --conf="D:/own_files/codes/own/node_puppeteer_framework/app.yaml"
+	@#node ./dist/app comic_test eval_script --conf="D:/own_files/codes/own/node_puppeteer_framework/app.yaml"
+	@node ./dist/app comic_test eval_script --conf="./app.yaml"
 
 # 调试www服务
 debug_www:
