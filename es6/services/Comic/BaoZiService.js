@@ -24,7 +24,10 @@ export default class BaoZiService extends Base {
         let options = {
             'headers': {
                 'User-Agent': UserAgentTool.fake_one(),
+                'Host': 'cn.baozimh.com',
+                "Referer": "https://cn.baozimh.com/",
             },
+            redirect: "follow",
             timeout: CONST_BUSINESS_COMIC.HTTP_FETCH_TIMEOUT,
         }
         options = this.getProxyOption(options) // 使用代理
