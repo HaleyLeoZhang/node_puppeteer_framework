@@ -27,7 +27,7 @@ export default class ManhuaXingQiuService extends Base {
             },
             timeout: CONST_BUSINESS_COMIC.HTTP_FETCH_TIMEOUT,
         }
-        // options = this.getProxyOption(options) // 使用代理
+        options = this.getProxyOption(options) // 使用代理
         return fetch(target_url, options)
             .then(res => res.text())
             .then(html => {
@@ -57,6 +57,7 @@ export default class ManhuaXingQiuService extends Base {
             timeout: CONST_BUSINESS_COMIC.HTTP_FETCH_TIMEOUT,
         }
         // 先拉头部
+        options = this.getProxyOption(options) // 使用代理
         await fetch(target_url, options)
             .then(res => res.text())
             .then(html => {
@@ -89,6 +90,7 @@ export default class ManhuaXingQiuService extends Base {
             },
             body: `id=${source_id}&id2=1`,
         }
+        option = this.getProxyOption(option) // 使用代理
         let len_chapter_list = 0
         await fetch(ajax_api, option)
             .then(res => res.text())
@@ -139,7 +141,7 @@ export default class ManhuaXingQiuService extends Base {
             },
             timeout: CONST_BUSINESS_COMIC.HTTP_FETCH_TIMEOUT,
         }
-        // options = this.getProxyOption(options) // 这个需要代理
+        options = this.getProxyOption(options) // 这个需要代理
         return fetch(target_url, options)
             .then(res => res.text())
             .then(html => {
