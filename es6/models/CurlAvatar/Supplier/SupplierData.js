@@ -14,6 +14,8 @@ import HaoManLiuService from "../../../services/Comic/HaoManLiuService";
 import BaoZiService from "../../../services/Comic/BaoZiService";
 import SupplierChapter from "../SupplierChapter";
 import TuZhuiService from "../../../services/Comic/TuZhuiService";
+import ManHuaNiuService from "../../../services/Comic/ManHuaNiuService";
+import ManhuaXingQiuService from "../../../services/Comic/ManhuaXingQiuService";
 
 export default class SupplierData {
     /**
@@ -201,6 +203,9 @@ export default class SupplierData {
             case FIELD_CHANNEL.TU_ZHUI:
                 text = '兔追漫画'
                 break;
+            case FIELD_CHANNEL.MAN_HUA_XING_QIU:
+                text = '漫画星球'
+                break;
         }
         return text
     }
@@ -228,6 +233,9 @@ export default class SupplierData {
                 break;
             case FIELD_CHANNEL.TU_ZHUI:
                 href = `${TuZhuiService.get_base_href()}/${source_id}`
+                break;
+            case FIELD_CHANNEL.MAN_HUA_XING_QIU:
+                href = `${ManhuaXingQiuService.get_base_href()}/${source_id}/`
                 break;
         }
         return href

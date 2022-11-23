@@ -8,6 +8,7 @@ import * as Enum from "../../models/CurlAvatar/Supplier/Enum";
 import KuManWuService from "../../services/Comic/KuManWuervice";
 import General from "../../tools/General";
 import TuZhuiService from "../../services/Comic/TuZhuiService";
+import ManhuaXingQiuService from "../../services/Comic/ManhuaXingQiuService";
 
 export default class SupplierLogic extends Base {
     static async list_by_ids(ctx, id_list) {
@@ -120,8 +121,8 @@ export default class SupplierLogic extends Base {
                 "host": KuManWuService.get_base_href(),
             },
             {
-                "id": FIELD_CHANNEL.BAO_ZI, // 有效渠道ID
-                "host": BaoZiService.get_base_href(),
+                "id": FIELD_CHANNEL.MAN_HUA_XING_QIU, // 有效渠道ID
+                "host": ManhuaXingQiuService.get_base_href(),
             },
             {
                 "id": FIELD_CHANNEL.TU_ZHUI, // 有效渠道ID
