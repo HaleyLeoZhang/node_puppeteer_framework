@@ -2,6 +2,7 @@ import Base from './Base'
 import Log from "../../tools/Log";
 import UserAgentTool from "../../tools/UserAgentTool";
 import CONST_BUSINESS_COMIC from "../../constant/business_comic";
+import General from "../../tools/General";
 
 const Module = require('module')
 const fetch = require('node-fetch'); // 文档 https://www.npmjs.com/package/node-fetch
@@ -27,6 +28,9 @@ export default class ManhuaXingQiuService extends Base {
             },
             timeout: CONST_BUSINESS_COMIC.HTTP_FETCH_TIMEOUT,
         }
+        Log.ctxInfo(ctx, `随机停顿中`)
+        await General.delay_rand_ms(500, 1500) // 限速
+        Log.ctxInfo(ctx, `继续`)
         // options = this.getProxyOption(options) // 使用代理
         return fetch(target_url, options)
             .then(res => res.text())
@@ -56,6 +60,9 @@ export default class ManhuaXingQiuService extends Base {
             },
             timeout: CONST_BUSINESS_COMIC.HTTP_FETCH_TIMEOUT,
         }
+        Log.ctxInfo(ctx, `随机停顿中`)
+        await General.delay_rand_ms(500, 1500) // 限速
+        Log.ctxInfo(ctx, `继续`)
         // 先拉头部
         await fetch(target_url, options)
             .then(res => res.text())
@@ -139,6 +146,9 @@ export default class ManhuaXingQiuService extends Base {
             },
             timeout: CONST_BUSINESS_COMIC.HTTP_FETCH_TIMEOUT,
         }
+        Log.ctxInfo(ctx, `随机停顿中`)
+        await General.delay_rand_ms(500, 1500) // 限速
+        Log.ctxInfo(ctx, `继续`)
         // options = this.getProxyOption(options) // 这个需要代理
         return fetch(target_url, options)
             .then(res => res.text())
