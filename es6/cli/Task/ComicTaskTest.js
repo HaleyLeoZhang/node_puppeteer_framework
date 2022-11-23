@@ -11,6 +11,7 @@ import TimeTool from "../../tools/TimeTool";
 import HaoManLiuService from "../../services/Comic/HaoManLiuService";
 import BaoZiService from "../../services/Comic/BaoZiService";
 import TuZhuiService from "../../services/Comic/TuZhuiService";
+import ManhuaXingQiuService from "../../services/Comic/ManhuaXingQiuService";
 
 export default class ComicTaskTest extends BaseTask {
     // ---------------------------------------------------
@@ -31,22 +32,22 @@ export default class ComicTaskTest extends BaseTask {
 
     static async eval_info() {
         let ctx = ContextTool.initial() // 每次拉取都是一个新的上下文
-        let source_id = "woweixiedi"
-        let info = await TuZhuiService.get_base_info(ctx, source_id)
+        let source_id = "21429"
+        let info = await ManhuaXingQiuService.get_base_info(ctx, source_id)
         console.log(info)
     }
 
     static async eval_script_2() {
         let ctx = ContextTool.initial() // 每次拉取都是一个新的上下文
-        let url = "https://www.mianzhui.com/74672-16775.html"
-        let list = await TuZhuiService.get_image_list(ctx, url)
+        let url = "http://www.mhxqiu2.com/21429/1407637.html"
+        let list = await ManhuaXingQiuService.get_image_list(ctx, url)
         console.log(list)
     }
 
     static async eval_script_3() {
         let ctx = ContextTool.initial() // 每次拉取都是一个新的上下文
-        let source_id = "woweixiedi"
-        let supplier_list = await TuZhuiService.get_chapter_list(ctx, source_id)
+        let source_id = "21429"
+        let supplier_list = await ManhuaXingQiuService.get_chapter_list(ctx, source_id)
         console.log(supplier_list)
     }
 
