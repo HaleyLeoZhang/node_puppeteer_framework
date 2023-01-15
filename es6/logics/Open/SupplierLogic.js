@@ -9,6 +9,8 @@ import KuManWuService from "../../services/Comic/KuManWuervice";
 import General from "../../tools/General";
 import TuZhuiService from "../../services/Comic/TuZhuiService";
 import ManhuaXingQiuService from "../../services/Comic/ManhuaXingQiuService";
+import LiuManHuaService from "../../services/Comic/LiuManHuaService";
+import GuFengService from "../../services/Comic/GuFengService";
 
 export default class SupplierLogic extends Base {
     static async list_by_ids(ctx, id_list) {
@@ -104,45 +106,43 @@ export default class SupplierLogic extends Base {
     // 漫画基本配置
     static comic_conf() {
         let data = []
-
-        let map_channel = {}
         let len = Enum.AVAILABLE_CHANNEL_LIST.length
         if (len === 0) {
             return data
         }
-        for (let i = 0; i < len; i++) {
-            let channel_id = Enum.AVAILABLE_CHANNEL_LIST[i]
-            map_channel[channel_id] = true
-        }
         // - 基本数据
-        let base_list = [
-            {
-                "id": FIELD_CHANNEL.KU_MAN_WU, // 有效渠道ID
-                "host": KuManWuService.get_base_href(),
-            },
-            {
-                "id": FIELD_CHANNEL.MAN_HUA_XING_QIU, // 有效渠道ID
-                "host": ManhuaXingQiuService.get_base_href(),
-            },
-            {
-                "id": FIELD_CHANNEL.TU_ZHUI, // 有效渠道ID
-                "host": TuZhuiService.get_base_href(),
-            },
-        ]
-
-        for (let j = 0, len_j = base_list.length; j < len_j; j++) {
+        for (let j = 0; j < len; j++) {
             // - 检测是否有效
-            let base_info = base_list[j]
-            if (!map_channel[base_info.id]) {
-                continue
-            }
+            let one_channel_id = Enum.AVAILABLE_CHANNEL_LIST[j]
+            let one_service = SupplierLogic.get_service_by_channel_id(one_channel_id)
             let raw = {
-                "id": base_info.id, // 渠道ID
-                "host": base_info.host, // 跳转地址---跳转到对应渠道去搜索漫画
-                "title": SupplierData.get_channel_text(base_info.id), // 渠道中文名
+                "id": one_channel_id, // 渠道ID
+                "host": one_service.get_base_href(), // 跳转地址---跳转到对应渠道去搜索漫画
+                "title": SupplierData.get_channel_text(one_channel_id), // 渠道中文名
             }
             data.push(raw)
         }
         return data
+    }
+
+    static get_service_by_channel_id(channel_id) {
+        let channel_id_real = parseInt(channel_id)
+        switch (channel_id_real) {
+            case FIELD_CHANNEL.GU_FENG:
+                return GuFengService
+            case FIELD_CHANNEL.LIU_MAN_HUA:
+                return LiuManHuaService
+            case FIELD_CHANNEL.KU_MAN_WU:
+                return KuManWuService
+            case FIELD_CHANNEL.HAO_MAN_LIU:
+                return HaoManLiuService
+            case FIELD_CHANNEL.BAO_ZI:
+                return BaoZiService
+            case FIELD_CHANNEL.TU_ZHUI:
+                return TuZhuiService
+            case FIELD_CHANNEL.MAN_HUA_XING_QIU:
+                return ManhuaXingQiuService
+        }
+        throw new Error("通过 channel_id 未找到 service 方法");
     }
 }

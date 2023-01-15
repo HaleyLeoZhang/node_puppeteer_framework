@@ -39,7 +39,7 @@ export default class ComicTaskTest extends BaseTask {
 
     static async eval_script_2() {
         let ctx = ContextTool.initial() // 每次拉取都是一个新的上下文
-        let url = "http://www.mhxqiu2.com/21429/1407637.html"
+        let url = "http://www.mhxqiu2.com/21063/1440561.html"
         let list = await ManhuaXingQiuService.get_image_list(ctx, url)
         console.log(list)
     }
