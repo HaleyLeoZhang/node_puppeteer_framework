@@ -1,13 +1,17 @@
-all: show
+all:  debug
 
-show:
-	@run  --- create or rebuild docker service
-	@down --- delete current docker service
-	@cnet --- create network for current docker service
-	@in   --- into current docker service
-	@log  --- listen current docker output log
-	@logs --- listen current business logs
-	@log_supervisor  ---  listen current supervisor logs
+debug:
+	@echo Usage:
+	@echo " " make [options]
+	@echo ""
+	@echo Options:
+	@echo "  " run  --- create or rebuild docker service
+	@echo "  " down --- delete current docker service
+	@echo "  " cnet --- create network for current docker service
+	@echo "  " in   --- into current docker service
+	@echo "  " log  --- listen current docker output log
+	@echo "  " logs --- listen current business logs
+	@echo "  " log_supervisor  ---  listen current supervisor logs
 
 run:
 	@# 删除镜像
