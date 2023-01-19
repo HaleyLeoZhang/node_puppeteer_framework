@@ -5,43 +5,75 @@
 // GITHUB: https://github.com/HaleyLeoZhang
 // -----------------------------------------------
 
-import fs from 'fs'
-import { APP_PATH, LOG } from '../conf'
-import General from './General'
-import Bugjs from 'node-bugjs'
-import TimeTool from "./TimeTool"; // Doc:  https://www.npmjs.com/package/node-bugjs
-const Log = new Bugjs(LOG)
+// 原装文档 https://github.com/winstonjs/winston
+// 日期插件 文档地址 https://github.com/winstonjs/winston-daily-rotate-file
+import *  as  winston from 'winston';
+import 'winston-daily-rotate-file';
+import TimeTool from "./TimeTool";
+import General from "./General";
 
-// 记录到日志
-Log.storeHandler = (log) => {
-    let logs = []
-    for (let key in log) {
-        switch (key) {
-            case 'date':
-                let real_date = General.format_time('Y-m-d h:i:s')
-                log[key] = `[${real_date}]`;
-                logs.push(log[key])
-                break;
-            default:
-                break; // 暂无
+
+export default class Log {
+    static IniConfig(is_debug, log_path) {
+        // 没有配置日志，则直接认定为调试模式
+        if (log_path === "") {
+            this.debug = true
+        } else {
+            this.debug = is_debug
+            const transport = new winston.transports.DailyRotateFile({
+                filename: log_path,
+                datePattern: 'YYYY-MM-DD-HH',
+                zippedArchive: true,
+                maxSize: '20m',
+                maxFiles: '7d'
+            });
+            this.logger = winston.createLogger({
+                transports: [
+                    transport
+                ]
+            });
         }
-
     }
-    logs.push(' ')
-    const file_name = General.format_time('Y-m-d') + '.log'
-    const target_file = LOG.log_path + '/' + file_name
-    fs.appendFileSync(target_file, logs.concat(log.logs).join('') + '\n')
-}
 
-// 使用上下文
-Log.ctxInfo = (ctx, content) => {
-    Log.info(ctx.get_trace_id() + "  " + content);
-}
-Log.ctxError = (ctx, content) => {
-    Log.error(ctx.get_trace_id() + "  " + content);
-}
-Log.ctxWarn = (ctx, content) => {
-    Log.warn(ctx.get_trace_id() + "  " + content);
-}
+    static getContent(ctx, content) {
+        return General.General.format_time('Y-m-d h:i:s') + "  " + ctx.get_trace_id() + "  " + content
+    }
 
-export default Log
+    static log(message) {
+        if (this.debug) {
+            console.log(message)
+        } else {
+            this.logger.log('info', message)
+
+
+        }
+    }
+
+    static ctxInfo(ctx, content) {
+        let message = Log.getContent(ctx, content)
+        if (this.debug) {
+            console.log(message)
+        } else {
+            this.logger.log('info', message)
+        }
+    }
+
+    static ctxWarn(ctx, content) {
+        let message = Log.getContent(ctx, content)
+        if (this.debug) {
+            console.warn(message)
+        } else {
+            this.logger.warn(message);
+            this.logger.log('Warn', message)
+        }
+    }
+
+    static ctxError(ctx, content) {
+        let message = Log.getContent(ctx, content)
+        if (this.debug) {
+            console.error(message)
+        } else {
+            this.logger.log('Error', message)
+        }
+    }
+}
