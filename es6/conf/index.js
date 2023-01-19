@@ -49,7 +49,7 @@ export default class Conf {
         SENTRY_DSN = doc.sentry_dsn
         LOG_CONFIG = {
             debug: doc.log.debug,
-            log_path: doc.log.log_path,
+            path: doc.log.path,
         }
         HTTP_PORT = doc.http_port
         PROXY_DSN = doc.proxy_dsn
@@ -87,7 +87,7 @@ export default class Conf {
         // console.log(doc); // 配置文件日常这里
         Conf.ini_doc(doc)
         // ini log
-        Log.IniConfig(LOG_CONFIG.debug, LOG_CONFIG.log_path)
+        Log.IniConfig(LOG_CONFIG.debug, LOG_CONFIG.path)
     }
 }
 
