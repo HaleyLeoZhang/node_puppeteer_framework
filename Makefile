@@ -7,13 +7,8 @@ www:
 	@node ./node_modules/@vercel/ncc/dist/ncc/cli.js build ./es6/www.js -m -o ./dist/www
 	@node ./dist/www --conf="D:/own_files/codes/own/node_puppeteer_framework/app.yaml"
 
-debug:
-	@clear
-	@echo "App debug"
-	@while true; do ./node_modules/gulp/bin/gulp.js start; sleep 2; done
-
 # 新渠道测试 windows 环境安装 make 相关指令 https://note.youdao.com/s/Z1w74WkV
-debug_supplier:
+debug:
 	@clear
 	@rm -rf ./dist/app
 	@node ./node_modules/@vercel/ncc/dist/ncc/cli.js build ./es6/app.js -m -o ./dist/app
@@ -47,10 +42,12 @@ download:
 	@apt-get update
 	@apt-get install google-chrome-stable
 
-compile:
-	@rm -rf ./es5/
-	@./node_modules/gulp/bin/gulp.js compile
+# 2023-01-19 14:44:00 已废弃 gulp 编译 es6
+# compile:
+# 	@rm -rf ./es5/
+# 	@./node_modules/gulp/bin/gulp.js compile
 
+# 编译 SCSS
 ci:
 	@make -S install
 	@./node_modules/gulp/bin/gulp.js compile

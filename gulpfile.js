@@ -16,7 +16,8 @@ var gulp = require('gulp');
 // ----------------------------------------------------
 // JS
 // ----------------------------------------------------
-var babel = require("gulp-babel"); // es6转es5
+// 2023-01-19  起 不再使用 gulp 编译出 es5
+// var babel = require("gulp-babel"); // es6转es5
 // ----------------------------------------------------
 
 // 这个 task 负责调用其他 task
@@ -67,64 +68,67 @@ function task_watch_scss(done) {
 //      JS 编成es5
 // ----------------------------------------------------
 
-var js_es6_dir = 'es6/'; // 书写的文件
-var js_es5_dir = 'es5/'; // 编译成浏览器兼容前的临时区
-
-var path_all = js_es6_dir + "**/*.js"
-
-let watch_dir_list = [
-    '*.js',
-    '*/*.js',
-    '*/*/*.js',
-    '*/*/*/*.js'
-];
+// var js_es6_dir = 'es6/'; // 书写的文件
+// var js_es5_dir = 'es5/'; // 编译成浏览器兼容前的临时区
+//
+// var path_all = js_es6_dir + "**/*.js"
+//
+// let watch_dir_list = [
+//     '*.js',
+//     '*/*.js',
+//     '*/*/*.js',
+//     '*/*/*/*.js'
+// ];
 
 
 //  ==== 监听对应目录所有文件的变化，如果变化， 则执行任务  ====
 
-// 初始化编译
-function task_compile_js() {
-    console.log("task_compile_js 开始")
-    gulp.src(path_all)
-        .pipe(babel())
-        .pipe(gulp.dest(js_es5_dir))
-    console.log("task_compile_js 结束")
-}
-
-// - 为了加快监听变化，并行监听各个层级js文件变化 1~4层目录
-function task_watch_js_list(done) {
-    for (let i in watch_dir_list) {
-        let watch_path = js_es6_dir + watch_dir_list[i]
-        console.log("watch_js 监听中 path  " + watch_path)
-        gulp.watch(watch_path, function (ok) {
-            console.log(watch_path + " 已观测到变化")
-            gulp.src(watch_path)
-                .pipe(babel())
-                .pipe(gulp.dest(js_es5_dir))
-            console.log(watch_path + " 已处理完变化")
-            ok()
-        })
-
-        // gulp.watch(watch_path, function (ok) {
-        //     console.log(watch_path + " 已观测到变化")
-        //     gulp.src(watch_path)
-        //         .pipe(babel())
-        //         .pipe(gulp.dest(js_es5_dir))
-        //     console.log(watch_path + " 已处理完变化")
-        //     ok()
-        // });
-    }
-    done()
-}
+//          2023-01-19  起 不再使用 gulp 编译出 es5
+// // 初始化编译
+// function task_compile_js() {
+//     console.log("task_compile_js 开始")
+//     gulp.src(path_all)
+//         .pipe(babel())
+//         .pipe(gulp.dest(js_es5_dir))
+//     console.log("task_compile_js 结束")
+// }
+//
+// // - 为了加快监听变化，并行监听各个层级js文件变化 1~4层目录
+// function task_watch_js_list(done) {
+//     for (let i in watch_dir_list) {
+//         let watch_path = js_es6_dir + watch_dir_list[i]
+//         console.log("watch_js 监听中 path  " + watch_path)
+//         gulp.watch(watch_path, function (ok) {
+//             console.log(watch_path + " 已观测到变化")
+//             gulp.src(watch_path)
+//                 .pipe(babel())
+//                 .pipe(gulp.dest(js_es5_dir))
+//             console.log(watch_path + " 已处理完变化")
+//             ok()
+//         })
+//
+//         // gulp.watch(watch_path, function (ok) {
+//         //     console.log(watch_path + " 已观测到变化")
+//         //     gulp.src(watch_path)
+//         //         .pipe(babel())
+//         //         .pipe(gulp.dest(js_es5_dir))
+//         //     console.log(watch_path + " 已处理完变化")
+//         //     ok()
+//         // });
+//     }
+//     done()
+// }
+//
+// gulp.task('start', gulp.parallel(function () {
+//     task_compile_scss()
+// }, task_watch_js_list, task_watch_scss));
 
 gulp.task('start', gulp.parallel(function () {
-    task_compile_js()
     task_compile_scss()
-}, task_watch_js_list, task_watch_scss));
+}, task_watch_scss));
 
 gulp.task('compile', function (done) {
     console.log("编译中")
-    task_compile_js()
     task_compile_scss()
     done()
     console.log("编译完成")
