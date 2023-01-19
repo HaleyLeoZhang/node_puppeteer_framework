@@ -23,7 +23,7 @@ export default class Log {
             const transport = new winston.transports.DailyRotateFile({
                 filename: log_path,
                 datePattern: 'YYYY-MM-DD',
-                zippedArchive: true,
+                zippedArchive: false,
                 maxSize: '20m',
                 maxFiles: '7d'
             });
@@ -39,7 +39,8 @@ export default class Log {
         return General.General.format_time('Y-m-d h:i:s') + "  " + ctx.get_trace_id() + "  " + content
     }
 
-    static log(message) {
+    static log(content) {
+        let message = General.General.format_time('Y-m-d h:i:s') + "  " + content
         if (this.debug) {
             console.log(message)
         } else if (this.open) {

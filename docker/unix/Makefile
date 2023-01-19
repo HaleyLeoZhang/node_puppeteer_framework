@@ -1,4 +1,13 @@
-all: run
+all: show
+
+show:
+	@run  --- create or rebuild docker service
+	@down --- delete current docker service
+	@cnet --- create network for current docker service
+	@in   --- into current docker service
+	@log  --- listen current docker output log
+	@logs --- listen current business logs
+	@log_supervisor  ---  listen current supervisor logs
 
 run:
 	@# 删除镜像
@@ -26,9 +35,12 @@ in:
 log:
 	@docker logs -f comic-node-app
 
+# supervisor 控制台日志
+log_supervisor:
+	@docker exec -it comic-node-app bash -c "tail -f /tmp/*.log -n 5"
 # 业务日志
 logs:
-	@docker exec -it comic-node-app bash -c "tail -f /tmp/*.log"
+	@docker exec -it comic-node-app bash -c "tail -f /tmp/comic/log* -n 5"
 
 clear:
 	@clear
