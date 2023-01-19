@@ -9,7 +9,6 @@
 // 日期插件 文档地址 https://github.com/winstonjs/winston-daily-rotate-file
 import *  as  winston from 'winston';
 import 'winston-daily-rotate-file';
-import TimeTool from "./TimeTool";
 import General from "./General";
 
 
@@ -22,7 +21,7 @@ export default class Log {
             this.debug = is_debug
             const transport = new winston.transports.DailyRotateFile({
                 filename: log_path,
-                datePattern: 'YYYY-MM-DD-HH',
+                datePattern: 'YYYY-MM-DD',
                 zippedArchive: true,
                 maxSize: '20m',
                 maxFiles: '7d'
