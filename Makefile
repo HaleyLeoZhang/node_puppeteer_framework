@@ -10,10 +10,14 @@ www:
 # 新渠道测试 windows 环境安装 make 相关指令 https://note.youdao.com/s/Z1w74WkV
 debug:
 	@clear
-	@rm -rf ./dist/app
-	@node ./node_modules/@vercel/ncc/dist/ncc/cli.js build ./es6/app.js -m -o ./dist/app
-	@#node ./dist/app comic_test eval_script --conf="D:/own_files/codes/own/node_puppeteer_framework/app.yaml"
-	@node ./dist/app comic_test eval_script_2 --conf="./app.yaml"
+# 	@rm -rf ./dist/app
+# 	@node ./node_modules/@vercel/ncc/dist/ncc/cli.js build ./es6/app.js -m -o ./dist/app
+# 	@#node ./dist/app comic_test eval_script --conf="D:/own_files/codes/own/node_puppeteer_framework/app.yaml"
+# 	@node ./dist/app comic_test eval_script_2 --conf="./app.yaml"
+#
+# 全局安装 npm i -g babel-cli 即可调试
+	@babel-node ./es6/app.js  comic_test eval_script_2 --conf="./app.yaml"
+
 
 # 调试www服务
 debug_www:
