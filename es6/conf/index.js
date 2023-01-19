@@ -10,13 +10,14 @@ import * as yaml from "js-yaml";
 const APP_PATH = __dirname + '/../../'
 
 import fs from "fs";
+import Log from "../tools/Log";
 
 
 // const DEFAULT_CONFIG_PATH = '/app/app.yaml' // 配置文件默认位置
 
 // 初始化配置
 let BROWSER = {}, // 浏览器配置
-    LOG = {}, // 日志配置
+    LOG_CONFIG = {}, // 日志配置
     SENTRY_DSN = "", // Sentry 异常采集 - 更多请访问 https://sentry.io/
     QINIU_COMIC = { // 七牛云图片配置
         // "access_key": "",
@@ -46,13 +47,8 @@ export default class Conf {
             headless: doc.puppeteer_comic.headless
         }
         SENTRY_DSN = doc.sentry_dsn
-        LOG = {
-            console: doc.log.console,
+        LOG_CONFIG = {
             debug: doc.log.debug,
-            bright: doc.log.bright,
-            absolute: doc.log.absolute,
-            date: doc.log.date,
-            store: doc.log.store,
             log_path: doc.log.log_path,
         }
         HTTP_PORT = doc.http_port
@@ -90,6 +86,8 @@ export default class Conf {
         const doc = yaml.load(fs.readFileSync(config_path, 'utf8'));
         // console.log(doc); // 配置文件日常这里
         Conf.ini_doc(doc)
+        // ini log
+        Log.IniConfig(LOG_CONFIG.debug, LOG_CONFIG.log_path)
     }
 }
 
@@ -97,7 +95,6 @@ export default class Conf {
 export {
     APP_PATH,
     BROWSER,
-    LOG,
     SENTRY_DSN,
     QINIU_COMIC,
     HTTP_PORT,

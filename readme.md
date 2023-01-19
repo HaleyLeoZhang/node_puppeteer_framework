@@ -39,6 +39,7 @@
 > 目录介绍
 
 `es6` 源代码路径  
+本地开发环境 通过 `babel-node` 调试  
 生产环境通过 [ncc](https://github.com/vercel/ncc) 打包对应功能模块到 `dist/` 各自目录下  
 
 想了解代码结构 你可以先从`入口文件`开始
