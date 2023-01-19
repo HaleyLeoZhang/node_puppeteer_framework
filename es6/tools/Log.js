@@ -16,8 +16,9 @@ export default class Log {
     static IniConfig(is_debug, log_path) {
         // 没有配置日志，则直接认定为调试模式
         if (log_path === "") {
-            this.debug = true
+            this.open = false
         } else {
+            this.open = true // true 表示允许写入日志文件
             this.debug = is_debug
             const transport = new winston.transports.DailyRotateFile({
                 filename: log_path,
@@ -41,10 +42,8 @@ export default class Log {
     static log(message) {
         if (this.debug) {
             console.log(message)
-        } else {
+        } else if (this.open) {
             this.logger.log('info', message)
-
-
         }
     }
 
@@ -52,7 +51,7 @@ export default class Log {
         let message = Log.getContent(ctx, content)
         if (this.debug) {
             console.log(message)
-        } else {
+        } else if (this.open) {
             this.logger.log('info', message)
         }
     }
@@ -61,7 +60,7 @@ export default class Log {
         let message = Log.getContent(ctx, content)
         if (this.debug) {
             console.warn(message)
-        } else {
+        } else if (this.open) {
             this.logger.warn(message);
             this.logger.log('Warn', message)
         }
@@ -71,7 +70,7 @@ export default class Log {
         let message = Log.getContent(ctx, content)
         if (this.debug) {
             console.error(message)
-        } else {
+        } else if (this.open) {
             this.logger.log('Error', message)
         }
     }

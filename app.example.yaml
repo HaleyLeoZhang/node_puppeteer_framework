@@ -59,8 +59,8 @@ puppeteer_comic: # 模块专属 中间件
 
 # 日志配置
 log:
-  debug: true # 显示是哪个文件哪行代码输出的
-  log_path: '' # 日志存放位置，如 /tmp/comic_log
+  debug: true # true 输出日志到控制台; false 不输出日志到控制台
+  log_path: '' # 日志存放位置：不填,则不写日志文件 ; 填写，如 /tmp/comic_log, 则自动写入到 /tmp 目录下 以 comic_log 开头的文件
 
 # Sentry 异常采集  更多请访问 https://sentry.io/
 sentry_dsn: '' # 异常上报地址
