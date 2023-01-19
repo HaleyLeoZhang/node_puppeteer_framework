@@ -36,11 +36,11 @@ export default class Log {
     }
 
     static getContent(ctx, content) {
-        return General.General.format_time('Y-m-d h:i:s') + "  " + ctx.get_trace_id() + "  " + content
+        return General.format_time('Y-m-d h:i:s') + "  " + ctx.get_trace_id() + "  " + content
     }
 
     static log(content) {
-        let message = General.General.format_time('Y-m-d h:i:s') + "  " + content
+        let message = General.format_time('Y-m-d h:i:s') + "  " + content
         if (this.debug) {
             console.log(message)
         } else if (this.open) {
