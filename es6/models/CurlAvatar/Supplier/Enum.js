@@ -16,7 +16,7 @@ const FIELD_CHANNEL = {
     "BAO_ZI": 6, // 包子漫画 https://www.baozimh.com/ -- 要翻墙
     "TU_ZHUI": 7, // 兔追漫画 https://www.mianzhui.com/woweixiedi/
     "MAN_HUA_XING_QIU": 8, // 漫画星球 http://www.mhxqiu2.com/
-    "GO_DA": 8, // GoDa漫画 https://cn.godamanga.com/
+    "GO_DA": 9, // GoDa漫画 https://cn.godamanga.com/
 }
 
 //  `status` tinyint(1) unsigned NOT NULL DEFAULT '200' COMMENT '状态(0:删除,50:渠道不可用,100:手动下线,200:正常)',
