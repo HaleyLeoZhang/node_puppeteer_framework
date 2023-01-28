@@ -2,6 +2,7 @@ import Base from './Base'
 import Log from "../../tools/Log";
 import UserAgentTool from "../../tools/UserAgentTool";
 import CONST_BUSINESS_COMIC from "../../constant/business_comic";
+import TimeTool from "../../tools/TimeTool";
 
 const Module = require('module')
 const fetch = require('node-fetch'); // 文档 https://www.npmjs.com/package/node-fetch
@@ -99,7 +100,7 @@ export default class GoDaService extends Base {
      */
     static async get_image_list(ctx, target_url) {
         let image_list = [];
-        Log.ctxInfo(ctx, `开始拉取 ${target_url} 图片列表`)
+        Log.ctxInfo(ctx, `TuZhuiService 开始拉取 ${target_url} 图片列表`)
 
         let options = {
             'headers': {
@@ -107,23 +108,21 @@ export default class GoDaService extends Base {
             },
             timeout: CONST_BUSINESS_COMIC.HTTP_FETCH_TIMEOUT,
         }
+        Log.ctxInfo(ctx, `随机停顿中`)
+        await TimeTool.delay_rand_ms(500, 5000) // 限速
+        Log.ctxInfo(ctx, `继续`)
+        // options = this.getProxyOption(options) // 这个需要代理
         return fetch(target_url, options)
             .then(res => res.text())
             .then(html => {
-                // console.log('html', html)
-                let srcpt_tpls = html.match(/eval\((.*)\)/)
-                // console.log('srcpt_tpls', srcpt_tpls)
-                let js_code = srcpt_tpls[0]
-                // console.log('js_code', js_code)
-                let js_real_code = `
-                    ${js_code} 
-                    ;module.exports = newImgs
-                `
-                // 当成模块动态编译js字符串
-                let tmp_run_module_name = 'tmp-runtime-module';
-                const tmp_module = new Module(tmp_run_module_name)
-                tmp_module._compile(js_real_code, tmp_run_module_name)
-                let image_list = tmp_module.exports
+
+                const $ = cheerio.load(html);
+                let image_object_list = $(".stk-block-content img")
+                let image_length = image_object_list.length
+                for (let i = 0; i < image_length; i++) {
+                    let src = image_object_list.eq(i).attr("data-lazy-src")
+                    image_list.push(src)
+                }
                 // 破解结束
                 Log.ctxInfo(ctx, `拉取结束 target_url ${target_url} 总计图片数 ${image_list.length}`)
                 return image_list
