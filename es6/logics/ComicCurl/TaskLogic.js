@@ -21,6 +21,8 @@ import HaoManLiuService from "../../services/Comic/HaoManLiuService";
 import BaoZiService from "../../services/Comic/BaoZiService";
 import TuZhuiService from "../../services/Comic/TuZhuiService";
 import ManhuaXingQiuService from "../../services/Comic/ManhuaXingQiuService";
+import GoDaService from "../../services/Comic/GoDaService";
+import TimeTool from "../../tools/TimeTool";
 
 export default class TaskLogic extends Base {
     static async comic_base(ctx, payload) {
@@ -69,6 +71,7 @@ export default class TaskLogic extends Base {
         return CONST_BUSINESS_COMIC.TASK_SUCCESS
     }
 
+    // Step 1  渠道漫画基本信息提取
     static async supplier_base(ctx, payload) {
         let supplier_id = payload.id
         const one_supplier = await SupplierData.get_one_by_id(supplier_id)
@@ -84,6 +87,11 @@ export default class TaskLogic extends Base {
             "intro": "",
         }
         let supplier_name, supplier_pic, supplier_intro = '';
+        // ------ 防止太快 被封 - 随机限速
+        Log.ctxInfo(ctx, `随机停顿中`)
+        await TimeTool.delay_rand_ms(500, 5000) // 限速
+        Log.ctxInfo(ctx, `继续`)
+        // -
         switch (one_supplier.channel) { // 处理渠道信息
             case FIELD_CHANNEL.GU_FENG:
                 spider_info = await GuFengService.get_base_info(ctx, one_supplier.source_id)
@@ -106,7 +114,9 @@ export default class TaskLogic extends Base {
             case FIELD_CHANNEL.MAN_HUA_XING_QIU:
                 spider_info = await ManhuaXingQiuService.get_base_info(ctx, one_supplier.source_id)
                 break;
-
+            case FIELD_CHANNEL.GO_DA:
+                spider_info = await GoDaService.get_base_info(ctx, one_supplier.source_id)
+                break;
             default:
                 Log.ctxWarn(ctx, 'channel 异常')
                 return CONST_BUSINESS_COMIC.TASK_SUCCESS
@@ -154,6 +164,7 @@ export default class TaskLogic extends Base {
         return CONST_BUSINESS_COMIC.TASK_SUCCESS
     }
 
+    // Step 2  渠道漫画章节列表提取
     static async supplier_chapter(ctx, payload) {
         let supplier_id = payload.id
         const one_supplier = await SupplierData.get_one_by_id(supplier_id)
@@ -163,6 +174,11 @@ export default class TaskLogic extends Base {
         }
         // 获取章节列表
         let supplier_list = []
+        // ------ 防止太快 被封 - 随机限速
+        Log.ctxInfo(ctx, `随机停顿中`)
+        await TimeTool.delay_rand_ms(500, 5000) // 限速
+        Log.ctxInfo(ctx, `继续`)
+        // -
         switch (one_supplier.channel) {
             case FIELD_CHANNEL.GU_FENG:
                 let tab_name = one_supplier.ext_1
@@ -188,6 +204,9 @@ export default class TaskLogic extends Base {
                 break;
             case FIELD_CHANNEL.MAN_HUA_XING_QIU:
                 supplier_list = await ManhuaXingQiuService.get_chapter_list(ctx, one_supplier.source_id)
+                break;
+            case FIELD_CHANNEL.GO_DA:
+                supplier_list = await GoDaService.get_chapter_list(ctx, one_supplier.source_id)
                 break;
             default:
                 Log.ctxWarn(ctx, 'channel 异常')
@@ -273,6 +292,7 @@ export default class TaskLogic extends Base {
         return real_list
     }
 
+    // Step 3  渠道漫画章节图片列表提取
     static async supplier_image(ctx, payload) {
         let chapter_id = payload.id
         let link = payload.link
@@ -291,6 +311,11 @@ export default class TaskLogic extends Base {
         await SupplierImageData.delete_by_related_id(chapter_id)
         // 爬取图片列表
         let image_list = []
+        // ------ 防止太快 被封 - 随机限速
+        Log.ctxInfo(ctx, `随机停顿中`)
+        await TimeTool.delay_rand_ms(500, 5000) // 限速
+        Log.ctxInfo(ctx, `继续`)
+        // -
         switch (one_supplier.channel) {
             case FIELD_CHANNEL.GU_FENG: // 因为其域名限制，现在要更换
                 image_list = await GuFengService.get_image_list(ctx, link)
@@ -315,6 +340,9 @@ export default class TaskLogic extends Base {
                 break;
             case FIELD_CHANNEL.MAN_HUA_XING_QIU:
                 image_list = await ManhuaXingQiuService.get_image_list(ctx, link)
+                break;
+            case FIELD_CHANNEL.GO_DA:
+                image_list = await GoDaService.get_image_list(ctx, link)
                 break;
             default:
                 Log.ctxWarn(ctx, 'channel 异常')
