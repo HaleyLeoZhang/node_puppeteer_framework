@@ -12,6 +12,7 @@ import HaoManLiuService from "../../services/Comic/HaoManLiuService";
 import BaoZiService from "../../services/Comic/BaoZiService";
 import TuZhuiService from "../../services/Comic/TuZhuiService";
 import ManhuaXingQiuService from "../../services/Comic/ManhuaXingQiuService";
+import GoDaService from "../../services/Comic/GoDaService";
 
 export default class ComicTaskTest extends BaseTask {
     // ---------------------------------------------------
@@ -32,8 +33,8 @@ export default class ComicTaskTest extends BaseTask {
 
     static async eval_info() {
         let ctx = ContextTool.initial() // 每次拉取都是一个新的上下文
-        let source_id = "21429"
-        let info = await ManhuaXingQiuService.get_base_info(ctx, source_id)
+        let source_id = "yirenzhixia-dongmantang"
+        let info = await GoDaService.get_chapter_list(ctx, source_id)
         console.log(info)
     }
 

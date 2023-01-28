@@ -16,7 +16,7 @@ debug:
 # 	@node ./dist/app comic_test eval_script_2 --conf="./app.yaml"
 #
 # 全局安装 npm i -g babel-cli 即可调试
-	@babel-node ./es6/app.js  comic_test eval_script_2 --conf="./app.yaml"
+	@babel-node ./es6/app.js  comic_test eval_info --conf="./app.yaml"
 
 
 # 调试www服务
