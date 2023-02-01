@@ -12,7 +12,7 @@
 
     var CACHE_HISTORY_READ = 'history_read';
 
-    var LIMIT_ATTEMP_TIMES = 20 // 图片重试次数上限
+    var LIMIT_ATTEMP_TIMES = 3 // 图片重试次数上限
     var RETRY_GAP_SECOND = 2 // 每次重试等待秒数
 
     var LOADING_RENAME_PIC = "https://i.loli.net/2020/03/04/VHolG6WtgxprTm3.gif" // 跟loading图片一样,不过请求地址不一样
@@ -90,26 +90,28 @@
                 $(_this.target_append).html('<h5>资源不存在</h5>')
             } else {
                 var when_reach_callback = function () {
-                    // var processed_html = ''
-                    // for (var i = 0; list.length > 0 && i < LOAD_IMG_LENGTH; i++) {
-                    //     var data = list.shift()
-                    //     processed_html += _this.render_html(data)
-                    // }
-                    // $(_this.target_append).append(processed_html)
+                    var processed_html = ''
+                    for (var i = 0; list.length > 0 && i < LOAD_IMG_LENGTH; i++) {
+                        var data = list.shift()
+                        processed_html += _this.render_html(data)
+                    }
+                    $(_this.target_append).append(processed_html)
                     // ------------------------------- 2023-2-2 00:42:16 分割线，展示图片全部不带 refer
                     // It is to load images without http_referrer that by use this lib
                     // In this way, you will preload all of those images from other sites in this page
-                    var processed_html = ''
-                    for (var i = 0; list.length > 0 && i < LOAD_IMG_LENGTH; i++) {
-                        var item = list.shift()
-                        var pic = item.src_origin
-                        if (item.src_own != '') {
-                            pic = item.src_own
+                    var arr = $(_this.target_append + " img"),
+                        arr_len = arr.length;
+                    var temp_src = '';
+                    for(var i = 0; i < arr_len; i++) {
+                        temp_src = arr[i].getAttribute("data-original");
+
+                        // Filters --- Lastest : Unified CNAME
+                        // If this pic is not from my cdn
+                        if(!temp_src.match(/hlzblog\.top/i)) {
+                            arr[i].innerHTML = ReferrerKiller.imageHtml(temp_src);
                         }
-                        var iframe_html = ReferrerKiller.imageHtml(pic)
-                        processed_html += `<div style="width:100%;">${iframe_html}</div>`
                     }
-                    $(_this.target_append).append(processed_html)
+
                 };
                 when_reach_callback(); // 先初始化
                 ComicCommon.reach_page_bottom(when_reach_callback)
