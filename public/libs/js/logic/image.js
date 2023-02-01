@@ -12,7 +12,7 @@
 
     var CACHE_HISTORY_READ = 'history_read';
 
-    var LIMIT_ATTEMP_TIMES = 3 // 图片重试次数上限
+    var LIMIT_ATTEMP_TIMES = 5 // 图片重试次数上限
     var RETRY_GAP_SECOND = 2 // 每次重试等待秒数
 
     var LOADING_RENAME_PIC = "https://i.loli.net/2020/03/04/VHolG6WtgxprTm3.gif" // 跟loading图片一样,不过请求地址不一样
@@ -69,8 +69,13 @@
         }
         console.log("当前次数 ", attemp_times)
         setTimeout(function () {
-            console.log("重试中...", _this.getAttribute("data-original"))
-            _this.src = _this.getAttribute("data-original")
+            var img_src =_this.getAttribute("data-original")
+            console.log("重试中...", img_src)
+            // _this.src = img_src
+            // ------------------------------- 2023-2-2 00:42:16 分割线，展示图片全部不带 refer
+            // It is to load images without http_referrer that by use this lib
+            // In this way, you will preload all of those images from other sites in this page
+            _this.innerHTML = ReferrerKiller.imageHtml(img_src);
             _this.setAttribute("data-attemp_times", attemp_times)
         }, RETRY_GAP_SECOND * 1000);
     };
@@ -96,22 +101,6 @@
                         processed_html += _this.render_html(data)
                     }
                     $(_this.target_append).append(processed_html)
-                    // ------------------------------- 2023-2-2 00:42:16 分割线，展示图片全部不带 refer
-                    // It is to load images without http_referrer that by use this lib
-                    // In this way, you will preload all of those images from other sites in this page
-                    var arr = $(_this.target_append + " img"),
-                        arr_len = arr.length;
-                    var temp_src = '';
-                    for(var i = 0; i < arr_len; i++) {
-                        temp_src = arr[i].getAttribute("data-original");
-
-                        // Filters --- Lastest : Unified CNAME
-                        // If this pic is not from my cdn
-                        if(!temp_src.match(/hlzblog\.top/i)) {
-                            arr[i].innerHTML = ReferrerKiller.imageHtml(temp_src);
-                        }
-                    }
-
                 };
                 when_reach_callback(); // 先初始化
                 ComicCommon.reach_page_bottom(when_reach_callback)
