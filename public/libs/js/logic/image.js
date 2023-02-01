@@ -90,10 +90,24 @@
                 $(_this.target_append).html('<h5>资源不存在</h5>')
             } else {
                 var when_reach_callback = function () {
+                    // var processed_html = ''
+                    // for (var i = 0; list.length > 0 && i < LOAD_IMG_LENGTH; i++) {
+                    //     var data = list.shift()
+                    //     processed_html += _this.render_html(data)
+                    // }
+                    // $(_this.target_append).append(processed_html)
+                    // ------------------------------- 2023-2-2 00:42:16 分割线，展示图片全部不带 refer
+                    // It is to load images without http_referrer that by use this lib
+                    // In this way, you will preload all of those images from other sites in this page
                     var processed_html = ''
                     for (var i = 0; list.length > 0 && i < LOAD_IMG_LENGTH; i++) {
-                        var data = list.shift()
-                        processed_html += _this.render_html(data)
+                        var item = list.shift()
+                        var pic = item.src_origin
+                        if (item.src_own != '') {
+                            pic = item.src_own
+                        }
+                        var iframe_html = ReferrerKiller.imageHtml(pic)
+                        processed_html += `<div style="width:100%;">${iframe_html}</div>`
                     }
                     $(_this.target_append).append(processed_html)
                 };
