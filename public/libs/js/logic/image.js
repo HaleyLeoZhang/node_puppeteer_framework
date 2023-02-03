@@ -16,7 +16,7 @@
     var RETRY_GAP_SECOND = 2 // 每次重试等待秒数
 
     var LOADING_RENAME_PIC = "https://i.loli.net/2020/03/04/VHolG6WtgxprTm3.gif" // 跟loading图片一样,不过请求地址不一样
-    var LOAD_IMG_LENGTH = 5 // 每次下拉加载的图片张数
+    var LOAD_IMG_LENGTH = 4 // 每次下拉加载的图片张数
 
     var CACHE_KEY_IMAGE_WIDTH = "image_width" // 图片屏占比
 
@@ -105,8 +105,8 @@
         console.log("处理中")
         if (_this.first_pic.match("godamanga") !== null) {
             console.log("匹配成功")
-            layer.confirm("图片是否正常显示", {
-                btn: ['【必要操作】跳到第三方页面，等待图片加载出来后，返回当前页面', '我已处理完成',]
+            layer.confirm("图片若未正常显示，点击`跳转`，等待第三方页面图片加载后，再回到当前页面", {
+                btn: ['加载图片页面', '图片已正常显示',]
             }, function () {
                 window.open(_this.first_pic, "_blank") // 打开新页面，会自动挂载 cookie 过安全检测
             }, function () {
