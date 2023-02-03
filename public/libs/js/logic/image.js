@@ -38,14 +38,19 @@
 
     Image.prototype.render_html = function (item) {
         // console.log('Image.prototype.render_html',item)
-        var pic = item.src_origin
-        if (item.src_own != '') {
-            pic = item.src_own
-        }
+        var pic = this.get_real_pic(item)
         return `
             <img src="${pic}"
                 data-original_referer_killer="${pic}" title="第 ${item.sequence} 张图" alt="第 ${item.sequence} 张图加载失败"
                 onerror="App_Image.img_cdn_refresh(this)" data-attemp_times="0" />`
+    };
+
+    Image.prototype.get_real_pic = function (item) {
+        var pic = item.src_origin
+        if (item.src_own != '') {
+            pic = item.src_own
+        }
+        return pic
     };
 
     Image.prototype.set_info = function () {
@@ -127,11 +132,11 @@
                 var when_reach_callback = function () {
                     var processed_html = ''
                     for (var i = 0; list.length > 0 && i < LOAD_IMG_LENGTH; i++) {
-                        var one_pic = list.shift()
+                        var item = list.shift()
                         if (i === 0) {
-                            _this.first_pic = one_pic
+                            _this.first_pic = _this.get_real_pic(item)
                         }
-                        processed_html += _this.render_html(one_pic)
+                        processed_html += _this.render_html(item)
                     }
                     if (processed_html != "") {
                         $(_this.target_append).append(processed_html)
