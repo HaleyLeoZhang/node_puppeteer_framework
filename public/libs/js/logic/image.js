@@ -112,7 +112,7 @@
                         if (i === 0) {
                             _this.first_pic = one_pic
                         }
-                        processed_html += _this.re87907nder_html(one_pic)
+                        processed_html += _this.render_html(one_pic)
                     }
                     $(_this.target_append).append(processed_html)
                 };
