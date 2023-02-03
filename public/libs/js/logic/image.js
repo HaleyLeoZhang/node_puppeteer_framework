@@ -12,11 +12,11 @@
 
     var CACHE_HISTORY_READ = 'history_read';
 
-    var LIMIT_ATTEMP_TIMES = 20 // 图片重试次数上限
+    var LIMIT_ATTEMP_TIMES = 5 // 图片重试次数上限
     var RETRY_GAP_SECOND = 2 // 每次重试等待秒数
 
     var LOADING_RENAME_PIC = "https://i.loli.net/2020/03/04/VHolG6WtgxprTm3.gif" // 跟loading图片一样,不过请求地址不一样
-    var LOAD_IMG_LENGTH = 3 // 每次下拉加载的图片张数
+    var LOAD_IMG_LENGTH = 4 // 每次下拉加载的图片张数
 
     var CACHE_KEY_IMAGE_WIDTH = "image_width" // 图片屏占比
 
@@ -29,6 +29,7 @@
 
         this.detail = null
 
+        this.first_pic = "" // 第一张图
         ComicCommon.load_target = '#image_list'
         ComicCommon.scroll_tolerant = 300 // 修改下拉加载的容差
     }
@@ -37,14 +38,19 @@
 
     Image.prototype.render_html = function (item) {
         // console.log('Image.prototype.render_html',item)
+        var pic = this.get_real_pic(item)
+        return `
+            <img src="${pic}"
+                data-original_referer_killer="${pic}" title="第 ${item.sequence} 张图" alt="第 ${item.sequence} 张图加载失败"
+                onerror="App_Image.img_cdn_refresh(this)" data-attemp_times="0" />`
+    };
+
+    Image.prototype.get_real_pic = function (item) {
         var pic = item.src_origin
         if (item.src_own != '') {
             pic = item.src_own
         }
-        return `
-            <img src="${pic}"
-                data-original="${pic}" title="第 ${item.sequence} 张图" alt="第 ${item.sequence} 张图加载失败"
-                onerror="App_Image.img_cdn_refresh(this)" data-attemp_times="0" />`
+        return pic
     };
 
     Image.prototype.set_info = function () {
@@ -67,13 +73,49 @@
             console.log("重试次数已达上限.当前次数 ", attemp_times)
             return
         }
+        _this.setAttribute("data-attemp_times", attemp_times)
         console.log("当前次数 ", attemp_times)
         setTimeout(function () {
-            console.log("重试中...", _this.getAttribute("data-original"))
-            _this.src = _this.getAttribute("data-original")
-            _this.setAttribute("data-attemp_times", attemp_times)
+            var img_src = _this.getAttribute("data-original_referer_killer")
+            console.log("重试中...", img_src)
+            // _this.src = img_src
+            // ------------------------------- 2023-2-2 00:42:16 分割线，展示图片全部不带 refer
+            // It is to load images without http_referrer that by use this lib
+            // In this way, you will preload all of those images from other sites in this page
+            // ---- 原理: 在 iframe 加载过图片之后，浏览器会缓存，后面发出跨域请求时，就会从磁盘读缓存中直接读出来了
+            _this.innerHTML = ReferrerKiller.imageHtml(img_src);
         }, RETRY_GAP_SECOND * 1000);
     };
+
+    Image.prototype.handle_referer_killer_check = function () {
+        var _this = this
+        var cache_name = 'Goga_refer'
+        var cache_data = "empty_23233333"
+        var cache_ttl = 3 * 3600 // 3小时一次
+        // 记录本次打开页面的最大章节序号
+        ComicCommon.cache_set_engine('session')
+        // GoDa渠道图片，因为有防护限制，第一次killer请求想成功，必须打开新页面
+        var cache_data_session = ComicCommon.cache_data_get(cache_name)
+        // 处理过则不再处理
+        if (cache_data_session) {
+            // 说明短时间内刷过了
+            console.log("处理过则不再处理")
+            return
+        }
+        console.log("处理中")
+        if (_this.first_pic.match("godamanga") !== null) {
+            console.log("匹配成功")
+            layer.confirm("图片若未正常显示，点击`跳转`，等待第三方页面图片加载后，再回到当前页面", {
+                btn: ['加载图片页面', '图片已正常显示',]
+            }, function () {
+                window.open(_this.first_pic, "_blank") // 打开新页面，会自动挂载 cookie 过安全检测
+            }, function () {
+                cache_data = ComicCommon.cache_data_set(cache_name, cache_data, cache_ttl)
+                location.reload()
+            });
+            return
+        }
+    }
 
     /**
      * 公共封装 ajax
@@ -86,18 +128,24 @@
         }
         ComicCommon.get_list(ComicCommon.api.image_list, param, function (list) {
 
-            if (0 == list.length) {
+            if (0 === list.length) {
                 $(_this.target_append).html('<h5>资源不存在</h5>')
             } else {
                 var when_reach_callback = function () {
                     var processed_html = ''
                     for (var i = 0; list.length > 0 && i < LOAD_IMG_LENGTH; i++) {
-                        var data = list.shift()
-                        processed_html += _this.render_html(data)
+                        var item = list.shift()
+                        if (i === 0) {
+                            _this.first_pic = _this.get_real_pic(item)
+                        }
+                        processed_html += _this.render_html(item)
                     }
-                    $(_this.target_append).append(processed_html)
+                    if (processed_html != "") {
+                        $(_this.target_append).append(processed_html)
+                    }
                 };
                 when_reach_callback(); // 先初始化
+                _this.handle_referer_killer_check() // 检测跨域处理
                 ComicCommon.reach_page_bottom(when_reach_callback)
 
             }
