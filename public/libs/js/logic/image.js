@@ -29,6 +29,7 @@
 
         this.detail = null
 
+        this.first_pic = "" // 第一张图
         ComicCommon.load_target = '#image_list'
         ComicCommon.scroll_tolerant = 300 // 修改下拉加载的容差
     }
@@ -43,7 +44,7 @@
         }
         return `
             <img src="${pic}"
-                data-original="${pic}" title="第 ${item.sequence} 张图" alt="第 ${item.sequence} 张图加载失败"
+                data-original_referer_killer="${pic}" title="第 ${item.sequence} 张图" alt="第 ${item.sequence} 张图加载失败"
                 onerror="App_Image.img_cdn_refresh(this)" data-attemp_times="0" />`
     };
 
@@ -69,12 +70,22 @@
         }
         console.log("当前次数 ", attemp_times)
         setTimeout(function () {
-            var img_src =_this.getAttribute("data-original")
+            var img_src = _this.getAttribute("data-original_referer_killer")
             console.log("重试中...", img_src)
+            // GoDa渠道图片，因为有防护限制，第一次killer请求想成功，必须打开新页面
+            if (img_src.match("godamanga") && attemp_times === 2 && _this.first_pic == img_src) {
+                window.open(img_src) // 打开新页面，会自动挂载 cookie 过安全检测
+                layer.alert("请等待跳转的页面，图片加载完成后，刷新页面 - 当前页面 5秒后 会自动刷新")
+                window.setTimeout(function () {
+                    location.reload()
+                }, 5 * 1000);
+                return
+            }
             // _this.src = img_src
             // ------------------------------- 2023-2-2 00:42:16 分割线，展示图片全部不带 refer
             // It is to load images without http_referrer that by use this lib
             // In this way, you will preload all of those images from other sites in this page
+            // ---- 原理：图片加载过之后，因为浏览器会缓存，再次跨域时，就从磁盘读缓存图片加载出来了
             _this.innerHTML = ReferrerKiller.imageHtml(img_src);
             _this.setAttribute("data-attemp_times", attemp_times)
         }, RETRY_GAP_SECOND * 1000);
@@ -97,8 +108,11 @@
                 var when_reach_callback = function () {
                     var processed_html = ''
                     for (var i = 0; list.length > 0 && i < LOAD_IMG_LENGTH; i++) {
-                        var data = list.shift()
-                        processed_html += _this.render_html(data)
+                        var one_pic = list.shift()
+                        if (i === 0) {
+                            _this.first_pic = one_pic
+                        }
+                        processed_html += _this.render_html(one_pic)
                     }
                     $(_this.target_append).append(processed_html)
                 };
