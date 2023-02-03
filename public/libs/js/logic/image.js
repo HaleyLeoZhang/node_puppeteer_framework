@@ -73,23 +73,39 @@
         setTimeout(function () {
             var img_src = _this.getAttribute("data-original_referer_killer")
             console.log("重试中...", img_src)
-            // GoDa渠道图片，因为有防护限制，第一次killer请求想成功，必须打开新页面
-            if (img_src.match("godamanga") && attemp_times === 2 && _this.first_pic == img_src) {
-                window.open(img_src) // 打开新页面，会自动挂载 cookie 过安全检测
-                layer.alert("请等待跳转的页面，图片加载完成后，刷新页面 - 当前页面 5秒后 会自动刷新")
-                window.setTimeout(function () {
-                    location.reload()
-                }, 5 * 1000);
-                return
-            }
             // _this.src = img_src
             // ------------------------------- 2023-2-2 00:42:16 分割线，展示图片全部不带 refer
             // It is to load images without http_referrer that by use this lib
             // In this way, you will preload all of those images from other sites in this page
-            // ---- 原理：图片加载过之后，因为浏览器会缓存，再次跨域时，就从磁盘读缓存图片加载出来了
+            // ---- 原理: 在 iframe 加载过图片之后，浏览器会缓存，后面发出跨域请求时，就会从磁盘读缓存中直接读出来了
             _this.innerHTML = ReferrerKiller.imageHtml(img_src);
         }, RETRY_GAP_SECOND * 1000);
     };
+
+    Image.prototype.handle_referer_killer_check = function () {
+        var _this = this
+        var cache_name = 'Goga_refer'
+        var cache_data = "empty_23233333"
+        var cache_ttl = 3 * 3600 // 3小时一次
+        // 记录本次打开页面的最大章节序号
+        ComicCommon.cache_set_engine('session')
+        // GoDa渠道图片，因为有防护限制，第一次killer请求想成功，必须打开新页面
+        var cache_data_session = ComicCommon.cache_data_get(cache_name)
+        // 处理过则不再处理
+        if (cache_data_session) {
+            // 说明短时间内刷过了
+            return
+        }
+        if (img_src.match("godamanga") && _this.first_pic == img_src) {
+            window.open(img_src) // 打开新页面，会自动挂载 cookie 过安全检测
+            layer.alert("请等待跳转的页面，图片加载完成后，刷新页面 - 当前页面 5秒后 会自动刷新")
+            window.setTimeout(function () {
+                cache_data = ComicCommon.cache_data_set(cache_name, cache_data, cache_ttl)
+                location.reload()
+            }, 5 * 1000);
+            return
+        }
+    }
 
     /**
      * 公共封装 ajax
@@ -102,7 +118,7 @@
         }
         ComicCommon.get_list(ComicCommon.api.image_list, param, function (list) {
 
-            if (0 == list.length) {
+            if (0 === list.length) {
                 $(_this.target_append).html('<h5>资源不存在</h5>')
             } else {
                 var when_reach_callback = function () {
@@ -114,8 +130,11 @@
                         }
                         processed_html += _this.render_html(one_pic)
                     }
-                    $(_this.target_append).append(processed_html)
+                    if (processed_html != "") {
+                        $(_this.target_append).append(processed_html)
+                    }
                 };
+                _this.handle_referer_killer_check() // 检测跨域处理
                 when_reach_callback(); // 先初始化
                 ComicCommon.reach_page_bottom(when_reach_callback)
 
