@@ -106,11 +106,12 @@
         if (_this.first_pic.match("godamanga") !== null) {
             console.log("匹配成功")
             layer.confirm("图片是否正常显示", {
-                btn: ['【必要操作】跳到第三方页面，等待图片加载出来后，返回当前页面', '已正常显示',]
+                btn: ['【必要操作】跳到第三方页面，等待图片加载出来后，返回当前页面', '我已出来完成',]
             }, function () {
                 window.open(_this.first_pic, "_blank") // 打开新页面，会自动挂载 cookie 过安全检测
             }, function () {
                 cache_data = ComicCommon.cache_data_set(cache_name, cache_data, cache_ttl)
+                location.reload()
             });
             return
         }
