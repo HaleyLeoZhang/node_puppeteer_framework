@@ -68,6 +68,7 @@
             console.log("重试次数已达上限.当前次数 ", attemp_times)
             return
         }
+        _this.setAttribute("data-attemp_times", attemp_times)
         console.log("当前次数 ", attemp_times)
         setTimeout(function () {
             var img_src = _this.getAttribute("data-original_referer_killer")
@@ -87,7 +88,6 @@
             // In this way, you will preload all of those images from other sites in this page
             // ---- 原理：图片加载过之后，因为浏览器会缓存，再次跨域时，就从磁盘读缓存图片加载出来了
             _this.innerHTML = ReferrerKiller.imageHtml(img_src);
-            _this.setAttribute("data-attemp_times", attemp_times)
         }, RETRY_GAP_SECOND * 1000);
     };
 
@@ -112,7 +112,7 @@
                         if (i === 0) {
                             _this.first_pic = one_pic
                         }
-                        processed_html += _this.render_html(one_pic)
+                        processed_html += _this.re87907nder_html(one_pic)
                     }
                     $(_this.target_append).append(processed_html)
                 };
