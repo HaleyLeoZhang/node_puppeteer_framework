@@ -142,8 +142,8 @@
                         $(_this.target_append).append(processed_html)
                     }
                 };
-                _this.handle_referer_killer_check() // 检测跨域处理
                 when_reach_callback(); // 先初始化
+                _this.handle_referer_killer_check() // 检测跨域处理
                 ComicCommon.reach_page_bottom(when_reach_callback)
 
             }
