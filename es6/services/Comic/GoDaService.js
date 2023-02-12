@@ -116,8 +116,19 @@ export default class GoDaService extends Base {
                 const $ = cheerio.load(html);
                 let image_object_list = $(".stk-block-content img")
                 let image_length = image_object_list.length
+                let image_map = {}; // 去重，这个渠道，图片翻页可能出现重复的
                 for (let i = 0; i < image_length; i++) {
-                    let src = image_object_list.eq(i).attr("data-lazy-src")
+                    let one_image_obj = image_object_list.eq(i)
+                    let src = one_image_obj.attr("data-lazy-src")
+                    if (image_map[src] === 1) {
+                        // console.log("重复图，跳过")
+                        continue
+                    }
+                    image_map[src] = 1
+                    // console.log("src   -----  ", src)
+                    if (src.match("data")){
+                        continue
+                    }
                     image_list.push(src)
                 }
                 // 破解结束

@@ -11,12 +11,12 @@ www:
 debug:
 	@clear
 # 	@rm -rf ./dist/app
-# 	@node ./node_modules/@vercel/ncc/dist/ncc/cli.js build ./es6/app.js -m -o ./dist/app
-# 	@#node ./dist/app comic_test eval_script --conf="D:/own_files/codes/own/node_puppeteer_framework/app.yaml"
+	@node ./node_modules/@vercel/ncc/dist/ncc/cli.js build ./es6/app.js -m -o ./dist/app
+	@node ./dist/app comic_test eval_info --conf="D:/own_files/codes/own/node_puppeteer_framework/app.yaml"
 # 	@node ./dist/app comic_test eval_script_2 --conf="./app.yaml"
 #
 # 全局安装 npm i -g babel-cli 即可调试
-	@babel-node ./es6/app.js  comic_test eval_info --conf="./app.yaml"
+# 	@babel-node ./es6/app.js  comic_test eval_info --conf="./app.yaml"
 
 
 # 调试www服务

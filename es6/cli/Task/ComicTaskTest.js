@@ -33,7 +33,7 @@ export default class ComicTaskTest extends BaseTask {
 
     static async eval_info() {
         let ctx = ContextTool.initial() // 每次拉取都是一个新的上下文
-        let source_id = "https://cn.godamanga.com/manga/zuiqiangnongmingong-qianhuidongman/0_4/"
+        let source_id = "https://cn.godamanga.com/manga/kaijujiuyouwangzhezhanghao-renshandongman/0_252/"
         let info = await GoDaService.get_image_list(ctx, source_id)
         console.log(info)
     }
