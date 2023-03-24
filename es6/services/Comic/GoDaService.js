@@ -8,7 +8,7 @@ const Module = require('module')
 const fetch = require('node-fetch'); // 文档 https://www.npmjs.com/package/node-fetch
 const cheerio = require('cheerio'); // html解析器 文档 https://www.npmjs.com/package/cheerio
 
-const BASE_HREF = "https://cn.godamanga.com" // 爬取地址
+const BASE_HREF = "https://cn.godamanga.art" // 爬取地址
 
 export default class GoDaService extends Base {
     static get_base_href(){
@@ -100,7 +100,7 @@ export default class GoDaService extends Base {
      */
     static async get_image_list(ctx, target_url) {
         let image_list = [];
-        Log.ctxInfo(ctx, `TuZhuiService 开始拉取 ${target_url} 图片列表`)
+        Log.ctxInfo(ctx, `GoDaService 开始拉取 ${target_url} 图片列表`)
 
         let options = {
             'headers': {
