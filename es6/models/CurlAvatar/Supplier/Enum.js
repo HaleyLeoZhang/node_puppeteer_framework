@@ -40,7 +40,7 @@ const AVAILABLE_CHANNEL_LIST = [
     // FIELD_CHANNEL.BAO_ZI,
     // FIELD_CHANNEL.TU_ZHUI,
     FIELD_CHANNEL.MAN_HUA_XING_QIU,
-    FIELD_CHANNEL.GO_DA,
+    // FIELD_CHANNEL.GO_DA, // 2023-3-25 01:17:47 被墻了，暫時也沒有比較穩定的代理，先下了
 ]
 
 //  `ext_1` varchar(50) NOT NULL DEFAULT '' COMMENT '扩展字段1.针对不同场景使用',
