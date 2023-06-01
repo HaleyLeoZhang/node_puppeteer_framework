@@ -13,6 +13,7 @@ import BaoZiService from "../../services/Comic/BaoZiService";
 import TuZhuiService from "../../services/Comic/TuZhuiService";
 import ManhuaXingQiuService from "../../services/Comic/ManhuaXingQiuService";
 import GoDaService from "../../services/Comic/GoDaService";
+import KuManWuervice from "../../services/Comic/KuManWuervice";
 
 export default class ComicTaskTest extends BaseTask {
     // ---------------------------------------------------
@@ -34,8 +35,8 @@ export default class ComicTaskTest extends BaseTask {
     static async eval_info() {
         let ctx = ContextTool.initial() // 每次拉取都是一个新的上下文
         console.log('eval_info')
-        let source_id = "https://cn.godamanga.art/manga/bailianchengshen-fengxingzhe/25166a3376112b25166_1075/"
-        let info = await GoDaService.get_image_list(ctx, source_id)
+        let target_url = "http://www.kumw7.com//21280/1143550.html"
+        let info = await KuManWuervice.get_image_list(ctx, target_url)
         console.log('end')
         console.log(info)
     }
@@ -49,8 +50,8 @@ export default class ComicTaskTest extends BaseTask {
 
     static async eval_script_3() {
         let ctx = ContextTool.initial() // 每次拉取都是一个新的上下文
-        let source_id = "21429"
-        let supplier_list = await ManhuaXingQiuService.get_chapter_list(ctx, source_id)
+        let source_id = "21280"
+        let supplier_list = await KuManWuervice.get_chapter_list(ctx, source_id)
         console.log(supplier_list)
     }
 

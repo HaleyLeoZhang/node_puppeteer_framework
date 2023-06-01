@@ -7,7 +7,7 @@ const Module = require('module')
 const fetch = require('node-fetch'); // 文档 https://www.npmjs.com/package/node-fetch
 const cheerio = require('cheerio'); // html解析器 文档 https://www.npmjs.com/package/cheerio
 
-const BASE_HREF = "http://www.kmwu6.com" // 爬取地址
+const BASE_HREF = "http://www.kumw7.com" // 爬取地址
 
 export default class KuManWuService extends Base {
     static get_base_href() {
@@ -63,7 +63,7 @@ export default class KuManWuService extends Base {
             .then(res => res.text())
             .then(html => {
                 const $ = cheerio.load(html);
-                let li_dom_list = $("#detail-list-select-1 li")
+                let li_dom_list = $("#chapterlistload li")
                 let len_li_dom_list = li_dom_list.length
                 if (len_li_dom_list > 0) {
                     for (let i = 0; i < len_li_dom_list; i++) {
@@ -111,18 +111,20 @@ export default class KuManWuService extends Base {
         return fetch(target_url, options)
             .then(res => res.text())
             .then(html => {
-                let match_data = html.match(/km5_img_url.*?'(.*?)'<\/script>/is)
-                if (match_data[1] == null) {
-                    Log.ctxInfo(ctx, ` ${target_url} 匹配失败`)
-                    return
-                }
-                const raw_data_string = Buffer.from(match_data[1], 'base64').toString('utf-8')
-                const raw_data = JSON.parse(raw_data_string)
-                console.log('raw_data', raw_data)
-                for (let i = 0, len_data = raw_data.length; i < len_data; i++) {
-                    let one_image = raw_data[i].split("|")[1].trim("\\r");
-                    image_list.push(one_image)
-                }
+                // console.log('html', html)
+                let srcpt_tpls = html.match(/eval\((.*)\)/)
+                // console.log('srcpt_tpls', srcpt_tpls)
+                let js_code = srcpt_tpls[0]
+                // console.log('js_code', js_code)
+                let js_real_code = `
+                    ${js_code} 
+                    ;module.exports = newImgs
+                `
+                // 当成模块动态编译js字符串
+                let tmp_run_module_name = 'tmp-runtime-module';
+                const tmp_module = new Module(tmp_run_module_name)
+                tmp_module._compile(js_real_code, tmp_run_module_name)
+                let image_list = tmp_module.exports
                 // 破解结束
                 Log.ctxInfo(ctx, `拉取结束 target_url ${target_url} 总计图片数 ${image_list.length}`)
                 return image_list
