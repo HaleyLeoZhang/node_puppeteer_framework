@@ -8,7 +8,7 @@
 //    `channel` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '枚举值 0:未知 1:古风漫画 2:奇漫屋' 3:6漫画 4:酷漫屋
 const FIELD_CHANNEL = {
     "UNKNOWN": 0,
-    "GU_FENG": 1, // 古风漫画 https://www.gufengmh8.com/
+    "GU_FENG": 1, // 古风漫画 https://www.gufengmh.com/ 2023-9-24 13:01:57 更新
     "QI_MAN_WU": 2, // 奇漫屋 http://www.qiman6.com/ 2021-11-21 15:41:26 已废弃
     "LIU_MAN_HUA": 3, // 6漫画 http://www.sixmh7.com/ 2021-11-21 15:41:26 已废弃
     "KU_MAN_WU": 4, // 酷漫屋 http://www.kmwu6.com/
@@ -34,7 +34,7 @@ const AVAILABLE_STATUS_LIST = [
 
 // 有效渠道列表
 const AVAILABLE_CHANNEL_LIST = [
-    // FIELD_CHANNEL.GU_FENG,
+    FIELD_CHANNEL.GU_FENG,
     // FIELD_CHANNEL.HAO_MAN_LIU,
     FIELD_CHANNEL.KU_MAN_WU,
     // FIELD_CHANNEL.BAO_ZI,

@@ -34,8 +34,8 @@ export default class ComicTaskTest extends BaseTask {
     static async eval_info() {
         let ctx = ContextTool.initial() // 每次拉取都是一个新的上下文
         console.log('eval_info')
-        let source_id = "https://cn.godamanga.art/manga/bailianchengshen-fengxingzhe/25166a3376112b25166_1075/"
-        let info = await GoDaService.get_image_list(ctx, source_id)
+        let source_id = "xianwudizun";
+        let info = await GuFengService.get_chapter_list(ctx, source_id, "章节")
         console.log('end')
         console.log(info)
     }

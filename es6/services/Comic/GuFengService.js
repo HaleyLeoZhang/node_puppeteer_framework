@@ -7,7 +7,7 @@ import CONST_BUSINESS_COMIC from "../../constant/business_comic";
 const fetch = require('node-fetch'); // 文档 https://www.npmjs.com/package/node-fetch
 const cheerio = require('cheerio'); // html解析器 文档 https://www.npmjs.com/package/cheerio
 
-const BASE_HREF = "https://www.gufengmh9.com" // 爬取地址
+const BASE_HREF = "https://www.gufengmh.com" // 爬取地址
 
 export default class GuFengService extends Base {
     static get_base_href(){
@@ -31,7 +31,7 @@ export default class GuFengService extends Base {
                 const $ = cheerio.load(html);
                 let name = $(".book-title").find("span").text()
                 let pic = $(".book-cover").find("img").attr("src")
-                let intro = $("#intro-all").text().trim("")
+                let intro = $("#intro-cut").text().trim("")
                 let res = {name, pic, intro}
                 Log.ctxInfo(ctx, "数据如下" + JSON.stringify(res))
                 Log.ctxInfo(ctx, `拉取结束 source_id ${source_id} 基本信息`)
