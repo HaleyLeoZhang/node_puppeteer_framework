@@ -63,7 +63,7 @@ export default class Log {
             console.warn(message)
         } else if (this.open) {
             this.logger.warn(message);
-            this.logger.log('Warn', message)
+            this.logger.log('warn', message)
         }
     }
 
@@ -72,7 +72,7 @@ export default class Log {
         if (this.debug) {
             console.error(message)
         } else if (this.open) {
-            this.logger.log('Error', message)
+            this.logger.log('error', message)
         }
     }
 }
