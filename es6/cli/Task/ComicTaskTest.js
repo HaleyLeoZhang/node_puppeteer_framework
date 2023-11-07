@@ -34,17 +34,31 @@ export default class ComicTaskTest extends BaseTask {
     static async eval_info() {
         let ctx = ContextTool.initial() // 每次拉取都是一个新的上下文
         console.log('eval_info')
-        let source_id = "xianwudizun";
-        let info = await GuFengService.get_chapter_list(ctx, source_id, "章节")
+        let source_id = "21063";
+        try {
+            console.log('start')
+            // let info = await GuFengService.get_chapter_list(ctx, source_id, "章节")
+            let info = await ManhuaXingQiuService.get_chapter_list(ctx, source_id)
+            console.log(info)
+            console.log('end')
+        } catch (err) {
+            console.error(err)
+        }
         console.log('end')
         console.log(info)
     }
 
     static async eval_script_2() {
         let ctx = ContextTool.initial() // 每次拉取都是一个新的上下文
-        let url = "http://www.mhxqiu2.com/21063/1440561.html"
-        let list = await ManhuaXingQiuService.get_image_list(ctx, url)
-        console.log(list)
+        let url = "http://www.mhxqiu2.com/16041/1370634.html"
+        try {
+            console.log('start')
+            let list = await ManhuaXingQiuService.get_image_list(ctx, url)
+            console.log(list)
+            console.log('end')
+        } catch (err) {
+            console.error(err)
+        }
     }
 
     static async eval_script_3() {
@@ -57,7 +71,7 @@ export default class ComicTaskTest extends BaseTask {
     static async supplier_image() {
         let ctx = ContextTool.initial() // 每次拉取都是一个新的上下文
         let url = "https://www.gufengmh8.com/manhua/bailianchengshen/1447913.html"
-        let payload = {"id": 45659, "link": "http://www.kmwu6.com//23761/1220513.html"}
+        let payload = {"id":100984,"link":"http://www.mhxqiu2.com/16041/1370634.html"}
 
         await TaskLogic.supplier_image(ctx, payload)
     }
