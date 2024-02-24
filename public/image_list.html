@@ -20,8 +20,10 @@
         <meta name="description" content="做产品、外包请加 QQ 1290336562">
         <meta name="author" content="github.com/HaleyLeoZhang">
         <!-- CDN -->
-        <link href="http://cdn.staticfile.org/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
-        <link href="http://cdn.staticfile.org/font-awesome/4.6.3/fonts/fontawesome-webfont.svg" rel="image/svg+xml">
+<!--        <link href="http://cdn.staticfile.org/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">-->
+<!--        <link href="http://cdn.staticfile.org/font-awesome/4.6.3/fonts/fontawesome-webfont.svg" rel="image/svg+xml">-->
+        <link href="./libs/css/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
+        <link href="./libs/css/font-awesome-4.7.0/fonts/fontawesome-webfont.svg" rel="image/svg+xml">
         <link rel="shortcut icon" href="./favicon.ico">
         <!-- Style -->
         <link rel="stylesheet" href="./libs/css/image.css?v=202101090205">
@@ -46,16 +48,27 @@
                 <div>返回</div>
                 <div>顶部</div>
             </span>
+<!--            <span id="mobile_conf" title="配置">-->
+<!--                <div id="screen">全屏</div>-->
+<!--            </span>-->
             <span id="conf" title="打开配置界面">
                 <div>打开</div>
                 <div>配置</div>
             </span>
+            <span id="mobile_conf" title="移动端配置">
+                <div>全屏</div>
+                <div>切换</div>
+            </span>
         </div>
         <!-- JS Lib -->
-        <script src="http://cdn.staticfile.org/jquery/2.1.4/jquery.min.js" title="插件基础服务"></script>
-        <script src="http://cdn.staticfile.org/layer/2.3/layer.js" title="弹出层"></script>
-        <script src="http://cdn.staticfile.org/raven.js/3.9.2/raven.min.js" crossorigin="anonymous" title="前端异常捕获服务"></script>
+<!--        <script src="http://cdn.staticfile.org/jquery/2.1.4/jquery.min.js" title="插件基础服务"></script>-->
+<!--        <script src="http://cdn.staticfile.org/layer/2.3/layer.js" title="弹出层"></script>-->
+<!--        <script src="http://cdn.staticfile.org/raven.js/3.9.2/raven.min.js" crossorigin="anonymous" title="前端异常捕获服务"></script>-->
         <script src="./libs/js/plugin/referrer-killer.js" title="无referer加载图片"></script>
+        <!-- 2024-2-24 15:35:44 因CDN不稳定,目前都切换为本地资源 -->
+        <script src="./libs/js/plugin/jquery/2.1.4/jquery.min.js" title="Jquery基础库"></script>
+        <script src="./libs/js/plugin/layer/layer.js" title="弹出层"></script>
+        <script src="./libs/js/plugin/raven.min.js" title="前端异常捕获服务"></script>
         <!-- Init -->
         <script src="./libs/js/common.js?v=202105221447"></script>
         <!-- Bussiness -->

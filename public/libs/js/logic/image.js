@@ -254,6 +254,21 @@
             window.scrollTo(0, 0)
         })
     }
+    Image.prototype.action_fullscreen = function () {
+        var _this = this;
+        $("#mobile_conf").on("click", function () {
+            _this.toggle_full_screen()
+        })
+    }
+    Image.prototype.toggle_full_screen = function () {
+        if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen();
+        } else {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            }
+        }
+    }
     Image.prototype.action_open_conf = function () {
         var _this = this;
         $("#conf").on("click", function () {
@@ -339,6 +354,7 @@
         _this.action_back_page_list()
         _this.action_go_to_next()
         _this.action_go_to_head()
+        _this.action_fullscreen()
         _this.action_open_conf()
         _this.action_close_conf()
     };
