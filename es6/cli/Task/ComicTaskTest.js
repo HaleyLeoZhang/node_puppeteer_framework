@@ -13,6 +13,7 @@ import BaoZiService from "../../services/Comic/BaoZiService";
 import TuZhuiService from "../../services/Comic/TuZhuiService";
 import ManhuaXingQiuService from "../../services/Comic/ManhuaXingQiuService";
 import GoDaService from "../../services/Comic/GoDaService";
+import ManHuaMiService from "../../services/Comic/ManHuaMiService";
 
 export default class ComicTaskTest extends BaseTask {
     // ---------------------------------------------------
@@ -26,9 +27,22 @@ export default class ComicTaskTest extends BaseTask {
     // ----------------------------------------------------------------------
     static async eval_script() {
         let ctx = ContextTool.initial() // 每次拉取都是一个新的上下文
-        let url = "https://cn.webmota.com/comic/chapter/dawangraoming-yuedongwenhua/0_575.html"
-        let list = await BaoZiService.get_image_list(ctx, url)
-        console.log(list)
+        // let url = "https://cn.webmota.com/comic/chapter/dawangraoming-yuedongwenhua/0_575.html"
+        // let list = await BaoZiService.get_image_list(ctx, url)
+        try {
+            console.log('开始调试')
+            let url = "https://manhuami.cc/388849-114066.html"
+            console.log('url ', url)
+            let list = await ManHuaMiService.get_image_list(ctx, url)
+            // let source_id = "woweixiedi"
+            // let list = await ManHuaMiService.get_chapter_list(ctx, source_id)
+            // let source_id = "woweixiedi"
+            // let list = await ManHuaMiService.get_base_info(ctx, source_id)
+            console.log('输出列表')
+            console.log(list)
+        } catch (err) {
+            console.error(err)
+        }
     }
 
     static async eval_info() {
@@ -71,7 +85,7 @@ export default class ComicTaskTest extends BaseTask {
     static async supplier_image() {
         let ctx = ContextTool.initial() // 每次拉取都是一个新的上下文
         let url = "https://www.gufengmh8.com/manhua/bailianchengshen/1447913.html"
-        let payload = {"id":100984,"link":"http://www.mhxqiu2.com/16041/1370634.html"}
+        let payload = {"id": 100984, "link": "http://www.mhxqiu2.com/16041/1370634.html"}
 
         await TaskLogic.supplier_image(ctx, payload)
     }

@@ -14,7 +14,7 @@ debug:
 	@clear
 # 	@rm -rf ./dist/app
 	@node ./node_modules/@vercel/ncc/dist/ncc/cli.js build ./es6/app.js -m -o ./dist/app
-	@node ./dist/app comic_test eval_info --conf="./app.yaml"
+	@node ./dist/app comic_test eval_script --conf="./app.yaml"
 # 	@node ./dist/app comic_test eval_script_2 --conf="./app.yaml"
 #
 # 全局安装 npm i -g babel-cli 即可调试
