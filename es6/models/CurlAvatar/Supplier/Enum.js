@@ -17,6 +17,7 @@ const FIELD_CHANNEL = {
     "TU_ZHUI": 7, // 兔追漫画 https://www.mianzhui.com/woweixiedi/
     "MAN_HUA_XING_QIU": 8, // 漫画星球 http://www.mhxqiu2.com/
     "GO_DA": 9, // GoDa漫画 https://cn.godamanga.art/
+    "MAN_HUA_MI": 10, // 漫画米 https://www.manhua3.com/category/list/1
 }
 
 //  `status` tinyint(1) unsigned NOT NULL DEFAULT '200' COMMENT '状态(0:删除,50:渠道不可用,100:手动下线,200:正常)',
@@ -36,11 +37,12 @@ const AVAILABLE_STATUS_LIST = [
 const AVAILABLE_CHANNEL_LIST = [
     FIELD_CHANNEL.GU_FENG,
     // FIELD_CHANNEL.HAO_MAN_LIU,
-    FIELD_CHANNEL.KU_MAN_WU,
+    // FIELD_CHANNEL.KU_MAN_WU,
     // FIELD_CHANNEL.BAO_ZI,
     // FIELD_CHANNEL.TU_ZHUI,
     // FIELD_CHANNEL.MAN_HUA_XING_QIU, // 2024-1-13 19:51:00 域名失效了
     // FIELD_CHANNEL.GO_DA, // 2023-3-25 01:17:47 被墻了，暫時也沒有比較穩定的代理，先下了
+    FIELD_CHANNEL.MAN_HUA_MI,
 ]
 
 //  `ext_1` varchar(50) NOT NULL DEFAULT '' COMMENT '扩展字段1.针对不同场景使用',

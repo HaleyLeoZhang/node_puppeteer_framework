@@ -23,6 +23,8 @@ import TuZhuiService from "../../services/Comic/TuZhuiService";
 import ManhuaXingQiuService from "../../services/Comic/ManhuaXingQiuService";
 import GoDaService from "../../services/Comic/GoDaService";
 import TimeTool from "../../tools/TimeTool";
+import ManHuaMiService from "../../services/Comic/ManHuaMiService";
+import SupplierLogic from "../Open/SupplierLogic";
 
 export default class TaskLogic extends Base {
     static async comic_base(ctx, payload) {
@@ -92,34 +94,38 @@ export default class TaskLogic extends Base {
         await TimeTool.delay_rand_ms(500, 5000) // 限速
         Log.ctxInfo(ctx, `继续`)
         // -
+
+        let one_service = SupplierLogic.get_service_by_channel_id(one_supplier.channel)
         switch (one_supplier.channel) { // 处理渠道信息
-            case FIELD_CHANNEL.GU_FENG:
-                spider_info = await GuFengService.get_base_info(ctx, one_supplier.source_id)
-                break;
-            // case FIELD_CHANNEL.LIU_MAN_HUA:
-            //     spider_info = await LiuManHuaService.get_base_info(ctx, one_supplier.source_id)
+            // case FIELD_CHANNEL.GU_FENG:
+            //     spider_info = await GuFengService.get_base_info(ctx, one_supplier.source_id)
             //     break;
-            case FIELD_CHANNEL.KU_MAN_WU:
-                spider_info = await KuManWuService.get_base_info(ctx, one_supplier.source_id)
-                break;
-            case FIELD_CHANNEL.HAO_MAN_LIU:
-                spider_info = await HaoManLiuService.get_base_info(ctx, one_supplier.source_id)
-                break;
-            case FIELD_CHANNEL.BAO_ZI:
-                spider_info = await BaoZiService.get_base_info(ctx, one_supplier.source_id)
-                break;
-            case FIELD_CHANNEL.TU_ZHUI:
-                spider_info = await TuZhuiService.get_base_info(ctx, one_supplier.source_id)
-                break;
-            case FIELD_CHANNEL.MAN_HUA_XING_QIU:
-                spider_info = await ManhuaXingQiuService.get_base_info(ctx, one_supplier.source_id)
-                break;
-            case FIELD_CHANNEL.GO_DA:
-                spider_info = await GoDaService.get_base_info(ctx, one_supplier.source_id)
-                break;
+            // // case FIELD_CHANNEL.LIU_MAN_HUA:
+            // //     spider_info = await LiuManHuaService.get_base_info(ctx, one_supplier.source_id)
+            // //     break;
+            // case FIELD_CHANNEL.KU_MAN_WU:
+            //     spider_info = await KuManWuService.get_base_info(ctx, one_supplier.source_id)
+            //     break;
+            // case FIELD_CHANNEL.HAO_MAN_LIU:
+            //     spider_info = await HaoManLiuService.get_base_info(ctx, one_supplier.source_id)
+            //     break;
+            // case FIELD_CHANNEL.BAO_ZI:
+            //     spider_info = await BaoZiService.get_base_info(ctx, one_supplier.source_id)
+            //     break;
+            // case FIELD_CHANNEL.TU_ZHUI:
+            //     spider_info = await TuZhuiService.get_base_info(ctx, one_supplier.source_id)
+            //     break;
+            // case FIELD_CHANNEL.MAN_HUA_XING_QIU:
+            //     spider_info = await ManhuaXingQiuService.get_base_info(ctx, one_supplier.source_id)
+            //     break;
+            // case FIELD_CHANNEL.GO_DA:
+            //     spider_info = await GoDaService.get_base_info(ctx, one_supplier.source_id)
+            //     break;
+            // case FIELD_CHANNEL.MAN_HUA_MI:
+            //     spider_info = await ManHuaMiService.get_base_info(ctx, one_supplier.source_id)
+            //     break;
             default:
-                Log.ctxWarn(ctx, 'channel 异常')
-                return CONST_BUSINESS_COMIC.TASK_SUCCESS
+                spider_info = one_service.get_base_info(ctx, one_supplier.source_id)
         }
         supplier_name = General.get_data_with_default(spider_info.name, '')
         supplier_pic = General.get_data_with_default(spider_info.pic, '')
@@ -179,10 +185,11 @@ export default class TaskLogic extends Base {
         await TimeTool.delay_rand_ms(500, 5000) // 限速
         Log.ctxInfo(ctx, `继续`)
         // -
+        let one_service = SupplierLogic.get_service_by_channel_id(one_supplier.channel)
         switch (one_supplier.channel) {
             case FIELD_CHANNEL.GU_FENG:
                 let tab_name = one_supplier.ext_1
-                supplier_list = await GuFengService.get_chapter_list(ctx, one_supplier.source_id, tab_name)
+                supplier_list = await one_service.get_chapter_list(ctx, one_supplier.source_id, tab_name)
                 break;
             // case FIELD_CHANNEL.QI_MAN_WU:
             //     // TODO
@@ -190,27 +197,29 @@ export default class TaskLogic extends Base {
             // case FIELD_CHANNEL.LIU_MAN_HUA:
             //     supplier_list = await LiuManHuaService.get_chapter_list(ctx, one_supplier.source_id)
             //     break;
-            case FIELD_CHANNEL.KU_MAN_WU:
-                supplier_list = await KuManWuService.get_chapter_list(ctx, one_supplier.source_id)
-                break;
-            case FIELD_CHANNEL.HAO_MAN_LIU:
-                supplier_list = await HaoManLiuService.get_chapter_list(ctx, one_supplier.source_id)
-                break;
-            case FIELD_CHANNEL.BAO_ZI:
-                supplier_list = await BaoZiService.get_chapter_list(ctx, one_supplier.source_id)
-                break;
-            case FIELD_CHANNEL.TU_ZHUI:
-                supplier_list = await TuZhuiService.get_chapter_list(ctx, one_supplier.source_id)
-                break;
-            case FIELD_CHANNEL.MAN_HUA_XING_QIU:
-                supplier_list = await ManhuaXingQiuService.get_chapter_list(ctx, one_supplier.source_id)
-                break;
-            case FIELD_CHANNEL.GO_DA:
-                supplier_list = await GoDaService.get_chapter_list(ctx, one_supplier.source_id)
-                break;
+            // case FIELD_CHANNEL.KU_MAN_WU:
+            //     supplier_list = await KuManWuService.get_chapter_list(ctx, one_supplier.source_id)
+            //     break;
+            // case FIELD_CHANNEL.HAO_MAN_LIU:
+            //     supplier_list = await HaoManLiuService.get_chapter_list(ctx, one_supplier.source_id)
+            //     break;
+            // case FIELD_CHANNEL.BAO_ZI:
+            //     supplier_list = await BaoZiService.get_chapter_list(ctx, one_supplier.source_id)
+            //     break;
+            // case FIELD_CHANNEL.TU_ZHUI:
+            //     supplier_list = await TuZhuiService.get_chapter_list(ctx, one_supplier.source_id)
+            //     break;
+            // case FIELD_CHANNEL.MAN_HUA_XING_QIU:
+            //     supplier_list = await ManhuaXingQiuService.get_chapter_list(ctx, one_supplier.source_id)
+            //     break;
+            // case FIELD_CHANNEL.GO_DA:
+            //     supplier_list = await GoDaService.get_chapter_list(ctx, one_supplier.source_id)
+            //     break;
+            // case FIELD_CHANNEL.MAN_HUA_MI:
+            //     supplier_list = await ManHuaMiService.get_chapter_list(ctx, one_supplier.source_id)
+            //     break
             default:
-                Log.ctxWarn(ctx, 'channel 异常')
-                return CONST_BUSINESS_COMIC.TASK_SUCCESS
+                supplier_list = await one_service.get_chapter_list(ctx, one_supplier.source_id)
         }
         // --- 获取最大的章节序号
         let len_supplier_list = supplier_list.length
@@ -316,37 +325,39 @@ export default class TaskLogic extends Base {
         await TimeTool.delay_rand_ms(500, 5000) // 限速
         Log.ctxInfo(ctx, `继续`)
         // -
+        let one_service = SupplierLogic.get_service_by_channel_id(one_supplier.channel)
         switch (one_supplier.channel) {
-            case FIELD_CHANNEL.GU_FENG: // 因为其域名限制，现在要更换
-                image_list = await GuFengService.get_image_list(ctx, link)
-                break;
-            // case FIELD_CHANNEL.QI_MAN_WU:
-            //     // TODO
+            // case FIELD_CHANNEL.GU_FENG: // 因为其域名限制，现在要更换
+            //     image_list = await GuFengService.get_image_list(ctx, link)
             //     break;
-            // case FIELD_CHANNEL.LIU_MAN_HUA:
-            //     image_list = await LiuManHuaService.get_image_list(ctx, link)
+            // // case FIELD_CHANNEL.QI_MAN_WU:
+            // //     // TODO
+            // //     break;
+            // // case FIELD_CHANNEL.LIU_MAN_HUA:
+            // //     image_list = await LiuManHuaService.get_image_list(ctx, link)
+            // //     break;
+            // case FIELD_CHANNEL.KU_MAN_WU:
+            //     image_list = await KuManWuService.get_image_list(ctx, link)
             //     break;
-            case FIELD_CHANNEL.KU_MAN_WU:
-                image_list = await KuManWuService.get_image_list(ctx, link)
-                break;
-            case FIELD_CHANNEL.HAO_MAN_LIU:
-                image_list = await HaoManLiuService.get_image_list(ctx, link)
-                break;
-            case FIELD_CHANNEL.BAO_ZI:
-                image_list = await BaoZiService.get_image_list(ctx, link)
-                break;
-            case FIELD_CHANNEL.TU_ZHUI:
-                image_list = await TuZhuiService.get_image_list(ctx, link)
-                break;
-            case FIELD_CHANNEL.MAN_HUA_XING_QIU:
-                image_list = await ManhuaXingQiuService.get_image_list(ctx, link)
-                break;
-            case FIELD_CHANNEL.GO_DA:
-                image_list = await GoDaService.get_image_list(ctx, link)
-                break;
+            // case FIELD_CHANNEL.HAO_MAN_LIU:
+            //     image_list = await HaoManLiuService.get_image_list(ctx, link)
+            //     break;
+            // case FIELD_CHANNEL.BAO_ZI:
+            //     image_list = await BaoZiService.get_image_list(ctx, link)
+            //     break;
+            // case FIELD_CHANNEL.TU_ZHUI:
+            //     image_list = await TuZhuiService.get_image_list(ctx, link)
+            //     break;
+            // case FIELD_CHANNEL.MAN_HUA_XING_QIU:
+            //     image_list = await ManhuaXingQiuService.get_image_list(ctx, link)
+            //     break;
+            // case FIELD_CHANNEL.GO_DA:
+            //     image_list = await GoDaService.get_image_list(ctx, link)
+            //     break;
+            // case FIELD_CHANNEL.MAN_HUA_MI:
+            //     image_list = await ManHuaMiService.get_image_list(ctx, link)
             default:
-                Log.ctxWarn(ctx, 'channel 异常')
-                return CONST_BUSINESS_COMIC.TASK_SUCCESS
+                image_list = await one_service.get_image_list(ctx, link)
         }
         let len_image_list = image_list.length
         if (!len_image_list || len_image_list === 0) {

@@ -17,6 +17,7 @@ import TuZhuiService from "../../../services/Comic/TuZhuiService";
 import ManHuaNiuService from "../../../services/Comic/ManHuaNiuService";
 import ManhuaXingQiuService from "../../../services/Comic/ManhuaXingQiuService";
 import GoDaService from "../../../services/Comic/GoDaService";
+import ManHuaMiService from "../../../services/Comic/ManHuaMiService";
 
 export default class SupplierData {
     /**
@@ -210,6 +211,9 @@ export default class SupplierData {
             case FIELD_CHANNEL.GO_DA:
                 text = 'GoDa漫画'
                 break;
+            case FIELD_CHANNEL.MAN_HUA_MI:
+                text = '漫画米'
+                break;
         }
         return text
     }
@@ -243,6 +247,9 @@ export default class SupplierData {
                 break;
             case FIELD_CHANNEL.GO_DA:
                 href = `${GoDaService.get_base_href()}/chapterlist/${source_id}/`
+                break;
+            case FIELD_CHANNEL.MAN_HUA_MI:
+                href = `${ManHuaMiService.get_base_href()}/${source_id}/`
                 break;
         }
         return href

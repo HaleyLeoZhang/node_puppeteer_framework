@@ -15,6 +15,7 @@
     "babel-loader": "^8.0.6",
     "babelify": "^10.0.0",
     "cheerio": "^1.0.0-rc.5",
+    "crypto-js": "^4.2.0",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^6.1.0",
     "gulp-babel": "^8.0.0",

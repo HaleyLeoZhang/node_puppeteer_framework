@@ -12,6 +12,7 @@ import ManhuaXingQiuService from "../../services/Comic/ManhuaXingQiuService";
 import LiuManHuaService from "../../services/Comic/LiuManHuaService";
 import GuFengService from "../../services/Comic/GuFengService";
 import GoDaService from "../../services/Comic/GoDaService";
+import ManHuaMiService from "../../services/Comic/ManHuaMiService";
 
 export default class SupplierLogic extends Base {
     static async list_by_ids(ctx, id_list) {
@@ -145,6 +146,8 @@ export default class SupplierLogic extends Base {
                 return ManhuaXingQiuService
             case FIELD_CHANNEL.GO_DA:
                 return GoDaService
+            case FIELD_CHANNEL.MAN_HUA_MI:
+                return ManHuaMiService
         }
         throw new Error("通过 channel_id 未找到 service 方法");
     }
