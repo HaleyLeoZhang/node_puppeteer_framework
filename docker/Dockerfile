@@ -1,4 +1,4 @@
-FROM node:18
+FROM node:12
 
 # 设置镜像源
 COPY ./apt_image.txt  /etc/apt/sources.list
