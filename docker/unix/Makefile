@@ -12,6 +12,7 @@ debug:
 	@echo "  " log  --- listen current docker output log
 	@echo "  " logs --- listen current business logs
 	@echo "  " log_supervisor  ---  listen current supervisor logs
+	@echo "  " pm2 --- /app/node_modules/pm2/bin/pm2 -- pm2 list
 
 run:
 	@# 删除镜像
@@ -50,3 +51,6 @@ clear:
 	@clear
 	@make -s down
 	@#docker rmi nginx_hlz-php-fpm
+
+pm2:
+	@/app/node_modules/pm2/bin/pm2 list
