@@ -67,7 +67,7 @@ export default class ManHuaMiService extends Base {
                     for (let i = 0; i < len_li_dom_list; i++) {
                         let dom = li_dom_list.eq(i)
                         let link = dom.attr("href")
-                        console.log(link)
+                        // console.log(link)
                         link = _this.getLink(link)
                         let name = dom.find("span").text()
                         let tmp_one = {
