@@ -9,7 +9,9 @@ $env:NODE_OPTIONS="--openssl-legacy-provider"
 
 cd /app \
 && make install_prod \
-&& /usr/bin/supervisord 
+##&& /usr/bin/supervisord
+
+# pm2 执行替代 supervisord
 
 for((;;))
 do
