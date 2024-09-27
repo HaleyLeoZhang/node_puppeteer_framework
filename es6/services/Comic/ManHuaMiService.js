@@ -86,7 +86,7 @@ export default class ManHuaMiService extends Base {
     static getLink(path) {
         // 匹配跳转地址
         let result = path.match(/%2F(\d.*)/)
-        console.log(result)
+        // console.log(result)
         let real_path = result[1]
 
         return `https://manhuami.cc/${real_path}`

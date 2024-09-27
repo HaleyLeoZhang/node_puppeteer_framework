@@ -225,6 +225,9 @@ export default class TaskLogic extends Base {
         let len_supplier_list = supplier_list.length
         let supplier_list_index = len_supplier_list - 1
         let max_sequence = supplier_list[supplier_list_index]['sequence']
+        Log.ctxInfo(ctx, `len_supplier_list ${len_supplier_list} `)
+        Log.ctxInfo(ctx, `supplier_list_index ${supplier_list_index} `)
+        Log.ctxInfo(ctx, `max_sequence ${max_sequence} `)
         // - 计算需要增量爬取的章节信息
         const chapter_list = await SupplierChapterData.get_list_by_related_id(supplier_id)
         let insert_list = this.supplier_chapter_diff(ctx, chapter_list, supplier_list)
@@ -246,12 +249,14 @@ export default class TaskLogic extends Base {
             }
             insert_chapter_list.push(tmp)
         }
+        Log.ctxInfo(ctx, `批量插入章节中`)
         await SupplierChapterData.do_insert(insert_chapter_list)
         // --- 查询刚刚插入的数据对应的ID组
         let sequence_list = ArrayTool.column(insert_chapter_list, "sequence")
         let inserted_chapter_list = await SupplierChapterData.get_list_by_id_sequence_list(supplier_id, sequence_list)
         // ---- 数据转map结构
         let inserted_chapter_map = ArrayTool.map_by_key(inserted_chapter_list, "sequence")
+        Log.ctxInfo(ctx, `推送图片抓取任务中`)
         // --- 通知执行章节爬取任务
         const mq = new RabbitMQ();
         mq.set_exchange(CONST_AMQP.AMQP_EXCHANGE_TOPIC)
