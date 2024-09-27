@@ -11,7 +11,7 @@
 
 # 现在外部统一打包好再发布
 cd /app \
-&& npm install pm2
+&& make install_prod
 
 # pm2 执行替代 supervisord
 # 爬虫

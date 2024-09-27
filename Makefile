@@ -63,11 +63,19 @@ ci:
 install_prod:
 	@clear
 	@echo "Package installing"
+	@npm config set registry https://registry.npmmirror.com
+	@npm install --ignore-scripts
+	@npm install pm2
+
+# ---- 后面更新这个
+install_prod2:
+	@clear
+	@echo "Package installing"
 	@rm -rf package-lock.json
 	@rm -rf node_modules
 	@npm config set registry https://registry.npmmirror.com
 	@npm install --ignore-scripts
-	@make -is build
+	@make -is build # 暂时不编译了
 
 # 编译成单个文件
 #    https://github.com/vercel/ncc
