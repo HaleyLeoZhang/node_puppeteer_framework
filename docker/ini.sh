@@ -4,10 +4,14 @@
 #&& apt-get update \
 #&& apt-get install supervisor -y  \
 
-cd /app \
-&& make install_prod \
-&& npm install pm2
+#cd /app \
+#&& make install_prod \
+#&& npm install pm2
 ##&& /usr/bin/supervisord
+
+# 现在外部统一打包好再发布
+cd /app \
+&& npm install pm2
 
 # pm2 执行替代 supervisord
 # 爬虫
