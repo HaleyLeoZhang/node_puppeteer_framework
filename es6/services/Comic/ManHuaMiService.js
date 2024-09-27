@@ -69,10 +69,12 @@ export default class ManHuaMiService extends Base {
                         let link = dom.attr("href")
                         // console.log(link)
                         link = _this.getLink(link)
+                        let sequence = i + 1
                         let name = dom.find("span").text()
                         let tmp_one = {
                             link,
                             name,
+                            sequence,
                         }
                         chapter_list.push(tmp_one)
                     }
