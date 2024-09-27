@@ -3,6 +3,10 @@
 #export TERM=xterm \
 #&& apt-get update \
 #&& apt-get install supervisor -y  \
+
+# 设置环境
+$env:NODE_OPTIONS="--openssl-legacy-provider"
+
 cd /app \
 && make install_prod \
 && /usr/bin/supervisord 
