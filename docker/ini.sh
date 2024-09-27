@@ -13,14 +13,18 @@
 cd /app \
 && make install_prod
 
+# 赋予权限，方便执行脚本
+chmod -R 755 /app/dist
+chmod -R 755 /app/dist/docker/pm2_script
 # pm2 执行替代 supervisord
 # 爬虫
-/app/node_modules/pm2/bin/pm2 start '/usr/local/bin/node /app/dist/task comic base_consumer --conf="/app/app.yaml"' --name base_consumer --restart-delay=3000
-/app/node_modules/pm2/bin/pm2 start '/usr/local/bin/node /app/dist/task comic base_supplier_consumer --conf="/app/app.yaml"' --name base_supplier_consumer --restart-delay=3000
-/app/node_modules/pm2/bin/pm2 start '/usr/local/bin/node /app/dist/task comic supplier_chapter_consumer --conf="/app/app.yaml"' --name supplier_chapter_consumer --restart-delay=3000
-/app/node_modules/pm2/bin/pm2 start '/usr/local/bin/node /app/dist/task comic supplier_image_consumer --conf="/app/app.yaml"' --name supplier_image_consumer --restart-delay=3000
+/app/node_modules/pm2/bin/pm2 start -n base_consumer --restart-delay=3000  /app/dist/docker/pm2_script/base_consumer.sh
+/app/node_modules/pm2/bin/pm2 start -n base_supplier_consumer --restart-delay=3000  /app/dist/docker/pm2_script/base_supplier_consumer.sh
+/app/node_modules/pm2/bin/pm2 start -n supplier_chapter_consumer --restart-delay=3000  /app/dist/docker/pm2_script/supplier_chapter_consumer.sh
+/app/node_modules/pm2/bin/pm2 start -n supplier_image_consumer --restart-delay=3000  /app/dist/docker/pm2_script/supplier_image_consumer.sh
 # www
-/app/node_modules/pm2/bin/pm2 start '/usr/local/bin/node /app/dist/www --conf="/app/app.yaml"' --name www
+/app/node_modules/pm2/bin/pm2 start -n www --restart-delay=3000  /app/dist/docker/pm2_script/www.sh
+
 
 for((;;))
 do

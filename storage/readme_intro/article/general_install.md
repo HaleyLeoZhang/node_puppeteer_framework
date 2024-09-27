@@ -72,7 +72,7 @@ chmod 755 es5/task.js
 启用多个进程,请根据自身情况测试后决定  
 
 ~~~bash
-/usr/sbin/node /data/common/node_puppeteer_example/es5/task.js comic base_consumer  # 拉取基本信息
+/usr/sbin/node /data/common/node_puppeteer_example/es5/task.js comic base_consumer.sh  # 拉取基本信息
 /usr/sbin/node /data/common/node_puppeteer_example/es5/task.js comic base_supplier_consumer  # 拉取渠道基本信息
 /usr/sbin/node /data/common/node_puppeteer_example/es5/task.js comic supplier_chapter_consumer # 拉取渠道章节信息
 /usr/sbin/node /data/common/node_puppeteer_example/es5/task.js comic supplier_image_consumer # 拉取渠道章节图片信息

@@ -159,13 +159,13 @@ export default class ComicTaskTest extends BaseTask {
         await mq.pull(async (payload) => {
             let ctx = ContextTool.initial() // 每次拉取都是一个新的上下文
             try {
-                Log.ctxInfo(ctx, 'base_consumer.start')
+                Log.ctxInfo(ctx, 'base_consumer.sh.start')
                 await TimeTool.delay_ms(20 * 1000)
-                Log.ctxInfo(ctx, 'base_consumer.success  ' + JSON.stringify(payload))
+                Log.ctxInfo(ctx, 'base_consumer.sh.success  ' + JSON.stringify(payload))
                 return ACK_YES
             } catch (err) {
-                Log.ctxInfo(ctx, 'base_consumer.payload  ' + JSON.stringify(payload))
-                Log.ctxError(ctx, 'base_consumer.CONSUMER_ERROR  ' + err.stack)
+                Log.ctxInfo(ctx, 'base_consumer.sh.payload  ' + JSON.stringify(payload))
+                Log.ctxError(ctx, 'base_consumer.sh.CONSUMER_ERROR  ' + err.stack)
             }
             return ACK_NO
         })

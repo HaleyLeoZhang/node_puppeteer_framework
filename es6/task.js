@@ -15,5 +15,5 @@ Conf.load_config(process.argv)
 const app = new Register()
 app.bootstrap()
     // 注册模块，调用的模块方法，都得是 async
-    .use('comic', ComicTask) // 调用示例 node ./es5/task.js comic base_consumer
+    .use('comic', ComicTask) // 调用示例 node ./es5/task.js comic base_consumer.sh
     .run()

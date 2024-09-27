@@ -22,7 +22,7 @@ import TaskLogic from '../../logics/ComicCurl/TaskLogic';
 export default class ComicTask extends BaseTask {
     // ----------------------------------------------------------------------
     // 调用示例
-    // node ./es5/task.js comic base_consumer  # 拉取基本信息
+    // node ./es5/task.js comic base_consumer.sh  # 拉取基本信息
     // node ./es5/task.js comic base_supplier_consumer  # 拉取渠道基本信息
     // node ./es5/task.js comic supplier_chapter_consumer # 拉取渠道章节信息
     // node ./es5/task.js comic supplier_image_consumer # 拉取渠道章节图片信息
@@ -43,16 +43,16 @@ export default class ComicTask extends BaseTask {
         await mq.pull(async (payload) => {
             let ctx = ContextTool.initial() // 每次拉取都是一个新的上下文
             try {
-                Log.ctxInfo(ctx, 'base_consumer start')
+                Log.ctxInfo(ctx, 'base_consumer.sh start')
                 let result = await TaskLogic.comic_base(ctx, payload)
                 if (result === CONST_BUSINESS_COMIC.TASK_FAILED) {
                     throw new Error("TASK_FAILED");
                 }
-                Log.ctxInfo(ctx, 'base_consumer success  ' + JSON.stringify(payload))
+                Log.ctxInfo(ctx, 'base_consumer.sh success  ' + JSON.stringify(payload))
                 return ACK_YES
             } catch (err) {
-                Log.ctxInfo(ctx, 'base_consumer payload  ' + JSON.stringify(payload))
-                Log.ctxError(ctx, 'base_consumer CONSUMER_ERROR  ' + err.stack)
+                Log.ctxInfo(ctx, 'base_consumer.sh payload  ' + JSON.stringify(payload))
+                Log.ctxError(ctx, 'base_consumer.sh CONSUMER_ERROR  ' + err.stack)
             }
             return ACK_NO
         })
