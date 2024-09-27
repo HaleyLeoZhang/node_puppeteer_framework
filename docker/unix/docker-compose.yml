@@ -17,6 +17,7 @@ services:
             TZ: Asia/Shanghai
             NODE_ENV: production
             TERM: xterm
+            NODE_OPTIONS: '--openssl-legacy-provider'
         networks:
             default:
                 ipv4_address: 172.28.0.2
