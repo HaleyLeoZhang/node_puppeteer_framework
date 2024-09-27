@@ -11,10 +11,10 @@ cd /app \
 
 # pm2 执行替代 supervisord
 # 爬虫
-/app/node_modules/pm2/bin/pm2 start '/usr/local/bin/node /app/dist/task comic base_consumer --conf="/app/app.yaml"' --name base_consumer
-/app/node_modules/pm2/bin/pm2 start '/usr/local/bin/node /app/dist/task comic base_supplier_consumer --conf="/app/app.yaml"' --name base_supplier_consumer
-/app/node_modules/pm2/bin/pm2 start '/usr/local/bin/node /app/dist/task comic supplier_chapter_consumer --conf="/app/app.yaml"' --name supplier_chapter_consumer
-/app/node_modules/pm2/bin/pm2 start '/usr/local/bin/node /app/dist/task comic supplier_image_consumer --conf="/app/app.yaml"' --name supplier_image_consumer
+/app/node_modules/pm2/bin/pm2 start '/usr/local/bin/node /app/dist/task comic base_consumer --conf="/app/app.yaml"' --name base_consumer --restart-delay=3000
+/app/node_modules/pm2/bin/pm2 start '/usr/local/bin/node /app/dist/task comic base_supplier_consumer --conf="/app/app.yaml"' --name base_supplier_consumer --restart-delay=3000
+/app/node_modules/pm2/bin/pm2 start '/usr/local/bin/node /app/dist/task comic supplier_chapter_consumer --conf="/app/app.yaml"' --name supplier_chapter_consumer --restart-delay=3000
+/app/node_modules/pm2/bin/pm2 start '/usr/local/bin/node /app/dist/task comic supplier_image_consumer --conf="/app/app.yaml"' --name supplier_image_consumer --restart-delay=3000
 # www
 /app/node_modules/pm2/bin/pm2 start '/usr/local/bin/node /app/dist/www --conf="/app/app.yaml"' --name www
 
