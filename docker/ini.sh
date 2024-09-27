@@ -16,7 +16,7 @@ cd /app \
 /app/node_modules/pm2/bin/pm2 start '/usr/local/bin/node /app/dist/task comic supplier_chapter_consumer --conf="/app/app.yaml"' --name supplier_chapter_consumer
 /app/node_modules/pm2/bin/pm2 start '/usr/local/bin/node /app/dist/task comic supplier_image_consumer --conf="/app/app.yaml"' --name supplier_image_consumer
 # www
-/app/node_modules/pm2/bin/pm2 start 'usr/local/bin/node /app/dist/www --conf="/app/app.yaml"' --name www
+/app/node_modules/pm2/bin/pm2 start '/usr/local/bin/node /app/dist/www --conf="/app/app.yaml"' --name www
 
 for((;;))
 do
