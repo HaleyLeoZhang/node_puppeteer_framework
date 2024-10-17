@@ -111,7 +111,7 @@ export default class ManHuaMiService extends Base {
             .then(res => res.text())
             .then(html => {
                 // 图片原始数据在这里
-                let script_match = html.match(/var DATA='(.*?)';/)
+                let script_match = html.match(/params = '(.*?)'/)
                 if(script_match === null){
                     throw new Error("ManHuaMiService 解析图片列表，原始数据失败")
                 }
@@ -124,7 +124,7 @@ export default class ManHuaMiService extends Base {
                 //   加载不出来 decode_code_tool 变量的对象 CryptoJS, 能解决就能跑完流程
                 for(let i in obj.images){
                     let item = obj.images[i]
-                    image_list.push(item.url)
+                    image_list.push(item)
                 }
                 // 破解结束
                 Log.ctxInfo(ctx, `拉取结束 target_url ${target_url} 总计图片数 ${image_list.length}`)
