@@ -1,17 +1,12 @@
 #!/bin/bash
-
-#export TERM=xterm \
-#&& apt-get update \
-#&& apt-get install supervisor -y  \
-
 #cd /app \
 #&& make install_prod \
 #&& npm install pm2
 ##&& /usr/bin/supervisord
 
-# 现在外部统一打包好再发布
+# 现在外部统一打包好再发布 linux系统需要走这个
 cd /app \
-&& make install_prod
+&& make install_prod_linux
 
 # 赋予权限，方便执行脚本
 chmod -R 755 /app/dist
