@@ -17,7 +17,8 @@ services:
             TZ: Asia/Shanghai
             NODE_ENV: production
             TERM: xterm
-            NODE_OPTIONS: '--openssl-legacy-provider'
+            # 注: windows环境需要开启这个环境变量
+            #NODE_OPTIONS: '--openssl-legacy-provider'
         networks:
             default:
                 ipv4_address: 172.28.0.2
@@ -26,10 +27,11 @@ services:
         # 部署资源限制
         deploy:
             replicas: 1  # 指定部署数量
+            # 暂时不限制内存资源了，编译和运行目前放一起的。
             resources:
                 limits: # cpu最大使用数
-                    cpus: '0.8' # 该服务cpu资源可用百分比，单个cpu打满就是 100%, 这里的 1.0 就是 100% 的 意思
-                    memory: 1000M # 主要是编译耗内存：特别是www服务的编译 峰值700~800M，如果只编译 task服务 只需要200M 就够用
+                    cpus: '1.5' # 该服务cpu资源可用百分比，单个cpu打满就是 100%, 这里的 1.0 就是 100% 的 意思
+            #        memory: 1000M # 主要是编译耗内存：特别是www服务的编译 峰值700~800M，如果只编译 task服务 只需要200M 就够用
 
 networks:
     default:

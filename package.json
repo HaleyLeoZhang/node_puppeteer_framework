@@ -3,16 +3,20 @@
   "version": "3.0.0",
   "description": "node_puppeteer_framework",
   "main": "gulpfile.js",
+  "scripts": {
+    "build:task": "node ./node_modules/@vercel/ncc/dist/ncc/cli.js build ./es6/task.js -m -o ./dist/task ",
+    "build:www": "node ./node_modules/@vercel/ncc/dist/ncc/cli.js build ./es6/www.js -m -o ./dist/www ",
+    "build": "npm run build:task && npm run build:www",
+    "build:task_linux": "ncc build ./es6/task.js -m -o ./dist/task",
+    "build:www_linux": "ncc build ./es6/www.js -m -o ./dist/www ",
+    "build_linux": "npm run build:task_linux && npm run build:www_linux"
+  },
   "dependencies": {
-    "@babel/core": "^7.8.3",
     "@babel/plugin-transform-runtime": "^7.13.15",
-    "@babel/preset-env": "^7.8.3",
     "@babel/runtime": "^7.8.3",
     "@sentry/node": "^6.0.3",
     "@sentry/tracing": "^6.0.3",
-    "@vercel/ncc": "^0.28.6",
     "amqplib": "^0.6.0",
-    "babel-loader": "^8.0.6",
     "babelify": "^10.0.0",
     "cheerio": "^1.0.0-rc.5",
     "crypto-js": "^4.2.0",
@@ -32,6 +36,7 @@
     "mysql2": "^1.6.5",
     "node-bugjs": "^2.0.1",
     "node-fetch": "^2.6.1",
+    "pm2": "^5.4.3",
     "proxy-http-agent": "^1.0.1",
     "puppeteer": "^1.19.0",
     "random-useragent": "^0.3.1",
@@ -42,7 +47,12 @@
     "winston-daily-rotate-file": "^4.7.1"
   },
   "devDependencies": {
-    "sass": "^1.32.2"
+    "@babel/core": "^7.26.8",
+    "@babel/preset-env": "^7.26.8",
+    "@vercel/ncc": "^0.38.3",
+    "babel-loader": "^9.2.1",
+    "sass": "^1.32.2",
+    "webpack": "^5.97.1"
   },
   "repository": {
     "type": "git",

@@ -64,25 +64,41 @@ install_prod:
 	@clear
 	@echo "Package installing"
 	@npm config set registry https://registry.npmmirror.com
+	@rm -rf package-lock.json
+	@rm -rf node_modules
 	@npm install --ignore-scripts
-	@npm install pm2
+	@#npm install pm2
 
-# ---- 后面更新这个
-install_prod2:
+# ---- 后面更新这个 linux用
+install_prod_linux:
 	@clear
 	@echo "Package installing"
 	@rm -rf package-lock.json
 	@rm -rf node_modules
+	@rm -rf dist
 	@npm config set registry https://registry.npmmirror.com
 	@npm install --ignore-scripts
-	@make -is build # 暂时不编译了
+	@npm install -g @vercel/ncc --ignore-scripts
+	@make -is build_linux
 
-# 编译成单个文件
+# 编译成单个文件 windows
 #    https://github.com/vercel/ncc
 build:
 	@# 编译以 ./es6/task.js 入口的相关文件到一个文件里
 	@clear
 	@echo "----------- Compile File , please wait...."
-	@node ./node_modules/@vercel/ncc/dist/ncc/cli.js build ./es6/task.js -m -o ./dist/task
-	@node ./node_modules/@vercel/ncc/dist/ncc/cli.js build ./es6/www.js -m -o ./dist/www
+	@npm run build
+	@#node ./node_modules/@vercel/ncc/dist/ncc/cli.js build ./es6/task.js -m -o ./dist/task
+	@#node ./node_modules/@vercel/ncc/dist/ncc/cli.js build ./es6/www.js -m -o ./dist/www
 	@echo "----------- Compile success"
+
+# 编译成单个文件 linux
+#    https://github.com/vercel/ncc
+build_linux:
+	@# 编译以 ./es6/task.js 入口的相关文件到一个文件里,这里是把ncc圈布局安装的
+	@clear
+	@echo "----linux------- Compile File , please wait...."
+	@npm run build_linux
+	@#ncc build ./es6/task.js -m -o ./dist/task
+	@#ncc build ./es6/www.js -m -o ./dist/www
+	@echo "----liunx------- Compile success"
