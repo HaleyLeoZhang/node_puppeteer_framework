@@ -174,8 +174,8 @@ export default class TaskLogic extends Base {
     static async supplier_chapter(ctx, payload) {
         let supplier_id = payload.id
         const one_supplier = await SupplierData.get_one_by_id(supplier_id)
-        if (!one_supplier || one_supplier.status === FIELD_STATUS.DELETED) {
-            Log.ctxWarn(ctx, 'supplier_id 不存在')
+        if (!one_supplier || one_supplier.status !== FIELD_STATUS.ONLINE) {
+            Log.ctxWarn(ctx, 'supplier_id 无效')
             return
         }
         // 获取章节列表
