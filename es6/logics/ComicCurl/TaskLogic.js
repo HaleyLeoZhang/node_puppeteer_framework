@@ -215,9 +215,9 @@ export default class TaskLogic extends Base {
             // case FIELD_CHANNEL.GO_DA:
             //     supplier_list = await GoDaService.get_chapter_list(ctx, one_supplier.source_id)
             //     break;
-            // case FIELD_CHANNEL.MAN_HUA_MI:
-            //     supplier_list = await ManHuaMiService.get_chapter_list(ctx, one_supplier.source_id)
-            //     break
+            case FIELD_CHANNEL.MAN_HUA_MI:
+                supplier_list = await ManHuaMiService.get_chapter_list(ctx, one_supplier.source_id)
+                break
             default:
                 supplier_list = await one_service.get_chapter_list(ctx, one_supplier.source_id)
         }
