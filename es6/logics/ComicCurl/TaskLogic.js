@@ -104,7 +104,7 @@ export default class TaskLogic extends Base {
             //     spider_info = await ManHuaMiService.get_base_info(ctx, one_supplier.source_id)
             //     break;
             default:
-                spider_info = one_service.get_base_info(ctx, one_supplier.source_id)
+                spider_info = await one_service.get_base_info(ctx, one_supplier.source_id)
         }
         supplier_name = General.get_data_with_default(spider_info.name, '')
         supplier_pic = General.get_data_with_default(spider_info.pic, '')
