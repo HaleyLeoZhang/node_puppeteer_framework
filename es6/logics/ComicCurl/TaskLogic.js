@@ -184,7 +184,7 @@ export default class TaskLogic extends Base {
         Log.ctxInfo(ctx, `随机停顿中`)
         await TimeTool.delay_rand_ms(500, 5000) // 限速
         Log.ctxInfo(ctx, `继续`)
-        // -
+        //  获取对应站点的Service类
         let one_service = SupplierLogic.get_service_by_channel_id(one_supplier.channel)
         switch (one_supplier.channel) {
             case FIELD_CHANNEL.GU_FENG:
@@ -215,14 +215,18 @@ export default class TaskLogic extends Base {
             // case FIELD_CHANNEL.GO_DA:
             //     supplier_list = await GoDaService.get_chapter_list(ctx, one_supplier.source_id)
             //     break;
-            case FIELD_CHANNEL.MAN_HUA_MI:
-                supplier_list = await ManHuaMiService.get_chapter_list(ctx, one_supplier.source_id)
-                break
+            // case FIELD_CHANNEL.MAN_HUA_MI:
+            //     supplier_list = await ManHuaMiService.get_chapter_list(ctx, one_supplier.source_id)
+            //     break
             default:
                 supplier_list = await one_service.get_chapter_list(ctx, one_supplier.source_id)
         }
         // --- 获取最大的章节序号
         let len_supplier_list = supplier_list.length
+        if (len_supplier_list === 0) {
+            Log.ctxInfo(ctx, '暂无章节列表')
+            return CONST_BUSINESS_COMIC.TASK_SUCCESS
+        }
         let supplier_list_index = len_supplier_list - 1
         let max_sequence = supplier_list[supplier_list_index]['sequence']
         Log.ctxInfo(ctx, `len_supplier_list ${len_supplier_list} `)
