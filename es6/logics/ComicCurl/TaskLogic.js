@@ -100,27 +100,6 @@ export default class TaskLogic extends Base {
             // case FIELD_CHANNEL.GU_FENG:
             //     spider_info = await GuFengService.get_base_info(ctx, one_supplier.source_id)
             //     break;
-            // // case FIELD_CHANNEL.LIU_MAN_HUA:
-            // //     spider_info = await LiuManHuaService.get_base_info(ctx, one_supplier.source_id)
-            // //     break;
-            // case FIELD_CHANNEL.KU_MAN_WU:
-            //     spider_info = await KuManWuService.get_base_info(ctx, one_supplier.source_id)
-            //     break;
-            // case FIELD_CHANNEL.HAO_MAN_LIU:
-            //     spider_info = await HaoManLiuService.get_base_info(ctx, one_supplier.source_id)
-            //     break;
-            // case FIELD_CHANNEL.BAO_ZI:
-            //     spider_info = await BaoZiService.get_base_info(ctx, one_supplier.source_id)
-            //     break;
-            // case FIELD_CHANNEL.TU_ZHUI:
-            //     spider_info = await TuZhuiService.get_base_info(ctx, one_supplier.source_id)
-            //     break;
-            // case FIELD_CHANNEL.MAN_HUA_XING_QIU:
-            //     spider_info = await ManhuaXingQiuService.get_base_info(ctx, one_supplier.source_id)
-            //     break;
-            // case FIELD_CHANNEL.GO_DA:
-            //     spider_info = await GoDaService.get_base_info(ctx, one_supplier.source_id)
-            //     break;
             // case FIELD_CHANNEL.MAN_HUA_MI:
             //     spider_info = await ManHuaMiService.get_base_info(ctx, one_supplier.source_id)
             //     break;
@@ -132,7 +111,7 @@ export default class TaskLogic extends Base {
         supplier_intro = General.get_data_with_default(spider_info.intro, '')
         if (supplier_name === '' && supplier_pic === '' && supplier_intro === '') {
             Log.ctxWarn(ctx, '本次未更新，因为渠道基本信息都是空的')
-            Log.ctxWarn(ctx, spider_info)
+            Log.ctxWarn(ctx, JSON.stringify(spider_info))
             return CONST_BUSINESS_COMIC.TASK_SUCCESS
         }
         // - 更新渠道基本信息
