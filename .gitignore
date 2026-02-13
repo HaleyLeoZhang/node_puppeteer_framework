@@ -5,3 +5,11 @@
 **/.idea
 **/.DS_Store
 **/app.yaml
+**/dist/app
+
+# dist 目录 - 只保留编译产物
+dist/*
+!dist/task/index.js
+!dist/task/index.js.map
+!dist/www/index.js
+!dist/www/index.js.map

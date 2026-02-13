@@ -25,8 +25,15 @@ const AVAILABLE_STATUS_LIST = [
     FIELD_STATUS.OFFLINE, FIELD_STATUS.ONLINE
 ]
 
+//  `is_complete` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否完结(0:未完结,1:已完结)'
+const FIELD_IS_COMPLETE = {
+    "NO": 0,
+    "YES": 1,
+}
+
 export {
     FIELD_METHOD,
     FIELD_STATUS,
     AVAILABLE_STATUS_LIST,
+    FIELD_IS_COMPLETE,
 }

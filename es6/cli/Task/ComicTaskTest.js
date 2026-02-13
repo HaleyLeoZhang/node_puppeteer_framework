@@ -41,7 +41,12 @@ export default class ComicTaskTest extends BaseTask {
             console.log('输出列表')
             console.log(list)
         } catch (err) {
-            console.error(err)
+            console.error('========================================')
+            console.error('错误位置: ComicTaskTest.js -> eval_script()')
+            console.error('错误信息:', err.message)
+            console.error('错误堆栈:')
+            console.error(err.stack)
+            console.error('========================================')
         }
     }
 
