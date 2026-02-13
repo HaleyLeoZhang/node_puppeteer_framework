@@ -103,6 +103,58 @@ log     --- see current docker output logs
 
 [点此查看](storage/readme_intro/article/general_install.md)
 
+### 框架升级 (v3.1.0)
+
+> 2026-02 更新
+
+#### 升级内容
+
+| 组件 | 旧版本 | 新版本 |
+|------|--------|--------|
+| **Puppeteer** | 1.19.0 | 21.11.0 |
+| **Node.js** | 未指定 | >=20.0.0 |
+| **Koa** | 2.13.1 | 2.15.0 |
+| **Koa-Router** | 10.0.0 | 12.0.1 |
+| **mysql2** | 1.6.5 | 3.9.0 |
+| **redis** | 2.8.0 | 4.6.12 |
+| **Babel** | 7.8.3 | 7.24.0 |
+| **Sentry** | 6.0.3 | 7.100.0 |
+
+#### 安装依赖
+
+```bash
+# 跳过 Chromium 下载 (推荐，使用本地 Chrome)
+PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm install
+
+# 或者下载 Chromium
+npm install
+```
+
+#### 运行命令
+
+```bash
+# 开发模式调试
+npm run dev
+
+# 调用示例 (需要在 app.yaml 配置完成后)
+npm run dev comic_test eval_script   # 调试漫画图片列表爬取
+npm run dev comic_test eval_info     # 调试漫画章节列表
+
+# 生产构建
+npm run build
+
+# 生产运行
+npm run start
+```
+
+#### 注意事项
+
+1. **Puppeteer Chromium**: 已安装 v21，但跳过了 Chromium 下载。需配置以下任一方案：
+   - 方案A: 设置环境变量 `PUPPETEER_EXECUTABLE_PATH` 指向本地 Chrome
+   - 方案B: 运行 `npx puppeteer browsers install chrome` 下载
+
+2. **配置文件**: 运行前需要配置 `app.yaml` (复制 `app.example.yaml`)
+
 ### 附录
 
 ##### 操纵浏览器
