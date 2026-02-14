@@ -31,12 +31,12 @@ export default class ComicTaskTest extends BaseTask {
         // let list = await BaoZiService.get_image_list(ctx, url)
         try {
             console.log('开始调试')
-            let url = "https://manhuami.cc/388849-113998.html"
-            console.log('url ', url)
+            let url = "http://cdn.876832.xyz/388583-222896.html"
+            // console.log('url ', url)
             let list = await ManHuaMiService.get_image_list(ctx, url)
-            // let source_id = "woweixiedi"
+            // let source_id = "wotianmingdafanpai"
             // let list = await ManHuaMiService.get_chapter_list(ctx, source_id)
-            // let source_id = "woweixiedi"
+            // let source_id = "wotianmingdafanpai"
             // let list = await ManHuaMiService.get_base_info(ctx, source_id)
             console.log('输出列表')
             console.log(list)

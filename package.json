@@ -8,6 +8,7 @@
   },
   "scripts": {
     "dev": "babel-node es6/app.js",
+    "dev:www": "make www",
     "build": "make build",
     "build:app": "make debug",
     "start": "node dist/app.js"

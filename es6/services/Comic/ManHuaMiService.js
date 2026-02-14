@@ -91,7 +91,7 @@ export default class ManHuaMiService extends Base {
         // console.log(result)
         let real_path = result[1]
 
-        return `https://manhuami.cc/${real_path}`
+        return `http://cdn.876832.xyz/${real_path}`
     }
 
     /**
