@@ -13,3 +13,9 @@ dist/
 !dist/task/index.js.map
 !dist/www/index.js
 !dist/www/index.js.map
+
+# web 目录 (Next.js 前端)
+web/.next/
+web/out/
+web/node_modules/
+web/package-lock.json

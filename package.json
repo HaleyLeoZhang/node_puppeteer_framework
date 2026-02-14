@@ -11,7 +11,11 @@
     "dev:www": "make www",
     "build": "make build",
     "build:app": "make debug",
-    "start": "node dist/app.js"
+    "start": "node dist/app.js",
+    "web:dev": "cd web && npm run dev",
+    "web:build": "cd web && npm run build",
+    "web:start": "cd web && npm run start",
+    "web:install": "cd web && npm install"
   },
   "dependencies": {
     "@babel/core": "^7.24.0",
