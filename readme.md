@@ -46,9 +46,9 @@
 
 | 入口文件类型 | 文件位置 | 备注 |
 | ---- | ---- | ---- |
-| 爬虫任务 | `./es6/task.js`   | - |
-| `HTTP`服务 | `./es6/www.js`   | - |
-| 开发阶段代码调试 | `./es6/app.js`   | - |
+| 爬虫任务 | `./spider/task.js`   | - |
+| `HTTP`服务 | `./spider/www.js`   | - |
+| 开发阶段代码调试 | `./spider/app.js`   | - |
 
 打开 `public/index.html` 即可查看漫画  
 
