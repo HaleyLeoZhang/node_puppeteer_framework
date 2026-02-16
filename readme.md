@@ -46,9 +46,9 @@
 
 | 入口文件类型 | 文件位置 | 备注 |
 | ---- | ---- | ---- |
-| 爬虫任务 | `./es6/task.js`   | - |
-| `HTTP`服务 | `./es6/www.js`   | - |
-| 开发阶段代码调试 | `./es6/app.js`   | - |
+| 爬虫任务 | `./spider/task.js`   | - |
+| `HTTP`服务 | `./spider/www.js`   | - |
+| 开发阶段代码调试 | `./spider/app.js`   | - |
 
 打开 `public/index.html` 即可查看漫画  
 
@@ -102,6 +102,110 @@ log     --- see current docker output logs
 > 普通部署方式
 
 [点此查看](storage/readme_intro/article/general_install.md)
+
+### 框架升级 (v3.1.0)
+
+> 2026-02 更新
+
+#### 升级内容
+
+| 组件 | 旧版本 | 新版本 |
+|------|--------|--------|
+| **Puppeteer** | 1.19.0 | 21.11.0 |
+| **Node.js** | 未指定 | >=20.0.0 |
+| **Koa** | 2.13.1 | 2.15.0 |
+| **Koa-Router** | 10.0.0 | 12.0.1 |
+| **mysql2** | 1.6.5 | 3.9.0 |
+| **redis** | 2.8.0 | 4.6.12 |
+| **Babel** | 7.8.3 | 7.24.0 |
+| **Sentry** | 6.0.3 | 7.100.0 |
+
+#### 安装依赖
+
+```bash
+# 跳过 Chromium 下载 (推荐，使用本地 Chrome)
+PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm install
+
+# 或者下载 Chromium
+npm install
+```
+
+#### 运行命令
+
+```bash
+# 开发模式调试
+npm run dev
+
+# 调用示例 (需要在 app.yaml 配置完成后)
+npm run dev comic_test eval_script   # 调试漫画图片列表爬取
+npm run dev comic_test eval_info     # 调试漫画章节列表
+
+# 生产构建
+npm run build
+
+# 生产运行
+npm run start
+```
+
+#### 注意事项
+
+1. **Puppeteer Chromium**: 已安装 v21，但跳过了 Chromium 下载。需配置以下任一方案：
+   - 方案A: 设置环境变量 `PUPPETEER_EXECUTABLE_PATH` 指向本地 Chrome
+   - 方案B: 运行 `npx puppeteer browsers install chrome` 下载
+
+2. **配置文件**: 运行前需要配置 `app.yaml` (复制 `app.example.yaml`)
+
+### 前端重构 (Next.js + React)
+
+> 2026-02 新增
+
+为提供更现代化的用户体验，原有的 jQuery + 原生 JS 前端已重构为 Next.js + React 项目。
+
+#### 项目结构
+
+```
+web/
+├── src/
+│   ├── app/
+│   │   ├── page.tsx           # 书架首页 (漫画列表)
+│   │   ├── chapter/page.tsx   # 章节列表页
+│   │   └── image/page.tsx     # 图片阅读页
+│   ├── styles/globals.css     # 全局样式
+│   ├── types/                 # TypeScript 类型定义
+│   └── utils/                # API 和缓存工具
+└── out/                      # 构建输出目录 (静态文件)
+```
+
+#### 运行命令
+
+```bash
+# 安装前端依赖
+npm run web:install
+
+# 开发模式运行 (端口 3001)
+npm run web:dev
+
+# 构建生产环境静态文件
+npm run web:build
+
+# 运行构建后的静态文件
+npm run web:start
+```
+
+#### UI 改进
+
+- **深色主题**: 采用现代化深色主题，配合渐变背景
+- **卡片式设计**: 漫画列表使用卡片布局，带有悬停动画
+- **标签标识**: 热门/连载/完结状态标签
+- **阅读进度**: 显示已读章节数和上次阅读位置
+- **章节列表**: 支持正/倒序排列，跳转到上次阅读位置
+- **图片阅读**: 支持图片宽度调节、全屏模式、上下章切换
+- **响应式**: 适配移动端和桌面端
+
+#### 说明
+
+- 构建后的静态文件输出到 `web/out/` 目录，可直接部署到任何静态托管服务
+- 前端页面 API 需对接后端服务，模拟数据仅用于开发预览
 
 ### 附录
 
